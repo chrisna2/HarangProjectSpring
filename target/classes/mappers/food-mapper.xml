@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.harang.mapper.food-mapper">
+  
+  	<insert id="insertFood" parameterType="Food">
+  		INSERT INTO tbl_food (f_point, f_title, f_content, f_selldate, f_num) VALUES (#{f_point}, #{f_title}, #{f_content}, #{f_selldate}, '')
+  	</insert>
+  
+  	<delete id="deleteFood" parameterType="Food">
+  		DELETE FROM tbl_food WHERE f_num = #{f_num}
+  	</delete>	
+  
+  	<update id="updateFood" parameterType="Food">
+  		UPDATE tbl_food SET f_point = #{f_point}, f_title = #{f_title}, f_content = #{f_content} WHERE f_num = #{f_num}
+  	</update>
+  
+  </mapper>

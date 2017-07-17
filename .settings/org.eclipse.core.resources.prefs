@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/harang/web/domain/BambooDTO.java=UTF-8
+encoding//src/main/java/com/harang/web/domain/BbreplyDTO.java=UTF-8
+encoding//src/main/java/com/harang/web/domain/DaetaDTO.java=UTF-8
+encoding//src/main/java/com/harang/web/domain/DlikeDTO.java=UTF-8
+encoding//src/main/java/com/harang/web/domain/Im2DTO.java=UTF-8
+encoding//src/main/java/com/harang/web/domain/LikeDTO.java=UTF-8
+encoding//src/main/java/com/harang/web/domain/PagingDto.java=UTF-8
+encoding//src/main/java/com/harang/web/domain/ParttimeDTO.java=UTF-8
+encoding//src/main/java/com/harang/web/domain/ScheduleDTO.java=UTF-8
+encoding//src/main/java/com/harang/web/domain/Schedule_memberDTO.java=UTF-8
+encoding//src/main/java/com/harang/web/utill/LoginBean.java=UTF-8
