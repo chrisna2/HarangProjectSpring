@@ -44,7 +44,7 @@ public class MyPageController {
 		return mav;
 	}
 	
-	// ÆäÀÌÁö¿¡ Ã³À½ Á¢±ÙÇÒ ¶§.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½.
 	@RequestMapping(value="/pointList",method = RequestMethod.GET)
 	public ModelAndView pointListGet(HttpSession session,PagingDto page){
 		
@@ -61,13 +61,10 @@ public class MyPageController {
 			plist = myPageService.pointList(record);
 		
 			
-		// ÆäÀÌÂ¡ °ü·Ã parameter ¹Þ¾Æ¿À±â - ¹Ýº¹µÊ..
 		int nowPage=0, nowBlock=0;
 		if(page.getNowPage() != 0){nowPage = page.getNowPage();}
 		if(page.getNowBlock() != 0){nowBlock = page.getNowBlock();}
-		// DB ¿¬µ¿ ÇÔ¼ö¸¦ ¾²±â À§ÇØ ÀÎ½ºÅÏ½º »ý¼º
 		PagingBean pbean = new PagingBean();
-		// ÆäÀÌÂ¡ °ü·Ã Á¤º¸ ¼ÂÆÃ , µÎ¹øÂ° parameter´Â ÇÑÆäÀÌÁö¿¡ µé¾î°¥ ±ÛÀÇ °³¼ö!!
 		PagingDto paging = pbean.Paging(plist.size(),10, nowPage,10, nowBlock);
 		
 		
@@ -78,7 +75,6 @@ public class MyPageController {
 		return mav;
 	}
 	
-	// ÆäÀÌÁö ¾È¿¡ ÆäÀÌÂ¡ ¹öÆ° ¶Ç´Â °Ë»ö¹öÆ°À» ´­·¶À» °æ¿ì.
 	@RequestMapping(value="/pointList",method = RequestMethod.POST)
 	public ModelAndView pointListPost(String keyword,String keyfield,HttpSession session,PagingDto page){
 		
@@ -98,13 +94,10 @@ public class MyPageController {
 			plist = myPageService.pointListSearch(record);
 		}
 		
-		// ÆäÀÌÂ¡ °ü·Ã parameter ¹Þ¾Æ¿À±â - ¹Ýº¹µÊ..
 		int nowPage=0, nowBlock=0;
 			if(page.getNowPage() != 0){nowPage = page.getNowPage();}
 			if(page.getNowBlock() != 0){nowBlock = page.getNowBlock();}
-		// DB ¿¬µ¿ ÇÔ¼ö¸¦ ¾²±â À§ÇØ ÀÎ½ºÅÏ½º »ý¼º
 		PagingBean pbean = new PagingBean();
-		// ÆäÀÌÂ¡ °ü·Ã Á¤º¸ ¼ÂÆÃ , µÎ¹øÂ° parameter´Â ÇÑÆäÀÌÁö¿¡ µé¾î°¥ ±ÛÀÇ °³¼ö!!
 		PagingDto paging = pbean.Paging(plist.size(),10, nowPage,10, nowBlock);
 		
 		
@@ -126,11 +119,9 @@ public class MyPageController {
 		
 		ArrayList ttlist  = new ArrayList();
 		
-		//ÃÊ±â ½Ã°£Ç¥ ¼³Á¤°ª
 		int tt_grade = member.getM_grade();
 		int tt_term = 0;
 	
-		//ÇöÀç ÇÐ±â ±¸ÇÏ±â
 		Calendar cal = Calendar.getInstance();
 		int nowMonth = cal.get(Calendar.MONTH) + 1; 
 		if(nowMonth>=3&&nowMonth<9){

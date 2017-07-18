@@ -74,9 +74,7 @@ public class FoodController {
 	
 	@RequestMapping(value="/Aticket",method = RequestMethod.GET)
 	public ModelAndView aticketGet(){
-		
 		mav = new ModelAndView("food/a_ticketList");
-		
 		return mav;
 	}
 	

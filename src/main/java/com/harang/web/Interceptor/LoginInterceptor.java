@@ -22,7 +22,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
 		HttpSession session = request.getSession();
 		
-		//ÇÑ ¼¼¼Ç¿¡¼­ Áßº¹ ·Î±×ÀÎÀ» ¸·±âÀ§ÇÔ
 		if(session.getAttribute("member") != null){
 			logger.info("clear login data before");
 			session.removeAttribute("admin");
@@ -60,8 +59,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		String m_addr = member.getM_addr();
 		
 		
-			//ÀÏ¹İ È¸¿ø ÀÏ¶§
-			if(!m_dept.equals("°ü¸®ÀÚ") && null != m_mail && null != m_tel && null != m_addr){
+			if(!m_dept.equals("ê´€ë¦¬ì") && null != m_mail && null != m_tel && null != m_addr){
 				logger.info("member login");
 				session.setAttribute("member", member);
 				//session.setAttribute("PLH", point.pointListHeader(input_id));
@@ -70,8 +68,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				
 				request.setAttribute("loginType", "member");
 			}
-			//°ü¸®ÀÚ ÀÏ¶§.
-			else if(m_dept.equals("°ü¸®ÀÚ")){
+			else if(m_dept.equals("ê´€ë¦¬ì")){
 				logger.info("admin login");
 				session.setAttribute("admin", member);
 				//session.setAttribute("PLH", point.pointListHeader(input_id));
@@ -80,7 +77,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				
 				request.setAttribute("loginType", "admin");
 			}
-			//½Å±Ô È¸¿ø ÀÏ¶§.
 			else if(null == m_mail && null == m_tel && null == m_addr){
 				logger.info("newbee login");
 				session.setAttribute("newbee", member);
