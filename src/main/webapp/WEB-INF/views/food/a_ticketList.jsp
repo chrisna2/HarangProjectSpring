@@ -38,15 +38,15 @@
                 <div class="box-header">
                   <h3 class="box-title">식권 판매량 조회</h3>
                    <div class="box-tools">
-                    <form action="">
+                    <form action="/food/Aticket" method="get">
                      <div class="input-group">
-                       <input type="text" name="table_search" value="${requestScope.keyword}" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
-	                      <select class="form-control input-sm pull-right" style="width: 150px;">
-                        <option value="" ${requestScope.keyfield eq null ? 'selected' : null }></option>
-                        <option value="f_selldate" ${requestScope.keyfield eq 'f_selldate' ? 'selected' : null }>메뉴판메일</option>
-                        <option value="f_title" ${requestScope.keyfield eq 'f_title' ? 'selected' : null }>메뉴</option>
-                        <option value="f_point" ${requestScope.keyfield eq 'f_point' ? 'selected' : null }>판매포인트</option>
-                        <option value="fm_sellcount" ${requestScope.keyfield eq 'fm_sellcount' ? 'selected' : null }>판매량</option>
+                       <input type="text" name="keyword" value="${keyword}" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+	                      <select name="keyfield" class="form-control input-sm pull-right" style="width: 150px;">
+	                        <option value="" ${keyfield eq null ? 'selected' : null }></option>
+	                        <option value="f_selldate" ${keyfield eq 'f_selldate' ? 'selected' : null }>메뉴판메일</option>
+	                        <option value="f_title" ${keyfield eq 'f_title' ? 'selected' : null }>메뉴</option>
+	                        <option value="f_point" ${keyfield eq 'f_point' ? 'selected' : null }>판매포인트</option>
+	                        <option value="fm_sellcount" ${keyfield eq 'fm_sellcount' ? 'selected' : null }>판매량</option>
 	                      </select>
 	                      <div class="input-group-btn">
                         <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -72,8 +72,6 @@
                       </c:when>
                       <c:otherwise>
                         <c:forEach items="${fmlist}" var="fm" 
-                          begin="${paging.beginPerPage}" 
-                          end="${paging.beginPerPage + paging.numPerPage -1}" 
                           varStatus="i">
                           <c:if test="${fm.f_selldate == today}">
 	                      <tr class="text-green">
@@ -106,19 +104,21 @@
                 </div><!-- /.box-body -->
                  <div class="box-footer clearfix">
                   <ul class="pagination pagination-sm no-margin pull-right">
-                          <c:if test="${paging.nowBlock > 0}">
-                            <li><a href="javascript:prevPage()">&laquo;</a></li>
-                          </c:if>
-                        <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-                            <!-- if문 추가 : 20170615 -->
-                               <c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-                                    <li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-                               </c:if>
-                            <!-- 끝 -->
-                        </c:forEach>
-                          <c:if test="${paging.totalBlock > paging.nowBlock +1}">
-                            <li><a href="javascript:nextPage()">&raquo;</a></li>
-                         </c:if>
+					<c:if test="${pageMaker.prev}">
+                            <li><a href="/food/Aticket${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+                    </c:if>
+                    <c:forEach begin="${pageMaker.startPage}" 
+                    		   end="${pageMaker.endPage}" 
+                               var="idx">
+                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+                          		<a href="/food/Aticket?page=${idx}">
+                          			${idx}
+                        	   	</a>
+                             </li>
+                   	</c:forEach>
+                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+                      <li><a href="/food/Aticket${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+                    </c:if>
                     </ul>
                 </div>
               </div><!-- /.box -->
@@ -127,45 +127,9 @@
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<form id="prevPage" method="post" action="/HarangProject/food?cmd=Aticket">
-    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-    <input type="hidden" name="keyfield" value="${requestScope.keyfield}"/>
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/HarangProject/food?cmd=Aticket">
-    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-    <input type="hidden" name="keyfield" value="${requestScope.keyfield}"/>
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
-</form>
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post" action="/HarangProject/food?cmd=Aticket">
-    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-    <input type="hidden" name="keyfield" value="${requestScope.keyfield}"/>
-    <input type="hidden" name="nowPage" value="" id="page"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-</form>
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
 <script>
 ///////////////// 페이지 관련 javascript function////////////////////
-function prevPage(){
-    document.getElementById("prevPage").submit();
-}
-function nextPage(){
-    document.getElementById("nextPage").submit();
-}
-function goPage(nowPage){
-    document.getElementById("page").value = nowPage;
-    document.getElementById("goPage").submit();
-}
-
-function useticket(f_num) {
-    printt.f_num.value = f_num;
-    printt.submit();
-}
-
 </script>
 

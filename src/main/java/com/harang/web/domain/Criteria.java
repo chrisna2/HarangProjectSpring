@@ -6,7 +6,6 @@ public class Criteria {
 	private int perPageNum;
 
 	public Criteria() {
-		// Default ê°? ì¤?ë¹?.
 		page = 1;
 		perPageNum = 10;
 	}

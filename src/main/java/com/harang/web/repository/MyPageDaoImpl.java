@@ -14,7 +14,6 @@ import com.harang.web.domain.RecordDTO;
 @Repository
 public class MyPageDaoImpl implements MyPageDao {
 
-	//mybatis의 끝판왕! mapper 클래스도 이제 안 만들어도 됨!
 	@Autowired
 	private SqlSession sqlSession;
 	private static final String namespace = "com.harang.mapper.mypage-mapper";

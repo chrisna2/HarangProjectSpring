@@ -10,19 +10,19 @@
     <script type="text/javascript">
     alert("해당 메뉴를 수정햇습니다.");
     //새로 접속 해줘야 하는 이유.. forward에 작업 기록이 남는다.
-    location.href = "/HarangProject/food?cmd=Amenu";
+    location.href = "/food/Amenu";
     </script>
 </c:if>   
 <c:if test="${result eq 'delete'}">
     <script type="text/javascript">
     alert("해당 메뉴를 삭제 했습니다.");
-    location.href = "/HarangProject/food?cmd=Amenu";
+    location.href = "/food/Amenu";
     </script>
 </c:if>
 <c:if test="${result eq 'insert'}">
     <script type="text/javascript">
     alert("해당 날짜에 해당 메뉴를 등록했습니다.");
-    location.href = "/HarangProject/food?cmd=Amenu";
+    location.href = "/food/Amenu";
     </script>
 </c:if>
      <style type="text/css">
@@ -74,7 +74,7 @@
                   </div>
                 </div><!-- /.box-header -->
                  <!-- form 시작 -->
-                <form role="form" action="/HarangProject/food?cmd=Amenu" method="post">
+                <form role="form" action="/food/AmenuCreate" method="post">
                 
                 <div class="box-body">
                 
@@ -168,7 +168,7 @@
       </div><!-- /.content-wrapper -->
 <%@ include file="../include/footer.jsp" %>
 <!-- 날짜 입력  -->
-    <script src="plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="../resources/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
     <script>
     function showKeyCode(event) {
         event = event || window.event;
@@ -226,7 +226,7 @@
           editable: false,
 //달력에 글자 입력 가능
 //DB에 값을 접근합니다.
-          events : "/ajax/food?check=amenu",
+          events : "/food/amenuJson",
            //입력 글자 뒷 배경 색
            eventColor: '#F9FFAB',
            //입력 글자 색
@@ -243,7 +243,7 @@
         	   $("#inputMenu").slideUp();
         	   $("#updateMenu").slideDown();
         	 //날짜를 클릭 했을 때 해당 날짜에 포함된 데이터를 불러 옵니다. 위와 마찬가지..
-               $.getJSON("/ajax/foodinfo",
+               $.getJSON("/food/afoodinfo",
                        {f_num:calEvent.id},
                        function(data){
                             $("#menuinfobox").slideUp();
