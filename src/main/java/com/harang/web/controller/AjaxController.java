@@ -72,7 +72,6 @@ public class AjaxController {
 		
 		list = ajaxService.menuinfo(f_num);
 		
-		
 		//반복되는 코드임.. 
 		String jsonList = gson.toJson(list);
 		out.write(jsonList);

@@ -11,6 +11,33 @@
 		<typeAlias type="com.harang.web.domain.FoodDTO" alias="Food"/>
 		<typeAlias type="com.harang.web.domain.CalanderDTO" alias="Calander"/>
 		<typeAlias type="com.harang.web.domain.RecordDTO" alias="Record"/>
+		<typeAlias type="com.harang.web.domain.BambooDTO" alias="Bamboo"/>
+		<typeAlias type="com.harang.web.domain.BbreplyDTO" alias="Bbreply"/>
+		<typeAlias type="com.harang.web.domain.BookDTO" alias="Book"/>
+		<typeAlias type="com.harang.web.domain.CertiDTO" alias="Certi"/>
+		<typeAlias type="com.harang.web.domain.CertiMemberTO" alias="CertiMember"/>
+		<typeAlias type="com.harang.web.domain.Criteria" alias="Criteria"/>
+		<typeAlias type="com.harang.web.domain.D_ApplyDTO" alias="D_Apply"/>
+		<typeAlias type="com.harang.web.domain.DaetaDTO" alias="Daeta"/>
+		<typeAlias type="com.harang.web.domain.DaetaReplyDTO" alias="DaetaReply"/>
+		<typeAlias type="com.harang.web.domain.DlikeDTO" alias="Dlike"/>
+		<typeAlias type="com.harang.web.domain.FoodMemberDTO" alias="FoodMember"/>
+		<typeAlias type="com.harang.web.domain.HunterDTO" alias="Hunter"/>
+		<typeAlias type="com.harang.web.domain.LikeDTO" alias="Like"/>
+		<typeAlias type="com.harang.web.domain.MessageDTO" alias="Message"/>
+		<typeAlias type="com.harang.web.domain.P_ApplyDTO" alias="P_Apply"/>
+		<typeAlias type="com.harang.web.domain.PagingDTO" alias="Paging"/>
+		<typeAlias type="com.harang.web.domain.ParttimeDTO" alias="Parttime"/>
+		<typeAlias type="com.harang.web.domain.ParttimeReplyDTO" alias="ParttimeReply"/>
+		<typeAlias type="com.harang.web.domain.PgMemberDTO" alias="PgMember"/>
+		<typeAlias type="com.harang.web.domain.PlaygroundDTO" alias="Playground"/>
+		<typeAlias type="com.harang.web.domain.Schedule_memberDTO" alias="Schedule_member"/>
+		<typeAlias type="com.harang.web.domain.ScheduleDTO" alias="Schedure"/>
+		<typeAlias type="com.harang.web.domain.SearchCriteria" alias="SearchCriteria"/>
+		<typeAlias type="com.harang.web.domain.SrMemberDTO" alias="SrMember"/>
+		<typeAlias type="com.harang.web.domain.StudyroomDTO" alias="Studyroom"/>
+		<typeAlias type="com.harang.web.domain.WarningDTO" alias="Warning"/>
+		<typeAlias type="com.harang.web.domain.ZipDTO" alias="zip"/>
 	</typeAliases>
 	<!-- DB 드라이버 설정도 root-context.xml에서 한다 (Spring사용) -->
  	<!-- SQL맵퍼의 작업의 경로는 이제 root-context.xml파일에서 설정한다. -->

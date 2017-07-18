@@ -116,7 +116,7 @@
            <h4>알바 하랑</h4> 
                <ul>
                  <li>user side</li>
-                 <li><a href="/HarangProject/parttime?cmd=PMAIN">알바 모집</a></li>
+                 <li><a href="/parttime/PMAIN">알바 모집</a></li>
                  <li><a href="/HarangProject/parttime?cmd=DMAIN">대타 모집</a></li>
                  <li><a href="/HarangProject/parttime?cmd=MYPAGE">내가 쓴 글</a></li>
                  <li>admin side</li>
