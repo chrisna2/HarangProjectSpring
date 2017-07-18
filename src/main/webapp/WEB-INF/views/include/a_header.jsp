@@ -64,7 +64,7 @@
             <!-- 포인트 확인 : 현제 보유 포인트와 상세 정보 확인 -->
             <!-- 포인트 확인 : 현제 보유 포인트와 상세 정보 확인 -->
               <li>
-                <a href="/HarangProject/login?cmd=logout">
+                <a href="login/logout">
                     <i class="fa fa-sign-out"></i>
                 </a>
               </li>
@@ -129,7 +129,7 @@
                       <!-- 메세지 반복문 지점 시작 -->
                       <c:forEach items="${head_msg}" var="msg">
                         <li><!-- 메세지 시작 -->
-                        <a href="/HarangProject/message?cmd=READ&t_num=${msg.t_num}&tab=INBOX">
+                        <a href="/message/READ&t_num=${msg.t_num}&tab=INBOX">
                           <div class="pull-left">
                             <img src="${msg.s_photo}" class="img-circle" alt="User Image"/>
                           </div>
@@ -144,7 +144,7 @@
                       <!-- 메세지 반복문 지점 끝-->
                     </ul>
                   </li>
-                  <li class="footer"><a href="/HarangProject/message?cmd=INBOX">모든 메세지 보기</a></li>
+                  <li class="footer"><a href="/message/INBOX">모든 메세지 보기</a></li>
                 </ul>
               </li>
               <!--회원 개인정보 요약 형태 -->
@@ -156,7 +156,7 @@
                 <ul class="dropdown-menu">
                   <!-- 회원 사진 -->
                   <li class="user-header">
-                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    <img src="../resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                     <p>
                       ${admin.m_name } - ${admin.m_dept}
                       <small>Member since  ${admin.m_regdate}</small>
@@ -176,11 +176,8 @@
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">내 정보 조회</a>
-                    </div>
-                    <div class="pull-right">
-                      <a href="/HarangProject/login?cmd=logout" class="btn btn-default btn-flat">로그아웃</a>
+                    <div>
+                      <a href="/login/logout" class="btn btn-default btn-flat">관리자 로그아웃</a>
                     </div>
                   </li>
                 </ul>
@@ -198,7 +195,7 @@
             <!-- 상위 메뉴 시작 -->
               <!-- 상위 메뉴 시작 -->
             <li class="treeview">
-              <a href="/HarangProject/message?cmd=INBOX">
+              <a href="/message/INBOX">
                 <i class="fa fa-envelope-o"></i>
                 <span>메세지 함</span>
               </a>
@@ -228,10 +225,10 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/HarangProject/facil?cmd=AFacilAddDel"><i class="fa fa-circle-o"></i> 관리자 시설 추가/삭제</a></li>
-                <li><a href="/HarangProject/facil?cmd=AFacilPG"><i class="fa fa-circle-o"></i> 관리자 운동장 일정 추가</a></li>
-                <li><a href="/HarangProject/facil?cmd=AFacilSR"><i class="fa fa-circle-o"></i> 관리자 스터디룸 일정 추가</a></li>
-                <li><a href="/HarangProject/facil?cmd=AFacilManager"><i class="fa fa-circle-o"></i> 관리자 사용자 일정 취소</a></li>
+                <li><a href="/facil/AFacilAddDel"><i class="fa fa-circle-o"></i> 관리자 시설 추가/삭제</a></li>
+                <li><a href="/facil/AFacilPG"><i class="fa fa-circle-o"></i> 관리자 운동장 일정 추가</a></li>
+                <li><a href="/facil/AFacilSR"><i class="fa fa-circle-o"></i> 관리자 스터디룸 일정 추가</a></li>
+                <li><a href="/facil/AFacilManager"><i class="fa fa-circle-o"></i> 관리자 사용자 일정 취소</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -251,28 +248,28 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/HarangProject/parttime?cmd=PMAIN"><i class="fa fa-circle-o"></i> 알바 모집 관리</a></li>
-                <li><a href="/HarangProject/parttime?cmd=DMAIN"><i class="fa fa-circle-o"></i> 대타 모집 관리</a></li>
+                <li><a href="/parttime/PMAIN"><i class="fa fa-circle-o"></i> 알바 모집 관리</a></li>
+                <li><a href="/parttime/DMAIN"><i class="fa fa-circle-o"></i> 대타 모집 관리</a></li>
               </ul>
             </li>
             <li>
-              <a href="/HarangProject/impage?cmd=amain">
+              <a href="/impage/amain">
                 <i class="fa fa-check-square-o"></i><span>강의 평가 관리</span>
               </a>
             </li>
             <li>
-              <a href="/HarangProject/schedule?cmd=A_SCH_LIST">
+              <a href="/schedule/A_SCH_LIST">
                 <i class="fa fa-calendar"></i>
                 <span>학사 일정 관리</span>
               </a>
             </li>
             <li>
-              <a href="/HarangProject/bamboo?cmd=A_BB_LIST">
+              <a href="/bamboo/A_BB_LIST">
                 <i class="fa fa-group"></i><span>하랑 대나무 숲 관리</span>
               </a>
             </li>
             <li>
-              <a href="/HarangProject/harangdin?cmd=adminMain">
+              <a href="/harangdin/adminMain">
                 <i class="fa fa-book"></i> <span>하랑딘 24 관리</span>
               </a>
             </li>

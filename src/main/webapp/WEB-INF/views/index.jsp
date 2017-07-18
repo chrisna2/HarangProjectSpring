@@ -117,51 +117,51 @@
                <ul>
                  <li>user side</li>
                  <li><a href="/parttime/PMAIN">알바 모집</a></li>
-                 <li><a href="/HarangProject/parttime?cmd=DMAIN">대타 모집</a></li>
-                 <li><a href="/HarangProject/parttime?cmd=MYPAGE">내가 쓴 글</a></li>
+                 <li><a href="/parttime/DMAIN">대타 모집</a></li>
+                 <li><a href="/parttime/MYPAGE">내가 쓴 글</a></li>
                  <li>admin side</li>
-                 <li><a href="/HarangProject/parttime?cmd=PMAIN">알바 모집 관리</a></li>
-                 <li><a href="/HarangProject/parttime?cmd=DMAIN">대타 모집 관리</a></li>
+                 <li><a href="/parttime/PMAIN">알바 모집 관리</a></li>
+                 <li><a href="/parttime/DMAIN">대타 모집 관리</a></li>
                </ul>
             <h4>대나무 숲</h4>
             <ul>
                  <li>user side</li>
-                 <li><a href="/HarangProject/bamboo?cmd=BB_LIST">메인 페이지</a></li>
+                 <li><a href="/bamboo/BB_LIST">메인 페이지</a></li>
                  <li>admin side</li>
-                 <li><a href="/HarangProject/bamboo?cmd=A_BB_LIST">게시판 관리자 메인</a></li>
+                 <li><a href="/bamboo/A_BB_LIST">게시판 관리자 메인</a></li>
               </ul>
             <h4>학사일정</h4>
             <ul>
                  <li>user side</li>
-                 <li><a href="/HarangProject/schedule?cmd=U_SCH_LIST">학사일정 메인 페이지</a></li>
+                 <li><a href="/schedule/U_SCH_LIST">학사일정 메인 페이지</a></li>
                  <li>admin side</li>
-                 <li><a href="/HarangProject/schedule?cmd=A_SCH_LIST">학사일정 관리자 메인</a></li>
+                 <li><a href="/schedule/A_SCH_LIST">학사일정 관리자 메인</a></li>
               </ul>
                  <h4>강의평가</h4>
                 <ul>
                  <li>user side</li>
-                 <li><a href="/HarangProject/impage?cmd=main">강의평가 메인 페이지</a></li>
+                 <li><a href="/impage/main">강의평가 메인 페이지</a></li>
                  <li>admin side</li>
-                 <li><a href="/HarangProject/impage?cmd=amain">강의평가 관리자 메인</a></li>
+                 <li><a href="/impage/amain">강의평가 관리자 메인</a></li>
               </ul>
                  <h4>하랑딘24</h4>
             <ul>
                  <li>user side</li>
-                 <li><a href="/HarangProject/harangdin?cmd=main">하랑딘 메인 페이지</a></li>
+                 <li><a href="/harangdin/main">하랑딘 메인 페이지</a></li>
                  <li>admin side</li>
-                 <li><a href="/HarangProject/harangdin?cmd=adminMain">하랑딘 관리자 메인</a></li>
+                 <li><a href="/harangdin/adminMain">하랑딘 관리자 메인</a></li>
               </ul>
             <h4>시설관리</h4>
             <ul>
                  <li>user side</li>
-                 <li><a href="/HarangProject/facil?cmd=FacilMain">사용자 메인</a></li>
-                 <li><a href="/HarangProject/facil?cmd=FacilPGreserv">사용자 운동장 예약</a></li>
-                 <li><a href="/HarangProject/facil?cmd=FacilSRreserv">사용자 스터디룸 예약</a></li>
+                 <li><a href="/facil/FacilMain">사용자 메인</a></li>
+                 <li><a href="/facil/FacilPGreserv">사용자 운동장 예약</a></li>
+                 <li><a href="/facil/FacilSRreserv">사용자 스터디룸 예약</a></li>
                  <li>admin side</li>
-                 <li><a href="/HarangProject/facil?cmd=AFacilAddDel">관리자 시설 추가/삭제 </a></li>
-                 <li><a href="/HarangProject/facil?cmd=AFacilPG">관리자 운동장 일정 추가 </a></li>
-                 <li><a href="/HarangProject/facil?cmd=AFacilSR">관리자 스터디룸 일정 추가 </a></li>
-                 <li><a href="/HarangProject/facil?cmd=AFacilManager">관리자 사용자 일정 취소 </a></li>
+                 <li><a href="/facil/AFacilAddDel">관리자 시설 추가/삭제 </a></li>
+                 <li><a href="/facil/AFacilPG">관리자 운동장 일정 추가 </a></li>
+                 <li><a href="/facil/AFacilSR">관리자 스터디룸 일정 추가 </a></li>
+                 <li><a href="/facil/AFacilManager">관리자 사용자 일정 취소 </a></li>
               </ul>
              </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->

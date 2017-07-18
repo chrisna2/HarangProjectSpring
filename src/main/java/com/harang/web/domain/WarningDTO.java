@@ -2,7 +2,7 @@ package com.harang.web.domain;
 
 
 
-public class WarringDTO {
+public class WarningDTO {
 	String w_num;
 	String w_regdate;
 	public String getW_num() {

@@ -64,7 +64,7 @@
             <!-- 포인트 확인 : 현제 보유 포인트와 상세 정보 확인 -->
             <!-- 포인트 확인 : 현제 보유 포인트와 상세 정보 확인 -->
               <li>
-                <a href="/HarangProject/login?cmd=logout">
+                <a href="/login/logout">
                     <i class="fa fa-sign-out"></i>
                 </a>
               </li>
@@ -110,7 +110,7 @@
                       </c:forEach>
                     </ul>
                   </li>
-                  <li class="footer"><a href="/HarangProject/myPage?cmd=pointList">모든 거래 기록 보기</a></li>
+                  <li class="footer"><a href="/myPage/pointList">모든 거래 기록 보기</a></li>
                 </ul>
               </li>
              
@@ -128,7 +128,7 @@
                       <!-- 메세지 반복문 지점 시작 -->
                       <c:forEach items="${head_msg}" var="msg">
                         <li><!-- 메세지 시작 -->
-                        <a href="/HarangProject/message?cmd=READ&t_num=${msg.t_num}&tab=INBOX">
+                        <a href="/message/READ&t_num=${msg.t_num}&tab=INBOX">
                           <div class="pull-left">
                             <img src="${msg.s_photo}" class="img-circle" alt="User Image"/>
                           </div>
@@ -143,7 +143,7 @@
                       <!-- 메세지 반복문 지점 끝-->
                     </ul>
                   </li>
-                  <li class="footer"><a href="/HarangProject/message?cmd=INBOX">모든 메세지 보기</a></li>
+                  <li class="footer"><a href="/message/INBOX">모든 메세지 보기</a></li>
                 </ul>
               </li>
              
@@ -177,10 +177,10 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="/HarangProject/myPage?cmd=myinfo" class="btn btn-default btn-flat">내 정보 조회</a>
+                      <a href="/myPage/myinfo" class="btn btn-default btn-flat">내 정보 조회</a>
                     </div>
                     <div class="pull-right">
-                      <a href="/HarangProject/login?cmd=logout" class="btn btn-default btn-flat">로그아웃</a>
+                      <a href="/login/logout" class="btn btn-default btn-flat">로그아웃</a>
                     </div>
                   </li>
                 </ul>
@@ -197,7 +197,7 @@
           <ul class="sidebar-menu">
             <!-- 상위 메뉴 시작 -->
             <li class="treeview">
-              <a href="/HarangProject/message?cmd=INBOX">
+              <a href="/message/INBOX">
                 <i class="fa fa-envelope-o"></i>
                 <span>메세지 함</span>
               </a>
@@ -227,9 +227,9 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/HarangProject/facil?cmd=FacilMain"><i class="fa fa-circle-o"></i> 사용자 메인</a></li>
-                <li><a href="/HarangProject/facil?cmd=FacilPGreserv"><i class="fa fa-circle-o"></i> 운동장 예약</a></li>
-                <li><a href="/HarangProject/facil?cmd=FacilSRreserv"><i class="fa fa-circle-o"></i> 스터디룸 예약</a></li>
+                <li><a href="/facil/FacilMain"><i class="fa fa-circle-o"></i> 사용자 메인</a></li>
+                <li><a href="/facil/FacilPGreserv"><i class="fa fa-circle-o"></i> 운동장 예약</a></li>
+                <li><a href="/facil/FacilSRreserv"><i class="fa fa-circle-o"></i> 스터디룸 예약</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -249,9 +249,9 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/HarangProject/parttime?cmd=PMAIN"><i class="fa fa-circle-o"></i> 알바 모집</a></li>
-                <li><a href="/HarangProject/parttime?cmd=DMAIN"><i class="fa fa-circle-o"></i> 대타 모집</a></li>
-                <li><a href="/HarangProject/parttime?cmd=MYPAGE"><i class="fa fa-circle-o"></i> 내가 쓴 글</a></li>
+                <li><a href="/parttime/PMAIN"><i class="fa fa-circle-o"></i> 알바 모집</a></li>
+                <li><a href="/parttime/DMAIN"><i class="fa fa-circle-o"></i> 대타 모집</a></li>
+                <li><a href="/parttime/MYPAGE"><i class="fa fa-circle-o"></i> 내가 쓴 글</a></li>
               </ul>
             </li>
             <li>
@@ -260,24 +260,24 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/HarangProject/harangdin?cmd=main"><i class="fa fa-circle-o"></i> 하랑딘 메인</a></li>
-                <li><a href="/HarangProject/harangdin?cmd=selling"><i class="fa fa-circle-o"></i> 도서 판매 내역</a></li>
-                <li><a href="/HarangProject/harangdin?cmd=buying"><i class="fa fa-circle-o"></i> 도서 구매 내역</a></li>
-                <li><a href="/HarangProject/harangdin?cmd=donation"><i class="fa fa-circle-o"></i> 도서 기부 내역</a></li>
+                <li><a href="/harangdin/main"><i class="fa fa-circle-o"></i> 하랑딘 메인</a></li>
+                <li><a href="/harangdin/selling"><i class="fa fa-circle-o"></i> 도서 판매 내역</a></li>
+                <li><a href="/harangdin/buying"><i class="fa fa-circle-o"></i> 도서 구매 내역</a></li>
+                <li><a href="/harangdin/donation"><i class="fa fa-circle-o"></i> 도서 기부 내역</a></li>
               </ul>
             </li>
             <li>
-              <a href="/HarangProject/impage?cmd=main">
+              <a href="/impage/main">
                 <i class="fa fa-check-square-o"></i><span>강의 평가</span>
               </a>
             </li>
             <li>
-              <a href="/HarangProject/schedule?cmd=U_SCH_LIST">
+              <a href="/schedule/U_SCH_LIST">
                 <i class="fa fa-calendar"></i><span>학사일정</span>
               </a>
             </li>
             <li>
-              <a href="/HarangProject/bamboo?cmd=BB_LIST">
+              <a href="/bamboo/BB_LIST">
                 <i class="fa fa-group"></i><span>하랑 대나무 숲</span>
               </a>
             </li>
