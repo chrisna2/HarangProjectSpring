@@ -2,8 +2,175 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.harang.mapper.parttime-mapper">
- 
-  
-  </mapper>
+<mapper namespace="com.harang.mapper.parttime-mapper">
+	<select id="getParttimeList" resultType="Parttime">
+		SELECT * FROM tbl_parttime
+		<include refid="searchParttimeList" />
+		ORDER BY p_regdate DESC
+	</select>
+
+	<sql id="searchParttimeList">
+		<if test="keyField != null">
+			<if test="keyField == '제목'">
+				WHERE p_title like concat('%', #{keyword}, '%')
+			</if>
+			<if test="keyField == '시급'">
+				WHERE p_wage > #{keyword}
+			</if>
+		</if>
+	</sql>
+
+	<select id="getMyParttimeList" resultType="Parttime">
+		SELECT * FROM
+		tbl_parttime WHERE m_id = #{m_id} ORDER BY p_regdate DESC
+	</select>
+
+	<select id="getDaetaList" resultType="Daeta">
+		SELECT * FROM tbl_daeta
+		<include refid="searchDaetaList" />
+		ORDER BY d_regdate DESC
+	</select>
+
+	<sql id="searchDaetaList">
+		<if test="keyField != null">
+			<if test="keyField == '제목'">
+				WHERE d_title like concat('%', #{keyword}, '%')
+			</if>
+			<if test="keyField == '시급'">
+				WHERE d_wage > #{keyword}
+			</if>
+		</if>
+	</sql>
+	
+	<select id="getMyDaetaList" resultType="Daeta">
+		SELECT * FROM tbl_daeta WHERE m_id = #{m_id} ORDER BY d_regdate DESC
+	</select>
+
+	<select id="getParttimeCnt_apply" resultType="int">
+		SELECT count(m_id) FROM tbl_parttime_member where p_num=#{p_num}
+	</select>
+	
+	<select id="getDaetaCnt_apply" resultType="int">
+		SELECT count(m_id) FROM tbl_daeta_member where d_num=#{d_num}
+	</select>
+	
+	<select id="getParttime" resultType="Parttime">
+		SELECT * FROM tbl_parttime where p_num=#{p_num}
+	</select>
+	
+	<select id="getDaeta" resultType="Daeta">
+		SELECT * FROM tbl_daeta where d_num=#{d_num}
+	</select>
+	
+	<update id="counterUp_Parttime">
+		UPDATE tbl_parttime SET p_cnt = p_cnt + 1	WHERE p_num = #{p_num}	
+	</update>
+	
+	<update id="counterUp_Daeta">	
+		UPDATE tbl_daeta SET d_cnt = d_cnt + 1	WHERE d_num = #{d_num}	
+	</update>
+	
+	<select id="getMember">
+		select * from tbl_member where m_id = #{m_id}
+	</select>
+	
+	<insert id="createParttimeResume">
+		INSERT INTO tbl_parttime_member(p_num, m_id, pm_reason, pm_career, pm_wanttime, pm_choice)
+		VALUES(#{p_num},#{m_id},#{pm_reason},#{pm_career},#{pm_wanttime},'N')
+	</insert>
+	
+	<insert id="createDaetaResume">
+		INSERT INTO tbl_daeta_member(d_num, m_id, dm_reason, dm_choice, dm_report)
+		VALUES(#{d_num},#{m_id},#{dm_reason},'N','N')
+	</insert>
+	
+	<delete id="deleteParttime">
+		DELETE FROM tbl_parttime WHERE p_num=#{p_num}
+	</delete>
+	
+	<delete id="deleteDaeta">
+		DELETE FROM tbl_daeta WHERE d_num=#{d_num}
+	</delete>
+	
+	<delete id="deleteParttimeApply">
+		DELETE FROM tbl_parttime_member WHERE p_num=#{p_num}
+	</delete>
+	
+	<delete id="deleteDaetaApply">
+		DELETE FROM tbl_daeta_member WHERE d_num=#{d_num}
+	</delete>
+	
+	<select id="getParttimeApplyList" resultType="P_Apply">
+		SELECT * FROM tbl_parttime_member WHERE p_num = #{p_num} ORDER BY pm_regdate ASC
+	</select>
+	
+	<select id="getMyParttimeApplyList" resultType="D_Apply">
+		SELECT * FROM tbl_parttime_member WHERE m_id = #{m_id} ORDER BY pm_regdate DESC
+	</select>
+	
+	<select id="getDaetaApplyList">
+		SELECT * FROM tbl_daeta_member WHERE d_num = #{d_num} ORDER BY dm_regdate ASC
+	</select>
+	
+	<select id="getMyDaetaApplyList">
+		SELECT * FROM tbl_daeta_member WHERE m_id = #{m_id} ORDER BY dm_regdate DESC
+	</select>
+	
+	<select id="getParttimeApply" resultType="P_Apply">
+		SELECT * FROM tbl_parttime_member WHERE p_num = #{p_num} AND m_id=#{m_id}
+	</select>
+	
+	<select id="getDaetaApply" resultType="D_Apply">
+		SELECT * FROM tbl_daeta_member WHERE d_num = #{d_num} AND m_id=#{m_id}
+	</select>
+	
+	<update id="updateParttimeChoice">
+		UPDATE tbl_parttime_member SET pm_choice = 'Y' WHERE p_num = #{p_num} AND m_id=#{m_id}
+	</update>
+	
+	<update id="updateDaetaChoice">
+		UPDATE tbl_daeta_member SET dm_choice = 'Y' WHERE d_num = #{d_num} AND m_id=#{m_id}
+	</update>
+	
+	<delete id="deleteParttimeApply">
+		DELETE FROM tbl_parttime_member WHERE p_num = #{p_num} AND m_id=#{m_id}
+	</delete>
+	
+	<delete id="deleteDaetaApply">
+		DELETE FROM tbl_daeta_member WHERE d_num = #{d_num} AND m_id=#{m_id}
+	</delete>
+	
+	<insert id="insertParttime">
+		INSERT INTO tbl_parttime(p_title, p_deadline, p_wage, p_term, p_content, p_tel, p_daycode, p_location, p_header, m_id) 
+		VALUES (#{p_title},#{p_deadline},#{p_wage},#{p_term},#{p_content},#{p_tel},#{p_daycode},#{p_location},#{p_header},#{m_id})
+	</insert>
+	
+	<insert id="insertDaeta">
+		INSERT INTO tbl_daeta(d_title, d_deadline, d_wage, d_date, d_content, d_tel, d_deposit, d_location, d_header, m_id) 
+		VALUES (#{d_title},#{d_deadline},#{d_wage},#{d_date},#{d_content},#{d_tel},#{d_deposit},#{d_location},#{d_header},#{m_id})
+	</insert>
+	
+	<update id="updateParttime">
+		UPDATE tbl_parttime SET p_title = #{p_title}, p_deadline =#{p_deadline} , p_wage =#{p_wage} , 
+		p_term=#{p_term}, p_content=#{p_content}, p_tel=#{p_tel}, p_daycode=#{p_daycode}, p_location=#{p_location}, p_header=#{p_header} 
+		WHERE p_num = #{p_num}
+	</update>
+	
+	<update id="updateDaeta">
+		UPDATE tbl_daeta SET d_title=#{d_title}, d_deadline=#{d_deadline}, d_wage=#{d_wage}, d_date=#{d_date}, d_content=#{d_content}, 
+		d_tel=#{d_tel}, d_deposit=#{d_deposit}, d_location=#{d_location}, d_header=#{d_header} WHERE d_num = #{d_num}
+	</update>
+	
+	<select id="getPicked" resultType="String">
+		SELECT m_id FROM tbl_daeta_member WHERE d_num=#{d_num} AND dm_choice='Y'
+	</select>
+	
+	<update id="updateDaetaMember">
+		UPDATE tbl_daeta_member SET dm_iscomplete=#{dm_iscomplete} WHERE m_id=#{m_id} AND d_num=#{d_num}
+	</update>
+	
+	<update id="report">
+		UPDATE tbl_daeta_member SET dm_report=#{dm_report} WHERE m_id=#{m_id} AND d_num=#{d_num}
+	</update>
+</mapper>
     

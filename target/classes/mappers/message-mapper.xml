@@ -3,8 +3,76 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.harang.mapper.message-mapper">
-  
+  	<!-- 회원 정보를 검색 -->
+  	<select id="getMember" resultType="Member">
+  		select * from tbl_member where m_id = #{m_id}
+  	</select>
   	
-  
+  	<!-- 회원이름으로 회원번호를 검색 -->
+  	<select id="getMember_id" parameterType="String">
+  		select m_id from tbl_member where m_name like concat('%',#{m_name},'%')
+  	</select>
+  	
+  	<!-- 메시지를 보내기 -->
+  	<insert id="postMessage">
+  		INSERT INTO tbl_text(t_title, t_content, t_send_del, t_read_del, m_sender, m_reader) 
+  		VALUES(#{t_title},#{t_content},'N','N',#{m_sender},#{m_reader})
+  	</insert>
+	
+	<!-- 받은 메시지를 모두 검색 -->
+	<select id="getGivenMessageList">
+		SELECT * FROM tbl_text WHERE m_reader=#{m_reader} AND NOT m_sender=#{m_sender} AND t_read_del = 'N' 
+		ORDER BY t_send_date DESC
+	</select>
+	
+	<!-- 보낸 메시지를 모두 검색 -->
+	<select id="getSentMessageList">
+		SELECT * FROM tbl_text WHERE m_sender=#{m_sender} AND NOT m_reader=? AND t_send_del = 'N'
+		ORDER BY t_send_date DESC
+	</select>
+	
+	<!-- 내게 쓴 메시지를 모두 검색 -->
+	<select id="getToMeMessageList">
+		SELECT * FROM tbl_text WHERE m_reader=#{m_reader} AND m_sender =#{m_sender}
+	</select>
+	
+	<!-- 메시지 번호로 메시지를 검색 -->
+	<select id="getMessage">
+		SELECT * FROM tbl_text WHERE t_num = #{t_num}
+	</select>
+	
+	<!-- 보낸 사람이 삭제하지 않았을 때 받은 메시지를 삭제하기 -->
+	<update id="deleteGivenMessage_first">
+		UPDATE tbl_text SET t_read_del = 'Y' WHERE t_num=#{t_num}
+	</update>
+	
+	<!-- 받은 사람이 삭제하지 않았을 때 보낸 메시지를 삭제하기 -->
+	<update id="deleteSentMessage_first">
+		UPDATE tbl_text SET t_send_del = 'Y' WHERE t_num=#{t_num}
+	</update>
+	
+	<!-- 메시지를 삭제 -->
+	<delete id="deleteMessage">
+		DELETE FROM tbl_text WHERE t_num=#{t_num}
+	</delete>
+	
+	<!-- 메시지를 읽은 시간을 저장 -->
+	<update id="readMessage">
+		UPDATE tbl_text SET t_read_date=NOW() WHERE t_num=#{t_num}
+	</update>
+	
+	<!-- 아직 읽지 않은 메시지의 개수를 검색 -->
+	<select id="getNotReadMessage" resultType="int">
+		SELECT count(t_num) FROM tbl_text WHERE m_reader = #{m_reader} 
+		AND t_read_date is null AND NOT m_sender = #{m_sender}
+	</select>
+	
+	<!-- 아직 읽지 않은 내게 보낸 메시지의 개수를 검색 -->
+	<select id="getNotReadMessage_toMe">
+		SELECT count(t_num) FROM tbl_text WHERE m_reader = #{m_reader} 
+		AND t_read_date is null AND m_sender = #{m_sender}
+	</select>
+	
+	
   </mapper>
     
