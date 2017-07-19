@@ -28,9 +28,22 @@ public class LoginController {
 			return;
 		}
 		
-		model.addAttribute("member",loginData);
+		model.addAttribute("loginData",loginData);
 		
 	}
+	
+	@RequestMapping(value="/logout" ,method = RequestMethod.GET)
+	public ModelAndView logoutGet(HttpSession session){
+		
+		session.removeAttribute("member");
+		session.removeAttribute("admin");
+		session.removeAttribute("PLH");
+		
+		ModelAndView mav = new ModelAndView("redirect:/");
+		return mav;
+	}
+	
+	
 
 	@RequestMapping(value="/main" ,method = RequestMethod.GET)
 	public ModelAndView loginMainGet(){

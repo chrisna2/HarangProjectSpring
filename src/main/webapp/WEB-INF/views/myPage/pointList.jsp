@@ -56,8 +56,6 @@
                       </c:when>
                       <c:otherwise>
                       <c:forEach items="${requestScope.pList}" 
-                       begin="${paging.beginPerPage}" 
-                       end="${paging.beginPerPage + paging.numPerPage -1}"
                        var="p" varStatus="i">
                         <c:if test="${member.m_id eq p.m_giver}">
                            <tr class="text-red">
@@ -84,23 +82,25 @@
                   </table>
                 </div><!-- /.box-body -->
                  <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <c:if test="${paging.nowBlock > 0}">
-                                <li><a href="javascript:prevPage()">&laquo;</a></li>
-                            </c:if>
-                            <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-                                    <!-- if문 추가 : 20170615 -->
-                                    <c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-                                    <li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-                                    </c:if>
-                                    <!-- 끝 -->
-                            </c:forEach>
-                            <c:if test="${paging.totalBlock > paging.nowBlock +1}">
-                                <li><a href="javascript:nextPage()">&raquo;</a></li>
-                            </c:if>
-                        </ul>
+                       <ul class="pagination pagination-sm no-margin pull-right">
+					<c:if test="${pageMaker.prev}">
+                            <li><a href="/myPage/pointList${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+                    </c:if>
+                    <c:forEach begin="${pageMaker.startPage}" 
+                    		   end="${pageMaker.endPage}" 
+                               var="idx">
+                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+                          		<a href="/myPage/pointList?page=${idx}">
+                          			${idx}
+                        	   	</a>
+                             </li>
+                   	</c:forEach>
+                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+                      <li><a href="/myPage/pointList${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+                    </c:if>
+                    </ul>
                     <!-- 검색 폼 -->    
-                    <form action="/myPage/pointList" name="search" method="post">
+                    <form action="/myPage/pointList" name="search" method="get">
                       <div class="input-group">
                           <select name="keyfield" class="form-control input-sm pull-left" style="width: 150px;">
                             <option value="r_regdate" ${keyfield eq 'r_regdate' ? 'selected' : null }>거래 날짜</option>
@@ -122,40 +122,6 @@
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-      <!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/myPage/pointList">
-    <input type="hidden" name="nowPage"  value="${paging.pagePerBlock * (paging.nowBlock-1)}" /> 
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock-1}" />
-    <input type="hidden" name="keyword"  value="${keyword}" />
-    <input type="hidden" name="keyfield"  value="${keyfield}" />
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/myPage/pointList">
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}" /> 
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock+1}" />
-    <input type="hidden" name="keyword"  value="${keyword}" />
-    <input type="hidden" name="keyfield"  value="${keyfield}" />
-</form>
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post" action="/myPage/pointList">
-    <input type="hidden" name="nowPage" value="" id="page" /> 
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock}" />
-    <input type="hidden" name="keyword"  value="${keyword}" />
-    <input type="hidden" name="keyfield"  value="${keyfield}" />
-</form>
-
 <!-- 페이징 관련 폼 여기까지입니다. ----------------------------------------------------------------------------------- -->
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
-<script>
-function prevPage() {
-    document.getElementById("prevPage").submit();
-}
-function nextPage() {
-    document.getElementById("nextPage").submit();
-}
-function goPage(nowPage) {
-    document.getElementById("page").value = nowPage;
-    document.getElementById("goPage").submit();
-}
-</script>

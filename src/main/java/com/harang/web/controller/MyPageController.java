@@ -17,8 +17,10 @@ import com.harang.web.domain.LessonDTO;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.PagingDto;
 import com.harang.web.domain.RecordDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.service.MyPageService;
 import com.harang.web.utill.LoginBean;
+import com.harang.web.utill.PageMaker;
 import com.harang.web.utill.PagingBean;
 
 @Controller
@@ -29,6 +31,8 @@ public class MyPageController {
 	private MyPageService myPageService;
 	
 	private ModelAndView mav;
+	
+	private PageMaker pageMaker;
 	
 	@RequestMapping(value="/myInfo",method = RequestMethod.GET)
 	public ModelAndView myinfoGet(){
@@ -44,71 +48,23 @@ public class MyPageController {
 		return mav;
 	}
 	
-	// �������� ó�� ������ ��.
 	@RequestMapping(value="/pointList",method = RequestMethod.GET)
-	public ModelAndView pointListGet(HttpSession session,PagingDto page){
+	public ModelAndView pointListGet(HttpSession session,SearchCriteria cri){
 		
 		MemberDTO mdto  = (MemberDTO)session.getAttribute("member");
+		cri.setM_id(mdto.getM_id());
 		
-		RecordDTO record = new RecordDTO();
-		record.setM_id(mdto.getM_id());
+		List<RecordDTO> plist = myPageService.pointListSearch(cri);
 		
-		System.out.println(mdto.getM_id());
-		
-		List<RecordDTO> plist = new ArrayList<>();
-		
-		
-			plist = myPageService.pointList(record);
-		
-			
-		int nowPage=0, nowBlock=0;
-		if(page.getNowPage() != 0){nowPage = page.getNowPage();}
-		if(page.getNowBlock() != 0){nowBlock = page.getNowBlock();}
-		PagingBean pbean = new PagingBean();
-		PagingDto paging = pbean.Paging(plist.size(),10, nowPage,10, nowBlock);
-		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.pointPagingNum(mdto.getM_id()));
 		
 		mav = new ModelAndView("myPage/pointList");
 		mav.addObject("pList", plist);
-		mav.addObject("paging", paging);
+		mav.addObject("pageMaker", pageMaker);
 		
 		return mav;
-	}
-	
-	@RequestMapping(value="/pointList",method = RequestMethod.POST)
-	public ModelAndView pointListPost(String keyword,String keyfield,HttpSession session,PagingDto page){
-		
-		MemberDTO mdto  = (MemberDTO)session.getAttribute("member");
-		
-		RecordDTO record = new RecordDTO();
-		record.setKeyfield(keyfield);
-		record.setKeyword(keyword);
-		record.setM_id(mdto.getM_id());
-		
-		List<RecordDTO> plist = new ArrayList<>();
-		
-		if(null == keyword || "".equals(keyword)){
-			plist = myPageService.pointList(record);
-		}
-		else{
-			plist = myPageService.pointListSearch(record);
-		}
-		
-		int nowPage=0, nowBlock=0;
-			if(page.getNowPage() != 0){nowPage = page.getNowPage();}
-			if(page.getNowBlock() != 0){nowBlock = page.getNowBlock();}
-		PagingBean pbean = new PagingBean();
-		PagingDto paging = pbean.Paging(plist.size(),10, nowPage,10, nowBlock);
-		
-		
-		mav = new ModelAndView("myPage/pointList");
-		mav.addObject("keyword", keyword);
-		mav.addObject("keyfield", keyfield);
-		mav.addObject("pList", plist);
-		mav.addObject("paging", paging);
-		
-		return mav;
-		
 	}
 	
 	@RequestMapping(value="/timeTable",method = RequestMethod.GET)

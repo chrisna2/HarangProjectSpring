@@ -103,6 +103,7 @@
                   </table>
                 </div><!-- /.box-body -->
                  <div class="box-footer clearfix">
+                 <!-- 페이징, 새로운 방법을 적용 : 2017/07/19 -->
                   <ul class="pagination pagination-sm no-margin pull-right">
 					<c:if test="${pageMaker.prev}">
                             <li><a href="/food/Aticket${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
@@ -120,6 +121,7 @@
                       <li><a href="/food/Aticket${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
                     </c:if>
                     </ul>
+                 <!-- 페이징, 새로운 방법을 적용 : 2017/07/19 -->
                 </div>
               </div><!-- /.box -->
               </div><!-- /.col -->

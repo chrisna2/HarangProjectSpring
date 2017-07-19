@@ -16,6 +16,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
+		
+		//권한을 체크하는 인터셉터다. 이것을 응용하면 각 페이지가 이동할 때마다 새롭게 세션을 받아오는 인터셉트를 만들수 있을지도 모른다.
+		
 		HttpSession session = request.getSession();
 		
 		if(null == session.getAttribute("member") && null == session.getAttribute("admin")){

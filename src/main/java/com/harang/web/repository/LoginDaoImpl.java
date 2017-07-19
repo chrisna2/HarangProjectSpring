@@ -9,7 +9,6 @@ import com.harang.web.domain.MemberDTO;
 @Repository
 public class LoginDaoImpl implements LoginDao {
 
-	//mybatis의 끝판왕! mapper 클래스도 이제 안 만들어도 됨!
 	@Autowired
 	private SqlSession sqlSession;
 	private static final String namespace = "com.harang.mapper.login-mapper";
@@ -19,6 +18,12 @@ public class LoginDaoImpl implements LoginDao {
 	public MemberDTO login(MemberDTO member) {
 		
 		return sqlSession.selectOne(namespace+".login", member);
+	}
+
+
+	@Override
+	public MemberDTO refresh(String m_id) {
+		return sqlSession.selectOne(namespace+".refresh", m_id);
 	}
 
 }

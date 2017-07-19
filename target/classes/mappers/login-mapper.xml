@@ -8,5 +8,12 @@
   		select m_id, m_name, m_dept, m_mail, m_tel, m_addr, m_point, m_photo, m_fee, m_grade, m_birth, m_regdate 
   		from tbl_member where m_id = #{m_id} and m_pw = #{m_pw}
   	</select>
+  	
+  	<select id="refresh" resultType="Member" parameterType="String">
+  		select m_id, m_name, m_dept, m_mail, m_tel, m_addr, m_point, m_photo, m_fee, m_grade, m_birth, m_regdate 
+  		from tbl_member where m_id = #{m_id} 
+  	</select>
+  	
+  	
   
   </mapper>
