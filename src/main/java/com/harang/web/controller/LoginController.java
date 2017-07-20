@@ -35,9 +35,7 @@ public class LoginController {
 	@RequestMapping(value="/logout" ,method = RequestMethod.GET)
 	public ModelAndView logoutGet(HttpSession session){
 		
-		session.removeAttribute("member");
-		session.removeAttribute("admin");
-		session.removeAttribute("PLH");
+		session.invalidate();
 		
 		ModelAndView mav = new ModelAndView("redirect:/");
 		return mav;

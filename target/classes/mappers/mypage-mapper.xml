@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.harang.mapper.mypage-mapper">
   
-  	<!-- 포인트 페이징 : 헤더에 사용 할까함. -->
+  	<!-- [mypage] 포인트 페이징 : 헤더에 사용 할까함. -->
   	<select id="pointListHeader" parameterType="String" resultType="Record">
   		select r_regdate, r_content, r_point, m_giver, m_haver, 
   		(select m_name from tbl_member where m_id = m_giver) as m_givername, 
@@ -13,7 +13,7 @@
   		limit 5 
   	</select>
   	
-  	<!-- 포인트 페이징 : 페이징 검색까지 다되는 모든것. -->
+  	<!-- [mypage] 포인트 페이징 : 페이징 검색까지 다되는 모든것. -->
   	<select id="pointListSearch" parameterType="SearchCriteria" resultType="Record">
   		select r_regdate, r_content, r_point, m_giver, m_haver, 
   		(select m_name from tbl_member where m_id = m_giver) as m_givername, 
@@ -49,7 +49,41 @@
   		select count(r_regdate)	
   		from tbl_record 
   		where m_giver = #{m_id} or m_haver = #{m_id} 
-  	</select>  	
+  	</select>
+  	
+  	<!-- [mypage] 스펙 리스트 출력 -->
+	<select id="specListMember" parameterType="SearchCriteria" resultType="CertiMember">
+		select c.c_num, c.c_name, c.c_agency, c.c_point, cm.cm_iscomplete, cm.cm_completedate, cm.cm_regda1te, cm.cm_image 
+		from tbl_certificate c left outer join tbl_certi_member cm on c.c_num = cm.c_num  and cm.m_id = #{m_id} 
+		<include refid="spec_search"></include>
+		order by c.c_num desc 
+		limit #{pageStart}, #{perPageNum}
+	</select>  	
+  	
+  	<sql id="spec_search">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'c_num'.toString()">
+  				where c.c_num like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'c_name'.toString()">
+  				where c.c_name like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'c_agency'.toString()">
+  				where c.c_agency like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'c_point'.toString()">
+  				where c.c_point like concat('%', #{keyword}, '%')
+  			</if>
+  		</if>
+  	</sql>
+  	
+  	<!-- 페이지 카운팅 -->
+  	<select id="specListCount" resultType="int" parameterType="String">
+			select count(c.c_num) 
+			from tbl_certificate c left outer join tbl_certi_member cm on c.c_num = cm.c_num  and cm.m_id = #{m_id} 	
+  	</select>
+  	
+  	
   	
   
   </mapper>

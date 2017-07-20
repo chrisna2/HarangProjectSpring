@@ -244,41 +244,14 @@
 
                                 <form action="/HarangProject/myPage?cmd=specUp" name="search"
                                     method="post">
-                                    <input type="text" name="keyfield"
+                                    <input type="text" name="keyword"
                                         class="form-control input-sm pull-right" style="width: 150px;"
-                                        placeholder="Search" /> <select
-                                        class="form-control input-sm pull-right" name=keyword
-                                        style="width: 150px;">
-
-                                        <option value="c_num"
-                                            <c:choose>
-                        <c:when test="${requestScope.keyword eq 'c_num' }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>도전
-                                            번호</option>
-                                        <option value="c_name"
-                                            <c:choose>
-                        <c:when test="${requestScope.keyword eq 'c_name' }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>도전
-                                            이름</option>
-                                        <option value="c_agency"
-                                            <c:choose>
-                        <c:when test="${requestScope.keyword eq 'c_agency' }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>도전
-                                            기관</option>
-                                        <option value="c_point"
-                                            <c:choose>
-                        <c:when test="${requestScope.keyword eq 'c_point' }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>도전
-                                            보상</option>
-                                        <option>성공 여부</option>
+                                        placeholder="Search" /> 
+                                    <select class="form-control input-sm pull-right" name='keyfield' style="width: 150px;">
+                                        <option value="c_num" ${keyfield eq 'c_num' ? 'selected' : null }>자격증 번호</option>
+                                        <option value="c_name" ${keyfield eq 'c_name' ? 'selected' : null }>자격증 이름</option> 
+                                        <option value="c_agency" ${keyfield eq 'c_agency' ? 'selected' : null }>자격증 기관</option>
+                                        <option value="c_point" ${keyfield eq 'c_point' ? 'selected' : null }>획득 포인트</option>
                                     </select>
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-default">

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.harang.web.domain.CertiMemberDTO;
 import com.harang.web.domain.LessonDTO;
 import com.harang.web.domain.RecordDTO;
 import com.harang.web.domain.SearchCriteria;
@@ -40,6 +41,20 @@ public class MyPageDaoImpl implements MyPageDao {
 	@Override
 	public int pointPagingNum(String m_id) {
 		return sqlSession.selectOne(namespace+".pointPagingNum", m_id);
+	}
+
+	
+	//여기서 시작//
+	@Override
+	public List<CertiMemberDTO> specListMember(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int specListCount(String m_id) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 
