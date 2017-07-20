@@ -132,11 +132,11 @@
 		UPDATE tbl_daeta_member SET dm_choice = 'Y' WHERE d_num = #{d_num} AND m_id=#{m_id}
 	</update>
 	
-	<delete id="deleteParttimeApply">
+	<delete id="deleteMyParttimeApply">
 		DELETE FROM tbl_parttime_member WHERE p_num = #{p_num} AND m_id=#{m_id}
 	</delete>
 	
-	<delete id="deleteDaetaApply">
+	<delete id="deleteMyDaetaApply">
 		DELETE FROM tbl_daeta_member WHERE d_num = #{d_num} AND m_id=#{m_id}
 	</delete>
 	
