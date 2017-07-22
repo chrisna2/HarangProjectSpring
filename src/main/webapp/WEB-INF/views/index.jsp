@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -63,8 +64,7 @@
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">커뮤니티에 접속하시려면 로그인을 하세요</p>
-        <form name="login" action="/login/loginPost" method="post">
-          <input type="hidden" name="cmd" value="login"/>
+        <form method="post" action="/login/login">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" name="m_id" placeholder="학번" required="required"/>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -77,15 +77,17 @@
             <div class="col-xs-8">    
             </div><!-- /.col -->
             <div class="col-xs-4">
-              <button type="submit" class="btn btn-primary btn-block btn-flat"><i class="fa fa-sign-in"></i> 로그인</button>
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+              <input type="submit" value="로그인" class="btn btn-primary btn-block btn-flat">
             </div><!-- /.col -->
           </div>
         </form>
         <a href="#">비밀번호 찾기</a><br>
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
+    
     <!-- 완성시 최종 삭제 -->
-    <div class="login-box" >
+    <div class="login-box" hidden="hidden">
       <div class="login-box-body">
            <h3>인덱스</h3>
            <h4>내 정보</h4>

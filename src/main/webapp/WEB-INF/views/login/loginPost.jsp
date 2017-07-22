@@ -7,7 +7,10 @@
 </head>
 <body>
 	<script type="text/javascript">
-		var loginType = "${loginType}"
+		var loginType = "${loginType}";
+		var loginError = "${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}";
+		
+		
 		
 		if(loginType == "member"){
 			alert("회원으로 로그인 되셨습니다.");
@@ -22,9 +25,18 @@
 			self.location = "/login/regform";
 		}
 		if(loginType == "bad"){
-			alert("로그인 정보가 잘못 되었습니다. 다시 입력해 주세요");
+			if(loginError == "Maximum sessions of 1 for this principal exceeded"){
+				alert("중복 로그인입니다.")
+			}
+			else{
+				alert("아이디와 패스워드를 확인하새요.")
+			}
+			
 			self.location = "/";
 		}
 	</script>
+	
+	<h1>로그인 확인 페이지!</h1>
+	
 </body>
 </html>

@@ -64,7 +64,7 @@
             <!-- 포인트 확인 : 현제 보유 포인트와 상세 정보 확인 -->
             <!-- 포인트 확인 : 현제 보유 포인트와 상세 정보 확인 -->
               <li>
-                <a href="login/logout">
+                <a href="/login/logout">
                     <i class="fa fa-sign-out"></i>
                 </a>
               </li>

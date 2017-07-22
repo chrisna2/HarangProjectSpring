@@ -16,7 +16,6 @@ public class LoginDaoImpl implements LoginDao {
 	
 	@Override
 	public MemberDTO login(MemberDTO member) {
-		
 		return sqlSession.selectOne(namespace+".login", member);
 	}
 
