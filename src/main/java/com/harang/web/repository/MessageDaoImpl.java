@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.MessageDTO;
+import com.harang.web.domain.SearchCriteria;
 
 @Repository
 public class MessageDaoImpl implements MessageDao {
@@ -29,16 +30,16 @@ public class MessageDaoImpl implements MessageDao {
 		sqlSession.insert(namespace+".postMessage");
 	}
 	@Override
-	public List<MessageDTO> getGivenMessageList(MessageDTO message) {
-		return sqlSession.selectList(namespace+".getGivenMessageList", message);
+	public List<MessageDTO> getGivenMessageList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".getGivenMessageList", cri);
 	}
 	@Override
-	public List<MessageDTO> getSentMessageList(MessageDTO message) {
-		return sqlSession.selectList(namespace+".getSentMessageList", message);
+	public List<MessageDTO> getSentMessageList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".getSentMessageList", cri);
 	}
 	@Override
-	public List<MessageDTO> getToMeMessageList(MessageDTO message) {
-		return sqlSession.selectList(namespace+".getToMeMessageList", message);
+	public List<MessageDTO> getToMeMessageList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".getToMeMessageList", cri);
 	}
 	@Override
 	public MessageDTO getMessage(String t_num) {
@@ -57,16 +58,16 @@ public class MessageDaoImpl implements MessageDao {
 		sqlSession.delete(namespace+".deleteMessage", t_num);
 	}
 	@Override
-	public void readMessage(MessageDTO message) {
-		sqlSession.update(namespace+".readMessage", message);
+	public void readMessage(String t_num) {
+		sqlSession.update(namespace+".readMessage", t_num);
 	}
 	@Override
-	public int getNotReadMessage(MessageDTO message) {
-		return sqlSession.selectOne(namespace+".getNotReadMessage", message);
+	public int getNotReadMessage(String m_id) {
+		return sqlSession.selectOne(namespace+".getNotReadMessage", m_id);
 	}
 	@Override
-	public int getNotReadMessage_toMe(MessageDTO message) {
-		return sqlSession.selectOne(namespace+".getNotReadMessage_toMe", message);
+	public int getNotReadMessage_toMe(String m_id) {
+		return sqlSession.selectOne(namespace+".getNotReadMessage_toMe", m_id);
 	}
 	
 	

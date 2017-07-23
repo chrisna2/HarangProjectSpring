@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.MessageDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.repository.MessageDao;
 
 @Service
@@ -30,18 +31,18 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public List<MessageDTO> getGivenMessageList(MessageDTO message) {
-		return messageDao.getGivenMessageList(message);
+	public List<MessageDTO> getGivenMessageList(SearchCriteria cri) {
+		return messageDao.getGivenMessageList(cri);
 	}
 
 	@Override
-	public List<MessageDTO> getSentMessageList(MessageDTO message) {
-		return messageDao.getSentMessageList(message);
+	public List<MessageDTO> getSentMessageList(SearchCriteria cri) {
+		return messageDao.getSentMessageList(cri);
 	}
 
 	@Override
-	public List<MessageDTO> getToMeMessageList(MessageDTO message) {
-		return messageDao.getToMeMessageList(message);
+	public List<MessageDTO> getToMeMessageList(SearchCriteria cri) {
+		return messageDao.getToMeMessageList(cri);
 	}
 
 	@Override
@@ -65,18 +66,18 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public void readMessage(MessageDTO message) {
-		messageDao.readMessage(message);
+	public void readMessage(String t_num) {
+		messageDao.readMessage(t_num);
 	}
 
 	@Override
-	public int getNotReadMessage(MessageDTO message) {
-		return messageDao.getNotReadMessage(message);
+	public int getNotReadMessage(String m_id) {
+		return messageDao.getNotReadMessage(m_id);
 	}
 
 	@Override
-	public int getNotReadMessage_toMe(MessageDTO message) {
-		return messageDao.getNotReadMessage_toMe(message);
+	public int getNotReadMessage_toMe(String m_id) {
+		return messageDao.getNotReadMessage_toMe(m_id);
 	}
 
 }

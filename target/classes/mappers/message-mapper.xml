@@ -22,18 +22,22 @@
 	<!-- 받은 메시지를 모두 검색 -->
 	<select id="getGivenMessageList">
 		SELECT * FROM tbl_text WHERE m_reader=#{m_reader} AND NOT m_sender=#{m_sender} AND t_read_del = 'N' 
-		ORDER BY t_send_date DESC
+		ORDER BY t_send_date DESC 
+		limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<!-- 보낸 메시지를 모두 검색 -->
 	<select id="getSentMessageList">
 		SELECT * FROM tbl_text WHERE m_sender=#{m_sender} AND NOT m_reader=? AND t_send_del = 'N'
 		ORDER BY t_send_date DESC
+		limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<!-- 내게 쓴 메시지를 모두 검색 -->
 	<select id="getToMeMessageList">
 		SELECT * FROM tbl_text WHERE m_reader=#{m_reader} AND m_sender =#{m_sender}
+		ORDER BY t_send_date DESC
+		limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<!-- 메시지 번호로 메시지를 검색 -->
