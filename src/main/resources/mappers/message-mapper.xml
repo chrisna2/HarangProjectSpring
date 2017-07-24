@@ -20,28 +20,25 @@
   	</insert>
 	
 	<!-- 받은 메시지를 모두 검색 -->
-	<select id="getGivenMessageList">
-		SELECT * FROM tbl_text WHERE m_reader=#{m_reader} AND NOT m_sender=#{m_sender} AND t_read_del = 'N' 
+	<select id="getGivenMessageList" resultType="Message">
+		SELECT * FROM tbl_text WHERE m_reader=#{m_id} AND NOT m_sender=#{m_id} AND t_read_del = 'N' 
 		ORDER BY t_send_date DESC 
-		limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<!-- 보낸 메시지를 모두 검색 -->
-	<select id="getSentMessageList">
-		SELECT * FROM tbl_text WHERE m_sender=#{m_sender} AND NOT m_reader=? AND t_send_del = 'N'
+	<select id="getSentMessageList" resultType="Message">
+		SELECT * FROM tbl_text WHERE m_sender=#{m_id} AND NOT m_reader=#{m_id} AND t_send_del = 'N'
 		ORDER BY t_send_date DESC
-		limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<!-- 내게 쓴 메시지를 모두 검색 -->
-	<select id="getToMeMessageList">
-		SELECT * FROM tbl_text WHERE m_reader=#{m_reader} AND m_sender =#{m_sender}
+	<select id="getToMeMessageList" resultType="Message">
+		SELECT * FROM tbl_text WHERE m_reader=#{m_id} AND m_sender =#{m_id}
 		ORDER BY t_send_date DESC
-		limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<!-- 메시지 번호로 메시지를 검색 -->
-	<select id="getMessage">
+	<select id="getMessage" resultType="Message">
 		SELECT * FROM tbl_text WHERE t_num = #{t_num}
 	</select>
 	
@@ -72,7 +69,7 @@
 	</select>
 	
 	<!-- 아직 읽지 않은 내게 보낸 메시지의 개수를 검색 -->
-	<select id="getNotReadMessage_toMe">
+	<select id="getNotReadMessage_toMe" resultType="int">
 		SELECT count(t_num) FROM tbl_text WHERE m_reader = #{m_reader} 
 		AND t_read_date is null AND m_sender = #{m_sender}
 	</select>

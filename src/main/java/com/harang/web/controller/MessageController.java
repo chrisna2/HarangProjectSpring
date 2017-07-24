@@ -2,6 +2,7 @@ package com.harang.web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.harang.web.domain.Criteria;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.MessageDTO;
-import com.harang.web.domain.SearchCriteria;
+import com.harang.web.domain.PagingDto;
 import com.harang.web.service.MessageService;
 import com.harang.web.utill.PageMaker;
+import com.harang.web.utill.PagingBean;
 
 @Controller
 @RequestMapping("/message")
@@ -27,26 +28,33 @@ public class MessageController {
 	
 	private PageMaker pageMaker;
 	
+	public PagingDto paging(int listSize, int nowPage, int nowBlock) {
+		PagingBean pbean = new PagingBean();
+		PagingDto paging = pbean.Paging(listSize, 20, nowPage, 1, nowBlock);
+		return paging;
+	}
+	
 	/**
 	 * 받은 메시지 함에 리스트를 가져오는 메서드.
 	 * @param session 세션
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
 	@RequestMapping("/INBOX")
-	public ModelAndView getList(HttpSession session, SearchCriteria cri) {
+	public ModelAndView getList(HttpSession session, String nowPage, String nowBlock ) {
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		cri.setM_id(member.getM_id());
-		List<MessageDTO> givenList = setList(messageService.getGivenMessageList(cri));
-		
-		pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(givenList.size());
+		List<MessageDTO> givenList = setList(messageService.getGivenMessageList(member.getM_id()));
+		PagingDto paging;
+		if(nowPage == null && nowBlock == null){
+			paging = paging(givenList.size(), 0, 0);
+		}else{
+			paging = paging(givenList.size(), Integer.parseInt(nowPage), Integer.parseInt(nowBlock));
+		}
 		
 		ModelAndView mav = new ModelAndView("message/message_inbox_main");
 		messageNotRead(mav, session); //안 읽은 메시지
 		mav.addObject("list", givenList);
 		mav.addObject("tab", "INBOX");
-		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("paging", paging);
 		return mav;
 	}
 	
@@ -56,20 +64,21 @@ public class MessageController {
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
 	@RequestMapping("/SENT")
-	public ModelAndView sentList(HttpSession session, SearchCriteria cri) {
+	public ModelAndView sentList(HttpSession session, String nowPage, String nowBlock) {
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		cri.setM_id(member.getM_id());
-		List<MessageDTO> sentList = setList(messageService.getSentMessageList(cri)); 
+		List<MessageDTO> sentList = setList(messageService.getSentMessageList(member.getM_id())); 
+		PagingDto paging;
+		if(nowPage == null && nowBlock == null){
+			paging = paging(sentList.size(), 0, 0);
+		}else{
+			paging = paging(sentList.size(), Integer.parseInt(nowPage), Integer.parseInt(nowBlock));
+		}
 		
-		pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(sentList.size());
-
 		ModelAndView mav = new ModelAndView("message/message_sent");
 		messageNotRead(mav, session); //안 읽은 메시지
 		mav.addObject("list", sentList);
 		mav.addObject("tab", "SENT");
-		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("paging", paging);
 		return mav;
 	}
 	
@@ -79,20 +88,21 @@ public class MessageController {
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
 	@RequestMapping("/TOME")
-	public ModelAndView toMeList(HttpSession session, SearchCriteria cri) {
+	public ModelAndView toMeList(HttpSession session, String nowPage, String nowBlock) {
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		cri.setM_id(member.getM_id());
-		List<MessageDTO> toMeList = setList(messageService.getToMeMessageList(cri)); 
+		List<MessageDTO> toMeList = setList(messageService.getToMeMessageList(member.getM_id())); 
+		PagingDto paging;
+		if(nowPage == null && nowBlock == null){
+			paging = paging(toMeList.size(), 0, 0);
+		}else{
+			paging = paging(toMeList.size(), Integer.parseInt(nowPage), Integer.parseInt(nowBlock));
+		}
 		
-		pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(toMeList.size());
-
 		ModelAndView mav = new ModelAndView("message/message_toMe");
 		messageNotRead(mav, session); //안 읽은 메시지
 		mav.addObject("list", toMeList);
 		mav.addObject("tab", "TOME");
-		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("paging", paging);
 		return mav;
 	}
 	
@@ -128,7 +138,7 @@ public class MessageController {
 	 * @param arr 삭제할 메시지번호
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
-	@RequestMapping("/inboxDelete")
+	@RequestMapping("/deleteINBOX")
 	public ModelAndView deleteInboxMessage(@ModelAttribute("deleteList") String arr) {
 		ModelAndView mav = new ModelAndView("message/message_inbox_main");
 		
@@ -153,7 +163,7 @@ public class MessageController {
 	 * @param arr 삭제할 메시지번호
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
-	@RequestMapping("/sentDelete")
+	@RequestMapping("/deleteSENT")
 	public ModelAndView deleteSentMessage(@ModelAttribute("deleteList") String arr) {
 		ModelAndView mav = new ModelAndView("message/message_sent");
 		
@@ -178,7 +188,7 @@ public class MessageController {
 	 * @param arr 삭제할 메시지번호
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
-	@RequestMapping("/toMeDelete")
+	@RequestMapping("/deleteTOME")
 	public ModelAndView deleteToMeMessage(@ModelAttribute("deleteList") String arr) {
 		ModelAndView mav = new ModelAndView("message/message_toMe");
 		

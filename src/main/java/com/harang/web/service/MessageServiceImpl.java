@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.MessageDTO;
-import com.harang.web.domain.SearchCriteria;
 import com.harang.web.repository.MessageDao;
 
 @Service
@@ -31,18 +30,18 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public List<MessageDTO> getGivenMessageList(SearchCriteria cri) {
-		return messageDao.getGivenMessageList(cri);
+	public List<MessageDTO> getGivenMessageList(String m_id) {
+		return messageDao.getGivenMessageList(m_id);
 	}
 
 	@Override
-	public List<MessageDTO> getSentMessageList(SearchCriteria cri) {
-		return messageDao.getSentMessageList(cri);
+	public List<MessageDTO> getSentMessageList(String m_id) {
+		return messageDao.getSentMessageList(m_id);
 	}
 
 	@Override
-	public List<MessageDTO> getToMeMessageList(SearchCriteria cri) {
-		return messageDao.getToMeMessageList(cri);
+	public List<MessageDTO> getToMeMessageList(String m_id) {
+		return messageDao.getToMeMessageList(m_id);
 	}
 
 	@Override

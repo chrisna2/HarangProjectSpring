@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.MessageDTO;
-import com.harang.web.domain.SearchCriteria;
 
 @Repository
 public class MessageDaoImpl implements MessageDao {
@@ -30,16 +29,16 @@ public class MessageDaoImpl implements MessageDao {
 		sqlSession.insert(namespace+".postMessage");
 	}
 	@Override
-	public List<MessageDTO> getGivenMessageList(SearchCriteria cri) {
-		return sqlSession.selectList(namespace+".getGivenMessageList", cri);
+	public List<MessageDTO> getGivenMessageList(String m_id) {
+		return sqlSession.selectList(namespace+".getGivenMessageList", m_id);
 	}
 	@Override
-	public List<MessageDTO> getSentMessageList(SearchCriteria cri) {
-		return sqlSession.selectList(namespace+".getSentMessageList", cri);
+	public List<MessageDTO> getSentMessageList(String m_id) {
+		return sqlSession.selectList(namespace+".getSentMessageList", m_id);
 	}
 	@Override
-	public List<MessageDTO> getToMeMessageList(SearchCriteria cri) {
-		return sqlSession.selectList(namespace+".getToMeMessageList", cri);
+	public List<MessageDTO> getToMeMessageList(String m_id) {
+		return sqlSession.selectList(namespace+".getToMeMessageList", m_id);
 	}
 	@Override
 	public MessageDTO getMessage(String t_num) {

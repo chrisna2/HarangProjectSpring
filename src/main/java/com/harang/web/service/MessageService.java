@@ -10,9 +10,9 @@ public interface MessageService {
 	public MemberDTO getMember(String m_id);
 	public List<String> getMember_id(MemberDTO member);
 	public void postMessage(MessageDTO message);
-	public List<MessageDTO> getGivenMessageList(SearchCriteria cri);
-	public List<MessageDTO> getSentMessageList(SearchCriteria cri);
-	public List<MessageDTO> getToMeMessageList(SearchCriteria cri);
+	public List<MessageDTO> getGivenMessageList(String m_id);
+	public List<MessageDTO> getSentMessageList(String m_id);
+	public List<MessageDTO> getToMeMessageList(String m_id);
 	public MessageDTO getMessage(String t_num);
 	public void deleteGivenMessage_first(String t_num);
 	public void deleteSentMessage_first(String t_num);

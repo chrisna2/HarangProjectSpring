@@ -14,6 +14,7 @@
                     
 				<!-- 페이징버튼 -->
                     <div class="pull-right">
+                    
 	                    <c:choose>
 		                    <c:when test="${paging.nowBlock*paging.numPerPage+paging.numPerPage > paging.totalRecord}" >
 		                      <c:choose>
@@ -38,6 +39,7 @@
 						</c:if>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       </div><!-- /.btn-group -->
+                      
                     </div><!-- /.pull-right -->
                     <!-- 페이징 버튼 -->
                </div>
@@ -51,7 +53,7 @@
 <!-- -------------------------------------------------------------------------------------- -->
 <script>
 function fnRefresh(tab){
-	location.href="/HarangProject/message?cmd="+tab;
+	location.href="/message/"+tab;
 }
 
 function fnCheck(){
@@ -64,7 +66,7 @@ function fnDel(tab){
 			arr.push($(this).val());
 		});
 		document.getElementById("deleteList").value = arr;
-		document.del.action ="/HarangProject/message?cmd="+tab;
+		document.del.action ="/message/delete"+tab;
 		$("#del").submit();
 	}else{
 		return;
