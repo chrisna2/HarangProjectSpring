@@ -112,49 +112,18 @@
 										class="form-control input-sm pull-left"
 										style="width: 150px"
 										name="keyword">
-										<option value="pgm_num" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'pgm_num'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>예약번호</option>
 										
-										<option value="pgm_regdate" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'pgm_regdate'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>예약한 날짜</option>	
 										
-										<option value="m_id" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'm_id'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>학번[ID]</option>
 										
-										<!-- 이중 셀렉문 pgm_type인지 체크-->
-										<option value="p.pg_type" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'p.pg_type'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>시설명</option>
+												 <option value="pgm_num" ${requestScope.keyfield eq 'pgm_num' ? 'selected' : null}> 예약번호</option>
+                        <option value="pgm_regdate" ${requestScope.keyfield eq 'pgm_regdate' ? 'selected' : null}> 예약한 날짜</option>
+                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null}> 학번[ID] </option>
+                        <option value="p.pg_type" ${requestScope.keyfield eq 'p.pg_type' ? 'selected' : null}>시설명 </option>
+                        <option value="p.pg_name" ${requestScope.keyfield eq 'p.pg_name' ? 'selected' : null}> 호수 </option>
+                        <option value="pgm_date" ${requestScope.keyfield eq 'pgm_date' ? 'selected' : null}> 예약날짜 </option>
 										
-										<!-- 이중 셀렉문 pgm_name인지 체크-->
-										<option value="p.pg_name" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'p.pg_name'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>호수</option>
 										
-										<option value="pgm_date" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'pgm_date'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>예약날짜</option>
+									
 										
 									</select>
 								</div>
@@ -263,50 +232,19 @@
 										class="form-control input-sm pull-left"
 										style="width: 150px"
 										name="keyword">
-										<option value="pgm_num" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'pgm_num'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>예약번호</option>
 										
-										<option value="pgm_regdate" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'pgm_regdate'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>예약한 날짜</option>	
 										
-										<option value="m_id" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'm_id'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>학번[ID]</option>
 										
-										<!-- 이중 셀렉문 pgm_type인지 체크-->
-										<option value="p.pg_type" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'p.pg_type'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>시설명</option>
 										
-										<!-- 이중 셀렉문 pgm_name인지 체크-->
-										<option value="p.pg_name" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'p.pg_name'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>호수</option>
+										 <option value="pgm_num" ${requestScope.keyfield eq 'pgm_num' ? 'selected' : null}> 예약번호</option>
+                        <option value="pgm_regdate" ${requestScope.keyfield eq 'pgm_regdate' ? 'selected' : null}> 예약한 날짜</option>
+                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null}> 학번[ID] </option>
+                        <option value="p.pg_type" ${requestScope.keyfield eq 'p.pg_type' ? 'selected' : null}>시설명 </option>
+                        <option value="p.pg_name" ${requestScope.keyfield eq 'p.pg_name' ? 'selected' : null}> 호수 </option>
+                        <option value="pgm_date" ${requestScope.keyfield eq 'pgm_date' ? 'selected' : null}> 예약날짜 </option>
 										
-										<option value="pgm_date" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'pgm_date'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>예약날짜</option>
 										
+								
 									</select>
 								</div>
 								

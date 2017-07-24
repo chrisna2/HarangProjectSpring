@@ -44,25 +44,19 @@
                     	
                     <form action="/HarangProject/impage?cmd=amain" name="search" method="post">  
  
-                    <input type="text" name="keyfield" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+                    <input type="text" name="keyword" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
                    
                        <select class="form-control input-sm pull-right" name="keyword" style="width: 80px; heigh:30px;">
-                        <option value="l_name"
-                        <c:choose>
-                        <c:when test="${requestScope.keyword eq 'l_name' }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>강의명</option>
-                        <option value="l_teacher"   <c:choose>
-                        <c:when test="${requestScope.keyword eq 'l_teacher' }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>교수명</option>
-                        <option value="m_name"   <c:choose>
-                        <c:when test="${requestScope.keyword eq 'm_name' }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>작성자</option>
+                     
+                       
+                       		
+                       	 <option value="l_name" ${requestScope.keyfield eq 'l_name' ? 'selected' : null}> 강의명</option>
+                        <option value="l_teacher" ${requestScope.keyfield eq 'l_teacher' ? 'selected' : null}> 교수명</option>
+                        <option value="m_name" ${requestScope.keyfield eq 'm_name' ? 'selected' : null}> 작성자 </option>
+                        <option value="c_point" ${requestScope.keyfield eq 'c_point' ? 'selected' : null}> 도전 보상 </option>
+                    
+                       
+                
                        
                       </select>
                       <div class="input-group-btn">
