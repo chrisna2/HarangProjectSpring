@@ -152,10 +152,9 @@ public class LoginController {
 		//System.out.println("파일 크기 : " + file.getSize());
 		//System.out.println("파일 타입 : " + file.getContentType());
 		
-		//loginService.register(member);
+		loginService.register(member);
+		
 		UploadBean upload = new UploadBean();
-		
-		
 		
 		ModelAndView mav = new ModelAndView("/login/loginPost");
 		
