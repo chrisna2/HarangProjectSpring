@@ -8,13 +8,13 @@
     <title>하랑대학교 | 커뮤니티 회원 등록</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
-    <link href="dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="../resources/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
     <!-- iCheck -->
-    <link href="plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
+    <link href="../resources/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -91,7 +91,7 @@
    <header class="main-header">
         <!-- Logo -->
         <a href="#" class="logo">
-        <img src="dist/img/Logo.png" class="img-circle" alt="User Image" width="40" height="40"/>
+        <img src="../resources/dist/img/Logo.png" class="img-circle" alt="User Image" width="40" height="40"/>
         &nbsp;<b>하랑</b> 대학교</a>
         <!-- Header Navbar: style can be found in header.less -->
    </header>
@@ -104,7 +104,7 @@
                 <div class="box-header">
                   <h3 class="box-title">정식 회원 가입</h3>
                 </div>
-                <form role="form" action="/HarangProject/login?cmd=join" name="input" onsubmit="return checkform()" method="post" enctype="multipart/form-data">
+                <form role="form" action="/login/regform" name="input" onsubmit="return checkform()" method="post" enctype="multipart/form-data">
                 <div class="box-body">
 <table class="table" style="margin-bottom: 50px">
     <tr align="center">
@@ -159,7 +159,7 @@
                   <div class="input-group">
                     <span class="input-group-addon bg-gray"><i class="fa fa-picture-o"></i> 개인 이미지</span>
                     <span class="input-group-addon">
-                       <input type="file" id="imgInp" name="upFile" required="required">
+                       <input type="file" id="imgInp" name="file" required="required">
                     </span>
                     <span class="input-group-addon bg-gray">
                         <img src="#" id="local" class="img-rounded" height="120" width="90" alt="User Image"/>
@@ -259,7 +259,7 @@
                  <div class="box-footer" align="right">
                     <input type="button" class="btn" value="뒤로가기">
                     <input type="reset" class="btn" value="리셋">
-                    <input type="submit" class="btn btn-primary" value="회원 정보 수정">
+                    <input type="submit" class="btn btn-primary" value="회원 정보 등록">
                 </div>
                 </form>
               </div><!-- /.box -->
@@ -339,11 +339,11 @@
     </div><!-- .\ wrapper --> 
     
     <!-- jQuery 2.1.3 -->
-    <script src="plugins/jQuery/jQuery-2.1.3.min.js"></script>
+    <script src="../resources/plugins/jQuery/jQuery-2.1.3.min.js"></script>
     <!-- Bootstrap 3.3.2 JS -->
-    <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- iCheck -->
-    <script src="plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+    <script src="../resources/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
     <script>
     function showKeyCode(event) {
         event = event || window.event;
@@ -389,7 +389,8 @@
          function fngugun() {
         	 $("#gugun").removeAttr("disabled");
         	  var valsido = zip.sido.value;
-        	   $.getJSON("/HarangProject/ajax?cmd=gugun",{sido:encodeURIComponent(valsido)},
+        	   $.getJSON("/login/gugun",
+        			   {sido:encodeURIComponent(valsido)},
                 	    function(data){
         	    	   $("#gugun option").remove();
         	    	   $("#gugun").append("<option>구/군을 선택해 주세요</option>");
@@ -412,7 +413,7 @@
           var valgugun = zip.gugun.value;
           var valdong = zip.dong.value;
           
-          $.getJSON("/HarangProject/ajax?cmd=dong",
+          $.getJSON("/login/dong",
                   {sido:encodeURIComponent(valsido),gugun:encodeURIComponent(valgugun),dong:encodeURIComponent(valdong)},
                   function(data){
                  $("#total tr").remove();

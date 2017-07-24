@@ -10,8 +10,6 @@
 		var loginType = "${loginType}";
 		var loginError = "${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}";
 		
-		
-		
 		if(loginType == "member"){
 			alert("회원으로 로그인 되셨습니다.");
 			self.location = "/login/main";
@@ -23,6 +21,10 @@
 		if(loginType == "newbee"){
 			alert("신입은 개인정보를 입력해 주세요");
 			self.location = "/login/regform";
+		}
+		if(loginType == "confirm"){
+			alert("회원 등록이 완료 되었습니다.\n 다시 로그인해 주세요.");
+			self.location = "/";
 		}
 		if(loginType == "bad"){
 			if(loginError == "Maximum sessions of 1 for this principal exceeded"){

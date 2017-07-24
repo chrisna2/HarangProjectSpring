@@ -8,9 +8,9 @@
 	<!-- 기본 설정을 : beans 에서 security로 전환 즉 접두사  security 안써도 됨 대신  beans는 써야 됨 -->
 
 	<http auto-config="true">
+		<!-- 
 		<intercept-url pattern="/login/login" access="permitAll"/>
 		<intercept-url pattern="/**" access="permitAll"/>
-		<!-- 
 		<intercept-url pattern="/addMember" access="permitAll"/>
 		<intercept-url pattern="/**" access="isAuthenticated()"/>
 		-->
@@ -58,11 +58,12 @@
 				data-source-ref="dataSource" 
 				users-by-username-query="select m_id, m_pw, 1 as result from tbl_member where m_id=?" 
 				authorities-by-username-query="select m_id, authority from tbl_authorities where m_id=?" />
-			<!-- <password-encoder hash="bcrypt"/> -->
+			<!-- 패스워드 디코딩. 					
+			<password-encoder hash="bcrypt"/> 
+			-->
 		</authentication-provider>
 	</authentication-manager>
-	
-	<!-- DB패스워드 암호화~ 
+	<!--  패스워드 인코딩
 	<beans:bean id="bcrypt" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
-	-->
+	 -->
 </beans:beans>

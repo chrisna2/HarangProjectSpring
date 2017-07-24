@@ -14,6 +14,16 @@
   		from tbl_member where m_id = #{m_id} 
   	</select>
   	
+  	<update id="register" parameterType="Member">
+  		UPDATE tbl_member SET m_pw = #{m_pw} , m_mail = #{m_mail}, 
+  		m_addr = #{m_addr}, m_tel = #{m_tel}, m_photo = #{m_photo} 
+  		WHERE m_id = #{m_id} 
+  	</update>
+  	
+  	<update id="toMember" parameterType="String">
+  		update tbl_authorities set authority = 'ROLE_MEMBER' where m_id = #{m_id}
+  	</update>
+  	
   	
   
   </mapper>

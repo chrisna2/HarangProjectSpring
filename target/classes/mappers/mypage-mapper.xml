@@ -83,7 +83,20 @@
 			from tbl_certificate c left outer join tbl_certi_member cm on c.c_num = cm.c_num  and cm.m_id = #{m_id} 	
   	</select>
   	
-  	
+  	<!-- 주소목록 : 시의 목록 출력 -->
+  	<select id="sidoList" resultType="zip">
+  		SELECT sido FROM tbl_zip group by sido
+  	</select>
+  	<!-- 주소목록 ajax : 구와 군검색 -->
+  	<select id="gugunList" resultType="zip" parameterType="zip">
+  		SELECT gugun FROM tbl_zip where sido = #{sido} group by gugun
+  	</select>
+  	<!-- 주소목록 ajax : 주소 전체 목록 출력 -->
+  	<select id="dongList" resultType="zip" parameterType="zip">
+  		SELECT sido, gugun, dong, bunji, zipcode FROM tbl_zip 
+  		where sido = #{sido} and gugun = #{gugun} 
+  		and dong like concat('%', #{dong}, '%') group by dong 
+  	</select>  	
   	
   
   </mapper>

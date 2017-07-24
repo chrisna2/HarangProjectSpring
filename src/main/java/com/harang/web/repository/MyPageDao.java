@@ -8,6 +8,7 @@ import com.harang.web.domain.CertiMemberDTO;
 import com.harang.web.domain.LessonDTO;
 import com.harang.web.domain.RecordDTO;
 import com.harang.web.domain.SearchCriteria;
+import com.harang.web.domain.ZipDTO;
 
 public interface MyPageDao {
 	//해더 관련
@@ -23,4 +24,9 @@ public interface MyPageDao {
 	
 	
 	public List<LessonDTO> defaultTimeTable(LessonDTO lesson);
+	
+	//주소 목록
+	public List<ZipDTO> sidoList();
+	public List<ZipDTO> gugunList(ZipDTO zip);
+	public List<ZipDTO> dongList(ZipDTO zip);
 }

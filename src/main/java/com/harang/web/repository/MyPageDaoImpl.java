@@ -12,6 +12,7 @@ import com.harang.web.domain.CertiMemberDTO;
 import com.harang.web.domain.LessonDTO;
 import com.harang.web.domain.RecordDTO;
 import com.harang.web.domain.SearchCriteria;
+import com.harang.web.domain.ZipDTO;
 
 @Repository
 public class MyPageDaoImpl implements MyPageDao {
@@ -28,13 +29,11 @@ public class MyPageDaoImpl implements MyPageDao {
 
 	@Override
 	public List<RecordDTO> pointListSearch(SearchCriteria cri) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList(namespace+".pointListSearch", cri);
 	}
 
 	@Override
 	public List<LessonDTO> defaultTimeTable(LessonDTO lesson) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -47,14 +46,27 @@ public class MyPageDaoImpl implements MyPageDao {
 	//여기서 시작//
 	@Override
 	public List<CertiMemberDTO> specListMember(SearchCriteria cri) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int specListCount(String m_id) {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	
+	// 주소 검색  Dao
+	@Override
+	public List<ZipDTO> sidoList() {
+		return sqlSession.selectList(namespace+".sidoList");
+	}
+	@Override
+	public List<ZipDTO> gugunList(ZipDTO zip) {
+		return sqlSession.selectList(namespace+".gugunList",zip);
+	}
+	@Override
+	public List<ZipDTO> dongList(ZipDTO zip) {
+		return sqlSession.selectList(namespace+".dongList",zip);
 	}
 	
 

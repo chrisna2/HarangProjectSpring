@@ -7,5 +7,7 @@ public interface LoginDao {
 	public MemberDTO login(MemberDTO member);
 	public MemberDTO refresh(String m_id);
 	
+	public void register(MemberDTO member);
+	
 	
 }

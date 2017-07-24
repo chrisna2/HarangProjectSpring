@@ -22,4 +22,10 @@ public class LoginServiceImpl implements LoginService {
 		return loginDao.refresh(m_id);
 	}
 
+	@Override
+	public void register(MemberDTO member) {
+		loginDao.register(member);
+	}
+
+
 }

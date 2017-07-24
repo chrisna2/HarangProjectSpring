@@ -4,7 +4,6 @@ xmlns="http://java.sun.com/xml/ns/javaee"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
 version="2.5">
   
-  
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -20,7 +19,6 @@ version="2.5">
   
    <!-- Spring - security - url -->
   <filter>
-  	<!-- 이름 틀리면 안됨! : 이건 내 마음대로 사용 못함 -->
   	<filter-name>springSecurityFilterChain</filter-name>
   	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
   </filter>
