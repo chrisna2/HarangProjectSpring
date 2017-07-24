@@ -105,27 +105,17 @@
 										class="form-control input-sm pull-left"
 										style="width: 150px"
 										name="keyword">
-										<option value="pg_num" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'pg_num'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>시설 번호</option>
 										
-										<option value="m_id" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'm_id'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>시설명</option>
 										
-										<!-- 이중 셀렉문 pgm_type인지 체크-->
-										<option value="pg_type" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'pg_type'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>호수</option>
+										
+										
+										 <option value="pg_num" ${requestScope.keyfield eq 'pg_num' ? 'selected' : null}> 시설 번호</option>
+                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null}> 시설명</option>
+                        <option value="pg_type" ${requestScope.keyfield eq 'pg_type' ? 'selected' : null}> 호수 </option>
+       
+										
+										
+									
 										
 									</select>
 								</div>
@@ -233,27 +223,14 @@
 										class="form-control input-sm pull-left"
 										style="width: 150px"
 										name="keyword">
-										<option value="pg_num" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'pg_num'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>시설 번호</option>
 										
-										<option value="m_id" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'm_id'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>시설명</option>
 										
-										<!-- 이중 셀렉문 pgm_type인지 체크-->
-										<option value="pg_type" 
-										<c:choose>
-											<c:when test="${requestScope.keyword eq 'pg_type'}">
-											selected="selected"
-											</c:when>
-										</c:choose>>호수</option>
+											 <option value="pg_num" ${requestScope.keyfield eq 'pg_num' ? 'selected' : null}> 시설 번호</option>
+                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null}> 시설명</option>
+                        <option value="pg_type" ${requestScope.keyfield eq 'pg_type' ? 'selected' : null}> 호수 </option>
+										
+										
+									
 										
 									</select>
 								</div>
