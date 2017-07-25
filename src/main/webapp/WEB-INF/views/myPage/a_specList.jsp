@@ -48,32 +48,19 @@
                     <div class="input-group">
                     
                   <form action="/HarangProject/myPage?cmd=AspecList" name="search" method="post">  
-                      <input type="text" name= "keyfield" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+                      <input type="text" name= "keyword" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
                       <select class="form-control input-sm pull-right" style="width: 150px" name=keyword>
-                     
                        
-                        <option value="c_num"
-                        <c:choose>
-                        <c:when test="${requestScope.keyword eq 'c_num' or requestScope.keyword eq null }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>자격증 번호</option>
-                        <option value="c_name"   <c:choose>
-                        <c:when test="${requestScope.keyword eq 'c_name' }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>자격증 이름</option>
-                        <option value="c_agency"   <c:choose>
-                        <c:when test="${requestScope.keyword eq 'c_agency' }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>발급 기관</option>
-                        <option value="c_point"   <c:choose>
-                        <c:when test="${requestScope.keyword eq 'c_point' }">
-                        selected="selected"
-                         </c:when>
-                         </c:choose>>도전 보상</option>
+                        <option value="c_num" ${requestScope.keyfield eq 'c_num' ? 'selected' : null}> 자격증 번호 </option>
+                        <option value="c_name" ${requestScope.keyfield eq 'c_name' ? 'selected' : null}> 자격증 이름 </option>
+                        <option value="c_agency" ${requestScope.keyfield eq 'c_agency' ? 'selected' : null}> 발급 기관 </option>
+                        <option value="c_point" ${requestScope.keyfield eq 'c_point' ? 'selected' : null}> 도전 보상 </option>
+                    
+                        
                       </select>
+                     
+                  
+                     
                       <div class="input-group-btn">
                         <button type="submit" class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                       </div>

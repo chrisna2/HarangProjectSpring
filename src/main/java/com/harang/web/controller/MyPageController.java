@@ -1,5 +1,7 @@
 package com.harang.web.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.harang.web.domain.LessonDTO;
@@ -18,6 +21,7 @@ import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.PagingDto;
 import com.harang.web.domain.RecordDTO;
 import com.harang.web.domain.SearchCriteria;
+import com.harang.web.domain.ZipDTO;
 import com.harang.web.service.MyPageService;
 import com.harang.web.utill.LoginBean;
 import com.harang.web.utill.PageMaker;
@@ -92,18 +96,47 @@ public class MyPageController {
 		lesson.setTt_grade(tt_grade);
 		lesson.setM_id(member.getM_id());
 		
-		
-		
-		
-		
-		
-		
-		
-		
 		mav = new ModelAndView("myPage/timeTable");
 		
 		return mav;
 	}
+
+	
+	
+	@RequestMapping(value="/gugun")
+	public @ResponseBody List<ZipDTO> gugunAjax(HttpServletRequest request) throws UnsupportedEncodingException{
+
+		String sido = URLDecoder.decode(request.getParameter("sido"), "UTF-8" );
+		System.out.println(sido);
+		
+		ZipDTO zip = new ZipDTO();
+		
+		zip.setSido(sido);
+		
+		List<ZipDTO> list = myPageService.gugunList(zip);
+		
+		return list;
+	}
+	@RequestMapping(value="/dong")
+	public @ResponseBody List<ZipDTO> dongAjax(HttpServletRequest request) throws UnsupportedEncodingException{
+		
+		String sido = URLDecoder.decode(request.getParameter("sido"), "UTF-8" );
+		String gugun = URLDecoder.decode(request.getParameter("gugun"), "UTF-8" );
+		String dong = URLDecoder.decode(request.getParameter("dong"), "UTF-8" );
+		
+		ZipDTO zip = new ZipDTO();
+		
+		zip.setSido(sido);
+		zip.setGugun(gugun);
+		zip.setDong(dong);
+		
+		List<ZipDTO> list = myPageService.dongList(zip);
+		
+		return list;
+	}
+	
+	
+	
 	
 	@RequestMapping(value="/pointZero",method = RequestMethod.GET)
 	public ModelAndView pointZeroGet(){
