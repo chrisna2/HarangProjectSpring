@@ -15,18 +15,31 @@ import org.springframework.util.FileCopyUtils;
 
 public class UploadBean {
 
-	//파일이름을 렌덤으로 생성
-	public String uploadFile(String originalName, String uploadPath, byte[] fileData) throws IOException{
+	//파일이름을 렌덤으로 생성 해서 저장 + 날짜별 디렉토리 변환 <!>입력 순서에 주의!<!> 요것만 있으면 파일 저장 가능!
+	public static String uploadFile(String uploadPath, String originalName, byte[] fileData) throws IOException{
 		
 		UUID uid =  UUID.randomUUID();
 		
 		String savedName = uid.toString()+"_"+originalName;
 		
-		File target = new File(uploadPath,savedName);
+		String savedPath = calcPath(uploadPath);
+		
+		File target = new File(uploadPath+savedPath,savedName);
 		
 		FileCopyUtils.copy(fileData,target);
 		
-		return savedName;
+		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
+		
+		String uploadedFileName = null;
+		
+		if(MediaUtil.getMediaType(formatName) != null){
+			uploadedFileName = makeThumbnail(uploadPath, savedPath, savedName);
+		}
+		else{
+			uploadedFileName = makeIcon(uploadPath, savedPath, savedName);
+		}
+		
+		return uploadedFileName;
 		
 	}
 	
@@ -41,7 +54,7 @@ public class UploadBean {
 
 		String datePath = monthPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.DATE));
 		
-		makeDir(uploadPath, yearPath,monthPath,datePath);
+		makeDir(uploadPath,yearPath,monthPath,datePath);
 		
 		return datePath;
 		
@@ -70,14 +83,27 @@ public class UploadBean {
 											 Scalr.Method.AUTOMATIC,
 											 Scalr.Mode.FIT_TO_HEIGHT,
 											 100);
-		
 		//-*-*-*-*-*-*-*-*-*
 		String thumbnailName = uploadPath + path + File.separator + "s_" + fileName;
 		//-*-*-*-*-*-*-*-*-*
 		
-		return null;
+		File newFile = new File(thumbnailName);
+		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+		
+		ImageIO.write(destImg, formatName.toUpperCase(), newFile);
 		
 		
+		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar,'/');
+		
+		
+	}
+	
+	//[이미지x] 이미지가 아닌 파일을 문자로 치환
+	private static String makeIcon(String uploadPath, String path, String fileName){
+		
+		String iconName = uploadPath + path + File.separator + fileName;
+		
+		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 	
 	

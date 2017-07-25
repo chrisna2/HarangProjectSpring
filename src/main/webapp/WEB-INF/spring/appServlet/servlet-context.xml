@@ -21,11 +21,12 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<!-- 파일 업로드 경로 지정.... -->
+	<!-- 파일 업로드 경로 지정....할 필요가 없다. 
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="c:\\harang\\upload\\">
+		<beans:constructor-arg value="">
 		</beans:constructor-arg>
 	</beans:bean>
+	-->
 	
 	<!-- 에디터에 사진 추가해주는 CKeditor Bean -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

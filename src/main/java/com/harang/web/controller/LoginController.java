@@ -42,7 +42,6 @@ public class LoginController {
 	@Autowired
 	private MyPageService myPageService;
 	
-	@Resource(name="uploadPath")
 	private String uploadPath;
 	
 	
@@ -146,15 +145,20 @@ public class LoginController {
 	
 	
 	@RequestMapping(value="/regform" ,method = RequestMethod.POST)
-	public ModelAndView regformPost(MemberDTO member, HttpSession session, MultipartFile file) throws IOException{
+	public ModelAndView regformPost(MemberDTO member, HttpSession session, HttpServletRequest request, MultipartFile file) throws IOException{
 		
-		//System.out.println("원래 파일 이름 : " + file.getOriginalFilename());
-		//System.out.println("파일 크기 : " + file.getSize());
-		//System.out.println("파일 타입 : " + file.getContentType());
 		
 		loginService.register(member);
 		
-		UploadBean upload = new UploadBean();
+		//파일업로드는 이제 이렇게 간단하게 가능하다.
+		//웹서버의 고정 경로 찾기 : 실제 도메인 관련
+			uploadPath = request.getSession().getServletContext().getRealPath("/");
+		//실제 파일 저장 메소드 호춯!
+			UploadBean.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+
+			
+		//System.out.println(uploadPath);
+		//현재 웹서버 저장 경로 : C:\NahyunKee\FrameWorkspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\HarangProjectSpring\
 		
 		ModelAndView mav = new ModelAndView("/login/loginPost");
 		
