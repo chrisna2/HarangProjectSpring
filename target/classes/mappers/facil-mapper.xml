@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.harang.mapper.facil-mapper">
+
+ 
+  	<select id="ReserPgList" resultType="PgMember">
+  		SELECT * FROM tbl_pg_member
+  	</select>
+  	
+  	<select id="ReserSrList" resultType="SrMember">
+  		SELECT * FROM tbl_sr_member
+  	</select>
+
+	<select id="aticketList" parameterType="SearchCriteria" resultType="FoodMember">
+		select f.f_title, f.f_selldate, f.f_point, count(fm.f_num) as fm_sellcount 
+		from tbl_food_member fm, tbl_food f 
+		where fm.f_num=f.f_num and fm.fm_isuse != 'return' 
+		<include refid="search"></include>
+		group by fm.f_num 
+		order by f.f_selldate desc 
+		limit #{pageStart}, #{perPageNum} 
+	</select>
+	
+	<sql id="search">
+		<if test="keyfield != null">
+			<if test="keyfield == 'f_selldate'.toString()">
+				and f.f_selldate like concat('%', #{keyword}, '%') 
+			</if>		
+			<if test="keyfield == 'f_title'.toString()">
+				and f.f_title like concat('%', #{keyword}, '%') 
+			</if>		
+			<if test="keyfield == 'f_point'.toString()">
+				and f.f_point like concat('%', #{keyword}, '%') 
+			</if>		
+			<if test="keyfield == 'fm_sellcount'.toString()">
+				and fm.fm_sellcount like concat('%', #{keyword}, '%') 
+			</if>		
+		</if>
+	</sql>	
+	
+	<select id="aticketCountPaging" resultType="int">
+		select count(distinct f.f_num) 
+		from tbl_food_member fm, tbl_food f 
+		where fm.f_num=f.f_num and fm.fm_isuse != 'return'; 
+	</select>
+  
+  </mapper>
