@@ -59,7 +59,6 @@
 		order by c.c_num desc 
 		limit #{pageStart}, #{perPageNum}
 	</select>  	
-  	
   	<sql id="spec_search">
   		<if test="keyfield != null">
   			<if test="keyfield == 'c_num'.toString()">
@@ -79,10 +78,15 @@
   	
   	<!-- 페이지 카운팅 -->
   	<select id="specListCount" resultType="int" parameterType="String">
-			select count(c.c_num) 
-			from tbl_certificate c left outer join tbl_certi_member cm on c.c_num = cm.c_num  and cm.m_id = #{m_id} 	
+		select count(c.c_num) 
+		from tbl_certificate c left outer join tbl_certi_member cm on c.c_num = cm.c_num  and cm.m_id = #{m_id} 	
   	</select>
   	
+  	<!-- 내 정보 수정 -->
+  	<select id="updateMyinfo" parameterType="Member">
+  		UPDATE tbl_member SET m_mail = #{m_mail}, m_addr = #{m_addr}, m_tel = #{m_tel}, m_photo = #{m_photo} 
+  		WHERE m_id = #{m_id}
+  	</select>
   	<!-- 주소목록 : 시의 목록 출력 -->
   	<select id="sidoList" resultType="zip">
   		SELECT sido FROM tbl_zip group by sido
@@ -97,6 +101,51 @@
   		where sido = #{sido} and gugun = #{gugun} 
   		and dong like concat('%', #{dong}, '%') group by dong 
   	</select>  	
+  	
+  	<!-- 도전에 등록한 목록 출력 -->
+  	<select id="achallengeList" resultType="CertiMember" parameterType="SearchCriteria">
+  		SELECT m.m_id, m.m_name, m.m_dept, c.c_name, c.c_point, cm.cm_regdate, 
+		cm.cm_image, cm.cm_iscomplete, cm.cm_completedate, cm.c_num 
+		from tbl_certificate c, tbl_certi_member cm, tbl_member m 
+		where c.c_num = cm.c_num and cm.m_id = m.m_id 
+		<include refid="challenge_search"></include> 
+		order by cm.cm_regdate desc 
+		limit #{pageStart}, #{perPageNum}
+  	</select>
+  	<!-- 검색  -->
+  	<sql id="challenge_search">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'm_id'.toString()">
+  				and m.m_id like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'm_name'.toString()">
+  				and m.m_name like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'm_dept'.toString()">
+  				and m.m_dept like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'c_name'.toString()">
+  				and c.c_name like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'c_point'.toString()">
+  				and c.c_point like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'cm_regdate'.toString()">
+  				and cm.cm_regdate like concat('%', #{keyword}, '%')
+  			</if>
+  		</if>
+  	</sql>
+  	<!-- 도전리스트 페이징 총수 -->
+  	<select id="achallengePage" resultType="int">
+  		SELECT count(*) from tbl_certificate c, tbl_certi_member cm, tbl_member m 
+		where c.c_num = cm.c_num and cm.m_id = m.m_id 
+  	</select>
+  	
+  	<!-- 학비 포인트 감면 -->
+  	<update id="pointZero" parameterType="Record">
+  		UPDATE tbl_member SET m_fee = m_fee - #{r_point} WHERE m_id = #{m_giver}
+  	</update>
+  	
   	
   
   </mapper>

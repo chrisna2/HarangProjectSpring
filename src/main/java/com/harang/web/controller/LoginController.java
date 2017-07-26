@@ -147,17 +147,17 @@ public class LoginController {
 	@RequestMapping(value="/regform" ,method = RequestMethod.POST)
 	public ModelAndView regformPost(MemberDTO member, HttpSession session, HttpServletRequest request, MultipartFile file) throws IOException{
 		
-		
-		loginService.register(member);
-		
 		//파일업로드는 이제 이렇게 간단하게 가능하다.
 		//웹서버의 고정 경로 찾기 : 실제 도메인 관련
-			uploadPath = request.getSession().getServletContext().getRealPath("/");
+		uploadPath = request.getSession().getServletContext().getRealPath("/");
 		//실제 파일 저장 메소드 호춯!
-			UploadBean.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-
+		String uploadedFileName = UploadBean.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+		
+		member.setM_photo(uploadedFileName);
+		
+		loginService.register(member);
 			
-		//System.out.println(uploadPath);
+		System.out.println(uploadedFileName);
 		//현재 웹서버 저장 경로 : C:\NahyunKee\FrameWorkspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\HarangProjectSpring\
 		
 		ModelAndView mav = new ModelAndView("/login/loginPost");

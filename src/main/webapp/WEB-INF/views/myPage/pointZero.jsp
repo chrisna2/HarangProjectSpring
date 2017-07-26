@@ -6,6 +6,16 @@
 <!-- 페이지 헤드 라인 : 제목 -->
 <head>
      <title>학비 포인트 제로!</title>
+     <c:if test="${result eq 'complete'}">
+     	<script type="text/javascript">
+     		alert("해당 포인트로  학비가 감면 되었습니다.");
+     	</script>
+     </c:if>
+     <c:if test="${result eq 'overpoint'}">
+     	<script type="text/javascript">
+     		alert("보유 포인트 보다 많은 포인트를 입력 하셨습니다. 다시 입력 해 주세요.");
+     	</script>
+     </c:if>
 </head>
 	  <!-- 메인 페이지 구역 , 즉 작업 구역 -->
       <div class="content-wrapper">
@@ -49,7 +59,7 @@
                 </div>
                 
                 <!-- form 시작 -->
-                <form role="form" action="/HarangProject/myPage?cmd=pointZero" method="post">
+                <form role="form" action="/myPage/pointZero" method="post">
                 
                 <div class="box-body">
                   <div class="input-group">

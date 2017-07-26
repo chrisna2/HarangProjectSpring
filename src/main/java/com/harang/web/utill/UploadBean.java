@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 public class UploadBean {
 
@@ -105,6 +106,7 @@ public class UploadBean {
 		
 		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
+	
 	
 	
 	

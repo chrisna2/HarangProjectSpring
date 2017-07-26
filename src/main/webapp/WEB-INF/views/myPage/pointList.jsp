@@ -100,7 +100,7 @@
                     </c:if>
                     </ul>
                     <!-- 검색 폼 -->    
-                    <form action="/myPage/pointList" name="search" method="get">
+                    <form action="/myPage/pointList" name="search" method="post">
                       <div class="input-group">
                           <select name="keyfield" class="form-control input-sm pull-left" style="width: 150px;">
                             <option value="r_regdate" ${keyfield eq 'r_regdate' ? 'selected' : null }>거래 날짜</option>

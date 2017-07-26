@@ -34,6 +34,10 @@
 		<beans:property name="maxUploadSize" value="10485760"></beans:property>
 	</beans:bean>
 	
+	<!-- 실험 1 -->
+	<beans:bean id="loginInterceptor" class="com.harang.web.Interceptor.LoginInterceptor">
+	</beans:bean>
+	
 	<beans:bean id="refreshInterceptor" class="com.harang.web.Interceptor.RefreshInterceptor">
 	</beans:bean>
 	

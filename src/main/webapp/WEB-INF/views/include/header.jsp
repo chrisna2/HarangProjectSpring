@@ -150,13 +150,13 @@
               <!--개 인 정 보 요약 형태 -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="${member.m_photo}" class="user-image" alt="User Image"/>
+                  <img src="/displayFile?fileName=${member.m_photo}" class="user-image" alt="User Image"/>
                   <span class="hidden-xs">${member.m_name } -  ${member.m_dept }</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- 회원 사진 -->
                   <li class="user-header">
-                    <img src="${member.m_photo}" class="img-circle" alt="User Image" />
+                    <img src="/displayFile?fileName=${member.m_photo}" class="img-circle" alt="User Image" />
                     <p>
                         ${member.m_name } - ${member.m_dept }
                       <small>Member since ${member.m_regdate }</small>
