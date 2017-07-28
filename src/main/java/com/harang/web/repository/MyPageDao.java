@@ -20,10 +20,13 @@ public interface MyPageDao {
 	public int pointPagingNum(String m_id);
 	
 	//스펙리스트 페이지 관련
-	public List<CertiMemberDTO> specListMember(SearchCriteria cri);
-	public int specListCount(String m_id);
 	public List<CertiMemberDTO> achallengeList(SearchCriteria cri);
 	public int achallengePage();
+	public List<CertiMemberDTO> uchallengeList(SearchCriteria cri);
+	public int uchallengePage(String m_id);	
+	public void uchallenge_challenge(CertiMemberDTO certi);
+	public void uchallenge_rechallenge(CertiMemberDTO certi);
+	
 	
 	public List<LessonDTO> defaultTimeTable(LessonDTO lesson);
 	

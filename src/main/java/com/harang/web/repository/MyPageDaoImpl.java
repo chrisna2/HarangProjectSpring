@@ -41,20 +41,10 @@ public class MyPageDaoImpl implements MyPageDao {
 	}
 
 	
-	//여기서 시작//
-	@Override
-	public List<CertiMemberDTO> specListMember(SearchCriteria cri) {
-		return null;
-	}
-	@Override
-	public int specListCount(String m_id) {
-		return 0;
-	}
+	//스펙업!
 	//[관리자] 자격증 등록 신청 정보 확인
 	@Override
 	public List<CertiMemberDTO> achallengeList(SearchCriteria cri) {
-		System.out.println(cri.getKeyfield());
-		System.out.println(cri.getKeyword());
 		return sqlSession.selectList(namespace+".achallengeList", cri);
 	}
 	//[관리자] 자격증 등록 신청 정보 패이징 총수
@@ -62,6 +52,27 @@ public class MyPageDaoImpl implements MyPageDao {
 	public int achallengePage() {
 		return sqlSession.selectOne(namespace+".achallengePage");
 	}
+	//[회원] 자격증 등록 및 신청 확인
+	@Override
+	public List<CertiMemberDTO> uchallengeList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".uchallengeList", cri);
+	}
+	//[회원] 자격증 등록 및 신청 확인 페이징
+	@Override
+	public int uchallengePage(String m_id) {
+		return sqlSession.selectOne(namespace+".uchallengePage", m_id);
+	}
+	//[회원] 스펙 등록 도전
+	@Override
+	public void uchallenge_challenge(CertiMemberDTO certi) {
+		sqlSession.insert(namespace+".uchallenge_challenge", certi);
+	}
+	//[회원] 스펙 등록 재도전
+	@Override
+	public void uchallenge_rechallenge(CertiMemberDTO certi) {
+		sqlSession.update(namespace+".uchallenge_rechallenge", certi);
+	}
+	
 	
 	
 	// 주소 검색  Dao
@@ -91,7 +102,6 @@ public class MyPageDaoImpl implements MyPageDao {
 		return sqlSession.update(namespace+".pointZero",record);
 		
 	}
-	
 	
 
 

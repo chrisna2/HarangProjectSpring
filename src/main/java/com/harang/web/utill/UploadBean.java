@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr;
+import org.springframework.http.MediaType;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,9 +20,13 @@ public class UploadBean {
 	//파일이름을 렌덤으로 생성 해서 저장 + 날짜별 디렉토리 변환 <!>입력 순서에 주의!<!> 요것만 있으면 파일 저장 가능!
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileData) throws IOException{
 		
+		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
+
+		//파일이름을 랜덤으로 생성해버리고 한글은 사용 못하게 만듬
 		UUID uid =  UUID.randomUUID();
-		
-		String savedName = uid.toString()+"_"+originalName;
+		//한글 문제로 인해 원래 파일의 이름은 없에기로함
+		//String savedName = uid.toString()+"_"+originalName;
+		String savedName = uid.toString()+"."+formatName;
 		
 		String savedPath = calcPath(uploadPath);
 		
@@ -29,11 +34,13 @@ public class UploadBean {
 		
 		FileCopyUtils.copy(fileData,target);
 		
-		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
 		
 		String uploadedFileName = null;
 		
 		if(MediaUtil.getMediaType(formatName) != null){
+			//사진일 경우 현제 섬네일 이미지로 저장되어 보여짐
+			//선택 1] 클릭을 해서 이미지를 크게 할수 있을 것인가? -> 내일 도전! 2017-07-28
+			//선택 2] 그냥 아예 처음부터 큰 이미지를 띄울 것인가? -> makeIcon() 사용하면 해결됨. 
 			uploadedFileName = makeThumbnail(uploadPath, savedPath, savedName);
 		}
 		else{
@@ -41,6 +48,22 @@ public class UploadBean {
 		}
 		
 		return uploadedFileName;
+		
+	}
+	
+	public static void deleteFile(String filename, String uploadPath){
+		
+		//이전 파일 삭제
+		String beforeFileName = filename;
+		String formatName = beforeFileName.substring(beforeFileName.lastIndexOf(".")+1);
+		MediaType mtType = MediaUtil.getMediaType(formatName);
+		
+		if(mtType != null){
+			String front = beforeFileName.substring(0, 12);
+			String end = beforeFileName.substring(14);
+			new File(uploadPath+(front+end).replace('/', File.separatorChar)).delete();
+		}
+		new File(uploadPath + beforeFileName.replace('/', File.separatorChar)).delete();
 		
 	}
 	
@@ -106,6 +129,8 @@ public class UploadBean {
 		
 		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
+	
+	
 	
 	
 	

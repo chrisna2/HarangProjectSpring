@@ -44,7 +44,7 @@
 							</div>
 						</div>
 						<!-- form 시작 -->
-						<form role="form2" name="challenge" action="/HarangProject/myPage?cmd=specUp_proc" onsubmit="return checkform()" method="post" enctype="multipart/form-data">
+						<form role="form2" name="challenge" action="/myPage/specUpProc" onsubmit="return checkform()" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="m_id" value="${member.m_id}">
  							<div class="box-body">
 								<div class="input-group">
@@ -80,10 +80,11 @@
 									   <i class="fa fa-file-text"></i> 자격증명서
 								    </span> 
 								    <span class="input-group-addon"> 
-								        <input type="file" id="imgInp" name="upFile" required="required">
+								        <input type="file" id="imgInp" name="file" required="required">
 									</span> 
 									<span class="input-group-addon bg-gray"> 
 									   <img src="#" id="local" class="img-responsive" alt="User Image" />
+									   <input type="hidden" id="cm_image" name="cm_image" value="">
 									</span>
 								</div>
 								<br>
@@ -242,8 +243,7 @@
                         <div class="box-tools">
                             <div class="input-group">
 
-                                <form action="/HarangProject/myPage?cmd=specUp" name="search"
-                                    method="post">
+                                <form action="/myPage/specUp" name="search" method="post">
                                     <input type="text" name="keyword"
                                         class="form-control input-sm pull-right" style="width: 150px;"
                                         placeholder="Search" /> 
@@ -280,13 +280,12 @@
                                     <c:when test="${fn:length(aspeclist) eq 0}">
                                     </c:when>
                                     <c:otherwise>
-                                        <c:forEach var="aspec" items="${requestScope.aspeclist}"
-                                            begin="${paging.beginPerPage}" end="${paging.beginPerPage + paging.numPerPage -1}">
+                                        <c:forEach var="aspec" items="${requestScope.aspeclist}">
                                             <tr>
                                                 <td>${aspec.c_num}</td>
                                                 <td id="name${aspec.c_num}">${aspec.c_name }</td>
                                                 <td id="agency${aspec.c_num}">${aspec.c_agency}</td>
-                                                <td id="point${aspec.c_num}">${aspec.c_point}P</td>
+                                                <td id="point${aspec.c_num}">${aspec.c_point}</td><!-- 숫자가 들어 가야 하는 자리에 P가 있었음... -->
                                                   <c:if test="${aspec.cm_iscomplete eq 'none'}">
                                                      <td>
                                                         <input type="hidden" id="image${aspec.c_num}" value="${aspec.cm_image}">
@@ -317,21 +316,23 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <c:if test="${paging.nowBlock > 0}">
-                                <li><a href="javascript:prevPage()">&laquo;</a></li>
-                            </c:if>
-                            <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-                                    <!-- if문 추가 : 20170615 -->
-                                    <c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-                                    <li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-                                    </c:if>
-                                    <!-- 끝 -->
-                            </c:forEach>
-                            <c:if test="${paging.totalBlock > paging.nowBlock +1}">
-                                <li><a href="javascript:nextPage()">&raquo;</a></li>
-                            </c:if>
-                        </ul>
+                     <ul class="pagination pagination-sm no-margin pull-right">
+						<c:if test="${pageMaker.prev}">
+	                            <li><a href="/myPage/specUp${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+	                    </c:if>
+	                    <c:forEach begin="${pageMaker.startPage}" 
+	                    		   end="${pageMaker.endPage}" 
+	                               var="idx">
+	                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+	                          		<a href="/myPage/specUp?page=${idx}">
+	                          			${idx}
+	                        	   	</a>
+	                             </li>
+	                   	</c:forEach>
+	                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+	                      <li><a href="/myPage/specUp${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+	                    </c:if>
+                    </ul>
                     </div>
                 </div>
                 <!-- /.box -->
@@ -345,45 +346,17 @@
 	<!------------------------------------------------------------------------------------------------------------------->
 </div>
 <!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<!-- 페이징 관련 폼 ----------------------------------------------------------------------->
-<!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post"
-	action="/HarangProject/myPage?cmd=specUp">
-	<input type="hidden" name="nowPage"
-		value="${paging.pagePerBlock * (paging.nowBlock-1)}" /> <input
-		type="hidden" name="nowBlock" value="${paging.nowBlock-1}" />
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post"
-	action="/HarangProject/myPage?cmd=specUp">
-	<input type="hidden" name="nowPage"
-		value="${paging.pagePerBlock * (paging.nowBlock+1)}" /> <input
-		type="hidden" name="nowBlock" value="${paging.nowBlock+1}" />
-</form>
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post"
-	action="/HarangProject/myPage?cmd=specUp">
-	<input type="hidden" name="nowPage" value="" id="page" /> <input
-		type="hidden" name="nowBlock" value="${paging.nowBlock}" />
-</form>
-
-<!-- 페이징 관련 폼 여기까지입니다. ----------------------------------------------------------------------------------- -->
-
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------>
 <%@ include file="../include/footer.jsp"%>
 <script>
 	///////////////// 페이지 관련 javascript function////////////////////
     function checkform(){
-        
         var challenge =
              confirm("해당 자격증을 올리시 겠습니까? \n 해당 자격증을 심사하는 기간은 \n 최소 일주일, 최대 2주일 정도가 소요 됩니다.");
-
         if(challange){
-           	return true;
-            }
+           	return true;}
         else{
-            return false;
-            }
+            return false;}
     }
 	function prevPage() {
 		document.getElementById("prevPage").submit();
@@ -431,6 +404,9 @@
         challenge.c_name.value = $("#name"+num).text();
         challenge.c_point.value = $("#point"+num).text();
         challenge.c_agency.value = $("#agency"+num).text();
+        var $image = $("#image"+num).val();
+        challenge.cm_image.value = $image;
+	    $("#local").attr("src", "/displayFile?fileName="+$image);
     }
 	$("#challenge-close").click(function(){
 		$("#challenge-box").slideUp();		
@@ -446,7 +422,7 @@
 	    checkIt.c_agency.value = $("#agency"+num).text();
 	    checkIt.cm_completedate.value = $("#comdate"+num).text();
 	    var $image = $("#image"+num).val();
-	    $("#checkimg").attr("src", $image); 
+	    $("#checkimg").attr("src", "/displayFile?fileName="+$image); 
 	}
 	$("#check-close").click(function(){
 		$("#check-box").slideUp();
@@ -462,7 +438,7 @@
 	    waitIt.c_agency.value = $("#agency"+num).text();
 	    waitIt.cm_regdate.value = $("#regdate"+num).text();
 	    var $image = $("#image"+num).val();
-	    $("#waitimg").attr("src", $image); 
+	    $("#waitimg").attr("src", "/displayFile?fileName="+$image); 
 	}
 	$("#wait-close").click(function(){
         $("#wait-box").slideUp();

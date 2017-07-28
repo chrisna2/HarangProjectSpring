@@ -45,7 +45,7 @@ public class UtillController {
 				fileName=fileName.substring(fileName.indexOf('_')+1);
 				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 				headers.add("Content-Disposition", "attachment;filename=\""+
-						new String(fileName.getBytes("UTP-8"),"ISO-8859-1")+"\"");
+						new String(fileName.getBytes("UTP-8"),"UTF-8")+"\"");
 			}
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),
 					headers,HttpStatus.CREATED);

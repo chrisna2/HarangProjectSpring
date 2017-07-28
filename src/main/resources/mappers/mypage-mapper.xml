@@ -102,18 +102,44 @@
   		and dong like concat('%', #{dong}, '%') group by dong 
   	</select>  	
   	
+  	<!-- 학비 포인트 감면 -->
+  	<update id="pointZero" parameterType="Record">
+  		UPDATE tbl_member SET m_fee = m_fee - #{r_point} WHERE m_id = #{m_giver}
+  	</update>
+  	
+  	
   	<!-- 도전에 등록한 목록 출력 -->
   	<select id="achallengeList" resultType="CertiMember" parameterType="SearchCriteria">
   		SELECT m.m_id, m.m_name, m.m_dept, c.c_name, c.c_point, cm.cm_regdate, 
 		cm.cm_image, cm.cm_iscomplete, cm.cm_completedate, cm.c_num 
 		from tbl_certificate c, tbl_certi_member cm, tbl_member m 
 		where c.c_num = cm.c_num and cm.m_id = m.m_id 
-		<include refid="challenge_search"></include> 
+		<include refid="achallenge_search"></include> 
 		order by cm.cm_regdate desc 
 		limit #{pageStart}, #{perPageNum}
   	</select>
+  	<!-- 도전리스트 페이징 총수 -->
+  	<select id="achallengePage" resultType="int">
+  		SELECT count(*) from tbl_certificate c, tbl_certi_member cm, tbl_member m 
+		where c.c_num = cm.c_num and cm.m_id = m.m_id 
+  	</select>
+  	<!-- [회원] 스펙업 리스트 결과 조회 -->
+  	<select id="uchallengeList" resultType="CertiMember" parameterType="SearchCriteria">
+  		select c.c_num, c.c_name, c.c_agency, c.c_point, cm.cm_iscomplete, cm.cm_completedate, cm.cm_regdate, cm.cm_image 
+		from tbl_certificate c left outer join tbl_certi_member cm on c.c_num = cm.c_num 
+		and cm.m_id = #{m_id} 
+  		<include refid="uchallenge_search"></include>
+  		order by cm.cm_regdate desc 
+		limit #{pageStart}, #{perPageNum}
+  	</select>
+  	<!-- [회원] 스펙업 리스트 페이징 -->
+  	<select id="uchallengePage" resultType="int" parameterType="SearchCriteria">
+  		select count(c.c_num) 
+		from tbl_certificate c left outer join tbl_certi_member cm on c.c_num = cm.c_num 
+		and cm.m_id = #{m_id};
+  	</select>
   	<!-- 검색  -->
-  	<sql id="challenge_search">
+  	<sql id="achallenge_search">
   		<if test="keyfield != null">
   			<if test="keyfield == 'm_id'.toString()">
   				and m.m_id like concat('%', #{keyword}, '%') 
@@ -135,18 +161,32 @@
   			</if>
   		</if>
   	</sql>
-  	<!-- 도전리스트 페이징 총수 -->
-  	<select id="achallengePage" resultType="int">
-  		SELECT count(*) from tbl_certificate c, tbl_certi_member cm, tbl_member m 
-		where c.c_num = cm.c_num and cm.m_id = m.m_id 
-  	</select>
-  	
-  	<!-- 학비 포인트 감면 -->
-  	<update id="pointZero" parameterType="Record">
-  		UPDATE tbl_member SET m_fee = m_fee - #{r_point} WHERE m_id = #{m_giver}
-  	</update>
-  	
-  	
+  	<sql id="uchallenge_search">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'c_name'.toString()">
+  				where c.c_name like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'c_agency'.toString()">
+  				where c.c_agency like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'c_point'.toString()">
+  				where c.c_point like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'cm_regdate'.toString()">
+  				where cm.cm_regdate like concat('%', #{keyword}, '%')
+  			</if>
+  		</if>
+  	</sql>
+  	<!-- [회원] 스펙 등록 -->
+  	<insert id="uchallenge_challenge" parameterType="CertiMember">
+  		INSERT INTO  tbl_certi_member (c_num, m_id, cm_iscomplete, cm_image) 
+  		VALUES (#{c_num}, #{m_id}, 'none', #{cm_image})
+	</insert>
+	<!-- [회원] 스팩 재등록 --> 
+	<update id="uchallenge_rechallenge" parameterType="CertiMember">
+		UPDATE tbl_certi_member SET cm_iscomplete='none', cm_completedate=NULL, cm_image= #{cm_image} 
+		WHERE c_num=#{c_num} and m_id=#{m_id}
+	</update> 	
   
   </mapper>
     

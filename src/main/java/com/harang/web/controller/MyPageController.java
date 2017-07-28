@@ -1,5 +1,6 @@
 package com.harang.web.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +31,7 @@ import com.harang.web.domain.ZipDTO;
 import com.harang.web.service.MyPageService;
 import com.harang.web.service.PointService;
 import com.harang.web.utill.LoginBean;
+import com.harang.web.utill.MediaUtil;
 import com.harang.web.utill.PageMaker;
 import com.harang.web.utill.PagingBean;
 import com.harang.web.utill.UploadBean;
@@ -54,16 +58,24 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value="/myInfo",method = RequestMethod.POST)
-	public ModelAndView myinfoPost(MemberDTO member, HttpSession session, HttpServletRequest request, MultipartFile file) throws IOException{
+	public ModelAndView myinfoPost(MemberDTO member, HttpServletRequest request, MultipartFile file) throws IOException{
 		
 		String uploadPath = request.getSession().getServletContext().getRealPath("/");
-		//실제 파일 저장 메소드 호춯!
-		String uploadedFileName = UploadBean.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-		member.setM_photo(uploadedFileName);
 		
-		System.out.println(uploadedFileName);
-		//일단 사진 저장...
+		//파일의 값이 있으면
+		if(!"".equals(file.getOriginalFilename())){
+			
+			if(!"".equals(member.getM_photo())||null!=member.getM_photo()){
+				//이전 파일 삭제
+				UploadBean.deleteFile(member.getM_photo(), uploadPath);
+			}
 		
+			//새로운 파일 저장
+			String uploadedFileName = UploadBean.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+			member.setM_photo(uploadedFileName);
+		}
+		
+		//반대로 파일의 값이 없으면 그냥 히든으로 숨긴 파일 경로를 저장 한다.
 		myPageService.updateMyinfo(member);
 		
 		mav = new ModelAndView("/myPage/myInfo");
@@ -213,15 +225,7 @@ public class MyPageController {
 		
 		return mav;
 	}
-	
-	@RequestMapping(value="/specUp",method = RequestMethod.GET)
-	public ModelAndView specUpGet(){
-		
-		mav = new ModelAndView("myPage/specUp");
-		
-		return mav;
-	}
-	
+
 	@RequestMapping(value="/AmemList",method = RequestMethod.GET)
 	public ModelAndView amemListGet(){
 		
@@ -241,10 +245,6 @@ public class MyPageController {
 	@RequestMapping(value="/Achallenge",method = RequestMethod.GET)
 	public ModelAndView achallengeGet(SearchCriteria cri){
 		
-		//System.out.println(cri.getPageStart());
-		//System.out.println(cri.getPerPageNum());
-		//System.err.println(cri.getKeyfield());
-		
 		List<CertiMemberDTO> list = myPageService.achallengeList(cri);
 		
 		pageMaker = new PageMaker();
@@ -263,10 +263,6 @@ public class MyPageController {
 	@RequestMapping(value="/Achallenge",method = RequestMethod.POST)
 	public ModelAndView achallengePost(SearchCriteria cri){
 		
-		//System.out.println(cri.getPageStart());
-		//System.out.println(cri.getPerPageNum());
-		//System.err.println(cri.getKeyfield());
-		
 		List<CertiMemberDTO> list = myPageService.achallengeList(cri);
 		
 		pageMaker = new PageMaker();
@@ -281,6 +277,86 @@ public class MyPageController {
 		
 		return mav;
 	}
+	
+	@RequestMapping(value="/specUp",method = RequestMethod.GET)
+	public ModelAndView specUpGet(SearchCriteria cri, HttpServletRequest req){
+	
+		//이전 꺼 활용
+		LoginBean login = new LoginBean();
+		MemberDTO member = login.getLoginInfo(req);
+		cri.setM_id(member.getM_id());
+		
+		List<CertiMemberDTO> list = myPageService.uchallengeList(cri);
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.uchallengePage(member.getM_id()));
+		
+		mav = new ModelAndView("myPage/specUp");
+		
+		mav.addObject("aspeclist", list);
+		mav.addObject("pageMaker", pageMaker);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/specUp",method = RequestMethod.POST)
+	public ModelAndView specUpPost(SearchCriteria cri, HttpServletRequest req){
+		
+		//이전 꺼 활용
+		LoginBean login = new LoginBean();
+		MemberDTO member = login.getLoginInfo(req);
+		cri.setM_id(member.getM_id());
+		
+		List<CertiMemberDTO> list = myPageService.uchallengeList(cri);
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.uchallengePage(member.getM_id()));
+		
+		mav = new ModelAndView("myPage/specUp");
+		
+		mav.addObject("aspeclist", list);
+		mav.addObject("pageMaker", pageMaker);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/specUpProc", method = RequestMethod.POST)
+	public ModelAndView specUpProcPost(CertiMemberDTO certi, HttpServletRequest request, MultipartFile file) throws IOException{
+		
+		
+		String uploadPath = request.getSession().getServletContext().getRealPath("/");
+		
+		//파일의 값이 있으면
+		if(!"".equals(file.getOriginalFilename())){
+			if(!"".equals(certi.getCm_image())||null!=certi.getCm_image()){
+				//이전 파일 삭제
+				UploadBean.deleteFile(certi.getCm_image(), uploadPath);
+			}
+			//새로운 파일 저장
+			String uploadedFileName = 
+					UploadBean.uploadFile(uploadPath, 
+							file.getOriginalFilename(), file.getBytes());
+			certi.setCm_image(uploadedFileName);
+		}
+		
+		String check = request.getParameter("check");
+		
+		if(check.equals("insert")){
+			
+			myPageService.uchallenge_challenge(certi);
+			
+		}else if(check.equals("update")){
+		
+			myPageService.uchallenge_rechallenge(certi);
+		}
+		
+		
+		mav = new ModelAndView("redirect:/myPage/specUp");
+		return mav;
+	}
+	
 	
 	@RequestMapping(value="/Alesson",method = RequestMethod.GET)
 	public ModelAndView alessonGet(){

@@ -54,28 +54,34 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<ZipDTO> dongList(ZipDTO zip) {
 		return myPageDao.dongList(zip);
 	}
-
 	
 	
-	@Override
-	public List<CertiMemberDTO> specListMember(SearchCriteria cri) {
-		return null;
-	}
-
-	@Override
-	public int specListCount(String m_id) {
-		return 0;
-	}
-
+	//스펙업
 	@Override
 	public List<CertiMemberDTO> achallengeList(SearchCriteria cri) {
 		return myPageDao.achallengeList(cri);
 	}
-
 	@Override
 	public int achallengePage() {
 		return myPageDao.achallengePage();
 	}
+	@Override
+	public List<CertiMemberDTO> uchallengeList(SearchCriteria cri) {
+		return myPageDao.uchallengeList(cri);
+	}
+	@Override
+	public int uchallengePage(String m_id) {
+		return myPageDao.uchallengePage(m_id);
+	}
+	@Override
+	public void uchallenge_challenge(CertiMemberDTO certi) {
+		myPageDao.uchallenge_challenge(certi);
+	}
+	@Override
+	public void uchallenge_rechallenge(CertiMemberDTO certi) {
+		myPageDao.uchallenge_rechallenge(certi);
+	}
+	
 
 	//내 정보 수정
 	@Override
@@ -94,5 +100,7 @@ public class MyPageServiceImpl implements MyPageService {
 		
 		return myPageDao.pointZero(record);
 	}
+
+
 
 }
