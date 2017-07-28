@@ -193,7 +193,7 @@ td {
 											<td><fmt:formatDate value="${bblist.bb_regdate}"
 													pattern="yyyy-MM-dd" /></td>
 											<td>${bblist.bb_nickname}</td>
-											<td><a href="#">${bbNList.bb_title}</a></td>
+											<td><a href="#">${bblist.bb_title}</a></td>
 											<td>${bblist.bb_count}</td>
 											<td>${bblist.like_cnt}</td>
 
