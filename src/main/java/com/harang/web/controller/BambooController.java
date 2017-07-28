@@ -61,7 +61,7 @@ public class BambooController {
 		
 	}
 	
-	/*@RequestMapping(value = "/BB_CON", method = RequestMethod.GET)
+	@RequestMapping(value = "/BB_CON", method = RequestMethod.GET)
 	public ModelAndView bambooContentGet(HttpServletRequest req, String bb_num){
 		
 		HttpSession session = req.getSession();
@@ -91,7 +91,7 @@ public class BambooController {
 		
 		
 		return null;
-	}*/
+	}
 	
 	
 	
