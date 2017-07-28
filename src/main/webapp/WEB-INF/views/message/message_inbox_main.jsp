@@ -60,10 +60,12 @@
 									</tr>
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${list}" var="list" 
+									<c:forEach items="${list}" var="list" >
+											   <!-- 
 											   begin="${paging.beginPerPage}" 
 											   end="${paging.beginPerPage + paging.numPerPage -1}" 
-											   varStatus="status">
+											    -->
+											   
 										<tr>
 				                          <td><input type="checkbox" value="${list.t_num}"/></td>
 				                          <td>${list.list_num}</td>
@@ -89,7 +91,7 @@
                 </div><!-- /.box-body -->
                 
                 <div class="box-footer no-padding">
-                  <%@ include file="message_paging.jsp" %>
+                  <!-- <%@ include file="message_paging.jsp" %>  -->
                 </div>
               </div><!-- /. box -->
               </div><!-- /.col -->

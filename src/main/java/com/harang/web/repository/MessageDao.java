@@ -8,7 +8,7 @@ import com.harang.web.domain.SearchCriteria;
 
 public interface MessageDao {
 	public MemberDTO getMember(String m_id);
-	public List<String> getMember_id(MemberDTO member);
+	public List<String> getMember_id(String m_name);
 	public void postMessage(MessageDTO message);
 	public List<MessageDTO> getGivenMessageList(String m_id);
 	public List<MessageDTO> getSentMessageList(String m_id);

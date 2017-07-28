@@ -1,5 +1,6 @@
 package com.harang.web.repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,7 +27,7 @@ public class ParttimeDaoImpl implements ParttimeDao {
 	}
 
 	@Override
-	public List<ParttimeDTO> getMyParttimeList(Object params) {
+	public List<ParttimeDTO> getMyParttimeList(HashMap<String, Object> params) {
 		// params : m_id, searchCriteria
 		return sqlSession.selectList(namespace+".getMyParttimeList", params);
 	}
@@ -37,7 +38,7 @@ public class ParttimeDaoImpl implements ParttimeDao {
 	}
 
 	@Override
-	public List<DaetaDTO> getMyDaetaList(Object params) {
+	public List<DaetaDTO> getMyDaetaList(HashMap<String, Object> params) {
 		return sqlSession.selectList(namespace+".getMyDaetaList", params);
 	}
 
@@ -117,42 +118,42 @@ public class ParttimeDaoImpl implements ParttimeDao {
 	}
 
 	@Override
-	public List<P_ApplyDTO> getMyParttimeApplyList(Object params) {
+	public List<P_ApplyDTO> getMyParttimeApplyList(HashMap<String, Object> params) {
 		return sqlSession.selectList(namespace+".getDaetaApplyList", params);
 	}
 
 	@Override
-	public List<D_ApplyDTO> getMyDaetaApplyList(Object params) {
+	public List<D_ApplyDTO> getMyDaetaApplyList(HashMap<String, Object> params) {
 		return sqlSession.selectList(namespace+".getDaetaApplyList", params);
 	}
 
 	@Override
-	public P_ApplyDTO getParttimeApply(String p_num) {
-		return (P_ApplyDTO) sqlSession.selectList(namespace+".getParttimeApply", p_num);
+	public P_ApplyDTO getParttimeApply(HashMap<String, Object> params) {
+		return (P_ApplyDTO) sqlSession.selectList(namespace+".getParttimeApply", params);
 	}
 
 	@Override
-	public D_ApplyDTO getDaetaApply(String d_num) {
-		return (D_ApplyDTO) sqlSession.selectList(namespace+".getDaetaApply", d_num);
+	public D_ApplyDTO getDaetaApply(HashMap<String, Object> params) {
+		return (D_ApplyDTO) sqlSession.selectList(namespace+".getDaetaApply", params);
 	}
 
 	@Override
-	public void updateParttimeChoice(Object params) {
+	public void updateParttimeChoice(HashMap<String, Object> params) {
 		sqlSession.update(namespace+".updateParttimeChoice", params);
 	}
 
 	@Override
-	public void updateDaetaChoice(Object params) {
+	public void updateDaetaChoice(HashMap<String, Object> params) {
 		sqlSession.update(namespace+".updateDaetaChoice", params);
 	}
 
 	@Override
-	public void deleteParttimeApply(Object params) {
+	public void deleteParttimeApply(HashMap<String, Object> params) {
 		sqlSession.delete(namespace+".deleteParttimeApply", params);
 	}
 
 	@Override
-	public void deleteDaetaApply(Object params) {
+	public void deleteDaetaApply(HashMap<String, Object> params) {
 		sqlSession.delete(namespace+".deleteDaetaApply", params);
 	}
 

@@ -1,5 +1,6 @@
 package com.harang.web.repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.harang.web.domain.D_ApplyDTO;
@@ -11,9 +12,9 @@ import com.harang.web.domain.SearchCriteria;
 
 public interface ParttimeDao {
 	public List<ParttimeDTO> getParttimeList(SearchCriteria cri);
-	public List<ParttimeDTO> getMyParttimeList(Object params);
+	public List<ParttimeDTO> getMyParttimeList(HashMap<String, Object> params);
 	public List<DaetaDTO> getDaetaList(SearchCriteria cri);
-	public List<DaetaDTO> getMyDaetaList(Object params);
+	public List<DaetaDTO> getMyDaetaList(HashMap<String, Object> params);
 	public int getParttimeCnt_apply(String p_num);
 	public int getDaetaCnt_apply(String d_num);
 	public ParttimeDTO getParttime(String p_num);
@@ -29,14 +30,14 @@ public interface ParttimeDao {
 	public void deleteDaetaApply(String d_num);
 	public List<P_ApplyDTO> getParttimeApplyList(String p_num);
 	public List<D_ApplyDTO> getDaetaApplyList(String d_num);
-	public List<P_ApplyDTO> getMyParttimeApplyList(Object params);
-	public List<D_ApplyDTO> getMyDaetaApplyList(Object params);
-	public P_ApplyDTO getParttimeApply(String p_num);
-	public D_ApplyDTO getDaetaApply(String d_num);
-	public void updateParttimeChoice(Object params);
-	public void updateDaetaChoice(Object params);
-	public void deleteParttimeApply(Object params);
-	public void deleteDaetaApply(Object params);
+	public List<P_ApplyDTO> getMyParttimeApplyList(HashMap<String, Object> params);
+	public List<D_ApplyDTO> getMyDaetaApplyList(HashMap<String, Object> params);
+	public P_ApplyDTO getParttimeApply(HashMap<String, Object> params);
+	public D_ApplyDTO getDaetaApply(HashMap<String, Object> params);
+	public void updateParttimeChoice(HashMap<String, Object> params);
+	public void updateDaetaChoice(HashMap<String, Object> params);
+	public void deleteParttimeApply(HashMap<String, Object> params);
+	public void deleteDaetaApply(HashMap<String, Object> params);
 	public void insertParttime(ParttimeDTO parttime);
 	public void insertDaeta(DaetaDTO daeta);
 	public void updateParttime(ParttimeDTO parttime);

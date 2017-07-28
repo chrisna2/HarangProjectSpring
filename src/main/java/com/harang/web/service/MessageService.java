@@ -8,8 +8,9 @@ import com.harang.web.domain.SearchCriteria;
 
 public interface MessageService {
 	public MemberDTO getMember(String m_id);
-	public List<String> getMember_id(MemberDTO member);
+	public List<String> getMember_id(String m_name);
 	public void postMessage(MessageDTO message);
+	public void postMessage(String title, String content, String sender, String reader);
 	public List<MessageDTO> getGivenMessageList(String m_id);
 	public List<MessageDTO> getSentMessageList(String m_id);
 	public List<MessageDTO> getToMeMessageList(String m_id);

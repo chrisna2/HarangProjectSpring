@@ -20,13 +20,23 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public List<String> getMember_id(MemberDTO member) {
-		return messageDao.getMember_id(member);
+	public List<String> getMember_id(String m_name) {
+		return messageDao.getMember_id(m_name);
 	}
 
 	@Override
 	public void postMessage(MessageDTO message) {
 		messageDao.postMessage(message);
+	}
+	
+	@Override
+	public void postMessage(String title, String content, String sender, String reader){
+		MessageDTO message = new MessageDTO();
+		message.setT_title(title);
+		message.setT_content(content);
+		message.setM_sender(sender);
+		message.setM_reader(reader);
+		postMessage(message);
 	}
 
 	@Override

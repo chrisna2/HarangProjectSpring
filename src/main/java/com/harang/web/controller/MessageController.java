@@ -1,5 +1,7 @@
 package com.harang.web.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.MessageDTO;
 import com.harang.web.domain.PagingDto;
 import com.harang.web.service.MessageService;
+import com.harang.web.utill.LoginBean;
 import com.harang.web.utill.PageMaker;
 import com.harang.web.utill.PagingBean;
 
@@ -24,15 +28,23 @@ import com.harang.web.utill.PagingBean;
 public class MessageController {
 	
 	@Autowired
-	MessageService messageService;
+	private MessageService messageService;
 	
-	private PageMaker pageMaker;
+	private LoginBean loginBean = new LoginBean();
 	
-	public PagingDto paging(int listSize, int nowPage, int nowBlock) {
+	/*
+	public PagingDto paging(int listSize, String _nowPage, String _nowBlock) {
 		PagingBean pbean = new PagingBean();
+		int nowPage = 0, nowBlock = 0;
+		//System.out.println("CHECK1 : "+_nowPage);
+		if(!("").equals(_nowPage) || null != _nowPage ){
+			//System.out.println("CHECK2 : "+_nowPage);
+			nowPage = Integer.parseInt(_nowPage);}
+		if(!("").equals(_nowBlock) || null != _nowBlock) {nowBlock = Integer.parseInt(_nowBlock);}
 		PagingDto paging = pbean.Paging(listSize, 20, nowPage, 1, nowBlock);
 		return paging;
 	}
+	*/
 	
 	/**
 	 * 받은 메시지 함에 리스트를 가져오는 메서드.
@@ -40,21 +52,32 @@ public class MessageController {
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
 	@RequestMapping("/INBOX")
-	public ModelAndView getList(HttpSession session, String nowPage, String nowBlock ) {
-		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		List<MessageDTO> givenList = setList(messageService.getGivenMessageList(member.getM_id()));
-		PagingDto paging;
-		if(nowPage == null && nowBlock == null){
-			paging = paging(givenList.size(), 0, 0);
-		}else{
-			paging = paging(givenList.size(), Integer.parseInt(nowPage), Integer.parseInt(nowBlock));
+	public ModelAndView getList(HttpSession session) {
+		MemberDTO login = loginBean.getLoginIngfo(session);
+		String url = "message/message_inbox_main";
+		if(loginBean.adminCheck(login.getM_id())){
+			url = "message/a_message_inbox_main";
 		}
 		
-		ModelAndView mav = new ModelAndView("message/message_inbox_main");
+		List<MessageDTO> givenList = setList(messageService.getGivenMessageList(login.getM_id()));
+		
+		
+		/*
+		PagingDto paging = paging(givenList.size(), nowPage, nowBlock);
+		if((nowPage != null && nowBlock != null)|| (nowPage != "" && nowBlock != "")){
+			System.out.println("1 : "+nowPage+", "+ nowBlock);
+			paging = paging(givenList.size(), Integer.parseInt(nowPage), Integer.parseInt(nowBlock));
+		}else{
+			System.out.println("2 : "+nowPage+", "+ nowBlock);
+			paging = paging(givenList.size(), 0, 0);
+		}
+		*/
+		
+		ModelAndView mav = new ModelAndView(url);
 		messageNotRead(mav, session); //안 읽은 메시지
 		mav.addObject("list", givenList);
 		mav.addObject("tab", "INBOX");
-		mav.addObject("paging", paging);
+		//mav.addObject("paging", paging);
 		return mav;
 	}
 	
@@ -64,21 +87,28 @@ public class MessageController {
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
 	@RequestMapping("/SENT")
-	public ModelAndView sentList(HttpSession session, String nowPage, String nowBlock) {
-		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		List<MessageDTO> sentList = setList(messageService.getSentMessageList(member.getM_id())); 
+	public ModelAndView sentList(HttpSession session) {
+		MemberDTO login = loginBean.getLoginIngfo(session);
+		String url = "message/message_sent";
+		if(loginBean.adminCheck(login.getM_id())){
+			url = "message/a_message_sent";
+		}
+		
+		List<MessageDTO> sentList = setList(messageService.getSentMessageList(login.getM_id())); 
+		/*
 		PagingDto paging;
 		if(nowPage == null && nowBlock == null){
 			paging = paging(sentList.size(), 0, 0);
 		}else{
 			paging = paging(sentList.size(), Integer.parseInt(nowPage), Integer.parseInt(nowBlock));
 		}
+		*/
 		
-		ModelAndView mav = new ModelAndView("message/message_sent");
+		ModelAndView mav = new ModelAndView(url);
 		messageNotRead(mav, session); //안 읽은 메시지
 		mav.addObject("list", sentList);
 		mav.addObject("tab", "SENT");
-		mav.addObject("paging", paging);
+		//mav.addObject("paging", paging);
 		return mav;
 	}
 	
@@ -88,21 +118,28 @@ public class MessageController {
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
 	@RequestMapping("/TOME")
-	public ModelAndView toMeList(HttpSession session, String nowPage, String nowBlock) {
-		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		List<MessageDTO> toMeList = setList(messageService.getToMeMessageList(member.getM_id())); 
+	public ModelAndView toMeList(HttpSession session) {
+		MemberDTO login = loginBean.getLoginIngfo(session);
+		String url = "message/message_toMe";
+		if(loginBean.adminCheck(login.getM_id())){
+			url = "message/a_message_toMe";
+		}
+		
+		List<MessageDTO> toMeList = setList(messageService.getToMeMessageList(login.getM_id())); 
+		/*
 		PagingDto paging;
 		if(nowPage == null && nowBlock == null){
 			paging = paging(toMeList.size(), 0, 0);
 		}else{
 			paging = paging(toMeList.size(), Integer.parseInt(nowPage), Integer.parseInt(nowBlock));
 		}
+		*/
 		
-		ModelAndView mav = new ModelAndView("message/message_toMe");
+		ModelAndView mav = new ModelAndView(url);
 		messageNotRead(mav, session); //안 읽은 메시지
 		mav.addObject("list", toMeList);
 		mav.addObject("tab", "TOME");
-		mav.addObject("paging", paging);
+		//mav.addObject("paging", paging);
 		return mav;
 	}
 	
@@ -112,10 +149,11 @@ public class MessageController {
 	 * @param session 세션
 	 */
 	public void messageNotRead(ModelAndView mav, HttpSession session) {
-		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		mav.addObject("notRead",messageService.getNotReadMessage(member.getM_id()));
-		mav.addObject("notRead_toMe",messageService.getNotReadMessage_toMe(member.getM_id()));
-		mav.addObject("member", member);
+		MemberDTO login = loginBean.getLoginIngfo(session);
+		
+		mav.addObject("notRead",messageService.getNotReadMessage(login.getM_id()));
+		mav.addObject("notRead_toMe",messageService.getNotReadMessage_toMe(login.getM_id()));
+		mav.addObject("member", login);
 	}
 	
 	/**
@@ -223,9 +261,17 @@ public class MessageController {
 	 */
 	@RequestMapping(value="/POST", method=RequestMethod.POST)
 	public ModelAndView postMessage(HttpSession session, MessageDTO message) {
-		ModelAndView mav = new ModelAndView("redirect:/SENT");
+		ModelAndView mav = new ModelAndView("redirect:/message/SENT");
+		System.out.println("m_sender : "+message.getM_sender());
 		messageService.postMessage(message);
 		return mav;
+	}
+	
+	@RequestMapping("/ajax")
+	public @ResponseBody List<String> nameAjax(HttpServletRequest req) throws UnsupportedEncodingException{
+		String m_name = URLDecoder.decode(req.getParameter("m_name"), "UTF-8");
+		List<String> list = messageService.getMember_id(m_name);
+		return list;
 	}
 	
 	/**
@@ -234,9 +280,15 @@ public class MessageController {
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
 	@RequestMapping("/reply")
-	public ModelAndView reply(String t_num) {
-		ModelAndView mav = new ModelAndView("redirect:/POST");
+	public ModelAndView reply(HttpSession session, String t_num) {
+		String url = "/message/message_post";
+		if(loginBean.adminCheck(loginBean.getLoginIngfo(session).getM_id())){
+			url = "/message/a_message_post";
+		}
+		
+		ModelAndView mav = new ModelAndView(url);
 		MessageDTO msg = messageService.getMessage(t_num);
+		messageNotRead(mav, session);
 		mav.addObject("reader", messageService.getMember(msg.getM_sender()).getM_name());
 		return mav;
 	}
@@ -248,8 +300,15 @@ public class MessageController {
 	 * @return ModelAndView 페이지 경로와 파라미터
 	 */
 	@RequestMapping("/READ")
-	public ModelAndView read(String t_num, String tab, HttpSession session) {
-		ModelAndView mav = new ModelAndView("message/message_read");
+	public ModelAndView read(String t_num, 
+							@ModelAttribute("tab") String tab, 
+							HttpSession session) {
+		String url = "message/message_read";
+		if(loginBean.adminCheck(loginBean.getLoginIngfo(session).getM_id())){
+			url = "message/a_message_read";
+		}
+		
+		ModelAndView mav = new ModelAndView(url);
 		MessageDTO msg = messageService.getMessage(t_num);
 		
 		/** 메시지 보낸사람, 받은 사람 이름 검색 및 저장 */
