@@ -76,7 +76,7 @@ td {
 				<div class="box">
 					<div class="box-header" style="background-color: #dceff4">
 						<h1 class="box-title">
-							<a href="/HarangProject/bamboo?cmd=BB_LIST" style="color: black">대나무숲</a>
+							<a href="/bamboo/BB_LIST" style="color: black">대나무숲</a>
 						</h1>
 						<div class="box-tools">
 
@@ -95,19 +95,17 @@ td {
 
 							<!-- 최신글 보기를 위한 form 시작 -->
 
-							<form action="/HarangProject/bamboo" name="bbnewlist"
+							<form action="/bamboo/BB_LIST" name="bbnewlist"
 								method="post">
-								<input type="hidden" name="cmd" value="BB_LIST"> <input
-									type="hidden" name="table_search" value="bbnewlist">
+								<input type="hidden" name="table_search" value="bbnewlist">
 
 							</form>
 							<!-- 최신글 보기를 위한 form 끝 -->
 
 							<!-- 인기글 보기를 위한 form 시작 -->
-							<form action="/HarangProject/bamboo" name="bbhotlist"
+							<form action="/bamboo/BB_LIST" name="bbhotlist"
 								method="post">
-								<input type="hidden" name="cmd" value="BB_LIST"> <input
-									type="hidden" name="table_search" value="bbhotlist">
+								<input type="hidden" name="table_search" value="bbhotlist">
 
 							</form>
 							<!-- 인기글 보기를 위한 form 끝 -->
@@ -139,7 +137,7 @@ td {
 
 							</tr>
 
-							<c:choose>
+							<%-- <c:choose>
 								<c:when test="${fn:length(bbnlist) eq 0}">
 								공지사항이 없습니다.
 								</c:when>
@@ -161,24 +159,79 @@ td {
 										</tr>
 									</c:forEach>
 								</c:otherwise>
-							</c:choose>
-
-
-
-
-
-
-
-
-
-
-
-
-
+							</c:choose> --%>
 
 
 							<c:choose>
+								<c:when test="${fn:length(bbNList) eq 0}">
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${requestScope.bbNList}" var="bbNList">
+										<tr bgcolor="pink">
+											<td><fmt:formatDate value="${bbNList.bb_regdate}"
+													pattern="yyyy-MM-dd" /></td>
+											<td>${bbNList.bb_nickname}</td>
+											
+											<td><a href="#">${bbNList.bb_title}</a></td>
+											<td>${bbNList.bb_count}</td>
+											<td>${bbNList.like_cnt}</td>
+
+
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+
+
+							<!--  일반글 목록 가져오기 시작 -->
+							<c:choose>
 								<c:when test="${fn:length(bblist) eq 0}">
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${requestScope.bblist}" var="bblist">
+										<tr>
+											<td><fmt:formatDate value="${bblist.bb_regdate}"
+													pattern="yyyy-MM-dd" /></td>
+											<td>${bblist.bb_nickname}</td>
+											<td><a href="#">${bbNList.bb_title}</a></td>
+											<td>${bblist.bb_count}</td>
+											<td>${bblist.like_cnt}</td>
+
+
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+							<!--  일반글 목록 가져오기 끝 -->
+
+
+
+
+
+							<%-- <c:forEach items="${bblist}" var="bblist">
+
+								<tr>
+									<td><fmt:formatDate value="${bblist.bb_regdate}"
+											pattern="yyyy-MM-dd" /></td>
+									<td>${bblist.bb_nickname}</td>
+									<td><a
+										href="/****************${pageMaker.makeQuery(pageMaker.cri.page) }&seq=${bblist.bb_num}">${bblist.bb_title}</a></td>
+									<td>${bblist.bb_count}</td>
+									<td>${bblist.like_cnt}</td>
+
+
+								</tr>
+
+
+
+
+
+							</c:forEach> --%>
+
+
+
+							<%-- <c:choose>
+								<c:when test="${fn:length(requestScope.bblist) eq 0}">
 								게시물이 없습니다.
 								</c:when>
 								<c:otherwise>
@@ -200,7 +253,7 @@ td {
 										</tr>
 									</c:forEach>
 								</c:otherwise>
-							</c:choose>
+							</c:choose> --%>
 
 						</table>
 					</div>
@@ -210,9 +263,9 @@ td {
 
 
 
-						<!-- 페이징 버튼 -->
-						<div class="box-footer clearfix" style="background-color: #dceff4">
-							<ul class="pagination pagination-sm no-margin pull-right">
+					<!-- 페이징 버튼 -->
+					<div class="box-footer clearfix" style="background-color: #dceff4">
+						<%-- 	<ul class="pagination pagination-sm no-margin pull-right">
 								<c:if test="${paging.nowBlock > 0}">
 									<li><a href="javascript:prevPage()">&laquo;</a></li>
 								</c:if>
@@ -230,20 +283,38 @@ td {
 									<li><a href="javascript:nextPage()">&raquo;</a></li>
 								</c:if>
 							</ul>
-						<form action="/HarangProject/bamboo" name="search" method="post">
+						--%>
+						<ul class="pagination pagination-sm no-margin pull-right">
+							<c:if test="${pageMaker.prev}">
+								<li><a
+									href="/bamboo/BB_LIST${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+							</c:if>
+							<c:forEach begin="${pageMaker.startPage}"
+								end="${pageMaker.endPage}" var="idx">
+								<li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+									<a href="/bamboo/BB_LIST?page=${idx}"> ${idx} </a>
+								</li>
+							</c:forEach>
+							<c:if test="${pageMaker.next && pageMaker.endPage>0}">
+								<li><a
+									href="/bamboo/BB_LIST${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+							</c:if>
+						</ul>
 
-							<input type="hidden" name="cmd" value="BB_LIST">
+
+						<form action="/bamboo/BB_LIST" name="search" method="post">
+
+							
 							<div class="input-group">
 
-								<select name="sOption" class="form-control input-sm"
+								<select name="keyfield" class="form-control input-sm"
 									style="width: 150px;">
 
 									<option value="bb_title">제목</option>
 									<option value="bb_content">내용</option>
 
-								</select> <input type="text" name="table_search"
-									class="form-control input-sm" style="width: 150px;"
-									placeholder="Search" />
+								</select> <input type="text" name="keyword" class="form-control input-sm"
+									style="width: 150px;" placeholder="Search" />
 
 								<button class="btn btn-sm btn-default pull-left">
 									<i class="fa fa-search"></i>
@@ -251,8 +322,8 @@ td {
 
 							</div>
 						</form>
-						</div>
-						<!-- 페이징 버튼 -->
+					</div>
+					<!-- 페이징 버튼 -->
 
 				</div>
 			</div>
