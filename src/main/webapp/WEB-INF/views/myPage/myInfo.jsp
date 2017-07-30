@@ -7,9 +7,15 @@
 <!-- 페이지 헤드 라인 : 브라우저 제목 -->
 <head>
      <title>개인 정보 조회</title>
+     <c:if test="${check eq 'confirm'}">
+     	<script type="text/javascript">
+			alert("업데이트 완료!");     	
+     	</script>
+     </c:if>
+     
+     
      <script type="text/javascript">
     window.onload =  function () {
-        
         var usermail = "${member.m_mail}";
         var mailArray = usermail.split('@');
         input.m_mail1.value = mailArray[0];
@@ -88,15 +94,15 @@
                   <h3 class="box-title">개인 정보 수정</h3>
                 </div>
                 <!-- form 시작 -->
-                <form role="form" action="/HarangProject/myPage?cmd=update" name="input" onsubmit="return checkform()" method="post" enctype="multipart/form-data">
+                <form role="form" action="/myPage/myInfo" name="input" onsubmit="return checkform()" method="post" enctype="multipart/form-data">
                 <div class="box-body">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-picture-o"></i> 이미지</span>
 	                <span class="input-group-addon">
-	                   <input type="file" id="imgInp" name="upFile">
+	                   <input type="file" id="imgInp" name="file">
 	                </span>
                     <span class="input-group-addon  bg-gray">
-	                    <img src="${member.m_photo}" id="local" class="img-rounded" height="120" width="90" alt="User Image"/>
+	                    <img src="/displayFile?fileName=${member.m_photo}" id="local" class="img-rounded" height="120" width="90" alt="User Image"/>
 	                    <input type="hidden" name="m_photo" value="${member.m_photo}">
 	                </span>
                   </div>
@@ -315,7 +321,7 @@
          function fngugun() {
              $("#gugun").removeAttr("disabled");
               var valsido = zip.sido.value;
-               $.getJSON("/HarangProject/ajax?cmd=gugun",{sido:encodeURIComponent(valsido)},
+               $.getJSON("/myPage/gugun",{sido:encodeURIComponent(valsido)},
                         function(data){
                        $("#gugun option").remove();
                        $("#gugun").append("<option>구/군을 선택해 주세요</option>");
@@ -338,7 +344,7 @@
           var valgugun = zip.gugun.value;
           var valdong = zip.dong.value;
           
-          $.getJSON("/HarangProject/ajax?cmd=dong",
+          $.getJSON("/myPage/dong",
                   {sido:encodeURIComponent(valsido),gugun:encodeURIComponent(valgugun),dong:encodeURIComponent(valdong)},
                   function(data){
                  $("#total tr").remove();

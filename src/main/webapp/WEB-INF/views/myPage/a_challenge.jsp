@@ -111,17 +111,16 @@
                 <div class="box-header">
                   <h3 class="box-title">스펙 업 포인트 신청 목록</h3>
                    <div class="box-tools">
-                   <form action="/HarangProject/myPage?cmd=Achallenge" name="search" method="post"> 
+                   <form action="/myPage/Achallenge" name="search" method="Post"> 
                     <div class="input-group">
-                      <input type="text" name="keyword" value="${requestScope.keyword}" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
-                      <select class="form-control input-sm pull-right" style="width: 150px;">
-                        <option value="" ${requestScope.keyfield eq null ? 'selected' : null }></option>
-                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null }>학번 / 관리자 번호</option>
-                        <option value="m_name" ${requestScope.keyfield eq 'm_name' ? 'selected' : null }>이름</option>
-                        <option value="m_dept" ${requestScope.keyfield eq 'm_dept' ? 'selected' : null }>학과</option>
-                        <option value="m_dept" ${requestScope.keyfield eq 'c_name' ? 'selected' : null }>자격증명</option>
-                        <option value="m_dept" ${requestScope.keyfield eq 'c_point' ? 'selected' : null }>지급포인트</option>
-                        <option value="m_dept" ${requestScope.keyfield eq 'cm_regdate' ? 'selected' : null }>등록 날짜</option>
+                      <input type="text" name="keyword" value="${keyword}" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+                      <select name="keyfield" class="form-control input-sm pull-right" style="width: 150px;">
+                        <option value="m_id" ${keyfield eq 'm_id' ? 'selected' : null }>학번 / 관리자 번호</option>
+                        <option value="m_name" ${keyfield eq 'm_name' ? 'selected' : null }>이름</option>
+                        <option value="m_dept" ${keyfield eq 'm_dept' ? 'selected' : null }>학과</option>
+                        <option value="c_name" ${keyfield eq 'c_name' ? 'selected' : null }>자격증명</option>
+                        <option value="c_point" ${keyfield eq 'c_point' ? 'selected' : null }>지급포인트</option>
+                        <option value="cm_regdate" ${keyfield eq 'cm_regdate' ? 'selected' : null }>등록 날짜</option>
                       </select>
                       <div class="input-group-btn">
                         <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -147,11 +146,14 @@
                     <tbody>
                    <c:choose>
                       <c:when test="${fn:length(cmlist) eq 0}">
+                      	<tr>
+                      		<td colspan="8" align="center">
+                      			해당 테이블에 데이터가 없습니다.
+                      		</td>
+                      	</tr>
                       </c:when>
                     <c:otherwise>
                     <c:forEach items="${cmlist}"
-                      begin="${paging.beginPerPage}" 
-                      end="${paging.beginPerPage + paging.numPerPage -1}" 
                       varStatus="i"
                       var="cm">
                       <tr>
@@ -190,21 +192,23 @@
                   </table>
                 </div><!-- /.box-body -->
                  <div class="box-footer clearfix">
-                  <ul class="pagination pagination-sm no-margin pull-right">
-                         <c:if test="${paging.nowBlock > 0}">
-                                <li><a href="javascript:prevPage()">&laquo;</a></li>
-                            </c:if>
-                            <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-                                    <!-- if문 추가 : 20170615 -->
-                                    <c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-                                    <li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-                                    </c:if>
-                                    <!-- 끝 -->
-                            </c:forEach>
-                            <c:if test="${paging.totalBlock > paging.nowBlock +1}">
-                                <li><a href="javascript:nextPage()">&raquo;</a></li>
-                            </c:if>
-                        </ul>
+                   <ul class="pagination pagination-sm no-margin pull-right">
+						<c:if test="${pageMaker.prev}">
+	                            <li><a href="/myPage/Achallenge${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+	                    </c:if>
+	                    <c:forEach begin="${pageMaker.startPage}" 
+	                    		   end="${pageMaker.endPage}" 
+	                               var="idx">
+	                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+	                          		<a href="/myPage/Achallenge?page=${idx}">
+	                          			${idx}
+	                        	   	</a>
+	                             </li>
+	                   	</c:forEach>
+	                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+	                      <li><a href="/myPage/Achallenge${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+	                    </c:if>
+                    </ul>
                 </div>
               </div><!-- /.box -->
               </div><!-- /.col -->

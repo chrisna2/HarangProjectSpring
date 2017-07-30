@@ -17,7 +17,7 @@ import com.harang.web.domain.SearchCriteria;
 public class ParttimeDaoImpl implements ParttimeDao {
 	
 	@Autowired
-	SqlSession sqlSession;
+	private SqlSession sqlSession;
 	private static final String namespace = "com.harang.mapper.parttime-mapper";
 	
 	@Override

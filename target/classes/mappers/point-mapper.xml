@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.harang.mapper.point-mapper">
+  
+  	<insert id="recordPointTrade" parameterType="Record">
+  		INSERT INTO tbl_record (r_point, r_content, m_giver, m_haver) 
+  		VALUES (#{r_point}, #{r_content}, #{m_giver}, #{m_haver})
+  	</insert>
+  	
+  	<update id="giverPointMinus" parameterType="Record">
+  		UPDATE tbl_member SET m_point= m_point - #{r_point} WHERE m_id = #{m_giver} 
+  	</update>  	
+  	
+  	<update id="haverPointPlus" parameterType="Record">
+  		UPDATE tbl_member SET m_point= m_point + #{r_point} WHERE m_id = #{m_haver} 
+  	</update>
+  
+  	<select id="pointInfo" parameterType="String" resultType="long">
+  		select m_point from tbl_member where m_id = #{m_id}
+  	</select>
+  
+  </mapper>

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.harang.web.domain.CertiMemberDTO;
 import com.harang.web.domain.LessonDTO;
+import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.RecordDTO;
 import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.ZipDTO;
@@ -19,8 +20,12 @@ public interface MyPageDao {
 	public int pointPagingNum(String m_id);
 	
 	//스펙리스트 페이지 관련
-	public List<CertiMemberDTO> specListMember(SearchCriteria cri);
-	public int specListCount(String m_id);
+	public List<CertiMemberDTO> achallengeList(SearchCriteria cri);
+	public int achallengePage();
+	public List<CertiMemberDTO> uchallengeList(SearchCriteria cri);
+	public int uchallengePage(String m_id);	
+	public void uchallenge_challenge(CertiMemberDTO certi);
+	public void uchallenge_rechallenge(CertiMemberDTO certi);
 	
 	
 	public List<LessonDTO> defaultTimeTable(LessonDTO lesson);
@@ -29,4 +34,12 @@ public interface MyPageDao {
 	public List<ZipDTO> sidoList();
 	public List<ZipDTO> gugunList(ZipDTO zip);
 	public List<ZipDTO> dongList(ZipDTO zip);
+	
+	//내 정보 수정
+	public void updateMyinfo(MemberDTO member);
+	
+	//포인트 제로 학비 감면  관련
+	public int pointZero(RecordDTO record);
+	
 }
+

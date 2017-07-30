@@ -35,7 +35,6 @@
 		<!-- default-target-url="/" 로그인 이후 페이지 이동 경로 -->
 		<!-- authentication-failure-url="/login" 로그인 실패시 페이지 이동 경로 -->
 		
-		
 		<!-- 중복 로그인 처리! -->
 		<session-management>
 			<concurrency-control 

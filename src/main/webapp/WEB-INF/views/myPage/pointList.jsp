@@ -82,7 +82,7 @@
                   </table>
                 </div><!-- /.box-body -->
                  <div class="box-footer clearfix">
-                       <ul class="pagination pagination-sm no-margin pull-right">
+                    <ul class="pagination pagination-sm no-margin pull-right">
 					<c:if test="${pageMaker.prev}">
                             <li><a href="/myPage/pointList${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
                     </c:if>
@@ -100,7 +100,7 @@
                     </c:if>
                     </ul>
                     <!-- 검색 폼 -->    
-                    <form action="/myPage/pointList" name="search" method="get">
+                    <form action="/myPage/pointList" name="search" method="post">
                       <div class="input-group">
                           <select name="keyfield" class="form-control input-sm pull-left" style="width: 150px;">
                             <option value="r_regdate" ${keyfield eq 'r_regdate' ? 'selected' : null }>거래 날짜</option>
