@@ -1,5 +1,6 @@
 package com.harang.web.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ParttimeServiceImpl implements ParttimeService {
 	}
 
 	@Override
-	public List<ParttimeDTO> getMyParttimeList(Object params) {
+	public List<ParttimeDTO> getMyParttimeList(HashMap<String, Object> params) {
 		return parttimeDao.getMyParttimeList(params);
 	}
 
@@ -35,7 +36,7 @@ public class ParttimeServiceImpl implements ParttimeService {
 	}
 
 	@Override
-	public List<DaetaDTO> getMyDaetaList(Object params) {
+	public List<DaetaDTO> getMyDaetaList(HashMap<String, Object> params) {
 		return parttimeDao.getMyDaetaList(params);
 	}
 
@@ -115,42 +116,42 @@ public class ParttimeServiceImpl implements ParttimeService {
 	}
 
 	@Override
-	public List<P_ApplyDTO> getMyParttimeApplyList(Object params) {
+	public List<P_ApplyDTO> getMyParttimeApplyList(HashMap<String, Object> params) {
 		return parttimeDao.getMyParttimeApplyList(params);
 	}
 
 	@Override
-	public List<D_ApplyDTO> getMyDaetaApplyList(Object params) {
+	public List<D_ApplyDTO> getMyDaetaApplyList(HashMap<String, Object> params) {
 		return parttimeDao.getMyDaetaApplyList(params);
 	}
 
 	@Override
-	public P_ApplyDTO getParttimeApply(String p_num) {
-		return parttimeDao.getParttimeApply(p_num);
+	public P_ApplyDTO getParttimeApply(HashMap<String, Object> params) {
+		return parttimeDao.getParttimeApply(params);
 	}
 
 	@Override
-	public D_ApplyDTO getDaetaApply(String d_num) {
-		return parttimeDao.getDaetaApply(d_num);
+	public D_ApplyDTO getDaetaApply(HashMap<String, Object> params) {
+		return parttimeDao.getDaetaApply(params);
 	}
 
 	@Override
-	public void updateParttimeChoice(Object params) {
+	public void updateParttimeChoice(HashMap<String, Object> params) {
 		parttimeDao.updateParttimeChoice(params);
 	}
 
 	@Override
-	public void updateDaetaChoice(Object params) {
+	public void updateDaetaChoice(HashMap<String, Object> params) {
 		parttimeDao.updateDaetaChoice(params);
 	}
 
 	@Override
-	public void deleteParttimeApply(Object params) {
+	public void deleteParttimeApply(HashMap<String, Object> params) {
 		parttimeDao.deleteParttimeApply(params);
 	}
 
 	@Override
-	public void deleteDaetaApply(Object params) {
+	public void deleteDaetaApply(HashMap<String, Object> params) {
 		parttimeDao.deleteDaetaApply(params);
 	}
 

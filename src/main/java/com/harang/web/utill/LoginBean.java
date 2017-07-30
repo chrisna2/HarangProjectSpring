@@ -1,6 +1,7 @@
 package com.harang.web.utill;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.harang.web.domain.MemberDTO;
 
@@ -11,6 +12,20 @@ public class LoginBean {
 		MemberDTO login = null;
 		MemberDTO member = (MemberDTO)req.getSession().getAttribute("member");
 		MemberDTO admin = (MemberDTO)req.getSession().getAttribute("admin");
+		
+		if (admin != null){ 
+			login = admin;
+		}else{ 
+			login = member;
+		}
+		
+		return login;
+	}
+	
+	public MemberDTO getLoginIngfo(HttpSession session){
+		MemberDTO login = null;
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		MemberDTO admin = (MemberDTO)session.getAttribute("admin");
 		
 		if (admin != null){ 
 			login = admin;

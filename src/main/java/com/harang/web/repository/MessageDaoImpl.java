@@ -21,12 +21,12 @@ public class MessageDaoImpl implements MessageDao {
 		return sqlSession.selectOne(namespace+".getMember", m_id);
 	}
 	@Override
-	public List<String> getMember_id(MemberDTO member) {
-		return sqlSession.selectList(namespace+".getMember_id", member);
+	public List<String> getMember_id(String m_name) {
+		return sqlSession.selectList(namespace+".getMember_id", m_name);
 	}
 	@Override
 	public void postMessage(MessageDTO message) {
-		sqlSession.insert(namespace+".postMessage");
+		sqlSession.insert(namespace+".postMessage", message);
 	}
 	@Override
 	public List<MessageDTO> getGivenMessageList(String m_id) {
