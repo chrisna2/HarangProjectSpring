@@ -83,7 +83,7 @@
 								        <input type="file" id="imgInp" name="file" required="required">
 									</span> 
 									<span class="input-group-addon bg-gray"> 
-									   <img src="#" id="local" class="img-responsive" alt="User Image" />
+									   	<img src="#" id="local" class="img-responsive" alt="User Image" />
 									   <input type="hidden" id="cm_image" name="cm_image" value="">
 									</span>
 								</div>
@@ -154,7 +154,8 @@
                                        <i class="fa fa-file-text"></i> 자격증명서
                                     </span> 
                                     <span class="input-group-addon bg-gray"> 
-                                       <img id="checkimg" src="" class="img-responsive" alt="User Image" />
+                                       	[그림을 클릭을 하면 원본 이미지를 확인할 수 있습니다.]
+                                       	<img id="checkimg" src="" class="img-responsive" alt="User Image" /><br>
                                     </span>
                                 </div>
                                 <br>
@@ -222,6 +223,7 @@
                                        <i class="fa fa-file-text"></i> 자격증명서
                                     </span> 
                                     <span class="input-group-addon bg-gray"> 
+                                       [그림을 클릭을 하면 원본 이미지를 확인할 수 있습니다.]
                                        <img id="waitimg" src="" class="img-responsive" alt="User Image" />
                                     </span>
                                 </div>
@@ -343,6 +345,26 @@
 		<!-- /.row -->
 	</section>
 	<!-- /. 작업 공간 끝! -->
+	
+	
+                <!-- 모달 : 뒷 페이지 배경을 눌러도 꺼지지 않음 -->
+                <div class="modal fade" id="theModal" data-backdrop="static">
+                    <div class="modal-dialog" style="width:80%">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>원본 이미지 확인</h3>
+                            </div>
+                            <div class="modal-body" align="center">
+                            	<img id="bigImage" width="100%">
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" data-dismiss="modal">닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- 모달 끝 -->
+	
+	
 	<!------------------------------------------------------------------------------------------------------------------->
 </div>
 <!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
@@ -382,6 +404,15 @@
     $("#imgInp").change(function(){
         readURL(this);
     });
+    
+    //[image] 원본(큰이미지)의 이미지 이름 불러오기
+    function getImageLink(fileName){
+		
+    	var front = fileName.substr(0,12);
+    	var end = fileName.substr(14);
+    	return front + end;
+    	
+    }
 
     function challange(num) {
     	$("#challenge-box").slideUp();
@@ -406,11 +437,14 @@
         challenge.c_agency.value = $("#agency"+num).text();
         var $image = $("#image"+num).val();
         challenge.cm_image.value = $image;
+        //[image] 작은 이미지 불러 오기
 	    $("#local").attr("src", "/displayFile?fileName="+$image);
+	  	//[image] 큰 이미지 불러 오기
+	    $("#bigImage").attr("src",  "/displayFile?fileName="+getImageLink($image));
     }
 	$("#challenge-close").click(function(){
 		$("#challenge-box").slideUp();		
-	})
+	});
     function check(num) {
 		$("#check-box").slideUp();
 		$("#challenge-box").slideUp();
@@ -423,10 +457,11 @@
 	    checkIt.cm_completedate.value = $("#comdate"+num).text();
 	    var $image = $("#image"+num).val();
 	    $("#checkimg").attr("src", "/displayFile?fileName="+$image); 
+	    $("#bigImage").attr("src",  "/displayFile?fileName="+getImageLink($image));
 	}
 	$("#check-close").click(function(){
 		$("#check-box").slideUp();
-	})
+	});
     function wait(num) {
 		$("#wait-box").slideUp();
 		$("#challenge-box").slideUp();
@@ -438,10 +473,25 @@
 	    waitIt.c_agency.value = $("#agency"+num).text();
 	    waitIt.cm_regdate.value = $("#regdate"+num).text();
 	    var $image = $("#image"+num).val();
-	    $("#waitimg").attr("src", "/displayFile?fileName="+$image); 
+	    $("#waitimg").attr("src", "/displayFile?fileName="+$image);
+	    $("#bigImage").attr("src",  "/displayFile?fileName="+getImageLink($image));
 	}
 	$("#wait-close").click(function(){
         $("#wait-box").slideUp();
-    })
+    });
+	
+	//[image] 이미지 창을 띄울 모달창 불러오기
+    $("#local").click(
+	  function(){
+	  	 $("#theModal").modal('toggle');
+	});
+    $("#checkimg").click(
+      function(){
+         $("#theModal").modal('toggle');
+    });
+    $("#waitimg").click(
+      function(){
+        $("#theModal").modal('toggle');
+    });
 	
 </script>

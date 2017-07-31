@@ -84,12 +84,6 @@ public class FoodController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
 	@RequestMapping(value="/menu",method = RequestMethod.GET)
 	public ModelAndView menuGet(){
 		mav = new ModelAndView("food/menuList");

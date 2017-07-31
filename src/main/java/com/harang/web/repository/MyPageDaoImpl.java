@@ -32,10 +32,6 @@ public class MyPageDaoImpl implements MyPageDao {
 		return sqlSession.selectList(namespace+".pointListSearch", cri);
 	}
 	@Override
-	public List<LessonDTO> defaultTimeTable(LessonDTO lesson) {
-		return null;
-	}
-	@Override
 	public int pointPagingNum(String m_id) {
 		return sqlSession.selectOne(namespace+".pointPagingNum", m_id);
 	}
@@ -49,8 +45,8 @@ public class MyPageDaoImpl implements MyPageDao {
 	}
 	//[관리자] 자격증 등록 신청 정보 패이징 총수
 	@Override
-	public int achallengePage() {
-		return sqlSession.selectOne(namespace+".achallengePage");
+	public int achallengePage(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".achallengePage",cri);
 	}
 	//[회원] 자격증 등록 및 신청 확인
 	@Override
@@ -59,8 +55,8 @@ public class MyPageDaoImpl implements MyPageDao {
 	}
 	//[회원] 자격증 등록 및 신청 확인 페이징
 	@Override
-	public int uchallengePage(String m_id) {
-		return sqlSession.selectOne(namespace+".uchallengePage", m_id);
+	public int uchallengePage(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".uchallengePage", cri);
 	}
 	//[회원] 스펙 등록 도전
 	@Override
@@ -101,6 +97,20 @@ public class MyPageDaoImpl implements MyPageDao {
 		
 		return sqlSession.update(namespace+".pointZero",record);
 		
+	}
+	
+	//[시간표]
+	@Override
+	public List<LessonDTO> timeTalbeLesson(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".timeTalbeLesson", cri);
+	}
+	@Override
+	public List<LessonDTO> lessonList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".lessonList", cri);
+	}
+	@Override
+	public int lessonCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".lessonCount", cri);
 	}
 	
 

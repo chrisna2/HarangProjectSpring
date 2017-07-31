@@ -119,9 +119,10 @@
 		limit #{pageStart}, #{perPageNum}
   	</select>
   	<!-- 도전리스트 페이징 총수 -->
-  	<select id="achallengePage" resultType="int">
+  	<select id="achallengePage" resultType="int" parameterType="SearchCriteria">
   		SELECT count(*) from tbl_certificate c, tbl_certi_member cm, tbl_member m 
 		where c.c_num = cm.c_num and cm.m_id = m.m_id 
+		<include refid="achallenge_search"></include> 
   	</select>
   	<!-- [회원] 스펙업 리스트 결과 조회 -->
   	<select id="uchallengeList" resultType="CertiMember" parameterType="SearchCriteria">
@@ -136,9 +137,10 @@
   	<select id="uchallengePage" resultType="int" parameterType="SearchCriteria">
   		select count(c.c_num) 
 		from tbl_certificate c left outer join tbl_certi_member cm on c.c_num = cm.c_num 
-		and cm.m_id = #{m_id};
+		and cm.m_id = #{m_id} 
+		<include refid="uchallenge_search"></include>
   	</select>
-  	<!-- 검색  -->
+  	<!-- [회원 / 관리자] 스펙업 검색  -->
   	<sql id="achallenge_search">
   		<if test="keyfield != null">
   			<if test="keyfield == 'm_id'.toString()">
@@ -186,7 +188,71 @@
 	<update id="uchallenge_rechallenge" parameterType="CertiMember">
 		UPDATE tbl_certi_member SET cm_iscomplete='none', cm_completedate=NULL, cm_image= #{cm_image} 
 		WHERE c_num=#{c_num} and m_id=#{m_id}
-	</update> 	
-  
+	</update> 
+	
+	
+	
+	<!-- [회원] 시간표 등록된 수업 목록 출력 -->
+	<select id="timeTalbeLesson" resultType="Lesson" parameterType="SearchCriteria">
+		SELECT l.l_num,l.l_time,l.l_day,l.l_name,l.l_teacher,l.l_grade,l.l_term,
+	    l.l_credit,l.l_room,l.l_ismust,l.l_dept,t.m_id,t.tt_grade 
+		from tbl_lesson l inner join tbl_timetable t 
+		on l.l_num = t.l_num 
+		and t.m_id = #{m_id} 
+		and t.tt_grade = #{tt_grade} 
+		and t.tt_term = #{tt_term}  
+		order by l.l_num desc 
+	</select>
+	<!-- [회원] 시간표 등록할 수 있는 수업 목록 출력 [검색 + 페이징] -->
+	<select id="lessonList" resultType="Lesson" parameterType="SearchCriteria">
+		<![CDATA[SELECT l.l_num,l.l_time,l.l_day,l.l_name,l.l_teacher,l.l_grade,l.l_term, 
+		l.l_credit,l.l_room,l.l_ismust,l.l_dept,t.m_id,t.tt_grade 
+		from tbl_lesson l left outer join tbl_timetable t 
+		on l.l_num = t.l_num 
+		and t.m_id = #{m_id}  
+		and t.tt_grade = #{tt_grade} 
+		where l.l_grade <= #{tt_grade} and l.l_term = #{tt_term} ]]>
+		<include refid="lesson_search"></include>
+		<![CDATA[order by l.l_num desc 
+		limit #{pageStart}, #{perPageNum} ]]>
+	</select>
+	<!-- 페이징 -->
+	<select id="lessonCount" resultType="int" parameterType="SearchCriteria">
+  		<![CDATA[SELECT count(*)
+		from tbl_lesson l left outer join tbl_timetable t 
+		on l.l_num = t.l_num 
+		and t.m_id = #{m_id}   
+		and t.tt_grade =  #{tt_grade} 
+		where l.l_grade <= #{tt_grade} and l.l_term = #{tt_term} ]]>
+		<include refid="lesson_search"></include>
+  	</select>
+	<sql id="lesson_search">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'l_dept'.toString()">
+  				and l.l_dept like concat('%', #{keyword}, '%')  
+  			</if>
+  			<if test="keyfield == 'l_ismust'.toString()">
+  				and l.l_ismust like concat('%', #{keyword}, '%')  
+  			</if>
+  			<if test="keyfield == 'l_name'.toString()">
+  				and l.l_name like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_grade'.toString()">
+  				and l.l_grade like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_time'.toString()">
+  				and l.l_time like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_teacher'.toString()">
+  				and l.l_teacher like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_room'.toString()">
+  				and l.l_room like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_credit'.toString()">
+  				and l.l_credit like concat('%', #{keyword}, '%') 
+  			</if>
+  		</if>
+  	</sql>	
   </mapper>
     

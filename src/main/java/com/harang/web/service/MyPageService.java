@@ -15,16 +15,13 @@ public interface MyPageService {
 	public List<RecordDTO> pointListSearch(SearchCriteria cri);
 	public int pointPagingNum(String m_id);
 	
-	
 	public List<CertiMemberDTO> achallengeList(SearchCriteria cri);
-	public int achallengePage();
+	public int achallengePage(SearchCriteria cri);
 	public List<CertiMemberDTO> uchallengeList(SearchCriteria cri);
-	public int uchallengePage(String m_id);
+	public int uchallengePage(SearchCriteria cri);
+	
 	public void uchallenge_challenge(CertiMemberDTO certi);
 	public void uchallenge_rechallenge(CertiMemberDTO certi);
-	
-	
-	public List<LessonDTO> defaultTimeTable(LessonDTO lesson);
 	
 	public List<ZipDTO> sidoList();
 	public List<ZipDTO> gugunList(ZipDTO zip);
@@ -35,4 +32,10 @@ public interface MyPageService {
 	
 	//포인트 감면
 	public int pointZero(long r_point, String m_giver);
+	
+	//시간표 관련 
+	public List<LessonDTO> timeTalbeLesson(SearchCriteria cri);
+	public List<LessonDTO> lessonList(SearchCriteria cri);
+	public int lessonCount(SearchCriteria cri);
+		
 }

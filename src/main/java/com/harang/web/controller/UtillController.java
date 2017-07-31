@@ -20,7 +20,7 @@ import com.harang.web.utill.MediaUtil;
 @Controller
 public class UtillController {
 
-	/*--------------이미지 보이기 컨트롤러-------------------*/
+	/*--------------작은 이미지 보이기 컨트롤러-------------------*/
 	@ResponseBody
 	@RequestMapping(value="/displayFile", produces="text/plain;charset=UTF-8")
 	public ResponseEntity<byte[]> displayFile(String fileName, HttpServletRequest request)throws Exception{
@@ -31,7 +31,6 @@ public class UtillController {
 		//System.out.println("displayFile"+fileName);
 		InputStream in=null;
 		ResponseEntity<byte[]> entity=null;
-		
 		
 		try{
 			String formatName=fileName.substring(fileName.lastIndexOf(".")+1);
@@ -58,4 +57,5 @@ public class UtillController {
 		}
 		return entity;
 	}
+	
 }

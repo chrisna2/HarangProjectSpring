@@ -78,11 +78,11 @@
                    <div class="box-tools">
                     <form action="/HarangProject/myPage?cmd=timeTable" method="post" name="timetable">
                      <div class="input-group">
-                          <select name="term" class="form-control input-sm pull-right" style="width: 15%;">
+                          <select name="tt_term" class="form-control input-sm pull-right" style="width: 15%;">
                             <option value="1" ${term eq '1' ? 'selected' : null }>1학기</option>
                             <option value="2" ${term eq '2' ? 'selected' : null }>2학기</option>
                           </select>
-                          <select name="grade" class="form-control input-sm pull-right" style="width: 15%;">
+                          <select name="tt_grade" class="form-control input-sm pull-right" style="width: 15%;">
                             <option value="1" ${grade eq '1' ? 'selected' : null }>1학년</option>
                             <option value="2" ${grade eq '2' ? 'selected' : null }>2학년</option>
                             <option value="3" ${grade eq '3' ? 'selected' : null }>3학년</option>
@@ -279,8 +279,6 @@
                         </c:when>
                         <c:otherwise>
 	                    <c:forEach items="${llist}"
-	                      begin="${paging.beginPerPage}" 
-	                      end="${paging.beginPerPage + paging.numPerPage -1}" 
 	                      varStatus="i"
 	                      var="l">
 	                      <tr>
@@ -311,26 +309,28 @@
                   </table>
                 </div><!-- /.box-body -->
                  <div class="box-footer clearfix">
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                            <c:if test="${paging.nowBlock > 0}">
-                            <li><a href="javascript:prevPage()">&laquo;</a></li>
-                            </c:if>
-                          <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-                            <!-- if문 추가 : 20170615 -->
-                               <c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-                                    <li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-                               </c:if>
-                            <!-- 끝 -->
-                          </c:forEach>
-                            <c:if test="${paging.totalBlock > paging.nowBlock +1}">
-                            <li><a href="javascript:nextPage()">&raquo;</a></li>
-                            </c:if>
-                        </ul>
+                     <ul class="pagination pagination-sm no-margin pull-right">
+						<c:if test="${pageMaker.prev}">
+	                            <li><a href="/myPage/timeTable${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+	                    </c:if>
+	                    <c:forEach begin="${pageMaker.startPage}" 
+	                    		   end="${pageMaker.endPage}" 
+	                               var="idx">
+	                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+	                          		<a href="/myPage/timeTable?page=${idx}">
+	                          			${idx}
+	                        	   	</a>
+	                             </li>
+	                   	</c:forEach>
+	                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+	                      <li><a href="/myPage/timeTable${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+	                    </c:if>
+                    </ul>
                     <!-- 검색 폼 -->    
-                    <form name="search" method="post" action="/HarangProject/myPage?cmd=timeTable">
+                    <form name="search" method="post" action="/myPage/timeTable">
                       <div class="input-group">
-                          <input type="hidden" name="grade" value="${grade}"/>
-                          <input type="hidden" name="term" value="${term}"/>
+                          <input type="hidden" name="tt_grade" value="${tt_grade}"/>
+                          <input type="hidden" name="tt_term" value="${tt_term}"/>
                           <input type="hidden" name='check' value="search">
                           <select name="keyfield" class="form-control input-sm pull-left" style="width: 150px;">
                             <option value="l_dept" ${keyfield eq 'l_dept' ? 'selected' : null }>주요 학과</option>
@@ -356,12 +356,12 @@
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<!-- 페이징 : 이전 블록으로 이동하는 폼 -->
+<%-- <!-- 페이징 : 이전 블록으로 이동하는 폼 -->
 <form id="prevPage" method="post" action="/HarangProject/myPage?cmd=timeTable">
     <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
     <input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
-    <input type="hidden" name="grade" value="${grade}"/>
-    <input type="hidden" name="term" value="${term}"/>
+    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
+    <input type="hidden" name="tt_term" value="${tt_term}"/>
     <input type="hidden" name="keyword" value="${keyword}"/>
     <input type="hidden" name="keyfield" value="${keyfield}"/>
     <input type="hidden" name='check' value="findtt">
@@ -370,8 +370,8 @@
 <form id="nextPage" method="post" action="/HarangProject/myPage?cmd=timeTable">
     <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
     <input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
-    <input type="hidden" name="grade" value="${grade}"/>
-    <input type="hidden" name="term" value="${term}"/>
+    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
+    <input type="hidden" name="tt_term" value="${tt_term}"/>
     <input type="hidden" name="keyword" value="${keyword}"/>
     <input type="hidden" name="keyfield" value="${keyfield}"/>
     <input type="hidden" name='check' value="findtt">
@@ -380,8 +380,8 @@
 <form id="goPage" method="post" action="/HarangProject/myPage?cmd=timeTable">
     <input type="hidden" name="nowPage" value="" id="page"/>
     <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-    <input type="hidden" name="grade" value="${grade}"/>
-    <input type="hidden" name="term" value="${term}"/>
+    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
+    <input type="hidden" name="tt_term" value="${tt_term}"/>
     <input type="hidden" name="keyword" value="${keyword}"/>
     <input type="hidden" name="keyfield" value="${keyfield}"/>
     <input type="hidden" name='check' value="findtt">
@@ -391,8 +391,8 @@
     <input type="hidden" name="nowPage" value="${paging.nowPage}"/>
     <input type="hidden" name='check' value="enroll">
     <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-    <input type="hidden" name="grade" value="${grade}"/>
-    <input type="hidden" name="term" value="${term}"/>
+    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
+    <input type="hidden" name="tt_term" value="${tt_term}"/>
     <input type="hidden" name="keyword" value="${keyword}"/>
     <input type="hidden" name="keyfield" value="${keyfield}"/>
     <input type="hidden" name="l_num" value=""/>
@@ -404,8 +404,8 @@
     <input type="hidden" name="nowPage" value="${paging.nowPage}"/>
     <input type="hidden" name='check' value="delete">
     <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-    <input type="hidden" name="grade" value="${grade}"/>
-    <input type="hidden" name="term" value="${term}"/>
+    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
+    <input type="hidden" name="tt_term" value="${tt_term}"/>
     <input type="hidden" name="keyword" value="${keyword}"/>
     <input type="hidden" name="keyfield" value="${keyfield}"/>
     <input type="hidden" name="l_num" value=""/>
@@ -417,11 +417,11 @@
     <input type="hidden" name="nowPage" value="${paging.nowPage}"/>
     <input type="hidden" name='check' value="findtt">
     <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-    <input type="hidden" name="grade" value="${grade}"/>
-    <input type="hidden" name="term" value="${term}"/>
+    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
+    <input type="hidden" name="tt_term" value="${tt_term}"/>
     <input type="hidden" name="keyword" value="${keyword}"/>
     <input type="hidden" name="keyfield" value="${keyfield}"/>
-</form>
+</form> --%>
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
 <script>

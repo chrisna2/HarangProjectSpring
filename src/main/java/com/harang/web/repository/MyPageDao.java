@@ -12,6 +12,7 @@ import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.ZipDTO;
 
 public interface MyPageDao {
+	
 	//해더 관련
 	public List<RecordDTO> pointListHeader(String m_id);
 	
@@ -21,14 +22,11 @@ public interface MyPageDao {
 	
 	//스펙리스트 페이지 관련
 	public List<CertiMemberDTO> achallengeList(SearchCriteria cri);
-	public int achallengePage();
+	public int achallengePage(SearchCriteria cri);
 	public List<CertiMemberDTO> uchallengeList(SearchCriteria cri);
-	public int uchallengePage(String m_id);	
+	public int uchallengePage(SearchCriteria cri);	
 	public void uchallenge_challenge(CertiMemberDTO certi);
 	public void uchallenge_rechallenge(CertiMemberDTO certi);
-	
-	
-	public List<LessonDTO> defaultTimeTable(LessonDTO lesson);
 	
 	//주소 목록
 	public List<ZipDTO> sidoList();
@@ -40,6 +38,11 @@ public interface MyPageDao {
 	
 	//포인트 제로 학비 감면  관련
 	public int pointZero(RecordDTO record);
+	
+	//시간표 관련 
+	public List<LessonDTO> timeTalbeLesson(SearchCriteria cri);
+	public List<LessonDTO> lessonList(SearchCriteria cri);
+	public int lessonCount(SearchCriteria cri);
 	
 }
 

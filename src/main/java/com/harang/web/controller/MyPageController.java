@@ -156,37 +156,48 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value="/timeTable",method = RequestMethod.GET)
-	public ModelAndView timeTableGet(HttpServletRequest request){
+	public ModelAndView timeTableGet(HttpServletRequest request, SearchCriteria cri){
 		
 		LoginBean login = new LoginBean();
 		MemberDTO member = login.getLoginInfo(request);
-		
-		ArrayList ttlist  = new ArrayList();
 		
 		int tt_grade = member.getM_grade();
 		int tt_term = 0;
 	
 		Calendar cal = Calendar.getInstance();
-		int nowMonth = cal.get(Calendar.MONTH) + 1; 
-		if(nowMonth>=3&&nowMonth<9){
-			tt_term = 1;
-		}
-		else if((nowMonth>=1&&nowMonth<3)||(nowMonth>=9&&nowMonth<=12)){
-			tt_term = 2;
-		}
 		
-		LessonDTO lesson = new LessonDTO();
-		lesson.setTt_term(tt_term);
-		lesson.setTt_grade(tt_grade);
-		lesson.setM_id(member.getM_id());
+		int nowMonth = cal.get(Calendar.MONTH) + 1; 
+		
+			if(nowMonth>=3&&nowMonth<9){
+				tt_term = 1;
+			}
+			else if((nowMonth>=1&&nowMonth<3)||(nowMonth>=9&&nowMonth<=12)){
+				tt_term = 2;
+			}
+		
+		cri.setM_id(member.getM_id());
+		cri.setTt_grade(tt_grade);
+		cri.setTt_term(tt_term);
+		
+		/////////////////////////////////////////////////////////////////////////
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.lessonCount(cri));
 		
 		mav = new ModelAndView("myPage/timeTable");
+		
+			mav.addObject("tt_grade", tt_grade);
+			mav.addObject("tt_term", tt_term);
+			mav.addObject("ttlist", myPageService.timeTalbeLesson(cri));
+			mav.addObject("ttname", tt_grade+"학년 "+tt_term+"학기");
+			mav.addObject("llist", myPageService.lessonList(cri));
+			mav.addObject("pageMaker", pageMaker);
 		
 		return mav;
 	}
 
 	
-			
 	@RequestMapping(value="/pointZero",method = RequestMethod.GET)
 	public ModelAndView pointZeroGet(){
 		
@@ -249,7 +260,7 @@ public class MyPageController {
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(myPageService.achallengePage());
+		pageMaker.setTotalCount(myPageService.achallengePage(cri));
 		
 		mav = new ModelAndView("myPage/a_challenge");
 		
@@ -267,7 +278,7 @@ public class MyPageController {
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(myPageService.achallengePage());
+		pageMaker.setTotalCount(myPageService.achallengePage(cri));
 		
 		mav = new ModelAndView("myPage/a_challenge");
 		
@@ -290,7 +301,7 @@ public class MyPageController {
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(myPageService.uchallengePage(member.getM_id()));
+		pageMaker.setTotalCount(myPageService.uchallengePage(cri));
 		
 		mav = new ModelAndView("myPage/specUp");
 		
@@ -312,7 +323,7 @@ public class MyPageController {
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(myPageService.uchallengePage(member.getM_id()));
+		pageMaker.setTotalCount(myPageService.uchallengePage(cri));
 		
 		mav = new ModelAndView("myPage/specUp");
 		
@@ -324,7 +335,6 @@ public class MyPageController {
 	
 	@RequestMapping(value="/specUpProc", method = RequestMethod.POST)
 	public ModelAndView specUpProcPost(CertiMemberDTO certi, HttpServletRequest request, MultipartFile file) throws IOException{
-		
 		
 		String uploadPath = request.getSession().getServletContext().getRealPath("/");
 		
@@ -340,20 +350,19 @@ public class MyPageController {
 							file.getOriginalFilename(), file.getBytes());
 			certi.setCm_image(uploadedFileName);
 		}
-		
+
+		mav = new ModelAndView("myPage/specUpComplete");
 		String check = request.getParameter("check");
 		
 		if(check.equals("insert")){
-			
 			myPageService.uchallenge_challenge(certi);
+			mav.addObject("msg", "challenge_success");
 			
 		}else if(check.equals("update")){
-		
 			myPageService.uchallenge_rechallenge(certi);
+			mav.addObject("msg", "rechallenge_success");
 		}
 		
-		
-		mav = new ModelAndView("redirect:/myPage/specUp");
 		return mav;
 	}
 	

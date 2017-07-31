@@ -30,11 +30,6 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
-	public List<LessonDTO> defaultTimeTable(LessonDTO lesson) {
-		return null;
-	}
-
-	@Override
 	public int pointPagingNum(String m_id) {
 		return myPageDao.pointPagingNum(m_id);
 	}
@@ -62,16 +57,16 @@ public class MyPageServiceImpl implements MyPageService {
 		return myPageDao.achallengeList(cri);
 	}
 	@Override
-	public int achallengePage() {
-		return myPageDao.achallengePage();
+	public int achallengePage(SearchCriteria cri) {
+		return myPageDao.achallengePage(cri);
 	}
 	@Override
 	public List<CertiMemberDTO> uchallengeList(SearchCriteria cri) {
 		return myPageDao.uchallengeList(cri);
 	}
 	@Override
-	public int uchallengePage(String m_id) {
-		return myPageDao.uchallengePage(m_id);
+	public int uchallengePage(SearchCriteria cri) {
+		return myPageDao.uchallengePage(cri);
 	}
 	@Override
 	public void uchallenge_challenge(CertiMemberDTO certi) {
@@ -99,6 +94,20 @@ public class MyPageServiceImpl implements MyPageService {
 		record.setM_giver(m_giver);
 		
 		return myPageDao.pointZero(record);
+	}
+
+	//시간표
+	@Override
+	public List<LessonDTO> timeTalbeLesson(SearchCriteria cri) {
+		return myPageDao.timeTalbeLesson(cri);
+	}
+	@Override
+	public List<LessonDTO> lessonList(SearchCriteria cri) {
+		return myPageDao.lessonList(cri);
+	}
+	@Override
+	public int lessonCount(SearchCriteria cri) {
+		return myPageDao.lessonCount(cri);
 	}
 
 

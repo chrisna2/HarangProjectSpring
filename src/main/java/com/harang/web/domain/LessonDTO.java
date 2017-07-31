@@ -3,20 +3,20 @@ package com.harang.web.domain;
 public class LessonDTO {
 
 
-	String l_num;
-	String l_time;
-	String l_day;
-	String l_name;
-	String l_teacher;
-	String l_dept;
-	String l_ismust;
-	String l_grade;
-	String l_term;
-	int l_credit;
-	String l_room;
-	String m_id;
-	int tt_grade;
-	int tt_term;
+	private String l_num;
+	private String l_time;
+	private String l_day;
+	private String l_name;
+	private String l_teacher;
+	private String l_dept;
+	private String l_ismust;
+	private String l_grade;
+	private String l_term;
+	private int l_credit;
+	private String l_room;
+	private String m_id;
+	private int tt_grade;
+	private int tt_term;
 	
 	public int getTt_grade() {
 		return tt_grade;

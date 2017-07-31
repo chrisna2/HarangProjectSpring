@@ -11,25 +11,13 @@
 <c:if test="${msg eq 'challenge_success'}">
     <script type="text/javascript">
     alert("해당 자격증이 심사에 올라갔습니다.");
-    location.href = "/HarangProject/myPage?cmd=specUp";
-    </script>
-</c:if>
-<c:if test="${msg eq 'challenge_fail'}">
-    <script type="text/javascript">
-    alert("해당 자격증 전송이 실패 했습니다.");
-    location.href = "/HarangProject/myPage?cmd=specUp";
+    location.href = "/myPage/specUp";
     </script>
 </c:if>
 <c:if test="${msg eq 'rechallenge_success'}">
     <script type="text/javascript">
     alert("해당 자격증이 재심사에 올라갔습니다.");
-    location.href = "/HarangProject/myPage?cmd=specUp";
-    </script>
-</c:if>
-<c:if test="${msg eq 'rechallenge_fail'}">
-    <script type="text/javascript">
-    alert("해당 자격증 전송이 실패 했습니다.");
-    location.href = "/HarangProject/myPage?cmd=specUp";
+    location.href = "/myPage/specUp";
     </script>
 </c:if>
 </body>
