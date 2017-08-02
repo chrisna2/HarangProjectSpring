@@ -1,12 +1,20 @@
 package com.harang.web.controller;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +31,7 @@ import com.harang.web.utill.LoginBean;
 
 
 @Controller
+@RequestMapping("/parttime")
 public class ParttimeController {
 	
 	@Autowired
@@ -94,6 +103,7 @@ public class ParttimeController {
 		String url = "redirect:/parttime/PMAIN";
 		ModelAndView mav = new ModelAndView(url);
 		parttime.setP_daycode(transCode(parttime.getP_daycode()));
+		parttime.setM_id(login.getM_id());
 		parttimeService.insertParttime(parttime);
 		return mav;
 	}
@@ -185,7 +195,7 @@ public class ParttimeController {
 	}
 	
 	@RequestMapping("/PREAD")
-	public ModelAndView readParttime(HttpSession session, String p_num){
+	public ModelAndView readParttime(HttpSession session, String p_num, String tab){
 		MemberDTO login = loginBean.getLoginIngfo(session);
 		String url = "parttime/parttime_read";
 		if(loginBean.adminCheck(login.getM_id())){url = "parttime/a_parttime_read";}
@@ -214,13 +224,16 @@ public class ParttimeController {
 	
 	
 	public String[] splitCode(String code) {
-		// String을 한글자씩 쪼개서 저장
-		char[] _daycode = code.toCharArray();
-
-		// char배열을 String배열로 변환
-		String[] daycode = new String[7];
-		for (int i = 0; i < _daycode.length; i++) {
-			daycode[i] = Character.toString(_daycode[i]);
+		String[] daycode = null;
+		if(code != null){
+			// String을 한글자씩 쪼개서 저장
+			char[] _daycode = code.toCharArray();
+	
+			// char배열을 String배열로 변환
+			daycode = new String[7];
+			for (int i = 0; i < _daycode.length; i++) {
+				daycode[i] = Character.toString(_daycode[i]);
+			}
 		}
 		return daycode;
 	}
@@ -276,13 +289,81 @@ public class ParttimeController {
 		params.put("m_id", m_id);
 		params.put("p_num", p_num);
 		
-		applydto = parttimeService.getParttimeApply(params);
+		List<P_ApplyDTO> list = (List<P_ApplyDTO>) parttimeService.getParttimeApply(params);
+		if(!list.isEmpty()){applydto = list.get(0);}
 
 		if (applydto.getM_id() != null) {
 			mav.addObject("applied", "Y");
 		} else {
 			mav.addObject("applied", "N");
 		}
+	}
+	
+	@RequestMapping("/PRESUME")
+	public ModelAndView getResume(HttpSession session, String m_id, String p_num){
+		MemberDTO login = loginBean.getLoginIngfo(session);
+		String url = "parttime/parttime_resume";
+		if(loginBean.adminCheck(login.getM_id())){
+			url = "parttime/a_parttime_resume";
+		}
+		
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("m_id", m_id);
+		params.put("p_num", p_num);
+		
+		List<P_ApplyDTO> list = parttimeService.getParttimeApply(params);
+		P_ApplyDTO resume = list.get(0);
+		
+		MemberDTO applicant = parttimeService.getMember(m_id);
+		applicant.setM_age(getAge(applicant.getM_birth()));
+		
+		ModelAndView mav = new ModelAndView(url);
+		mav.addObject("resume", resume);
+		mav.addObject("applicant", applicant);
+		return mav;
+	}
+	
+	/**
+	 * 현재 날짜와 출생일을 비교하여 나이를 계산하는 메서드.
+	 * @param birth
+	 * @return 나이
+	 */
+	public int getAge(String birth) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN);
+		Date birthday = null;
+		try {
+			birthday = (Date) sdf.parse(birth);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		GregorianCalendar today = new GregorianCalendar();
+		GregorianCalendar birthDay = new GregorianCalendar();
+		birthDay.setTime(birthday);
+
+		int factor = 0;
+		if (today.get(Calendar.DAY_OF_YEAR) < birthDay.get(Calendar.DAY_OF_YEAR)) {
+			factor = -1;
+		}
+		return today.get(Calendar.YEAR) - birthDay.get(Calendar.YEAR) + factor;
+	}
+	
+	@ModelAttribute("/PUPDATE")
+	public ModelAndView updateParttime(HttpSession session, String p_num){
+		MemberDTO login = loginBean.getLoginIngfo(session);
+		String url = "parttime/parttime_update";
+		if(loginBean.adminCheck(login.getM_id())){
+			url = "parttime/a_parttime_update";
+		}
+		
+		char[] day = { '월', '화', '수', '목', '금', '토', '일' };
+		ParttimeDTO parttime = parttimeService.getParttime(p_num);
+
+		ModelAndView mav = new ModelAndView(url);
+		mav.addObject("info", parttime);
+		//mav.addObject("daycode", splitCode(parttime.getP_daycode()));
+		mav.addObject("day", day);
+		return mav;
 	}
 	
 	/** 알바 모집 끝*/

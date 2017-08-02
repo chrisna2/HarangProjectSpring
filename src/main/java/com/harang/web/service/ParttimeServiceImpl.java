@@ -126,12 +126,12 @@ public class ParttimeServiceImpl implements ParttimeService {
 	}
 
 	@Override
-	public P_ApplyDTO getParttimeApply(HashMap<String, Object> params) {
+	public List<P_ApplyDTO> getParttimeApply(HashMap<String, Object> params) {
 		return parttimeDao.getParttimeApply(params);
 	}
 
 	@Override
-	public D_ApplyDTO getDaetaApply(HashMap<String, Object> params) {
+	public List<D_ApplyDTO> getDaetaApply(HashMap<String, Object> params) {
 		return parttimeDao.getDaetaApply(params);
 	}
 

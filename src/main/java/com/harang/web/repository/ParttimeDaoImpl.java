@@ -128,13 +128,13 @@ public class ParttimeDaoImpl implements ParttimeDao {
 	}
 
 	@Override
-	public P_ApplyDTO getParttimeApply(HashMap<String, Object> params) {
-		return (P_ApplyDTO) sqlSession.selectList(namespace+".getParttimeApply", params);
+	public List<P_ApplyDTO> getParttimeApply(HashMap<String, Object> params) {
+		return sqlSession.selectList(namespace+".getParttimeApply", params);
 	}
 
 	@Override
-	public D_ApplyDTO getDaetaApply(HashMap<String, Object> params) {
-		return (D_ApplyDTO) sqlSession.selectList(namespace+".getDaetaApply", params);
+	public List<D_ApplyDTO> getDaetaApply(HashMap<String, Object> params) {
+		return sqlSession.selectList(namespace+".getDaetaApply", params);
 	}
 
 	@Override

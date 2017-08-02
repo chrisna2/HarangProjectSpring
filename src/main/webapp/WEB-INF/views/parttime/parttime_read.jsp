@@ -245,7 +245,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                 	<!-- 댓글쓰기 -->
-                <form method="post" action="/HarangProject/parttime?cmd=PREAD">
+                <form method="post" action="/parttime/PREAD">
                 	<div class="input-group input-group-sm">
                 	  	<input type="hidden" name="p_num" value="${info.p_num}" id="p_num"/>
                 	  	<input type="hidden" name="comment" value="insert"/>
@@ -267,26 +267,25 @@
        </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-      <form name="list" method="post" action="/HarangProject/parttime">
+      <form name="list" method="post" action="">
       	<input type="hidden" name="nowPage" value="${nowPage}"/>
       	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
-      	<input type="hidden" name="cmd" value="" id="tab"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="apply" method="post" action="/HarangProject/parttime?cmd=PAPPLY">
+      <form name="apply" method="post" action="/parttime/PAPPLY">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
       	<input type="hidden" name="nowPage" value="${nowPage}"/>
       	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="cancel" method="post" action="/HarangProject/parttime?cmd=PREAD">
+      <form name="cancel" method="post" action="/parttime/PREAD">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
       	<input type="hidden" name="nowPage" value="${nowPage}"/>
       	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       	<input type="hidden" name="cancel" value="OK"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="resume" method="post" action="/HarangProject/parttime?cmd=PRESUME">
+      <form name="resume" method="post" action="/parttime/PRESUME">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
       	<input type="hidden" name="m_id" value="" id="resume_id"/>
       	<input type="hidden" name="nowPage" value="${nowPage}"/>
@@ -295,7 +294,7 @@
 		<input type="hidden" name="a_nowBlock" value="${a_paging.nowBlock}"/>
 		<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="pick" method="post" action="/HarangProject/parttime?cmd=PREAD">
+      <form name="pick" method="post" action="/parttime/PREAD">
       	<input type="hidden" name="a_nowPage" value="${a_paging.nowPage}"/>
 		<input type="hidden" name="a_nowBlock" value="${a_paging.nowBlock}"/>
 		<input type="hidden" name="nowPage" value="${nowPage}"/>
@@ -305,15 +304,14 @@
 		<input type="hidden" name="choice_id" value="" id="choice_id"/>
 		<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="del" method="post" action="/HarangProject/parttime?cmd=PMAIN">
+      <form name="del" method="post" action="/parttime/PMAIN">
       	<input type="hidden" name="delete" value="OK"/>
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
       	<input type="hidden" name="nowPage" value="${nowPage}"/>
       	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="update" method="post" action="/HarangProject/parttime">
-      	<input type="hidden" name="cmd" value="PUPDATE"/>
+      <form name="update" method="post" action="/parttime/PUPDATE">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
       	<input type="hidden" name="daycode" value="${daycode}"/>
       	<input type="hidden" name="day" value="${day}"/>
@@ -321,14 +319,12 @@
       	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="myresume" method="post" action="/HarangProject/parttime">
-      	<input type="hidden" name="cmd" value="PRESUME"/>
+      <form name="myresume" method="post" action="/parttime/PRESUME">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
       	<input type="hidden" name="m_id" value="${m_id}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="comdel" id="commentDel" method="post" action="/HarangProject/parttime">
-      	<input type="hidden" name="cmd" value="PREAD"/>
+      <form name="comdel" id="commentDel" method="post" action="/parttime/PREAD">
       	<input type="hidden" name="comment" value="delete"/>
       	<input type="hidden" name="pr_num" value="" id="pr_num"/>
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
@@ -339,8 +335,7 @@
 		<input type="hidden" name="nowPage" value="${nowPage}"/>
     	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       </form>
-      <form name="refresh" method="post" action="/HarangProject/parttime">
-      	<input type="hidden" name="cmd" value="PREAD"/>
+      <form name="refresh" method="post" action="/parttime/PREAD">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
@@ -349,7 +344,12 @@
 <!-- ------------------------------------------------------------------------------------------------ -->
 <script>
 function fnList(tab){
-	document.getElementById("tab").value = tab;
+	if(tab == 'MYPAGE'){
+		list.action = "/parttime/MYPAGE";
+	}else{
+		list.action = "/parttime/PMAIN";
+	}
+	alert(list.action);
 	list.submit();
 }
 function fnApply(){apply.submit();}

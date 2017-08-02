@@ -32,8 +32,8 @@ public interface ParttimeService {
 	public List<D_ApplyDTO> getDaetaApplyList(String d_num);
 	public List<P_ApplyDTO> getMyParttimeApplyList(HashMap<String, Object> params);
 	public List<D_ApplyDTO> getMyDaetaApplyList(HashMap<String, Object> params);
-	public P_ApplyDTO getParttimeApply(HashMap<String, Object> params);
-	public D_ApplyDTO getDaetaApply(HashMap<String, Object> params);
+	public List<P_ApplyDTO> getParttimeApply(HashMap<String, Object> params);
+	public List<D_ApplyDTO> getDaetaApply(HashMap<String, Object> params);
 	public void updateParttimeChoice(HashMap<String, Object> params);
 	public void updateDaetaChoice(HashMap<String, Object> params);
 	public void deleteParttimeApply(HashMap<String, Object> params);

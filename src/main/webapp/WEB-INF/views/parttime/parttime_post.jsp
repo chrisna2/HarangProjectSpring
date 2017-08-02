@@ -33,7 +33,7 @@
                   <h3 class="box-title">채용 정보</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                  <form name="post" method="post" action="/HarangProject/parttime?cmd=PMAIN">
+                  <form name="post" method="post" action="/parttime/insertParttime">
                   	<input type="hidden" name="insert" value="OK"/>
                   	<input type="hidden" name="p_daycode" value="" id = "p_daycode" required="required"/>
                     <!-- text input -->
@@ -114,23 +114,20 @@
       </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<form name="cancel" method="post" action="/HarangProject/parttime?cmd=PMAIN">
+<form name="cancel" method="post" action="/parttime/PMAIN">
 	<input type="hidden" name="nowPage" value="${nowPage}"/>
     <input type="hidden" name="nowBlock" value="${nowBlock}"/>
 </form>
-<form name="list" method="post" action="/HarangProject/parttime?cmd=PMAIN">
+<form name="list" method="post" action="/parttime/PMAIN">
 	<input type="hidden" name="nowPage" value="${nowPage}"/>
     <input type="hidden" name="nowBlock" value="${nowBlock}"/>
 </form>
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
 <!-- ------------------------------------------------------------------------------------------------ -->
-	
-    
     <!-- 날짜 입력  -->
-    <script src="plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="../resources/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
     <script>
-   
         $('#datepicker').datepicker({
         	format: 'yyyy-mm-dd',
         	autoclose: true
@@ -165,7 +162,7 @@
     	document.getElementById("p_daycode").value = arr;
     	
     	if ($('input[required]').is(":empty")){
-    		alert("빈 칸을 채워주세요.");
+    		alert("등록하시겠습니까? (빈 칸이 있으면 등록할 수 없습니다.)");
     		$(this).focus();
     	}else{
     		document.post.submit();
