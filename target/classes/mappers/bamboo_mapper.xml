@@ -59,7 +59,32 @@
   		
   	</select>
   	
+  	<select id = "bbCon" parameterType = "String" resultType = "Bamboo">
   	
+  		select * from tbl_bamboo where bb_num = #{bb_num}
+  	
+  	</select>
+  	
+  	<select id = "bbLCnt" parameterType="String" resultType = "Like">
+  		SELECT * FROM harang.tbl_like where bb_num = #{bb_num}
+  	</select>
+  	
+  	<select id = "bbDLCnt" parameterType="String" resultType = "Dlike">
+  		SELECT * FROM harang.tbl_dlike where bb_num = #{bb_num}
+  	</select>
+  	
+  	<update id = "bbUpdateCnt" parameterType="String">
+  	
+		update tbl_bamboo set bb_count = bb_count+1 where bb_num = #{bb_num} 
+  		
+  	</update>  
+  	
+  	
+  	<select id = "bbRList" parameterType="String" resultType="Bbreply">
+  	
+  		SELECT * FROM harang.tbl_bbreply where bb_num = #{bb_num}
+  	
+  	</select>
   	
   
   </mapper>

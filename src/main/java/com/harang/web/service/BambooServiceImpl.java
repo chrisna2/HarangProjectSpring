@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.harang.web.domain.BambooDTO;
-import com.harang.web.domain.Criteria;
+import com.harang.web.domain.BbreplyDTO;
+import com.harang.web.domain.LikeDTO;
 import com.harang.web.domain.SearchCriteria;
 import com.harang.web.repository.BambooDao;
 
@@ -41,11 +42,7 @@ public class BambooServiceImpl implements BambooService {
 		return null;
 	}
 
-	@Override
-	public BambooDTO bbRList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public BambooDTO bbLike() {
@@ -75,6 +72,40 @@ public class BambooServiceImpl implements BambooService {
 	public int bbListCount(SearchCriteria cri) {
 		
 		return bambooDao.bbListCount(cri);
+	}
+
+	@Override
+	public BambooDTO bbCon(String bb_num) {
+		
+		System.out.println("BambooServiceImpl의 bbCon 에서 테스트 시작");
+		System.out.println("BambooServiceImpl의 bbCon 작동중...");
+		System.out.println("BambooServiceImpl의 bbCon 에서 테스트 끝");
+		
+		return bambooDao.bbCon(bb_num);
+	}
+
+	@Override
+	public List<BbreplyDTO> bbRList(String bb_num) {
+		
+		return bambooDao.bbRList(bb_num);
+	}
+
+	@Override
+	public List<LikeDTO> bbLCnt(String bb_num) {
+		
+		return bambooDao.bbLCnt(bb_num);
+	}
+
+	@Override
+	public List<LikeDTO> bbDLCnt(String bb_num) {
+		
+		return bambooDao.bbDLCnt(bb_num);
+	}
+
+	@Override
+	public void bbUpdateCnt(String bb_num) {
+		
+		bambooDao.bbUpdateCnt(bb_num);
 	}
 	
 	

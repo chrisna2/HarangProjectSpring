@@ -20,81 +20,160 @@ public class BambooController {
 
 	@Autowired
 	private BambooService bambooService;
-	
+
 	private PageMaker pageMaker;
-	
-	
-	@RequestMapping(value="/BB_LIST",method = RequestMethod.GET)
-	public ModelAndView bambooListGet(SearchCriteria cri){
-		
+
+	@RequestMapping(value = "/BB_LIST", method = RequestMethod.GET)
+	public ModelAndView bambooListbyGet(SearchCriteria cri) {
+
 		ModelAndView mav = new ModelAndView("bamboo/u_bb_list");
-		
+
 		mav.addObject("bblist", bambooService.bbList(cri));
 		mav.addObject("bbNList", bambooService.bbNList());
-		
+
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(bambooService.bbListCount(cri));
-		
+
 		mav.addObject("pageMaker", pageMaker);
-		
-		
+
 		return mav;
-		
+
 	}
-	@RequestMapping(value="/BB_LIST",method = RequestMethod.POST)
-	public ModelAndView bambooListPost(SearchCriteria cri){
-		
+
+	@RequestMapping(value = "/BB_LIST", method = RequestMethod.POST)
+	public ModelAndView bambooListbyPost(SearchCriteria cri) {
+
 		ModelAndView mav = new ModelAndView("bamboo/u_bb_list");
-		
+
 		mav.addObject("bblist", bambooService.bbList(cri));
 		mav.addObject("bbNList", bambooService.bbNList());
-		
+
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(bambooService.bbListCount(cri));
-		
+
 		mav.addObject("pageMaker", pageMaker);
-		
-		
+
 		return mav;
-		
+
 	}
-	
-	/*@RequestMapping(value = "/BB_CON", method = RequestMethod.GET)
-	public ModelAndView bambooContentGet(HttpServletRequest req, String bb_num){
-		
+
+	@RequestMapping(value = "/BB_CON", method = RequestMethod.GET)
+	public ModelAndView bambooContentbyGet(HttpServletRequest req, String bb_num, SearchCriteria cri) {
+
 		HttpSession session = req.getSession();
 		MemberDTO mdto;
 		String m_id = null;
-		ModelAndView mav;
-		
-		
-		if(null != session.getAttribute("member")){
-			
+		String inMav = null;
+
+		if (null != session.getAttribute("member")) {
+
 			mdto = (MemberDTO) session.getAttribute("member");
 			m_id = mdto.getM_id();
-			mav = new ModelAndView("bamboo/u_bb_con");
-		}
-		else{
+			inMav = "bamboo/u_bb_content";
+
+		} else {
 			mdto = (MemberDTO) session.getAttribute("admin");
 			m_id = mdto.getM_id();
-			mav = new ModelAndView("bamboo/a_bb_con");
+			inMav = "bamboo/a_bb_content";
 		}
-		
+
+		ModelAndView mav = new ModelAndView(inMav);
+
 		System.out.println("BambooController에서 Test 시작");
 		System.out.println("접속한 사람의 아이디 : " + m_id);
 		System.out.println("bb_num : " + bb_num);
 		System.out.println("BambooController에서 Test 종료");
+
+		/*if (session.getAttribute(bb_num) != "read") {
+
+			bambooService.bbUpdateCnt(bb_num);
+			session.setAttribute(bb_num, "read");
+		}*/
+
+		mav.addObject("bbcon", bambooService.bbCon(bb_num));
+		mav.addObject("bblcnt", bambooService.bbLCnt(bb_num));
+		mav.addObject("bbdlcnt", bambooService.bbDLCnt(bb_num));
+		mav.addObject("brlist", bambooService.bbRList(bb_num));
+		
+		
+		mav.addObject("bblist", bambooService.bbList(cri));
+		mav.addObject("bbNList", bambooService.bbNList());
+
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(bambooService.bbListCount(cri));
+
+		mav.addObject("pageMaker", pageMaker);
 		
 		
 		
 		
-		return null;
-	}*/
-	
-	
-	
-	
-	
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/BB_CON", method = RequestMethod.POST)
+	public ModelAndView bambooContentbyPost(HttpServletRequest req, String bb_num, SearchCriteria cri) {
+
+		HttpSession session = req.getSession();
+		MemberDTO mdto;
+		String m_id = null;
+		String inMav = null;
+
+		if (null != session.getAttribute("member")) {
+
+			mdto = (MemberDTO) session.getAttribute("member");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/u_bb_content";
+
+		} else {
+			mdto = (MemberDTO) session.getAttribute("admin");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/a_bb_content";
+		}
+
+		ModelAndView mav = new ModelAndView(inMav);
+
+		System.out.println("BambooController에서 Test 시작");
+		System.out.println("접속한 사람의 아이디 : " + m_id);
+		System.out.println("bb_num : " + bb_num);
+		System.out.println("BambooController에서 Test 종료");
+
+		/*if (session.getAttribute(bb_num) != "read") {
+
+			bambooService.bbUpdateCnt(bb_num);
+			session.setAttribute(bb_num, "read");
+		}*/
+
+		mav.addObject("bbcon", bambooService.bbCon(bb_num));
+		mav.addObject("bblcnt", bambooService.bbLCnt(bb_num));
+		mav.addObject("bbdlcnt", bambooService.bbDLCnt(bb_num));
+		mav.addObject("bbrlist", bambooService.bbRList(bb_num));	
+		
+		
+		
+		mav.addObject("bblist", bambooService.bbList(cri));
+		mav.addObject("bbNList", bambooService.bbNList());
+
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(bambooService.bbListCount(cri));
+
+		mav.addObject("pageMaker", pageMaker);
+		
+		
+		
+		
+		return mav;
+	}
+
+	@RequestMapping(value = "/BB_POST", method = RequestMethod.GET)
+	public String bambooPostbyGET() {
+
+		return "bamboo/u_bb_post";
+
+	}
+
 }

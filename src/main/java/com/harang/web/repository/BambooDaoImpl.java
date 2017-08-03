@@ -1,16 +1,15 @@
 package com.harang.web.repository;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.harang.web.domain.BambooDTO;
-import com.harang.web.domain.Criteria;
+import com.harang.web.domain.BbreplyDTO;
+import com.harang.web.domain.LikeDTO;
 import com.harang.web.domain.SearchCriteria;
 
 @Repository
@@ -24,9 +23,9 @@ public class BambooDaoImpl implements BambooDao {
 	@Override
 	public List<BambooDTO> bbList(SearchCriteria cri) {
 
-		System.out.println("BambooDaoImpl 에서 테스트 시작");
+		System.out.println("BambooDaoImpl의 bbList 에서 테스트 시작");
 		System.out.println("Keyfield : " + cri.getKeyfield()+ ", Keyword : " +cri.getKeyword());
-		System.out.println("BambooDaoImpl 에서 테스트 끝");
+		System.out.println("BambooDaoImpl의 bbList 에서 테스트 끝");
 		
 		
 		return sqlSession.selectList(namespace + ".bbList", cri);
@@ -34,9 +33,9 @@ public class BambooDaoImpl implements BambooDao {
 	@Override
 	public List<BambooDTO> bbNList() {
 		
-		System.out.println("BambooDaoImpl 에서 테스트 시작");
-		System.out.println("BambooDaoImpl 작동중...");
-		System.out.println("BambooDaoImpl 에서 테스트 끝");
+		System.out.println("BambooDaoImpl의 bbNList 에서 테스트 시작");
+		System.out.println("BambooDaoImpl의 bbNList 작동중...");
+		System.out.println("BambooDaoImpl의 bbNList 에서 테스트 끝");
 		
 		return sqlSession.selectList(namespace + ".bbNList");
 	}
@@ -51,9 +50,8 @@ public class BambooDaoImpl implements BambooDao {
 		return null;
 	}
 	@Override
-	public BambooDTO bbRList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BbreplyDTO> bbRList(String bb_num) {
+		return sqlSession.selectList(namespace + ".bbRList", bb_num);
 	}
 	@Override
 	public BambooDTO bbLike() {
@@ -79,6 +77,32 @@ public class BambooDaoImpl implements BambooDao {
 	public int bbListCount(SearchCriteria cri) {
 		
 		return sqlSession.selectOne(namespace + ".bbListCount", cri);
+	}
+	@Override
+	public BambooDTO bbCon(String bb_num) {
+		
+		System.out.println("BambooDaoImpl의 bbCon 에서 테스트 시작");
+		System.out.println("BambooDaoImpl의 bbCon 작동중...");
+		System.out.println("BambooDaoImpl의 bbCon 에서 테스트 끝");
+		
+		
+		return sqlSession.selectOne(namespace + ".bbCon", bb_num);
+	}
+	@Override
+	public List<LikeDTO> bbLCnt(String bb_num) {
+		
+		return sqlSession.selectList(namespace + ".bbLCnt", bb_num);
+	}
+	@Override
+	public List<LikeDTO> bbDLCnt(String bb_num) {
+		
+		return sqlSession.selectList(namespace + ".bbDLCnt", bb_num);
+	}
+	@Override
+	public void bbUpdateCnt(String bb_num) {
+		
+		sqlSession.insert(namespace + ".bbUpdateCnt", bb_num);
+		
 	}
 		
 	
