@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.harang.web.domain.BambooDTO;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.SearchCriteria;
 import com.harang.web.service.BambooService;
@@ -92,6 +93,8 @@ public class BambooController {
 			session.setAttribute(bb_num, "read");
 		}*/
 
+		bambooService.bbUpdateCnt(bb_num);
+		
 		mav.addObject("bbcon", bambooService.bbCon(bb_num));
 		mav.addObject("bblcnt", bambooService.bbLCnt(bb_num));
 		mav.addObject("bbdlcnt", bambooService.bbDLCnt(bb_num));
@@ -146,6 +149,8 @@ public class BambooController {
 			bambooService.bbUpdateCnt(bb_num);
 			session.setAttribute(bb_num, "read");
 		}*/
+		
+		bambooService.bbUpdateCnt(bb_num);
 
 		mav.addObject("bbcon", bambooService.bbCon(bb_num));
 		mav.addObject("bblcnt", bambooService.bbLCnt(bb_num));
@@ -170,10 +175,69 @@ public class BambooController {
 	}
 
 	@RequestMapping(value = "/BB_POST", method = RequestMethod.GET)
-	public String bambooPostbyGET() {
+	public String bambooPostbyGET(HttpServletRequest req) {
+		
+		HttpSession session = req.getSession();
+		MemberDTO mdto;
+		String m_id = null;
+		String inMav = null;
 
-		return "bamboo/u_bb_post";
+		if (null != session.getAttribute("member")) {
+
+			mdto = (MemberDTO) session.getAttribute("member");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/u_bb_post";
+
+		} else {
+			mdto = (MemberDTO) session.getAttribute("admin");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/a_bb_post";
+		}
+		
+
+		return inMav;
 
 	}
+	
+	@RequestMapping(value = "/BB_POST", method = RequestMethod.POST)
+	public ModelAndView bambooPostbyPOST(HttpServletRequest req, BambooDTO bambooDTO, SearchCriteria cri) {
+		
+		HttpSession session = req.getSession();
+		MemberDTO mdto;
+		String m_id = null;
+		String inMav = null;
+
+		if (null != session.getAttribute("member")) {
+
+			mdto = (MemberDTO) session.getAttribute("member");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/u_bb_list";
+
+		} else {
+			mdto = (MemberDTO) session.getAttribute("admin");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/a_bb_list";
+		}
+		
+
+		
+		bambooService.bbPost(bambooDTO);
+
+		ModelAndView mav = new ModelAndView(inMav);
+		
+		mav.addObject("bblist", bambooService.bbList(cri));
+		mav.addObject("bbNList", bambooService.bbNList());
+
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(bambooService.bbListCount(cri));
+
+		mav.addObject("pageMaker", pageMaker);
+		
+		
+		return mav;
+
+	}
+	
 
 }

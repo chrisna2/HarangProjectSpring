@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.harang.web.domain.BambooDTO;
 import com.harang.web.domain.BbreplyDTO;
+import com.harang.web.domain.DlikeDTO;
 import com.harang.web.domain.LikeDTO;
 import com.harang.web.domain.SearchCriteria;
 
@@ -23,8 +24,10 @@ public interface BambooDao {
 	public BambooDTO bbCon(String bb_num);
 	
 	public List<LikeDTO> bbLCnt(String bb_num);
-	public List<LikeDTO> bbDLCnt(String bb_num);
+	public List<DlikeDTO> bbDLCnt(String bb_num);
 	
 	public void bbUpdateCnt(String bb_num);
+	
+	public void bbPost(BambooDTO bambooDTO);
 	
 }

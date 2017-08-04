@@ -69,8 +69,9 @@ function fnbbp(){
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
-	<form action="/HarangProject/bamboo" name="bbpostcomplete" method="post">
-		<input type = "hidden" name="cmd" value="U_BB_POST_COMPLETE">
+	<form action="/bamboo/BB_POST" name="bbpostcomplete" method="post">
+	<input type = "hidden" name = "m_id" value = "${sessionScope.member.m_id }">
+		
 		
 		<section class="content">
 			<!-- 세로 길이 수정 -->
@@ -123,7 +124,7 @@ function fnbbp(){
 							</div>
 							<div class="col-md-2">
 								<a class="btn btn-block btn-danger"
-									href="/HarangProject/bamboo?cmd=BB_LIST">취소</a>
+									href="/bamboo/BB_LIST">취소</a>
 							</div>
 						</div>
 

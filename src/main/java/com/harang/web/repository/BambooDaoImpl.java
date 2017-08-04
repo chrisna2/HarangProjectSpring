@@ -1,6 +1,5 @@
 package com.harang.web.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.harang.web.domain.BambooDTO;
 import com.harang.web.domain.BbreplyDTO;
+import com.harang.web.domain.DlikeDTO;
 import com.harang.web.domain.LikeDTO;
 import com.harang.web.domain.SearchCriteria;
 
@@ -94,7 +94,7 @@ public class BambooDaoImpl implements BambooDao {
 		return sqlSession.selectList(namespace + ".bbLCnt", bb_num);
 	}
 	@Override
-	public List<LikeDTO> bbDLCnt(String bb_num) {
+	public List<DlikeDTO> bbDLCnt(String bb_num) {
 		
 		return sqlSession.selectList(namespace + ".bbDLCnt", bb_num);
 	}
@@ -102,6 +102,11 @@ public class BambooDaoImpl implements BambooDao {
 	public void bbUpdateCnt(String bb_num) {
 		
 		sqlSession.insert(namespace + ".bbUpdateCnt", bb_num);
+		
+	}
+	@Override
+	public void bbPost(BambooDTO bambooDTO) {
+		sqlSession.insert(namespace + ".bbPost", bambooDTO);
 		
 	}
 		

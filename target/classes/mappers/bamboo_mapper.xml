@@ -7,8 +7,8 @@
   	<select id = "bbList" parameterType="SearchCriteria" resultType="Bamboo">
   	
   		select distinct bb.bb_num, bb.m_id, bb_notice, bb_title, bb_content, bb_regdate, bb_count, bb_nickname,
-  		 ifnull(like_cnt,0), (select count(br_num) from tbl_bbreply where bb_num = bb.bb_num) as bb_replycnt from tbl_bamboo bb left outer join
-  		  (select bb_num, count(tbl_like.m_id) like_cnt from tbl_like group by bb_num) li on bb.bb_num = li.bb_num where
+  		 ifnull(like_cnt,0) as like_cnt, (select count(br_num) from tbl_bbreply where bb_num = bb.bb_num) as bb_replycnt from tbl_bamboo bb left outer join
+  		  (select bb_num, count(tbl_like.m_id) as like_cnt from tbl_like group by bb_num) li on bb.bb_num = li.bb_num where
   		  <include refid="search"></include>
   		  limit #{pageStart}, #{perPageNum} 
   		  
@@ -34,7 +34,7 @@
   			</if>
   		
   			<if test="keyword == 'bbhotlist'.toString()">
-  				 bb_regdate> (select date_sub(now(), interval 30 day)) and bb_notice='N' order by like_cnt desc, bb.bb_count 
+  				 bb_regdate> (select date_sub(now(), interval 30 day)) and bb_notice='N' order by bb_regdate desc 
   			</if>
   		
   			<if test="keyfield == 'bb_title'.toString()">
@@ -85,6 +85,12 @@
   		SELECT * FROM harang.tbl_bbreply where bb_num = #{bb_num}
   	
   	</select>
+  	
+  	<insert id="bbPost" parameterType="Bamboo">
+  	
+  		insert into tbl_bamboo (m_id, bb_notice, bb_title, bb_content, bb_count, bb_nickname, bb_num) values (#{m_id},'N',#{bb_title},#{bb_content},0,#{bb_nickname},'')
+  	
+  	</insert>
   	
   
   </mapper>

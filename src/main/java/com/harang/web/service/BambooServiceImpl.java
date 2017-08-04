@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.harang.web.domain.BambooDTO;
 import com.harang.web.domain.BbreplyDTO;
+import com.harang.web.domain.DlikeDTO;
 import com.harang.web.domain.LikeDTO;
 import com.harang.web.domain.SearchCriteria;
 import com.harang.web.repository.BambooDao;
@@ -97,7 +98,7 @@ public class BambooServiceImpl implements BambooService {
 	}
 
 	@Override
-	public List<LikeDTO> bbDLCnt(String bb_num) {
+	public List<DlikeDTO> bbDLCnt(String bb_num) {
 		
 		return bambooDao.bbDLCnt(bb_num);
 	}
@@ -106,6 +107,13 @@ public class BambooServiceImpl implements BambooService {
 	public void bbUpdateCnt(String bb_num) {
 		
 		bambooDao.bbUpdateCnt(bb_num);
+	}
+
+	@Override
+	public void bbPost(BambooDTO bambooDTO) {
+		
+		bambooDao.bbPost(bambooDTO);
+		
 	}
 	
 	

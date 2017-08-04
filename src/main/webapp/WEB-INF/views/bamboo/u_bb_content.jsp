@@ -505,7 +505,7 @@ td {
 													pattern="yyyy-MM-dd" /></td>
 											<td>${bbNList.bb_nickname}</td>
 											
-											<td><a href="/bamboo/BB_CON?bb_num=${bbNList.bb_num }" style="color: black">${bbNList.bb_title}</a></td>
+											<td><a href="/bamboo/BB_CON?page=${pageMaker.cri.page}&bb_num=${bbNList.bb_num }" style="color: black">${bbNList.bb_title}</a></td>
 											<td>${bbNList.bb_count}</td>
 											<td>${bbNList.like_cnt}</td>
 
@@ -526,7 +526,7 @@ td {
 											<td><fmt:formatDate value="${bblist.bb_regdate}"
 													pattern="yyyy-MM-dd" /></td>
 											<td>${bblist.bb_nickname}</td>
-											<td><a href="/bamboo/BB_CON?bb_num=${bblist.bb_num }" style="color: black">${bblist.bb_title}</a></td>
+											<td><a href="/bamboo/BB_CON?page=${pageMaker.cri.page}&bb_num=${bblist.bb_num }" style="color: black">${bblist.bb_title}</a></td>
 											<td>${bblist.bb_count}</td>
 											<td>${bblist.like_cnt}</td>
 
@@ -556,17 +556,20 @@ td {
 						<ul class="pagination pagination-sm no-margin pull-right">
 							<c:if test="${pageMaker.prev}">
 								<li><a
-									href="/bamboo/BB_CON${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+									href="/bamboo/BB_CON${pageMaker.makeQuery(pageMaker.startPage-1)}&bb_num=${bbcon.bb_num}">
+									&laquo;</a></li>
 							</c:if>
 							<c:forEach begin="${pageMaker.startPage}"
 								end="${pageMaker.endPage}" var="idx">
 								<li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
-									<a href="/bamboo/BB_CON?page=${idx}"> ${idx} </a>
+									<a href="/bamboo/BB_CON?page=${idx}&bb_num=${bbcon.bb_num}" >
+									 ${idx} </a>
 								</li>
 							</c:forEach>
 							<c:if test="${pageMaker.next && pageMaker.endPage>0}">
 								<li><a
-									href="/bamboo/BB_CON${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+									href="/bamboo/BB_CON${pageMaker.makeQuery(pageMaker.endPage+1)}&bb_num=${bbcon.bb_num}" >
+									&raquo;</a></li>
 							</c:if>
 						</ul>
 
