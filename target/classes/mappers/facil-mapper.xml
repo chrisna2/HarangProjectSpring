@@ -6,12 +6,24 @@
 
  
   	<select id="ReserPgList" resultType="PgMember">
-  		SELECT * FROM tbl_pg_member
+  		SELECT m.pgm_num, m.pg_num, m.m_id, m.pgm_regdate, m.pgm_timecode, p.pg_type, p.pg_name, m.pgm_date, p.pg_point
+  		FROM tbl_pg_member m, tbl_playground p WHERE m.pg_num = p.pg_num
+  		AND m.m_id= #{m_id} ORDER BY m.pgm_date ASC
   	</select>
   	
   	<select id="ReserSrList" resultType="SrMember">
-  		SELECT * FROM tbl_sr_member
+  		SELECT m.srm_num, m.sr_num, m.m_id, m.srm_regdate, m.srm_timecode, s.sr_type, s.sr_name, m.srm_date, s.sr_point
+  		FROM tbl_sr_member m, tbl_studyroom s WHERE m.sr_num = s.sr_num
+  		AND m.m_id= #{m_id} ORDER BY m.srm_date ASC
   	</select>
+  	
+  	<delete id="ReserPgCancel" >
+  		DELETE FROM tbl_pg_member WHERE pgm_num=${pgm_num}
+  	</delete>
+  	
+  	<delete id="ReserSrCancel" >
+  		DELETE FROM tbl_sr_member WHERE srm_num=${srm_num}
+  	</delete>
 
 	<select id="aticketList" parameterType="SearchCriteria" resultType="FoodMember">
 		select f.f_title, f.f_selldate, f.f_point, count(fm.f_num) as fm_sellcount 

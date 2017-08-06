@@ -282,8 +282,7 @@ function dateFormCheck(){
 					<!-- /.box-header -->
 
 					<!-- box-body -->
-					<form role="form" method="post" name="checkform" action="/HarangProject/facil?cmd=FacilMain" onsubmit="return dateFormCheck()">
-					<input type="hidden" id="deleteOk" name="deleteOk" value="1">
+					<form role="form" method="post" name="checkform" action="/facil/FacilMainDel" onsubmit="return dateFormCheck()">
 					<div class="box-body">
 						
 							<div class="row">
@@ -328,7 +327,7 @@ function dateFormCheck(){
 							<div class="col-md-3 btn-group">
 							</div>
 							<div class="col-md-3 btn-group">
-								<input type="button" class="btn btn-block btn-primary" value="예약취소" onclick="dateFormCheck()">
+								<input type="submit" class="btn btn-block btn-primary" value="예약취소">
 							</div>
 							<div class="col-md-3 btn-group">
 								<input type="button" class="btn btn-block  btn-primary" value="다시 선택" onclick="shutdown()">

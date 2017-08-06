@@ -2,6 +2,8 @@ package com.harang.web.repository;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,14 +20,15 @@ public class FacilDaoImpl implements FacilDao {
 	private static final String namespace = "com.harang.mapper.facil-mapper";
 
 	@Override
-	public List<PgMemberDTO> ReserPgList() {
-		List list = sqlSession.selectList(namespace + ".ReserPgList");
+	public List<PgMemberDTO> ReserPgList(String m_id) {
+		List list = sqlSession.selectList(namespace + ".ReserPgList", m_id);
 		return list;
 	}
 
 	@Override
-	public List<SrMemberDTO> ReserSrList() {
-		List list = sqlSession.selectList(namespace + ".ReserSrList");
+	public List<SrMemberDTO> ReserSrList(String m_id) {
+		
+		List list = sqlSession.selectList(namespace + ".ReserSrList", m_id);
 		return list;
 	}
 
@@ -42,15 +45,15 @@ public class FacilDaoImpl implements FacilDao {
 	}
 
 	@Override
-	public void DeletePgReser(String pgm_num) {
-		
-		
+	public void deletePgReser(String pgm_num) {
+		System.out.println("2-1");
+	sqlSession.delete(namespace + ".ReserPgCancel",pgm_num);
 	}
 
 	@Override
-	public void DeleteSrReser(String srm_num) {
-		
-		
+	public void deleteSrReser(String srm_num) {
+		System.out.println("2-2");
+	sqlSession.delete(namespace + ".ReserSrCancel",srm_num);	
 	}
 
 	

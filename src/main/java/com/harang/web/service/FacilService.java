@@ -1,7 +1,15 @@
 package com.harang.web.service;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.harang.web.domain.PgMemberDTO;
+import com.harang.web.domain.SrMemberDTO;
+
 public interface FacilService {
-	public void allList();
+	public List<PgMemberDTO> loadPgReserList(String m_id);
+	public List<SrMemberDTO> loadSrReserList(String m_id);
 	
 	public void selectReserPg();
 	public void selectReserSr();
@@ -9,6 +17,6 @@ public interface FacilService {
 	public void findReserPg();
 	public void findReserSr();
 	
-	public void deleteReserPg();
-	public void deleteReserSr();
+	public void deleteReserPg(String pgm_num);
+	public void deleteReserSr(String pgm_num);
 }
