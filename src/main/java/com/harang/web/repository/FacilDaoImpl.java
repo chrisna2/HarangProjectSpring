@@ -18,6 +18,18 @@ public class FacilDaoImpl implements FacilDao {
 	private SqlSession sqlSession;
 	
 	private static final String namespace = "com.harang.mapper.facil-mapper";
+	
+	@Override
+	public List<PgMemberDTO> ReserPgListAll() {
+		List list = sqlSession.selectList(namespace + ".ReserPgListAll");
+		return list;
+	}
+
+	@Override
+	public List<SrMemberDTO> ReserSrListAll() {
+		List list = sqlSession.selectList(namespace + ".ReserSrListAll");
+		return list;
+	}
 
 	@Override
 	public List<PgMemberDTO> ReserPgList(String m_id) {
@@ -47,7 +59,7 @@ public class FacilDaoImpl implements FacilDao {
 	@Override
 	public void deletePgReser(String pgm_num) {
 		System.out.println("2-1");
-	sqlSession.delete(namespace + ".ReserPgCancel",pgm_num);
+	sqlSession.delete(namespace + ".ReserPgCancel", pgm_num);
 	}
 
 	@Override
@@ -55,6 +67,8 @@ public class FacilDaoImpl implements FacilDao {
 		System.out.println("2-2");
 	sqlSession.delete(namespace + ".ReserSrCancel",srm_num);	
 	}
+
+
 
 	
 

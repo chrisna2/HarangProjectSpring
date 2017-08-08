@@ -16,6 +16,18 @@
 }
 </style>
 <script type="text/javascript">
+window.onload = function(){
+	var result = "${result}";
+
+	if( result == null){
+	
+	}
+	else if(result == "true"){
+		alert("예약이 취소되었습니다.");
+	}
+}
+
+
 function dateFormCheck(){
 	  /*날짜 비교 */
     var _reserdate = checkform.resertime.value.split("-");
@@ -37,6 +49,12 @@ function dateFormCheck(){
 
 }
 </script>
+
+
+
+
+
+
 </head>
 <!-- 메인 페이지 구역 , 즉 작업 구역 -->
 <div class="content-wrapper">
@@ -50,6 +68,7 @@ function dateFormCheck(){
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
+
 
 	<section class="content">
 		

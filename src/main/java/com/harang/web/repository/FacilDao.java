@@ -8,6 +8,9 @@ import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.SrMemberDTO;
 
 public interface FacilDao {
+	public List<PgMemberDTO> ReserPgListAll();
+	public List<SrMemberDTO> ReserSrListAll();
+
 	public List<PgMemberDTO> ReserPgList(String m_id);
 	public List<SrMemberDTO> ReserSrList(String m_id);
 	

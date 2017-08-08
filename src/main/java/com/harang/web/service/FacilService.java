@@ -8,6 +8,9 @@ import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.SrMemberDTO;
 
 public interface FacilService {
+	public List<PgMemberDTO> loadPgReserListAll();
+	public List<SrMemberDTO> loadSrReserListAll();
+	
 	public List<PgMemberDTO> loadPgReserList(String m_id);
 	public List<SrMemberDTO> loadSrReserList(String m_id);
 	
