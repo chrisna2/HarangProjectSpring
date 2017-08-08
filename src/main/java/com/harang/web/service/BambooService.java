@@ -12,7 +12,7 @@ public interface BambooService {
 
 	public List<BambooDTO> bbList(SearchCriteria cri);
 	public List<BambooDTO> bbNList();
-	public BambooDTO bbDelete();
+	public void bbDelete(String bb_num);
 	public BambooDTO bbUpdate();
 	public List<BbreplyDTO> bbRList(String bb_num);
 	public BambooDTO bbLike();

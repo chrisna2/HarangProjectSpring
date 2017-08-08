@@ -205,25 +205,25 @@ public class BambooController {
 		HttpSession session = req.getSession();
 		MemberDTO mdto;
 		String m_id = null;
-		String inMav = null;
+		String goTo = null;
 
 		if (null != session.getAttribute("member")) {
 
 			mdto = (MemberDTO) session.getAttribute("member");
 			m_id = mdto.getM_id();
-			inMav = "bamboo/u_bb_list";
+			goTo = "bamboo/u_bb_list";
 
 		} else {
 			mdto = (MemberDTO) session.getAttribute("admin");
 			m_id = mdto.getM_id();
-			inMav = "bamboo/a_bb_list";
+			goTo = "bamboo/a_bb_list";
 		}
 		
 
 		
 		bambooService.bbPost(bambooDTO);
 
-		ModelAndView mav = new ModelAndView(inMav);
+		ModelAndView mav = new ModelAndView(goTo);
 		
 		mav.addObject("bblist", bambooService.bbList(cri));
 		mav.addObject("bbNList", bambooService.bbNList());
@@ -237,6 +237,45 @@ public class BambooController {
 		
 		return mav;
 
+	}
+	
+	@RequestMapping(value = "/BB_DEL", method = RequestMethod.POST)
+	public ModelAndView bambooDeletebyPOST(HttpServletRequest req, String bb_num, SearchCriteria cri){
+		
+		bambooService.bbDelete(bb_num);
+		
+		HttpSession session = req.getSession();
+		MemberDTO mdto;
+		String m_id = null;
+		String goTo = null;
+
+		if (null != session.getAttribute("member")) {
+
+			mdto = (MemberDTO) session.getAttribute("member");
+			m_id = mdto.getM_id();
+			goTo = "bamboo/u_bb_list";
+
+		} else {
+			mdto = (MemberDTO) session.getAttribute("admin");
+			m_id = mdto.getM_id();
+			goTo = "bamboo/a_bb_list";
+		}
+		
+		
+		ModelAndView mav = new ModelAndView(goTo);
+		
+		mav.addObject("bblist", bambooService.bbList(cri));
+		mav.addObject("bbNList", bambooService.bbNList());
+
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(bambooService.bbListCount(cri));
+
+		mav.addObject("pageMaker", pageMaker);
+		
+		
+		return mav;
+		
 	}
 	
 

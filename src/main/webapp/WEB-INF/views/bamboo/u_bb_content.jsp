@@ -218,19 +218,17 @@ td {
 
 						<!--  수정을 위한 폼 시작 -->
 						<!-- 수정 하려면.. 글번호를 가져가야함.  -->
-						<form method="post" action="/HarangProject/bamboo"
+						<form method="post" action="/bamboo/BB_UPDATE?bb_num=${bbcon.bb_num}"
 							name="bbconupdateform">
-							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-								type="hidden" name="cmd" value="U_BB_CONUP" />
+							
 
 						</form>
 						<!--  수정을 위한 폼 끝 -->
 
 						<!--  삭제를 위한 폼 시작 -->
 						<!-- 삭제 하려면.. 글번호를 가져가야함.  -->
-						<form method="post" action="/HarangProject/bamboo" name="bbcondel">
-							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-								type="hidden" name="cmd" value="U_BB_DEL" />
+						<form method="post" action="/bamboo/BB_DEL" name="bbcondel">
+							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
 
 						</form>
 						<!--  수정을 위한 폼 끝 -->

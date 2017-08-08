@@ -32,9 +32,9 @@ public class BambooServiceImpl implements BambooService {
 	}
 
 	@Override
-	public BambooDTO bbDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public void bbDelete(String bb_num) {
+		
+		bambooDao.bbDelete(bb_num);
 	}
 
 	@Override

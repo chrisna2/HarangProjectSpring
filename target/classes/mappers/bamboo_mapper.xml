@@ -92,5 +92,12 @@
   	
   	</insert>
   	
+  	<delete id="bbDelete" parameterType="String" >
+  	
+  		delete from harang.tbl_bamboo where bb_num = #{bb_num}
+  	
+  	</delete>
+  	
+  	
   
   </mapper>

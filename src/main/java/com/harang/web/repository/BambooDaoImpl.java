@@ -40,9 +40,10 @@ public class BambooDaoImpl implements BambooDao {
 		return sqlSession.selectList(namespace + ".bbNList");
 	}
 	@Override
-	public BambooDTO bbDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public void bbDelete(String bb_num) {
+		
+		sqlSession.delete(namespace + ".bbDelete", bb_num);
+		
 	}
 	@Override
 	public BambooDTO bbUpdate() {
