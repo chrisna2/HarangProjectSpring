@@ -14,6 +14,8 @@ public interface FacilDao {
 	public List<PgMemberDTO> ReserPgList(String m_id);
 	public List<SrMemberDTO> ReserSrList(String m_id);
 	
+	public List<PgMemberDTO> scheduleFacilList();
+	
 	public PgMemberDTO selectPgReser(String pgm_num);
 	public SrMemberDTO selectSrReser(String srm_num);
 	

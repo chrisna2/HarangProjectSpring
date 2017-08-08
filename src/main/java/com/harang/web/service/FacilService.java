@@ -14,6 +14,8 @@ public interface FacilService {
 	public List<PgMemberDTO> loadPgReserList(String m_id);
 	public List<SrMemberDTO> loadSrReserList(String m_id);
 	
+	public List<PgMemberDTO> scheduleFacilList();
+
 	public void selectReserPg();
 	public void selectReserSr();
 	

@@ -99,13 +99,21 @@ public class FacilServiceImpl implements FacilService {
 
 	@Override
 	public void deleteReserPg(String pgm_num) {
-		System.out.println(pgm_num);
 		facilDao.deletePgReser(pgm_num);
 	}
 
 	@Override
 	public void deleteReserSr(String srm_num) {
-		System.out.println(srm_num);
 		facilDao.deleteSrReser(srm_num);
 	}
+
+	@Override
+	public List<PgMemberDTO> scheduleFacilList() {
+		List<PgMemberDTO> list = facilDao.scheduleFacilList();
+		return list;
+	}
+	
+
+
+
 }

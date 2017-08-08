@@ -8,6 +8,18 @@
 <title>운동장(관리자)</title>
 <style>
 </style>
+<script type="text/javascript">
+window.onload = function(){
+	var result = "${result}";
+
+	if( result == null){
+
+	}
+	else if(result == "true"){
+	alert("축제 일정을 취소하였습니다.");
+	}
+}
+</script>
 </head>
 <!-- 메인 페이지 구역 , 즉 작업 구역 -->
 <div class="content-wrapper">
@@ -133,7 +145,7 @@
 		<!-- 두번째 단시작 [ 2. 일정 취소  확인 ] -->
 		<div class="row">
 			<div class="col-md-12">
-				<form method="POST" action="/HarangProject/facil?cmd=AFacilPG">
+				<form method="POST" action="/facil/AFacilPGdel">
 					<!-- 2. 일정취소 확인 -->
 					<div class="box box-primary">
 						<!-- 2.box header-->

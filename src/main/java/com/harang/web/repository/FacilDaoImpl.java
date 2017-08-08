@@ -58,18 +58,17 @@ public class FacilDaoImpl implements FacilDao {
 
 	@Override
 	public void deletePgReser(String pgm_num) {
-		System.out.println("2-1");
 	sqlSession.delete(namespace + ".ReserPgCancel", pgm_num);
 	}
 
 	@Override
 	public void deleteSrReser(String srm_num) {
-		System.out.println("2-2");
 	sqlSession.delete(namespace + ".ReserSrCancel",srm_num);	
 	}
 
-
-
-	
-
+	@Override
+	public List<PgMemberDTO> scheduleFacilList() {
+		List list = sqlSession.selectList(namespace + ".scheduleLoad");
+		return list;
+	}
 }

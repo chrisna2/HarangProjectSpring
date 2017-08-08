@@ -74,6 +74,7 @@ public class FacilController {
 		return mav;
 	}
 	
+	// 관리자 예약 취소(삭제) 
 	@RequestMapping(value = "/AFacilManagerDel", method = RequestMethod.POST)
 	public String aManagerDelete(HttpServletRequest req, RedirectAttributes rttr){
 		String facilType = req.getParameter("resernum");
@@ -82,11 +83,7 @@ public class FacilController {
 		// 메세지와의 연동 기능이 없스니다. 추후 추가하세요.
 		//************************************************************
 		String cancel = req.getParameter("cancelMsg");
-		
-		// 디버그용.
-		System.out.println(facilType);
-		System.out.println(cancel);
-		
+				
 		if (facilType.startsWith("s")) {
 			facilService.deleteReserSr(facilType);
 		}
@@ -99,11 +96,25 @@ public class FacilController {
 		return "redirect:/facil/AFacilManager";
 	}
 	
+	// 관리자 운동장 / 일정관리
 	@RequestMapping(value="/AFacilPG", method = RequestMethod.GET)
 	public ModelAndView aPgscheduleLoadList(){
 			
 		ModelAndView mav = new ModelAndView("/facil/a_facilities_pg_schedule");
+		mav.addObject("pglist",facilService.scheduleFacilList());
 		return mav;
+	}
+	
+	// 관리자 운동장  / 일정관리 / 일정취소
+	@RequestMapping(value = "/AFacilPGdel", method = RequestMethod.POST)
+	public String aPgscheduleLoadListDel(HttpServletRequest req, RedirectAttributes rttr){
+		String pgm_num = req.getParameter("pgm_num");
+		
+		facilService.deleteReserPg(pgm_num);
+		
+		rttr.addFlashAttribute("result", "true");
+		
+		return "redirect:/facil/AFacilPG";
 	}
 
 }
