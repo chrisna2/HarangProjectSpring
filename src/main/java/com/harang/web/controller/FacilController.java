@@ -98,5 +98,12 @@ public class FacilController {
 		rttr.addFlashAttribute("result", "true");
 		return "redirect:/facil/AFacilManager";
 	}
+	
+	@RequestMapping(value="/AFacilPG", method = RequestMethod.GET)
+	public ModelAndView aPgscheduleLoadList(){
+			
+		ModelAndView mav = new ModelAndView("/facil/a_facilities_pg_schedule");
+		return mav;
+	}
 
 }

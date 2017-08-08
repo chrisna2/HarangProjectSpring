@@ -36,7 +36,11 @@
   		DELETE FROM tbl_sr_member WHERE srm_num=#{srm_num}
   	</delete>
   	
-
+	<select id="schedulePgLoad" resultType="PgMember">
+		SELECT m.pgm_issue, m.pgm_num, m.pg_num, m.m_id, m.pgm_regdate, m.pgm_timecode, p.pg_type, p.pg_name, m.pgm_date, p.pg_point
+				FROM tbl_pg_member m, tbl_playground p WHERE m.pg_num = p.pg_num
+				AND pgm_issue !='학생예약' ORDER BY m.pgm_date ASC
+	</select>
 	
 	<select id="aticketList" parameterType="SearchCriteria" resultType="FoodMember">
 		select f.f_title, f.f_selldate, f.f_point, count(fm.f_num) as fm_sellcount 
