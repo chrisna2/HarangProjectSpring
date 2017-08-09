@@ -83,6 +83,46 @@
 		WHERE sr_type=#{sr_type} AND sr_name=#{sr_name}
 	</select>
 	
+	<select id="loadPgList" resultType="Playground">
+		SELECT * FROM tbl_playground
+	</select>
+	
+	<select id="loadSrList" resultType="Studyroom">
+		SELECT * FROM tbl_studyroom
+	</select>
+	
+	<update id="modifyPg" parameterType="Playground">
+		UPDATE tbl_playground  
+		SET pg_type=#{pg_type}, pg_name=#{pg_name}, pg_content=#{pg_content}
+		WHERE pg_num=#{pg_num}
+	</update>
+	
+	<update id="modifySr" parameterType="Studyroom">
+		UPDATE tbl_studyroom  
+		SET sr_type=#{sr_type}, sr_name=#{sr_name}, sr_content=#{sr_content}
+		WHERE sr_num=#{sr_num}
+	</update>
+	
+	<insert id="addFacilPg" parameterType="Playground">
+		INSERT INTO tbl_playground (pg_type, pg_name, pg_content) 
+		VALUES (#{pg_type},#{pg_name},#{pg_content})
+	</insert>
+	
+	<insert id="addFacilSr" parameterType="Studyroom">
+		INSERT INTO tbl_studyroom (pg_type, pg_name, pg_content) 
+		VALUES (#{sr_type},#{sr_name},#{sr_content})
+	</insert>
+	
+	<delete id="delFacilPg">
+		DELETE FROM tbl_playground WHERE pg_num = #{pg_num}
+	</delete>
+	
+	<delete id="delFacilSr">
+		DELETE FROM tbl_studyroom WHERE sr_num = #{sr_num}
+	</delete>
+	
+	
+	
 	<insert id="aFacilPgAdd" parameterType="PgMember">
 		INSERT INTO tbl_pg_member (pgm_date, pgm_timecode, m_id, pg_num, pgm_issue)
 		VALUES (#{pgm_date}, #{pgm_timecode}, #{m_id}, #{pg_num}, #{pgm_issue})
@@ -92,6 +132,8 @@
 		INSERT INTO tbl_sr_member (srm_date, srm_timecode, m_id, sr_num, srm_issue)
 		VALUES (#{srm_date}, #{srm_timecode}, #{m_id}, #{sr_num}, #{srm_issue})
 	</insert>
+	
+	
 	
 	
 	<select id="aticketList" parameterType="SearchCriteria" resultType="FoodMember">

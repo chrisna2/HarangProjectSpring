@@ -173,6 +173,16 @@ public class FacilServiceImpl implements FacilService {
 		facilDao.schduleSrAdd(srmdto);
 	}
 
+	@Override
+	public List<PlaygroundDTO> loadPgList() {
+		return facilDao.loadPgList();
+	}
+
+	@Override
+	public List<StudyroomDTO> loadSrList() {
+		return facilDao.loadSrList();
+	}
+
 
 	
 

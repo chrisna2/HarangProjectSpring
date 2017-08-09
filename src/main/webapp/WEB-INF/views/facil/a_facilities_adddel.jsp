@@ -301,7 +301,7 @@
 
 					<!-- Box footer -->
 					<div class="box-footer">
-						<form method="POST" action="/HarangProject/facil?cmd=AFacilAddDel"> 
+						<form method="POST" action="/facil/AFacilAddDel_del"> 
 						<div class="row" align="center">
 							<div class="col-md-3 btn-group"></div>
 							<div class="col-md-3 btn-group">
@@ -326,7 +326,7 @@
 		<!-- 시설확인 끝 -->
 
 		<!-- 시설추가 시작 -->
-		<form method="POST" action="/HarangProject/facil?cmd=AFacilAddDel">
+		<form method="POST" action="/facil/AFacilAddDel_add">
 		<div class="row">
 			<div class="col-md-12">
 				<!-- Box -->
@@ -405,7 +405,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<!-- Box -->
-				<form method="POST" action="/HarangProject/facil?cmd=AFacilAddDel">
+				<form method="POST" action="/facil/AFacilAddDel_mod">
 				<div class="box box-primary" id="reser03" hidden="hidden">
 					<!-- Box header -->
 					<div class="box-header">

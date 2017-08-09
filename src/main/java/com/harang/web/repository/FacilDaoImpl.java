@@ -137,4 +137,16 @@ public class FacilDaoImpl implements FacilDao {
 	public void schduleSrAdd(SrMemberDTO srmdto) {
 		sqlSession.insert(namespace+".aFacilSrAdd", srmdto);
 	}
+
+	@Override
+	public List<PlaygroundDTO> loadPgList() {
+		List list = sqlSession.selectList(namespace + ".loadPgList");
+		return list;
+	}
+
+	@Override
+	public List<StudyroomDTO> loadSrList() {
+		List list = sqlSession.selectList(namespace + ".loadSrList");
+		return list;
+	}
 }

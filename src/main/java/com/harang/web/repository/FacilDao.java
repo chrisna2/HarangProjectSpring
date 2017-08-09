@@ -29,6 +29,9 @@ public interface FacilDao {
 	public List<PlaygroundDTO> schduleNamePgLoadAjax(String pg_type);
 	public List<StudyroomDTO> schduleNameSrLoadAjax(String sr_type);
 	
+	public List<PlaygroundDTO> loadPgList();
+	public List<StudyroomDTO> loadSrList();
+	
 	public List<PlaygroundDTO> schdulePgNumAjax(PlaygroundDTO pgdto);
 	public List<StudyroomDTO> schduleSrNumAjax(StudyroomDTO srdto);
 	

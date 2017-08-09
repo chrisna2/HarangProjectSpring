@@ -14,6 +14,9 @@ public interface FacilService {
 	public List<PgMemberDTO> loadPgReserListAll();
 	public List<SrMemberDTO> loadSrReserListAll();
 	
+	public List<PlaygroundDTO> loadPgList();
+	public List<StudyroomDTO> loadSrList();
+	
 	public List<PgMemberDTO> loadPgReserList(String m_id);
 	public List<SrMemberDTO> loadSrReserList(String m_id);
 	

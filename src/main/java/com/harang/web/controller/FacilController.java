@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
+import com.harang.web.domain.SrMemberDTO;
+import com.harang.web.domain.StudyroomDTO;
 import com.harang.web.service.FacilService;
 import com.harang.web.utill.LoginBean;
 
@@ -103,6 +105,43 @@ public class FacilController {
 		return "redirect:/facil/AFacilManager";
 	}
 	
+	// ******************************* 시설 추가  ************************************
+	// 시설 추가,수정,삭제  / 메인
+	@RequestMapping(value="/AFacilAddDel")
+	public ModelAndView aFacilAddDelLoadList(HttpServletRequest req){
+		ModelAndView mav= new ModelAndView("/facil/a_facilities_adddel");
+		mav.addObject("srlist",facilService.loadSrList());
+		mav.addObject("pglist",facilService.loadPgList());
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/AFacilAddDel_mod")
+	public String aFacilAddDel_modify(HttpServletRequest req, RedirectAttributes rttr){
+		
+		// 수정 성공 메세지
+		rttr.addFlashAttribute("result", "mod");
+		return "redirect:/facil/AFacilAddDel";
+	}
+	
+	@RequestMapping(value="/AFacilAddDel_del")
+	public String aFacilAddDel_del(HttpServletRequest req, RedirectAttributes rttr){
+		
+		// 삭제성공 메세지
+		rttr.addFlashAttribute("result", "del");
+		return "redirect:/facil/AFacilAddDel";
+	}
+	
+	@RequestMapping(value="/AFacilAddDel_add")
+	public String aFacilAddDel_add(HttpServletRequest req, RedirectAttributes rttr){
+		
+		// 추가성공 메세지
+		rttr.addFlashAttribute("result", "add");
+		return "redirect:/facil/AFacilAddDel";
+	}
+	
+	
+	// ******************************* 스터디룸 일정관리  ************************************
 	// 관리자 운동장 / 일정관리
 	// ajax 사용을 위해서 ResponseBody 붙여줌.
 	@ResponseBody
@@ -172,9 +211,6 @@ public class FacilController {
 	
 	@RequestMapping(value="/AFacilPgAdd")
 	public String aFacilPgAdd(HttpServletRequest req, RedirectAttributes rttr){
-		
-		String pgm_date = req.getParameter("addpgm_date");
-		
 		PgMemberDTO pgmdto = new PgMemberDTO();
 		
 		// 학사일정의 경우 운영자[admin03/시설관리자]로 입력된다.
@@ -193,5 +229,95 @@ public class FacilController {
 		
 		return "redirect:/facil/AFacilPG";
 	}
+	
+	// ******************************* 스터디룸 일정관리  ************************************
+	// 관리자 스터디룸 / 일정관리
+		// ajax 사용을 위해서 ResponseBody 붙여줌.
+		@ResponseBody
+		@RequestMapping(value="/AFacilSR")
+		public ModelAndView aSrscheduleLoadList(HttpServletRequest req) throws UnsupportedEncodingException{
+			ModelAndView mav = new ModelAndView("/facil/a_facilities_sr_schedule");
+			
+			// 운동장 시설 리스트.
+			mav.addObject("srlist",facilService.scheduleSrList());
+			
+			// 일정 리스트.
+			mav.addObject("sclist",facilService.scheduleToSr());
+			
+			// Ajax를 위해서.
+			mav.addObject("ajaxtypelist",facilService.schSrTypeAjax());
+			
+			// 이동.
+			return mav;
+		}
+		
+		// sr_type을 바탕으로 sr_name을 찾는 AJAX
+		// ResoponseBody는 여기에 붙여도 되고 retrun 값 앞에도 붙일수 있다.
+		@ResponseBody
+		@RequestMapping(value="/AFacilSrNameAjax")
+		public List<StudyroomDTO> ajaxSrName(HttpServletRequest req) throws UnsupportedEncodingException{
+				String sr_type = URLDecoder.decode(req.getParameter("sr_type"), "UTF-8");
+				System.out.println("ajax 시작.");
+				List<StudyroomDTO> list = facilService.schSrNameAjax(sr_type);
+				
+				/*
+				// 디버깅용.
+				for(int i=0; i<list.size() ;i++){
+					System.out.println(list.get(i).getPg_name());
+				}
+				*/
+				
+				return list;
+		}
+		
+		@ResponseBody
+		@RequestMapping(value="/AFacilSrNumAjax")
+		public List<StudyroomDTO> ajaxSrLoadNum(HttpServletRequest req) throws UnsupportedEncodingException{
+				String sr_type = URLDecoder.decode(req.getParameter("sr_type"), "UTF-8");
+				String sr_name = URLDecoder.decode(req.getParameter("sr_name"), "UTF-8");
+				
+				StudyroomDTO srdto = new StudyroomDTO();
+				srdto.setSr_type(sr_type);
+				srdto.setSr_name(sr_name);
+				
+				List<StudyroomDTO> list = facilService.schSrNumAjax(srdto);
+				
+				return list;
+		}
+			
+		// 관리자 운동장  / 일정관리 / 일정취소
+		@RequestMapping(value = "/AFacilSrDel", method = RequestMethod.POST)
+		public String aSrscheduleLoadListDel(HttpServletRequest req, RedirectAttributes rttr){
+			String srm_num = req.getParameter("srm_num");
+			
+			// 일정 / 삭제
+			facilService.deleteReserSr(srm_num);
+			
+			rttr.addFlashAttribute("result", "true");
+			
+			return "redirect:/facil/AFacilSR";
+		}
+		
+		@RequestMapping(value="/AFacilSrAdd")
+		public String aFacilSrAdd(HttpServletRequest req, RedirectAttributes rttr){
+			
+			SrMemberDTO srmdto = new SrMemberDTO();
+			
+			// 학사일정의 경우 운영자[admin03/시설관리자]로 입력된다.
+			srmdto.setM_id("admin03");
+			srmdto.setSrm_date(req.getParameter("addsrm_date"));
+			
+			// 학사일정으로 인한 예약의 경우 하루 전체를 빌린다.
+			srmdto.setSrm_timecode("A1111111111111");
+			srmdto.setSrm_issue(req.getParameter("addsrm_issue"));
+			srmdto.setSr_num(req.getParameter("addsr_num"));
+			
+			facilService.schSrAdd(srmdto);
+			
+			// 일정 추가 완료. return값이 없음.
+			rttr.addFlashAttribute("result", "addok");
+			
+			return "redirect:/facil/AFacilSR";
+		}
 
 }
