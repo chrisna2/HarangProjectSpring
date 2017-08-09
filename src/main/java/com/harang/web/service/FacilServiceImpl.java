@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.harang.web.domain.PgMemberDTO;
+import com.harang.web.domain.PlaygroundDTO;
+import com.harang.web.domain.ScheduleDTO;
 import com.harang.web.domain.SrMemberDTO;
+import com.harang.web.domain.StudyroomDTO;
 import com.harang.web.repository.FacilDao;
 
 @Service
@@ -108,10 +111,69 @@ public class FacilServiceImpl implements FacilService {
 	}
 
 	@Override
-	public List<PgMemberDTO> scheduleFacilList() {
-		List<PgMemberDTO> list = facilDao.scheduleFacilList();
-		return list;
+	public List<PgMemberDTO> schedulePgList() {
+		return facilDao.schedulePgListLoad();
 	}
+
+	@Override
+	public List<SrMemberDTO> scheduleSrList() {
+		return facilDao.scheduleSrListLoad();
+	}
+
+	@Override
+	public List<ScheduleDTO> scheduleToPg() {
+		return facilDao.scheduleToPgList();
+	}
+
+	@Override
+	public List<ScheduleDTO> scheduleToSr() {
+		
+		return facilDao.scheduleToSrList();
+	}
+
+	@Override
+	public List<PlaygroundDTO> schPgNameAjax(String pg_type) {
+		System.out.println("테스트2");
+		System.out.println(pg_type);
+		return facilDao.schduleNamePgLoadAjax(pg_type);
+	}
+
+	@Override
+	public List<StudyroomDTO> schSrNameAjax(String sr_type) {
+		return facilDao.schduleNameSrLoadAjax(sr_type);
+	}
+
+	@Override
+	public List<PlaygroundDTO> schPgTypeAjax() {
+		return facilDao.schduleTypePgLoadAjax();
+	}
+
+	@Override
+	public List<StudyroomDTO> schSrTypeAjax() {
+		return facilDao.schduleTypeSrLoadAjax();
+	}
+
+	@Override
+	public List<PlaygroundDTO> schPgNumAjax(PlaygroundDTO pgdto) {
+		return facilDao.schdulePgNumAjax(pgdto);
+	}
+
+	@Override
+	public List<StudyroomDTO> schSrNumAjax(StudyroomDTO srdto) {
+		return facilDao.schduleSrNumAjax(srdto);
+	}
+
+	@Override
+	public void schPgAdd(PgMemberDTO pgmdto) {
+		facilDao.schdulePgAdd(pgmdto);
+	}
+
+	@Override
+	public void schSrAdd(SrMemberDTO srmdto) {
+		facilDao.schduleSrAdd(srmdto);
+	}
+
+
 	
 
 
