@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.harang.web.domain.BambooDTO;
 import com.harang.web.domain.BbreplyDTO;
+import com.harang.web.domain.DlikeDTO;
 import com.harang.web.domain.LikeDTO;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.SearchCriteria;
@@ -67,6 +68,8 @@ public class BambooController {
 	@RequestMapping(value = "/BB_CON", method = RequestMethod.GET)
 	public ModelAndView bambooContentbyGet(HttpServletRequest req, String bb_num, SearchCriteria cri) {
 
+		
+		
 		HttpSession session = req.getSession();
 		MemberDTO mdto;
 		String m_id = null;
@@ -84,6 +87,25 @@ public class BambooController {
 			inMav = "bamboo/a_bb_content";
 		}
 
+		List<LikeDTO> bblList = (List)bambooService.bbLCnt(bb_num);
+		List<DlikeDTO> bbdlList = (List)bambooService.bbDLCnt(bb_num);
+		
+		for(int i =0 ; i<bblList.size(); i++){
+			
+			if (m_id.equals(bblList.get(i).getM_id())){
+				
+				req.setAttribute("islike", "y");
+			}
+			
+		}
+		for(int i = 0; i<bbdlList.size(); i++){
+			
+			if (m_id.equals(bbdlList.get(i).getM_id())){
+				
+				req.setAttribute("isdlike", "y");
+			}
+		}
+		
 		ModelAndView mav = new ModelAndView(inMav);
 
 		System.out.println("BambooController에서 Test 시작");
@@ -101,6 +123,10 @@ public class BambooController {
 		mav.addObject("brlist", bambooService.bbRList(bb_num));
 		mav.addObject("bblist", bambooService.bbList(cri));
 		mav.addObject("bbNList", bambooService.bbNList());
+		
+		
+		
+		
 
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -134,6 +160,25 @@ public class BambooController {
 			m_id = mdto.getM_id();
 			inMav = "bamboo/a_bb_content";
 		}
+		
+		List<LikeDTO> bblList = (List)bambooService.bbLCnt(bb_num);
+		List<DlikeDTO> bbdlList = (List)bambooService.bbDLCnt(bb_num);
+		
+		for(int i =0 ; i<bblList.size(); i++){
+			
+			if (m_id.equals(bblList.get(i).getM_id())){
+				
+				req.setAttribute("islike", "y");
+			}
+			
+		}
+		for(int i = 0; i<bbdlList.size(); i++){
+			
+			if (m_id.equals(bbdlList.get(i).getM_id())){
+				
+				req.setAttribute("isdlike", "y");
+			}
+		}
 
 		ModelAndView mav = new ModelAndView(inMav);
 
@@ -151,6 +196,12 @@ public class BambooController {
 		mav.addObject("brlist", bambooService.bbRList(bb_num));	
 		mav.addObject("bblist", bambooService.bbList(cri));
 		mav.addObject("bbNList", bambooService.bbNList());
+		
+		
+		
+		
+		
+		
 
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -432,37 +483,65 @@ public class BambooController {
 		
 		bambooService.bbLike(likeDTO);
 		
-		String goTo = null;
-		
 		HttpSession session = req.getSession();
-		
+		MemberDTO mdto;
+		String m_id = null;
+		String inMav = null;
+
 		if (null != session.getAttribute("member")) {
-			
-			goTo = "bamboo/u_bb_content";
-			
+
+			mdto = (MemberDTO) session.getAttribute("member");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/u_bb_content";
+
 		} else {
-			
-			goTo = "bamboo/a_bb_content";
+			mdto = (MemberDTO) session.getAttribute("admin");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/a_bb_content";
 		}
 		
+		List<LikeDTO> bblList = (List)bambooService.bbLCnt(bb_num);
+		List<DlikeDTO> bbdlList = (List)bambooService.bbDLCnt(bb_num);
 		
-		ModelAndView mav = new ModelAndView(goTo);
-		
+		for(int i =0 ; i<bblList.size(); i++){
+			
+			if (m_id.equals(bblList.get(i).getM_id())){
+				
+				req.setAttribute("islike", "y");
+			}
+			
+		}
+		for(int i = 0; i<bbdlList.size(); i++){
+			
+			if (m_id.equals(bbdlList.get(i).getM_id())){
+				
+				req.setAttribute("isdlike", "y");
+			}
+		}
+
+		ModelAndView mav = new ModelAndView(inMav);
+
+
 		mav.addObject("bbcon", bambooService.bbCon(bb_num));
 		mav.addObject("bblcnt", bambooService.bbLCnt(bb_num));
 		mav.addObject("bbdlcnt", bambooService.bbDLCnt(bb_num));
 		mav.addObject("brlist", bambooService.bbRList(bb_num));	
-		
-		
-		
 		mav.addObject("bblist", bambooService.bbList(cri));
 		mav.addObject("bbNList", bambooService.bbNList());
 		
+		
+		
+		
+		
+		
+
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(bambooService.bbListCount(cri));
-		
+
 		mav.addObject("pageMaker", pageMaker);
+		
+		
 		
 		
 		return mav;
@@ -474,37 +553,65 @@ public class BambooController {
 		
 		bambooService.bbDLike(likeDTO);
 		
-		String goTo = null;
-		
 		HttpSession session = req.getSession();
-		
+		MemberDTO mdto;
+		String m_id = null;
+		String inMav = null;
+
 		if (null != session.getAttribute("member")) {
-			
-			goTo = "bamboo/u_bb_content";
-			
+
+			mdto = (MemberDTO) session.getAttribute("member");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/u_bb_content";
+
 		} else {
-			
-			goTo = "bamboo/a_bb_content";
+			mdto = (MemberDTO) session.getAttribute("admin");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/a_bb_content";
 		}
 		
+		List<LikeDTO> bblList = (List)bambooService.bbLCnt(bb_num);
+		List<DlikeDTO> bbdlList = (List)bambooService.bbDLCnt(bb_num);
 		
-		ModelAndView mav = new ModelAndView(goTo);
-		
+		for(int i =0 ; i<bblList.size(); i++){
+			
+			if (m_id.equals(bblList.get(i).getM_id())){
+				
+				req.setAttribute("islike", "y");
+			}
+			
+		}
+		for(int i = 0; i<bbdlList.size(); i++){
+			
+			if (m_id.equals(bbdlList.get(i).getM_id())){
+				
+				req.setAttribute("isdlike", "y");
+			}
+		}
+
+		ModelAndView mav = new ModelAndView(inMav);
+
+
 		mav.addObject("bbcon", bambooService.bbCon(bb_num));
 		mav.addObject("bblcnt", bambooService.bbLCnt(bb_num));
 		mav.addObject("bbdlcnt", bambooService.bbDLCnt(bb_num));
 		mav.addObject("brlist", bambooService.bbRList(bb_num));	
-		
-		
-		
 		mav.addObject("bblist", bambooService.bbList(cri));
 		mav.addObject("bbNList", bambooService.bbNList());
 		
+		
+		
+		
+		
+		
+
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(bambooService.bbListCount(cri));
-		
+
 		mav.addObject("pageMaker", pageMaker);
+		
+		
 		
 		
 		return mav;
@@ -516,82 +623,135 @@ public class BambooController {
 		
 		bambooService.bbLikeCancle(likeDTO);
 		
-		String goTo = null;
-		
 		HttpSession session = req.getSession();
-		
+		MemberDTO mdto;
+		String m_id = null;
+		String inMav = null;
+
 		if (null != session.getAttribute("member")) {
-			
-			goTo = "bamboo/u_bb_content";
-			
+
+			mdto = (MemberDTO) session.getAttribute("member");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/u_bb_content";
+
 		} else {
-			
-			goTo = "bamboo/a_bb_content";
+			mdto = (MemberDTO) session.getAttribute("admin");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/a_bb_content";
 		}
 		
+		List<LikeDTO> bblList = (List)bambooService.bbLCnt(bb_num);
+		List<DlikeDTO> bbdlList = (List)bambooService.bbDLCnt(bb_num);
 		
-		ModelAndView mav = new ModelAndView(goTo);
-		
+		for(int i =0 ; i<bblList.size(); i++){
+			
+			if (m_id.equals(bblList.get(i).getM_id())){
+				
+				req.setAttribute("islike", "y");
+			}
+			
+		}
+		for(int i = 0; i<bbdlList.size(); i++){
+			
+			if (m_id.equals(bbdlList.get(i).getM_id())){
+				
+				req.setAttribute("isdlike", "y");
+			}
+		}
+
+		ModelAndView mav = new ModelAndView(inMav);
+
+
 		mav.addObject("bbcon", bambooService.bbCon(bb_num));
 		mav.addObject("bblcnt", bambooService.bbLCnt(bb_num));
 		mav.addObject("bbdlcnt", bambooService.bbDLCnt(bb_num));
 		mav.addObject("brlist", bambooService.bbRList(bb_num));	
-		
-		
-		
 		mav.addObject("bblist", bambooService.bbList(cri));
 		mav.addObject("bbNList", bambooService.bbNList());
 		
+		
+		
+		
+		
+		
+
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(bambooService.bbListCount(cri));
-		
+
 		mav.addObject("pageMaker", pageMaker);
+		
+		
 		
 		
 		return mav;
 		
 	}
-	@RequestMapping(value = "BB_DLIKE_Cancle", method = RequestMethod.POST)
+	@RequestMapping(value = "BB_DLIKE_CANCLE", method = RequestMethod.POST)
 	public ModelAndView bambooDLikeCancleByPOST(HttpServletRequest req,
 			LikeDTO likeDTO, String bb_num, SearchCriteria cri){
 		
 		bambooService.bbDLikeCancle(likeDTO);
 		
-		String goTo = null;
-		
 		HttpSession session = req.getSession();
-		
+		MemberDTO mdto;
+		String m_id = null;
+		String inMav = null;
+
 		if (null != session.getAttribute("member")) {
-			
-			goTo = "bamboo/u_bb_content";
-			
+
+			mdto = (MemberDTO) session.getAttribute("member");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/u_bb_content";
+
 		} else {
-			
-			goTo = "bamboo/a_bb_content";
+			mdto = (MemberDTO) session.getAttribute("admin");
+			m_id = mdto.getM_id();
+			inMav = "bamboo/a_bb_content";
 		}
 		
+		List<LikeDTO> bblList = (List)bambooService.bbLCnt(bb_num);
+		List<DlikeDTO> bbdlList = (List)bambooService.bbDLCnt(bb_num);
 		
-		ModelAndView mav = new ModelAndView(goTo);
-		
+		for(int i =0 ; i<bblList.size(); i++){
+			
+			if (m_id.equals(bblList.get(i).getM_id())){
+				
+				req.setAttribute("islike", "y");
+			}
+			
+		}
+		for(int i = 0; i<bbdlList.size(); i++){
+			
+			if (m_id.equals(bbdlList.get(i).getM_id())){
+				
+				req.setAttribute("isdlike", "y");
+			}
+		}
+
+		ModelAndView mav = new ModelAndView(inMav);
+
+
 		mav.addObject("bbcon", bambooService.bbCon(bb_num));
 		mav.addObject("bblcnt", bambooService.bbLCnt(bb_num));
 		mav.addObject("bbdlcnt", bambooService.bbDLCnt(bb_num));
 		mav.addObject("brlist", bambooService.bbRList(bb_num));	
-		
-		
-		
 		mav.addObject("bblist", bambooService.bbList(cri));
 		mav.addObject("bbNList", bambooService.bbNList());
 		
+		
+		
+		
+		
+		
+
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(bambooService.bbListCount(cri));
-		
-		
-		
-		
+
 		mav.addObject("pageMaker", pageMaker);
+		
+		
 		
 		
 		return mav;

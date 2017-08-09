@@ -121,12 +121,23 @@
   	
   	</insert>
   	
-  	<insert id = "bbDLike" parameterType="String">
+  	<insert id = "bbDLike" parameterType="Like">
   		
   		insert into harang.tbl_dlike (bb_num, m_id) values (#{bb_num},#{m_id})
   	
   	</insert>
   	
+  	<delete id = "bbLikeCancle" parameterType="Dlike">
+  	
+  		DELETE FROM tbl_like WHERE bb_num=#{bb_num} and m_id=#{m_id}
+  	
+  	</delete>
+  	
+  	<delete id = "bbDLikeCancle" parameterType="Dlike">
+  	
+  		DELETE FROM tbl_dlike WHERE bb_num=#{bb_num} and m_id=#{m_id}
+  	
+  	</delete>
   	
   
   </mapper>
