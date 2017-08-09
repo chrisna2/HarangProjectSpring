@@ -63,7 +63,7 @@
             <!-- 달력의 크기 조정 -->
             <div class="col-md-9">
             <!-- 리스트 사용시  -->
-            <form role="form" name="menuinfo" method="post" action="/HarangProject/food?cmd=ticket_proc" onsubmit="return checkIt()">
+            <form role="form" name="menuinfo" method="post" action="/food/ticket_proc" onsubmit="return checkIt()">
               <div class="box" id="menuinfobox" hidden="hidden">
                 <div class="box-header">
                   <h3 class="box-title">식권 구매</h3>

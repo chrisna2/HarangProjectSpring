@@ -150,7 +150,7 @@
               <!--회원 개인정보 요약 형태 -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                  <img src="../resources/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
                   <span class="hidden-xs">${admin.m_name } - ${admin.m_dept}</span>
                 </a>
                 <ul class="dropdown-menu">

@@ -1,39 +1,43 @@
 package com.harang.web.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.harang.web.domain.CertiDTO;
 import com.harang.web.domain.CertiMemberDTO;
 import com.harang.web.domain.LessonDTO;
 import com.harang.web.domain.MemberDTO;
-import com.harang.web.domain.PagingDto;
 import com.harang.web.domain.RecordDTO;
 import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.ZipDTO;
 import com.harang.web.service.MyPageService;
 import com.harang.web.service.PointService;
 import com.harang.web.utill.LoginBean;
-import com.harang.web.utill.MediaUtil;
 import com.harang.web.utill.PageMaker;
-import com.harang.web.utill.PagingBean;
 import com.harang.web.utill.UploadBean;
 
 @Controller
@@ -50,6 +54,8 @@ public class MyPageController {
 	
 	private PageMaker pageMaker;
 	
+	private final Log logger = LogFactory.getLog(getClass());
+	
 	@RequestMapping(value="/myInfo",method = RequestMethod.GET)
 	public ModelAndView myinfoGet(){
 		mav = new ModelAndView("myPage/myInfo");
@@ -60,11 +66,13 @@ public class MyPageController {
 	@RequestMapping(value="/myInfo",method = RequestMethod.POST)
 	public ModelAndView myinfoPost(MemberDTO member, HttpServletRequest request, MultipartFile file) throws IOException{
 		
+		//웹에 올린 경로를 그대로 받아옴
 		String uploadPath = request.getSession().getServletContext().getRealPath("/");
 		
 		//파일의 값이 있으면
 		if(!"".equals(file.getOriginalFilename())){
 			
+			//이전에 파일을 올린 경우
 			if(!"".equals(member.getM_photo())||null!=member.getM_photo()){
 				//이전 파일 삭제
 				UploadBean.deleteFile(member.getM_photo(), uploadPath);
@@ -75,7 +83,7 @@ public class MyPageController {
 			member.setM_photo(uploadedFileName);
 		}
 		
-		//반대로 파일의 값이 없으면 그냥 히든으로 숨긴 파일 경로를 저장 한다.
+		//반대로 파일의 값이 없으면 그냥 히든으로 숨긴 파일의 경로를 저장 한다.
 		myPageService.updateMyinfo(member);
 		
 		mav = new ModelAndView("/myPage/myInfo");
@@ -116,6 +124,51 @@ public class MyPageController {
 		return list;
 	}
 	
+    @RequestMapping(value = "/userList",method = RequestMethod.POST)
+    public @ResponseBody List<MemberDTO> getUserList(){
+    	
+    	return myPageService.userList();
+	}
+	
+    @RequestMapping(value = "/AmemList",method = RequestMethod.GET)
+    public ModelAndView memberListGet(SearchCriteria cri){
+    	
+    	pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.memberListCount(cri));
+    	
+    	mav = new ModelAndView("myPage/a_memList");
+    	
+    	mav.addObject("memList", myPageService.memberList(cri));
+    	mav.addObject("pageMaker", pageMaker);		
+    			
+    	return mav;
+    }
+    
+    @RequestMapping(value = "/AmemList",method = RequestMethod.POST)
+    public ModelAndView memberListPost(SearchCriteria cri){
+    	
+    	pageMaker = new PageMaker();
+    	pageMaker.setCri(cri);
+    	pageMaker.setTotalCount(myPageService.memberListCount(cri));
+    	
+    	mav = new ModelAndView("myPage/a_memList");
+    	
+    	mav.addObject("memList", myPageService.memberList(cri));
+    	mav.addObject("pageMaker", pageMaker);		
+    	
+    	return mav;
+    }
+    
+    @RequestMapping(value = "/userData")
+    public @ResponseBody MemberDTO getUserData(String m_id){
+    	
+    	return myPageService.memberData(m_id);
+	}
+	
+	
+	
+	
 	@RequestMapping(value="/pointList",method = RequestMethod.GET)
 	public ModelAndView pointListGet(HttpSession session,SearchCriteria cri){
 		
@@ -155,6 +208,45 @@ public class MyPageController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/ApointCheck",method = RequestMethod.GET)
+	public ModelAndView aPointListGet(SearchCriteria cri){
+		
+		List<MemberDTO> mlist = myPageService.apointMember(cri);
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.apointMemberCount(cri));
+		
+		mav = new ModelAndView("myPage/a_pointcheck");
+		
+		mav.addObject("mList", mlist);
+		mav.addObject("pageMaker", pageMaker);
+		
+		return mav;
+	}
+	@RequestMapping(value="/ApointCheck",method = RequestMethod.POST)
+	public ModelAndView aPointListPost(SearchCriteria cri){
+		
+		List<MemberDTO> mlist = myPageService.apointMember(cri);
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.apointMemberCount(cri));
+		
+		mav = new ModelAndView("myPage/a_pointcheck");
+		
+		mav.addObject("mList", mlist);
+		mav.addObject("pageMaker", pageMaker);
+		
+		return mav;
+	}
+	
+	/**
+	 * 시간표 처음 접근 할때 하는 메소드
+	 * @param request
+	 * @param cri
+	 * @return
+	 */
 	@RequestMapping(value="/timeTable",method = RequestMethod.GET)
 	public ModelAndView timeTableGet(HttpServletRequest request, SearchCriteria cri){
 		
@@ -196,7 +288,122 @@ public class MyPageController {
 		
 		return mav;
 	}
+	
+	/**
+	 * 시간표 검색 및 페이징
+	 * @param request
+	 * @param cri
+	 * @return
+	 */
+	@RequestMapping(value="/timeTable",method = RequestMethod.POST)
+	public ModelAndView timeTablePost(HttpServletRequest request, SearchCriteria cri){
+		
+		LoginBean login = new LoginBean();
+		MemberDTO member = login.getLoginInfo(request);
+		
+		int tt_grade = cri.getTt_grade();
+		int tt_term = cri.getTt_term();
+		cri.setM_id(member.getM_id());
+		
+		//String check = request.getParameter("check");
+		
+		/////////////////////////////////////////////////////////////////////////
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.lessonCount(cri));
+		
+		mav = new ModelAndView("myPage/timeTable");
+		
+			mav.addObject("tt_grade", tt_grade);
+			mav.addObject("tt_term", tt_term);
+			mav.addObject("ttlist", myPageService.timeTalbeLesson(cri));
+			mav.addObject("ttname", tt_grade+"학년 "+tt_term+"학기");
+			mav.addObject("llist", myPageService.lessonList(cri));
+			mav.addObject("pageMaker", pageMaker);
+			
+		
+		return mav;
+	}
+	
+/*	
 
+	@RequestMapping(value="/timeTable/refreshLesson")
+	public @ResponseBody List<LessonDTO> lessonList(HttpServletRequest request) throws UnsupportedEncodingException{
+		
+		SearchCriteria cri = new SearchCriteria();
+		
+		cri.setKeyfield(request.getParameter("keyfield"));
+		cri.setKeyword(URLDecoder.decode(request.getParameter("keyword"), "UTF-8" ));
+		cri.setTt_grade(Integer.parseInt(request.getParameter("tt_grade")));
+		cri.setTt_term(Integer.parseInt(request.getParameter("tt_term")));
+		cri.setM_id(request.getParameter("m_id"));
+		
+		return myPageService.lessonList(cri);
+		
+	}
+		
+	@RequestMapping(value="/timeTable/refreshTimetable")
+	public @ResponseBody List<LessonDTO> timeTableList(HttpServletRequest request){
+						
+		SearchCriteria cri = new SearchCriteria();
+		
+		cri.setTt_grade(Integer.parseInt(request.getParameter("tt_grade")));
+		cri.setTt_term(Integer.parseInt(request.getParameter("tt_term")));
+		cri.setM_id(request.getParameter("m_id"));
+		
+		System.out.println(cri.getTt_grade()+"/"+cri.getTt_grade()+"/"+cri.getM_id());
+
+		return myPageService.timeTalbeLesson(cri);
+	}
+*/
+	
+	/**
+	 * 시간표 등록 ajax 등록..
+	 * @param cri
+	 * @param lesson
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/timeTable/enroll",method = RequestMethod.POST)
+	public ResponseEntity<String> enrollLesson(@RequestBody LessonDTO lesson){
+		
+		ResponseEntity<String> entity = null;
+		
+		try{
+			String result = myPageService.enrollCheck(lesson);
+			entity = new ResponseEntity<String>(result, HttpStatus.OK);
+			
+		}catch (Exception e){
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	/**
+	 * 시간표 등록 ajax 삭제..
+	 * @param cri
+	 * @param lesson
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/timeTable/delete",method = RequestMethod.POST)
+	public ResponseEntity<String> deleteLesson(@RequestBody LessonDTO lesson){
+		
+		ResponseEntity<String> entity = null;
+		
+		try{
+			String result = myPageService.deleteCheck(lesson);
+			entity = new ResponseEntity<String>(result, HttpStatus.OK);
+			
+		}catch (Exception e){
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
 	
 	@RequestMapping(value="/pointZero",method = RequestMethod.GET)
 	public ModelAndView pointZeroGet(){
@@ -236,27 +443,128 @@ public class MyPageController {
 		
 		return mav;
 	}
-
-	@RequestMapping(value="/AmemList",method = RequestMethod.GET)
-	public ModelAndView amemListGet(){
-		
-		mav = new ModelAndView("myPage/a_memList");
-		
-		return mav;
-	}
 	
 	@RequestMapping(value="/AspecList",method = RequestMethod.GET)
-	public ModelAndView aspecListGet(){
+	public ModelAndView aspecListGet(SearchCriteria cri){
 		
 		mav = new ModelAndView("myPage/a_specList");
 		
 		return mav;
 	}
 	
+	@RequestMapping(value="/specList",method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> specListJson(	@RequestParam(value = "page", required=false) int page,
+													    	@RequestParam(value = "rows", required=false) int rows,
+													    	@RequestParam(value = "sidx", required=false) String sidx,
+													    	@RequestParam(value = "sord", required=false) String sord,
+													    	@RequestParam(value = "searchField", required=false) String searchField,
+													        @RequestParam(value = "searchString", required=false) String searchString) throws JsonProcessingException{
+															//무조건 이 방식대로 가야 함...써글.
+		
+		//SearchCriteria 사용 가능!!!
+		SearchCriteria cri = new SearchCriteria();
+		cri.setPage(page); // page : 현재 보이는 페이지
+		cri.setPerPageNum(rows); //rows : 페이지 당 등록된 줄의 숫자
+		cri.setKeyfield(searchField);
+		cri.setKeyword(searchString);
+		
+		
+		List<CertiMemberDTO> list = myPageService.specListJson(cri);
+		
+		//페이징..
+		int totCount = myPageService.specListJsonCount(cri);
+		double totalPage = (double)totCount/rows;
+		
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		modelMap.put("total",(int)Math.ceil(totalPage));
+		modelMap.put("record",totCount);
+		modelMap.put("page", page);
+		modelMap.put("rows", list);
+	
+		return modelMap;
+	}
+	
+	@RequestMapping(value="/specListEdit",method = RequestMethod.POST)
+	public @ResponseBody String specListJsonEdit(HttpServletRequest request, HttpServletResponse response){
+		
+		String oper = request.getParameter("oper");
+		
+		CertiMemberDTO certi = new CertiMemberDTO();
+		
+		String cellname = request.getParameter("cellName");
+		String cellvalue = request.getParameter("cellValue");
+		certi.setC_name(request.getParameter("c_name"));
+		certi.setC_agency(request.getParameter("c_agency"));
+		certi.setC_num(request.getParameter("id"));
+		//request.getParameter("c_num")으로는 'c_num'을 받아 오지 못한다.
+		
+		int c_point = 0;
+		
+			if(null == request.getParameter("c_point")||"".equals(request.getParameter("c_point"))){
+				c_point = 0;
+			}
+			else{
+				c_point = Integer.parseInt(request.getParameter("c_point"));
+			}
+		
+		certi.setC_point(c_point);
+		
+		System.out.println("기관 : "+certi.getC_agency()+
+						"\n이름 : "+certi.getC_name()+
+						"\n번호 : "+certi.getC_num()+
+						"\n포인트 : "+certi.getC_point()+
+						"\n오퍼(구분자) : "+oper+
+						"\n선택한 셀의 항목 이름 : "+cellname+
+						"\n변경된 셀의 항목 데이터 : "+cellvalue);
+		
+		String result = null;
+		
+		if("add".equals(oper)){
+			
+			result = myPageService.specInsert(certi);
+			
+			//이슈 1] 어떻게 result 값을 jsp페이지 밖으로 리보내줄까? -> 해결 
+			//이슈 2] 업데이트, 삭제에 필요한 pk 값은 어떻게 받아와야 하나? //해결.. 했는데.. 꺼림찍 -> 해결 
+			//이슈 3] 입력이 완료되고 자동 생성된 pk 값을 어떻게 받아 올까? (트리거로 생성된 값) || JQGRID에 입력후 새로고침을 AJAX안에서 어떻게 실행 할까?
+			
+		}
+		else if("edit".equals(oper)){
+			
+			if("c_name".equals(cellname)){
+				result = myPageService.specUpdateName(certi);
+			}
+			else if("c_agency".equals(cellname)){
+				result = myPageService.specUpdateAgency(certi);
+			}
+			else if("c_point".equals(cellname)){
+				result = myPageService.specUpdatePoint(certi);
+			}
+			else if("".equals(cellname)||null == cellname){
+				result = myPageService.specUpdateAll(certi);
+			}
+		}
+		else if("del".equals(oper)){
+			result = myPageService.specDelete(certi);
+			System.out.println(result);
+		}
+		else{
+			System.out.println("잘못된 접근입니다.");
+			result ="fail";
+		}
+		
+		return result;
+		
+	}
+	
+	
+	
+	
 	@RequestMapping(value="/Achallenge",method = RequestMethod.GET)
 	public ModelAndView achallengeGet(SearchCriteria cri){
 		
 		List<CertiMemberDTO> list = myPageService.achallengeList(cri);
+		
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -371,14 +679,6 @@ public class MyPageController {
 	public ModelAndView alessonGet(){
 		
 		mav = new ModelAndView("myPage/a_lessonList");
-		
-		return mav;
-	}
-	
-	@RequestMapping(value="/ApointCheck",method = RequestMethod.GET)
-	public ModelAndView apointCheckGet(){
-		
-		mav = new ModelAndView("myPage/a_pointcheck");
 		
 		return mav;
 	}

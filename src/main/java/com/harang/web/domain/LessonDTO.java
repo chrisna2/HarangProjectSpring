@@ -2,7 +2,6 @@ package com.harang.web.domain;
 
 public class LessonDTO {
 
-
 	private String l_num;
 	private String l_time;
 	private String l_day;
@@ -17,7 +16,22 @@ public class LessonDTO {
 	private String m_id;
 	private int tt_grade;
 	private int tt_term;
+	private String keyword;
+	private String keyfield;
 	
+
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	public String getKeyfield() {
+		return keyfield;
+	}
+	public void setKeyfield(String keyfield) {
+		this.keyfield = keyfield;
+	}
 	public int getTt_grade() {
 		return tt_grade;
 	}

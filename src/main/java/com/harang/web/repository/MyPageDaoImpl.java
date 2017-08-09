@@ -23,6 +23,8 @@ public class MyPageDaoImpl implements MyPageDao {
 	private static final String namespace = "com.harang.mapper.mypage-mapper";
 		
 	
+	//포인트
+	//[회원]
 	@Override
 	public List<RecordDTO> pointListHeader(String m_id) {
 		return sqlSession.selectList(namespace+".pointListHeader", m_id);
@@ -34,6 +36,15 @@ public class MyPageDaoImpl implements MyPageDao {
 	@Override
 	public int pointPagingNum(String m_id) {
 		return sqlSession.selectOne(namespace+".pointPagingNum", m_id);
+	}
+	//[관리자]
+	@Override
+	public List<MemberDTO> apointMember(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".apointMember", cri);
+	}
+	@Override
+	public int apointMemberCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".apointMemberCount", cri);
 	}
 
 	
@@ -68,7 +79,64 @@ public class MyPageDaoImpl implements MyPageDao {
 	public void uchallenge_rechallenge(CertiMemberDTO certi) {
 		sqlSession.update(namespace+".uchallenge_rechallenge", certi);
 	}
-	
+	//[관리자] 스펙 리스트 제이손
+	@Override
+	public List<CertiMemberDTO> specListJson(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".specListJson", cri);
+	}
+	//[관리자] 스펙 리스트 제이손 카운팅
+	@Override
+	public int specListJsonCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".specListJsonCount", cri);
+	}
+	//[관리자] 자격증 신규 등록
+	@Override
+	public String specInsert(CertiMemberDTO certi) {
+		sqlSession.insert(namespace+".specInsert", certi);
+		return "success"; 
+	}
+	//[관리자] 자격증 모두 수정
+	@Override
+	public String specUpdateAll(CertiMemberDTO certi) {
+		sqlSession.update(namespace+".specUpdateAll", certi);
+		return "success"; 
+	}
+	//[관리자] 자격증 이름만 수정
+	@Override
+	public String specUpdateName(CertiMemberDTO certi) {
+		sqlSession.update(namespace+".specUpdateName", certi);
+		return "success"; 
+	}
+	//[관리자] 자격증 기관만 수정
+	@Override
+	public String specUpdateAgency(CertiMemberDTO certi) {
+		sqlSession.update(namespace+".specUpdateAgency", certi);
+		return "success"; 
+	}
+	//[관리자] 자격증 포인트만 수정
+	@Override
+	public String specUpdatePoint(CertiMemberDTO certi) {
+		sqlSession.update(namespace+".specUpdatePoint", certi);
+		return "success"; 
+	}
+	//[관리자] 자격증 삭제
+	@Override
+	public String specDelete(CertiMemberDTO certi) {
+		
+		String result = "";
+		
+		try {
+			sqlSession.delete(namespace+".specDelete", certi);
+			result = "success";
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+		finally {
+			result = "fail";
+		}
+		return result;
+	}
 	
 	
 	// 주소 검색  Dao
@@ -112,7 +180,65 @@ public class MyPageDaoImpl implements MyPageDao {
 	public int lessonCount(SearchCriteria cri) {
 		return sqlSession.selectOne(namespace+".lessonCount", cri);
 	}
-	
-
-
+	@Override
+	public String enrollCheck(LessonDTO lesson) {
+		
+		//등록을 원하는 시간과 요일
+		String el_time = lesson.getL_time();
+		String el_day = lesson.getL_day();
+		
+		List<LessonDTO> checkLesson = sqlSession.selectList(namespace+".enrollCheck", lesson); 
+		
+		String cl_time = null;
+		String cl_day = null;
+		
+		//중복시간 체크
+		for(int i=0; i<checkLesson.size();){
+			
+			cl_time = checkLesson.get(i).getL_time();
+			cl_day = checkLesson.get(i).getL_day();
+			
+			//중복 확인
+			if(el_time.equals(cl_time)&&el_day.equals(cl_day)){
+				return "duplicate";
+			}
+			else{
+				i++;
+			}
+		}
+		
+		//시간표 등록
+		sqlSession.insert(namespace+".enrollLesson", lesson);
+		return "enroll";
+		
+	}
+	@Override
+	public String deleteCheck(LessonDTO lesson) {
+		
+		String check = sqlSession.selectOne(namespace+".deletecheck", lesson);
+		
+		if("N".equals(check)){
+			sqlSession.delete(namespace+".deleteLesson", lesson);
+			return "delete";
+		}
+		else{
+			return "evaluated"; 
+		}
+	}
+	@Override
+	public List<MemberDTO> userList() {
+		return sqlSession.selectList(namespace+".userList");
+	}
+	@Override
+	public List<MemberDTO> memberList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".memberList", cri);
+	}
+	@Override
+	public int memberListCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".memberListCount", cri);
+	}
+	@Override
+	public MemberDTO memberData(String m_id) {
+		return sqlSession.selectOne(namespace+".memberData", m_id);
+	}
 }

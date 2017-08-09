@@ -33,15 +33,15 @@
                 <div class="box-header">
                   <h3 class="box-title">회원 목록</h3>
                    <div class="box-tools">
-                    <form action="/HarangProject/myPage?cmd=ApointCheck" name="search" method="post"> 
+                    <form action="/myPage/ApointCheck" name="search" method="post"> 
                     <div class="input-group">
-                      <input type="text" name="keyword" class="form-control input-sm pull-right" value="${requestScope.keyword}" style="width: 150px;" placeholder="Search"/>
+                      <input type="text" name="keyword" class="form-control input-sm pull-right" value="${keyword}" style="width: 150px;" placeholder="Search"/>
                       <select class="form-control input-sm pull-right" style="width: 150px;" name="keyfield">
-                        <option value="" ${requestScope.keyfield eq null ? 'selected' : null }></option>
-                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null }>학번 / 관리자 번호</option>
-                        <option value="m_name" ${requestScope.keyfield eq 'm_name' ? 'selected' : null }>이름</option>
-                        <option value="m_dept" ${requestScope.keyfield eq 'm_dept' ? 'selected' : null }>학과</option>
-                        <option value="m_point" ${requestScope.keyfield eq 'm_point' ? 'selected' : null }>포인트</option>
+                        <option value="" ${keyfield eq null ? 'selected' : null }></option>
+                        <option value="m_id" ${keyfield eq 'm_id' ? 'selected' : null }>학번 / 관리자 번호</option>
+                        <option value="m_name" ${keyfield eq 'm_name' ? 'selected' : null }>이름</option>
+                        <option value="m_dept" ${keyfield eq 'm_dept' ? 'selected' : null }>학과</option>
+                        <option value="m_point" ${keyfield eq 'm_point' ? 'selected' : null }>포인트</option>
                       </select>
                       <div class="input-group-btn">
                         <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -63,13 +63,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    <c:choose>
-                      <c:when test="${fn:length(requestScope.mList) eq 0}">
-                      </c:when>
-                      <c:otherwise>
-	                     <c:forEach var="mem" items="${requestScope.mList}"
-	                      begin="${paging.beginPerPage}" 
-	                      end="${paging.beginPerPage + paging.numPerPage -1}" 
+	                     <c:forEach var="mem" items="${mList}"
 	                      varStatus="i" >
 	                      <tr>
 	                        <td>${mem.m_id}</td>
@@ -77,29 +71,29 @@
 	                        <td>${mem.m_dept}</td>
 	                        <td>${mem.m_grade}학년</td>
 	                        <td>${mem.m_point}p</td>
-	                        <td><a class="btn btn-primary" href="/HarangProject/myPage?cmd=Applist&check_id=${mem.m_id}">조회</a></td>
+	                        <td><a class="btn btn-primary" href="/myPage/Applist&check_id=${mem.m_id}">조회</a></td>
 	                      </tr>
 	                      </c:forEach>
-                      </c:otherwise>
-                    </c:choose>
                     </tbody>
                   </table>
                 </div><!-- /.box-body -->
                  <div class="box-footer clearfix">
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                          <c:if test="${paging.nowBlock > 0}">
-                            <li><a href="javascript:prevPage()">&laquo;</a></li>
-                          </c:if>
-                        <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-                            <!-- if문 추가 : 20170615 -->
-                               <c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-                                    <li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-                               </c:if>
-                            <!-- 끝 -->
-                        </c:forEach>
-                          <c:if test="${paging.totalBlock > paging.nowBlock +1}">
-                            <li><a href="javascript:nextPage()">&raquo;</a></li>
-                         </c:if>
+                     <ul class="pagination pagination-sm no-margin pull-right">
+						<c:if test="${pageMaker.prev}">
+	                            <li><a href="/myPage/ApointCheck${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+	                    </c:if>
+	                    <c:forEach begin="${pageMaker.startPage}" 
+	                    		   end="${pageMaker.endPage}" 
+	                               var="idx">
+	                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+	                          		<a href="/myPage/ApointCheck?page=${idx}">
+	                          			${idx}
+	                        	   	</a>
+	                             </li>
+	                   	</c:forEach>
+	                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+	                      <li><a href="/myPage/ApointCheck${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+	                    </c:if>
                     </ul>
                 </div>
               </div><!-- /.box -->
@@ -110,28 +104,6 @@
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
       
 <!-- 페이징 관련 폼 ----------------------------------------------------------------------->
-<!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/myPage?cmd=ApointCheck">
-    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-    <input type="hidden" name="keyfield" value="${requestScope.keyfield}"/>
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/HarangProject/myPage?cmd=ApointCheck">
-    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-    <input type="hidden" name="keyfield" value="${requestScope.keyfield}"/>
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
-</form>
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post" action="/HarangProject/myPage?cmd=ApointCheck">
-    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-    <input type="hidden" name="keyfield" value="${requestScope.keyfield}"/>
-    <input type="hidden" name="nowPage" value="" id="page"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-</form>
-
 <!-- 페이징 관련 폼 여기까지입니다. ----------------------------------------------------------------------------------- -->
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>

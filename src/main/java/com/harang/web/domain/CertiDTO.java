@@ -2,6 +2,13 @@ package com.harang.web.domain;
 
 public class CertiDTO {
 	
+		@Override
+		public String toString() {
+			return "CertiDTO [c_num=" + c_num + ", c_name=" + c_name + ", c_agency=" + c_agency + ", c_point=" + c_point
+					+ ", cm_iscomplete=" + cm_iscomplete + ", cm_completedate=" + cm_completedate + ", cm_regdate="
+					+ cm_regdate + ", cm_image=" + cm_image + "]";
+		}
+		
 		String c_num;
 		String c_name;
 		String c_agency;

@@ -16,38 +16,36 @@
             text-align:center;
         }
      </style>
-<c:if test="${msg eq 'enroll'}">
-    <script type="text/javascript">
-    window.onload = function() {
-    alert("해당 수업이 시간표에 등록되었습니다.");
-    //새로 접속 해줘야 하는 이유.. forward에 작업 기록이 남는다.
-    reset.submit();}
-    </script>
-</c:if>   
-<c:if test="${msg eq 'duplicate'}">
-    <script type="text/javascript">
-    window.onload = function() {
-    alert("해당 수업은 시간이 중복 됩니다.");
-    //새로 접속 해줘야 하는 이유.. forward에 작업 기록이 남는다.
-    reset.submit();}
-    </script>
-</c:if>
-<c:if test="${msg eq 'evaluated'}">
-    <script type="text/javascript">
-    window.onload = function() {
-    alert("해당 수업은 이미 평가가 완료된 수업입니다.");
-    //새로 접속 해줘야 하는 이유.. forward에 작업 기록이 남는다.
-    reset.submit();}
-    </script>
-</c:if>
-<c:if test="${msg eq 'delete'}">
-    <script type="text/javascript">
-    window.onload = function() {
-    alert("해당 수업을 시간표에서 삭제 했습니다.");
-    //새로 접속 해줘야 하는 이유.. forward에 작업 기록이 남는다.
-    reset.submit();}
-    </script>
-</c:if>
+<%-- <c:choose>
+	<c:when test="${msg eq 'enroll'}">
+		 <script type="text/javascript">
+		    window.onload = function() {
+		    	alert("해당 수업이 시간표에 등록되었습니다.");
+		    }
+		 </script>
+	</c:when>
+	<c:when test="${msg eq 'duplicate'}">
+		 <script type="text/javascript">
+		    window.onload = function() {
+		    	alert("해당 수업은 시간이 중복 됩니다.");
+		    }
+	    </script>
+	</c:when>
+	<c:when test="${msg eq 'evaluated'}">
+		<script type="text/javascript">
+		    window.onload = function() {
+		    	alert("해당 수업은 이미 평가가 완료된 수업입니다.");
+		    }
+	    </script>
+	</c:when>
+	<c:when test="${msg eq 'delete'}">
+		 <script type="text/javascript">
+		    window.onload = function() {
+		    	alert("해당 수업을 시간표에서 삭제 했습니다.");
+		    }
+	    </script>
+	</c:when>
+</c:choose> --%>
 </head>
 	  <!-- 메인 페이지 구역 , 즉 작업 구역 -->
       <div class="content-wrapper">
@@ -76,17 +74,17 @@
                 <div class="box-header">
                   <h3 class="box-title">${ttname} 당신의 시간표</h3>
                    <div class="box-tools">
-                    <form action="/HarangProject/myPage?cmd=timeTable" method="post" name="timetable">
+                    <form action="/myPage/timeTable" method="post" name="timetable">
                      <div class="input-group">
                           <select name="tt_term" class="form-control input-sm pull-right" style="width: 15%;">
-                            <option value="1" ${term eq '1' ? 'selected' : null }>1학기</option>
-                            <option value="2" ${term eq '2' ? 'selected' : null }>2학기</option>
+                            <option value="1" ${tt_term eq '1' ? 'selected' : null }>1학기</option>
+                            <option value="2" ${tt_term eq '2' ? 'selected' : null }>2학기</option>
                           </select>
                           <select name="tt_grade" class="form-control input-sm pull-right" style="width: 15%;">
-                            <option value="1" ${grade eq '1' ? 'selected' : null }>1학년</option>
-                            <option value="2" ${grade eq '2' ? 'selected' : null }>2학년</option>
-                            <option value="3" ${grade eq '3' ? 'selected' : null }>3학년</option>
-                            <option value="4" ${grade eq '4' ? 'selected' : null }>4학년</option>
+                            <option value="1" ${tt_grade eq '1' ? 'selected' : null }>1학년</option>
+                            <option value="2" ${tt_grade eq '2' ? 'selected' : null }>2학년</option>
+                            <option value="3" ${tt_grade eq '3' ? 'selected' : null }>3학년</option>
+                            <option value="4" ${tt_grade eq '4' ? 'selected' : null }>4학년</option>
                           </select>
                           <div class="input-group-btn">
                           <input type="hidden" name='check' value="findtt">
@@ -221,8 +219,8 @@
                         <th>시간표 등록</th>
                       </tr>
                     </thead>
-                    <tbody>
-                        <c:forEach items="${ttlist}"
+                    <tbody id="ttList">
+                    	<c:forEach items="${ttlist}"
                           varStatus="i"
                           var="tt">
                           <tr>
@@ -239,7 +237,7 @@
                             <td>${tt.l_credit}</td>
                             <td><input type="button" onclick="deletelesson('${tt.l_num}')"  class="btn btn-danger" value="수강 취소"></td>
                           </tr>
-                            </c:forEach>
+                        </c:forEach>
                     </tbody>
                   </table>
                 </div><!-- /.box-body -->
@@ -273,11 +271,7 @@
                         <th>시간표 등록</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <c:choose>
-                        <c:when test="${fn:length(llist) eq 0}">
-                        </c:when>
-                        <c:otherwise>
+                    <tbody id="lessonList">
 	                    <c:forEach items="${llist}"
 	                      varStatus="i"
 	                      var="l">
@@ -303,8 +297,6 @@
                             </c:choose>
 	                      </tr>
                             </c:forEach>
-                        </c:otherwise>
-                        </c:choose>
                     </tbody>
                   </table>
                 </div><!-- /.box-body -->
@@ -356,100 +348,253 @@
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<%-- <!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/myPage?cmd=timeTable">
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
-    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
-    <input type="hidden" name="tt_term" value="${tt_term}"/>
-    <input type="hidden" name="keyword" value="${keyword}"/>
-    <input type="hidden" name="keyfield" value="${keyfield}"/>
+<form name="reset" method="post" action="/myPage/timeTable">
     <input type="hidden" name='check' value="findtt">
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/HarangProject/myPage?cmd=timeTable">
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
     <input type="hidden" name="tt_grade" value="${tt_grade}"/>
     <input type="hidden" name="tt_term" value="${tt_term}"/>
     <input type="hidden" name="keyword" value="${keyword}"/>
     <input type="hidden" name="keyfield" value="${keyfield}"/>
-    <input type="hidden" name='check' value="findtt">
-</form>
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post" action="/HarangProject/myPage?cmd=timeTable">
-    <input type="hidden" name="nowPage" value="" id="page"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
-    <input type="hidden" name="tt_term" value="${tt_term}"/>
-    <input type="hidden" name="keyword" value="${keyword}"/>
-    <input type="hidden" name="keyfield" value="${keyfield}"/>
-    <input type="hidden" name='check' value="findtt">
-</form>
-<!-- 등록 form -->
-<form name="goEnroll" method="post" action="/HarangProject/myPage?cmd=timeTable">
-    <input type="hidden" name="nowPage" value="${paging.nowPage}"/>
-    <input type="hidden" name='check' value="enroll">
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
-    <input type="hidden" name="tt_term" value="${tt_term}"/>
-    <input type="hidden" name="keyword" value="${keyword}"/>
-    <input type="hidden" name="keyfield" value="${keyfield}"/>
-    <input type="hidden" name="l_num" value=""/>
-    <input type="hidden" name="l_day" value=""/>
-    <input type="hidden" name="l_time" value=""/>
-</form>
-<!-- 삭제 form -->
-<form name="goDelete" method="post" action="/HarangProject/myPage?cmd=timeTable">
-    <input type="hidden" name="nowPage" value="${paging.nowPage}"/>
-    <input type="hidden" name='check' value="delete">
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
-    <input type="hidden" name="tt_term" value="${tt_term}"/>
-    <input type="hidden" name="keyword" value="${keyword}"/>
-    <input type="hidden" name="keyfield" value="${keyfield}"/>
-    <input type="hidden" name="l_num" value=""/>
-    <input type="hidden" name="l_day" value=""/>
-    <input type="hidden" name="l_time" value=""/>
-</form>
-<!-- 초기화 form -->
-<form name="reset" method="post" action="/HarangProject/myPage?cmd=timeTable">
-    <input type="hidden" name="nowPage" value="${paging.nowPage}"/>
-    <input type="hidden" name='check' value="findtt">
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
-    <input type="hidden" name="tt_term" value="${tt_term}"/>
-    <input type="hidden" name="keyword" value="${keyword}"/>
-    <input type="hidden" name="keyfield" value="${keyfield}"/>
-</form> --%>
+</form> 
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
 <script>
-//페이징
-function prevPage() {
-    document.getElementById("prevPage").submit();
+/*
+//이제 의미가 없지만 남겨 둔다...
+function refreshTimetable(){
+	
+	var m_id = "${member.m_id}";
+	var tt_grade = "${tt_grade}";
+	var tt_term = "${tt_term}";
+	
+	$.getJSON("/myPage/timeTable/refreshTimetable",
+			{tt_grade:tt_grade,tt_term:tt_term,m_id:m_id},
+			function(data){
+				$("#ttList tr").remove();
+				$(data).each(function(index, tt){
+					$("#ttList").append(
+						 "<tr>"
+                            +"<td>"+tt.l_num+"</td>"
+                            +"<td>"+tt.l_dept+"</td>"
+                            +"<td>"+tt.l_ismust+"</td>"
+                            +"<td>"+tt.l_name+"</td>"
+                            +"<td>"+tt.l_grade+"</td>"
+                            +"<td>"+tt.l_term+"</td>"
+                            +"<td id='day"+tt.l_num+"'>"+tt.l_day+"</td>"
+                            +"<td id='time"+tt.l_num+"'>"+tt.l_time+"</td>"
+                            +"<td>"+tt.l_teacher+"</td>"
+                            +"<td>"+tt.l_room+"</td>"
+                            +"<td>"+tt.l_credit+"</td>"
+                            +"<td><input type='button' onclick=deletelesson('"+tt.l_num+"')  class='btn btn-danger' value='수강 취소'></td>"
+                          +"</tr>");
+					  // 요일  -> 날짜 숫자로 변환
+				       var day = tt.l_day;
+				        var daynum = 0;
+				        if(day=="월"){
+				        	daynum = 1;
+				            }
+				        else if(day=="화"){
+				        	daynum = 2;
+				            }
+				        else if(day=="수"){
+				        	daynum = 3;
+				            }
+				        else if(day=="목"){
+				        	daynum = 4;
+				            }
+				        else if(day=="금"){
+				        	daynum = 5;
+				            }
+				        //alert(daynum);
+				        
+				        // 시간
+				        var time = tt.l_time;
+				        // 1-3 ,4-6, 7-9 
+				        var sptime = time.split("-");
+				        var start = sptime[0];
+				        //alert(start);
+				        var end = sptime[1];
+				        //alert(end);
+				        
+				        // 수업 이름
+				        var name = tt.l_name;
+				        
+				        // 강의실
+				        var room = tt.l_room;
+
+				        // 교수00
+				        var teacher = tt.l_teacher;
+
+				        // 학과별 색상 변경
+				        var dept = tt.l_dept;
+				        var color = "";
+				        if(dept=="경영학과"){
+				        	color = "#EECECE";
+				            }
+				        else if(dept=="교양학과"){
+				        	color = "#EFF7BE";
+				            }
+				        else if(dept=="국어국문학과"){
+				        	color = "#BEDDF7";
+				            }
+				        else if(dept=="수학과"){
+				        	color = "#BEF7EA";
+				            }
+				        else if(dept=="산업디자인학과"){
+				        	color = "#F4DBAF";
+				            }
+				        else if(dept=="컴퓨터공학과"){
+				        	color = "#E0A8FF";
+				            }
+				        // 시간표에 해당 내용을 올리는 For문
+				        for(i=start;i<=end;i++){
+				        	$("#t"+i+" > #d"+daynum)
+				        	.css("background",color)
+				        	.html(name+"<br>"+room+"<br>"+teacher);
+				        }
+				});
+			});
 }
-function nextPage() {
-    document.getElementById("nextPage").submit();
+
+function  refershLesson(){
+	
+	var keyword = "${keyword}";
+	var keyfield = "${keyfield}";
+	var tt_term = "${tt_term}";
+	var tt_grade = "${tt_grade}";
+	var m_id = "${member.m_id}";
+	
+	$.getJSON("/myPage/timeTable/refreshLesson",
+			{
+				tt_term:tt_term,
+				tt_grade:tt_grade,
+				m_id:m_id,
+				keyfield:keyfield,
+				keyword:encodeURIComponent(keyword)
+			},
+			function(data) {
+				$("#lessonList tr").remove();
+				$(data).each(function(index, l){
+					if(l.m_id == m_id){
+						$("#lessonList").append(
+							"<tr>"
+								+"<td>"+l.l_num+"</td>"
+			                    +"<td>"+l.l_dept+"</td>"
+			                    +"<td>"+l.l_ismust+"</td>"
+			                    +"<td>"+l.l_name+"</td>"
+			                    +"<td>"+l.l_grade+"</td>"
+			                    +"<td>"+l.l_term+"</td>"
+			                    +"<td id='day"+l.l_num+"'>"+l.l_day+"</td>"
+			                    +"<td id='time"+l.l_num+"'>"+l.l_time+"</td>"
+			                    +"<td>"+l.l_teacher+"</td>"
+			                    +"<td>"+l.l_room+"</td>"
+			                    +"<td>"+l.l_credit+"</td>"
+			                    +"<td><input type='button' onclick=deletelesson('"+l.l_num+"')  class='btn btn-danger' value='수강 취소'></td>"
+		                    +"</tr>");
+					}
+					else{
+						$("#lessonList").append(
+							"<tr>"
+								+"<td>"+l.l_num+"</td>"
+			                    +"<td>"+l.l_dept+"</td>"
+			                    +"<td>"+l.l_ismust+"</td>"
+			                    +"<td>"+l.l_name+"</td>"
+			                    +"<td>"+l.l_grade+"</td>"
+			                    +"<td>"+l.l_term+"</td>"
+			                    +"<td id='day"+l.l_num+"'>"+l.l_day+"</td>"
+			                    +"<td id='time"+l.l_num+"'>"+l.l_time+"</td>"
+			                    +"<td>"+l.l_teacher+"</td>"
+			                    +"<td>"+l.l_room+"</td>"
+			                    +"<td>"+l.l_credit+"</td>"
+			                    +"<td><input type='button' onclick=enroll('"+l.l_num+"')  class='btn btn-primary' value='수강 등록'></td>"
+			               +"</tr>");
+					}
+				});
+			});
+	
 }
-function goPage(nowPage) {
-    document.getElementById("page").value = nowPage;
-    document.getElementById("goPage").submit();
-}
+*/
 //등록
-function enroll(l_num) {
-	goEnroll.l_num.value = l_num;
-	goEnroll.l_day.value = $("#day"+l_num).text();
-	goEnroll.l_time.value = $("#time"+l_num).text();
-	goEnroll.submit();
+function enroll(lesson_num) {
+	
+	var l_num = lesson_num;
+	var l_day = $("#day"+lesson_num).text();
+	var l_time = $("#time"+lesson_num).text();
+	var m_id = "${member.m_id}";
+	var tt_grade = "${tt_grade}";
+	var tt_term = "${tt_term}";
+	var keyword = "${keyword}";
+	var keyfield = "${keyfield}";
+	
+	$.ajax({
+		type	:	'post',
+		url		:	'/myPage/timeTable/enroll',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "POST"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			//keyword	 :	keyword,
+			//keyfield :  keyfield,
+			m_id	 : 	m_id,
+			l_num	 :	l_num,
+			l_day	 :	l_day,
+			l_time	 :	l_time,
+			tt_grade :	tt_grade,
+			tt_term	 :	tt_term
+		}),
+		success : function(result)
+		{			
+			if(result == 'enroll'){
+				alert("수업이 시간표에 등록되었습니다.");
+				reset.submit();
+			}
+			else if(result == 'duplicate'){
+				alert("시간표에 시간이 중복 됩니다.");
+			}
+		}
+	});
 }
 //삭제
-function deletelesson(l_num) {
-	goDelete.l_num.value = l_num;
-	goDelete.l_day.value = $("#day"+l_num).text();
-	goDelete.l_time.value = $("#time"+l_num).text();
-	goDelete.submit();
+function deletelesson(lesson_num) {
+	var l_num = lesson_num;
+	var l_day = $("#day"+lesson_num).text();
+	var l_time = $("#time"+lesson_num).text();
+	var m_id = "${member.m_id}";
+	var tt_grade = "${tt_grade}";
+	var tt_term = "${tt_term}";
+	var keyword = "${keyword}";
+	var keyfield = "${keyfield}";
 	
+	$.ajax({
+		type	:	'post',
+		url		:	'/myPage/timeTable/delete',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "POST"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			//keyword	 :	keyword,
+			//keyfield :  keyfield,
+			m_id	 : 	m_id,
+			l_num	 :	l_num,
+			l_day	 :	l_day,
+			l_time	 :	l_time,
+			tt_grade :	tt_grade,
+			tt_term	 :	tt_term
+		}),
+		success : function(result)
+		{			
+			if(result == 'delete'){
+				alert("수업이 시간표에 삭제되었습니다.");
+				reset.submit();
+			}
+			else if(result == 'evaluated'){
+				alert("이미 평가가 완료된 수업입니다.");
+			}
+		}
+	});
 }
 </script>
     <!-- 시간표를 출력 할 수 있는 쿼리 -->

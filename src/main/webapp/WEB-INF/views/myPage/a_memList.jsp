@@ -27,6 +27,8 @@ window.onload =  function () {
     input.m_addr2.value = mailArray[1];
     input.m_addr3.value = mailArray[2];
 }
+
+
 function mailcheck(){ 
      i = input.m_mail3.selectedIndex; // 선택항목의 인덱스 번호
      var mail= input.m_mail3.options[i].value; // 선택항목 value
@@ -96,14 +98,14 @@ function checkform(){
                   <h3 class="box-title">회원 목록</h3>
                    <div class="box-tools">
                     <div class="input-group">
-                    <form action="/HarangProject/myPage?cmd=AmemList" name="search" method="post">
-                      <input type="text"  name="keyfield" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+                    <form action="/myPage/AmemList" name="search" method="post">
+                      <input type="text"  name="keyword" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
                       <select class="form-control input-sm pull-right" name="keyword" style="width: 150px;">
                          <option></option>
-                         <option value="m_id" ${keyword eq 'm_id' ? 'selected' : null}>학번 / 관리자 번호</option>
-                         <option value="m_name" ${keyword eq 'm_name' ? 'selected' : null}>이름</option>
-                         <option value="m_dept" ${keyword eq 'm_dept' ? 'selected' : null}>학과</option>
-                         <option value="m_point" ${keyword eq 'm_dept' ? 'selected' : null}>포인트</option>
+                         <option value="m_id" ${keyfield eq 'm_id' ? 'selected' : null}>학번 / 관리자 번호</option>
+                         <option value="m_name" ${keyfield eq 'm_name' ? 'selected' : null}>이름</option>
+                         <option value="m_dept" ${keyfield eq 'm_dept' ? 'selected' : null}>학과</option>
+                         <option value="m_point" ${keyfield eq 'm_dept' ? 'selected' : null}>포인트</option>
                       </select>
                       <div class="input-group-btn" >
                         <button type="submit" class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -129,58 +131,48 @@ function checkform(){
                     </thead>
                     <tbody>
                     
-                    <c:choose>
-						<c:when test="${fn:length(alllist2) eq 0}">
-						</c:when>
-          				<c:otherwise>
-                      <c:forEach var="all" items="${requestScope.alllist2}"
-                       begin="${paging.beginPerPage}"  end="${paging.beginPerPage + paging.numPerPage -1}">
+                    <c:forEach var="all" 
+                      items="${memList}">
                        <tr>
-                        <td><a href="/HarangProject/myPage?cmd=AmemList&m_id=${all.m_id}" > ${all.m_id} </a></td>
+                        <td><a href="javascript:memberData('${all.m_id}')"> ${all.m_id} </a></td>
                         <td>${all.m_name }</td>
                         <td>${all.m_dept}</td>
                         <td>${all.m_grade}</td>
                         <td>${all.m_point}</td>
                         <td>${all.m_regdate}</td>
-                     
-					 	  
                       </tr>
-                          </c:forEach>
-                        </c:otherwise>
-                   </c:choose>
-                  
+                     </c:forEach>
                   
                     
                    
                     </tbody>
                   </table>
                      <div class="box-footer clearfix">
-                   <ul class="pagination pagination-sm no-margin pull-right">
-							<c:if test="${paging.nowBlock > 0}">
-							<li><a href="javascript:prevPage()">&laquo;</a></li>
-							</c:if>
-						  <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-                            <!-- if문 추가 : 20170615 -->
-                               <c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-                                    <li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-                               </c:if>
-                            <!-- 끝 -->
-						  </c:forEach>
-						  	<c:if test="${paging.totalBlock > paging.nowBlock +1}">
-							<li><a href="javascript:nextPage()">&raquo;</a></li>
-							</c:if>
-						</ul>
+             			<ul class="pagination pagination-sm no-margin pull-right">
+						<c:if test="${pageMaker.prev}">
+	                            <li><a href="/myPage/AmemList${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+	                    </c:if>
+	                    <c:forEach begin="${pageMaker.startPage}" 
+	                    		   end="${pageMaker.endPage}" 
+	                               var="idx">
+	                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+	                          		<a href="/myPage/AmemList?page=${idx}">
+	                          			${idx}
+	                        	   	</a>
+	                             </li>
+	                   	</c:forEach>
+	                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+	                      <li><a href="/myPage/AmemList${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+	                    </c:if>
+                    </ul>
                 </div><!-- /.box-body -->
                   
                 </div><!-- /.box-body -->
                 
               </div><!-- /.box -->
               
-              
-              <c:if test="${requestScope.read3 !=null }">
-              
                 <!-- Input addon -->
-              <div class="box box-black">
+              <div class="box box-black" id="userData" hidden="hidden">
                 <div class="box-header">
                   <h3 class="box-title">개인 정보 수정</h3>
                   <div class="box-tools pull-right">
@@ -191,32 +183,31 @@ function checkform(){
                 
                 <!-- form 시작 -->
                 <form role="form" name="input" onsubmit="return checkform()"  method="post" enctype="multipart/form-data">
-                 <input type="hidden" name="alllist2" value="${requestScope.alllist2}" />
                 <div class="box-body">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-picture-o"></i>이미지</span>
                     <span class="input-group-addon  bg-gray">
    
-                        <img src="${read3.m_photo}" id="local" class="img-rounded" height="90" width="90" alt="User Image"/>
+                        <img src="" id="memberImg" class="img-rounded" height="90" width="90" alt="User Image"/>
                         
                     </span>
                   </div>
                   <br>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-smile-o"></i> 이름</span>
-                    <input type="text" name="m_name" class="form-control" value="${read3.m_name }" readonly="readonly">
+                    <input type="text" name="m_name" class="form-control" value="" readonly="readonly">
                   </div>
                   <br>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-money"></i> 보유 포인트</span>
-                    <input type="text" name="m_point" class="form-control" value="${read3.m_point }" readonly="readonly">
+                    <input type="text" name="m_point" class="form-control" value="" readonly="readonly">
                   </div>
                   <br>
                   <!-- 폼 태그 따로 줌 -->
                   
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-sort-numeric-desc"></i> 학번</span>
-                    <input type="text" name="m_num" class="form-control" value="${read3.m_id }" required="required">
+                    <input type="text" name="m_id" class="form-control" value="" required="required">
                     <span class="input-group-btn">
                       <button class="btn btn-success btn-flat" type="button">학번 수정</button>
                     </span>
@@ -227,7 +218,7 @@ function checkform(){
                   
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-sitemap"></i> 학과</span>
-                    <input type="text" name="m_dept" class="form-control" value="${read3.m_dept }" required="required">
+                    <input type="text" name="m_dept" class="form-control" value="" required="required">
                     <span class="input-group-btn">
                       <button class="btn btn-success btn-flat" type="button">학과 수정</button>
                     </span>
@@ -236,14 +227,14 @@ function checkform(){
                   <br>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-star"></i> 생년월일</span>
-                    <input type="text" name="m_birth" class="form-control" value="${read3.m_birth }" readonly="readonly">
+                    <input type="text" name="m_birth" class="form-control" value="" readonly="readonly">
                   </div>
                   <br>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-envelope"></i> 이메일</span>
                     <input type="text" name="m_mail1" class="form-control"  readonly="readonly">
                     <span class="input-group-addon bg-gray"> @ </span>
-                    <input type="text" name="m_mail2" class="form-control" value="${m_mail1}" readonly="readonly">
+                    <input type="text" name="m_mail2" class="form-control" value="" readonly="readonly">
                   </div>
                   <br>
                   <div class="input-group">
@@ -271,50 +262,53 @@ function checkform(){
                 </div><!-- /.box-body -->
               
                  <div class="box-footer" align="right">
-                    <input type="button" class="btn" value="닫기">
+                    <input type="button" class="btn" id="btn-close" value="닫기">
                     <input type="submit" class="btn btn-danger" value="강퇴">
                 </div>
                   </form>
               </div><!-- /.box -->
-              </c:if>
               </div><!-- /.col -->
            </div><!-- /.row -->
         </section><!-- /. 작업 공간 끝! -->
+        
+                   <!-- 모달 : 뒷 페이지 배경을 눌러도 꺼지지 않음 -->
+                <div class="modal fade" id="theModal" data-backdrop="static">
+                    <div class="modal-dialog" style="width:80%">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>원본 이미지 확인</h3>
+                            </div>
+                            <div class="modal-body" align="center">
+                            	<img id="memberBigImg" width="100%">
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" data-dismiss="modal">닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- 모달 끝 -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
         <!-- 페이징 관련 폼 ----------------------------------------------------------------------->
 <!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/myPage?cmd=AmemList">
-	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/> 
-	<input type="hidden" name="keyfield" value="${keyfield }" /> 
-	<input type="hidden" name="keyword" value="${keyword }" />
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/HarangProject/myPage?cmd=AmemList">
-	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
-		<input type="hidden" name="keyfield" value="${keyfield}" /> 
-	<input type="hidden" name="keyword" value="${keyword }" />
-</form>
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post" action="/HarangProject/myPage?cmd=AmemList">
-	<input type="hidden" name="nowPage" value="" id="page"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-		<input type="hidden" name="keyfield" value="${keyfield }" /> 
-	<input type="hidden" name="keyword" value="${keyword }" />
-</form>   
-
 
 <form name="frmRead" method="post" action="/HarangProject/myPage?cmd=AmemList">
 		<input type="hidden" name="m_id" />
+</form>	
 
-	</form>	
 
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
-
-
+<!-- <script src="../resources/plugins/jqGrid/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="../resources/plugins/jqGrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+<script src="../resources/plugins/jqGrid/js/jquery.jqGrid.src.js" type="text/javascript"></script>
+<script src="../resources/plugins/jqGrid/js/i18n/grid.locale-kr.js" type="text/javascript"></script>
+<script src="../resources/plugins/jqGrid/src/grid.custom.js" type="text/javascript"></script>
+<script src="../resources/plugins/jqGrid/src/grid.common.js" type="text/javascript"></script>
+<script src="../resources/plugins/jqGrid/src/grid.formedit.js" type="text/javascript"></script>
+<script src="../resources/plugins/jqGrid/src/jqModal.js" type="text/javascript"></script>
+<script src="../resources/plugins/jqGrid/src/jqDnR.js" type="text/javascript"></script>
+<script src="../resources/plugins/jQueryUI/jquery-ui.js" type="text/javascript"></script> -->
 <script>
 ///////////////// 페이지 관련 javascript function////////////////////
 function prevPage(){
@@ -341,4 +335,68 @@ function readURL(input) {
 $("#imgInp").change(function(){
     readURL(this);
 });
+
+//[image] 원본(큰이미지)의 이미지 이름 불러오기
+function getImageLink(fileName){
+	
+	var front = fileName.substr(0,12);
+	var end = fileName.substr(14);
+	return front + end;
+	
+}
+
+function memberData(m_id){
+
+	$.getJSON("/myPage/userData",
+			{m_id:m_id},
+			function(data){
+				
+			    $("#userData").slideUp();
+				
+				var usermail = data.m_mail;
+			    var mailArray = usermail.split('@');
+			    input.m_mail1.value = mailArray[0];
+			    input.m_mail2.value = mailArray[1];
+
+			    var usertel = data.m_tel;
+			    var telArray = usertel.split('-');
+			    input.m_tel1.value = telArray[0];
+			    input.m_tel2.value = telArray[1];
+			    input.m_tel3.value = telArray[2];
+			    
+			    var useraddr = data.m_addr;
+			    var mailArray = useraddr.split('/');
+			    input.m_addr1.value = mailArray[0];
+			    input.m_addr2.value = mailArray[1];
+			    input.m_addr3.value = mailArray[2];
+			    
+			    input.m_id.value = data.m_id;
+			    
+			    input.m_name.value = data.m_name;
+			    
+			    input.m_birth.value = data.m_birth;
+			    
+			    input.m_dept.value = data.m_dept;
+
+			    input.m_point.value = data.m_point;
+				
+			    var $image = data.m_photo;
+			    
+			    $("#memberImg").attr("src", "/displayFile?fileName="+$image)
+			    $("#memberBigImg").attr("src", "/displayFile?fileName="+getImageLink($image))
+			    
+			    $("#userData").slideDown();
+			});
+}
+
+$("#memberImg").click(
+	      function(){
+	         $("#theModal").modal('toggle');
+	    });
+
+$("#btn-close").click(function(){
+	 $("#userData").slideUp();
+});
+
+
 </script>

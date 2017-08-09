@@ -17,7 +17,14 @@ public class MemberDTO {
 	private long m_point;
 	private int m_age;
 	private String m_maxnum;
+	private String enabled;
 	
+	public String getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(String enabled) {
+		this.enabled = enabled;
+	}
 	public String getM_maxnum() {
 		return m_maxnum;
 	}

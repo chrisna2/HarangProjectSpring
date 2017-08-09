@@ -177,6 +177,9 @@
   			<if test="keyfield == 'cm_regdate'.toString()">
   				where cm.cm_regdate like concat('%', #{keyword}, '%')
   			</if>
+  			<if test="keyfield == 'c_num'.toString()">
+  				where c.c_num like concat('%', #{keyword}, '%')
+  			</if>
   		</if>
   	</sql>
   	<!-- [회원] 스펙 등록 -->
@@ -189,9 +192,61 @@
 		UPDATE tbl_certi_member SET cm_iscomplete='none', cm_completedate=NULL, cm_image= #{cm_image} 
 		WHERE c_num=#{c_num} and m_id=#{m_id}
 	</update> 
-	
-	
-	
+	<!-- [관리자] 자격증 목록 출력 / jqgrid -->
+	<select id="specListJson" resultType="CertiMember" parameterType="SearchCriteria">
+  		SELECT * FROM tbl_certificate 
+  		<include refid="jspec_search"></include>
+  		limit #{pageStart}, #{perPageNum} 
+  	</select>
+	<!-- [관리자] 자격증 목록 카운팅 / jqgrid -->
+	<select id="specListJsonCount" resultType="int" parameterType="SearchCriteria">
+  		SELECT count(*) FROM tbl_certificate 
+  		<include refid="jspec_search"></include>
+  	</select>
+  	<!-- [관리자] 자격증 목록 검색 / jqgrid -->
+  	<sql id="jspec_search">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'c_name'.toString()">
+  				where c_name like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'c_agency'.toString()">
+  				where c_agency like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'c_point'.toString()">
+  				where c_point like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'c_num'.toString()">
+  				where c_num like concat('%', #{keyword}, '%')
+  			</if>
+  		</if>
+  	</sql>
+  	<!-- [관리자] 자격증 입력 추가 / jqgrid -->
+  	<insert id="specInsert" parameterType="CertiMember">
+  		insert into tbl_certificate(c_name,c_agency,c_point,c_num) values(#{c_name},#{c_agency},#{c_point},'')
+  	</insert>
+  	<!-- [관리자] 자격증 총괄 수정 / jqgrid -->
+  	<update id="specUpdateAll" parameterType="CertiMember">
+  		update tbl_certificate set c_name=#{c_name}, c_agency=#{c_agency}, c_point=#{c_point} where c_num=#{c_num}
+  	</update>
+  	<!-- [관리자] 자격증 일부 수정 : 이름 / jqgrid  -->
+  	<update id="specUpdateName" parameterType="CertiMember">
+		update tbl_certificate set c_name=#{c_name} where c_num=#{c_num}  	
+  	</update>
+  	<!-- [관리자] 자격증 일부 수정 : 기관 / jqgrid  -->
+	<update id="specUpdateAgency" parameterType="CertiMember">
+  		update tbl_certificate set c_agency=#{c_agency} where c_num=#{c_num}  	
+  	</update>  	
+  	<!-- [관리자] 자격증 일부 수정 : 포인트 / jqgrid  -->
+	<update id="specUpdatePoint" parameterType="CertiMember">
+  		update tbl_certificate set c_point=#{c_point} where c_num=#{c_num}
+  	</update>
+  	<!-- [관리자] 자격증 일부 삭제 / jqgrid  -->
+  	<delete id="specDelete" parameterType="CertiMember">
+  		delete from tbl_certificate where c_num=#{c_num}
+  	</delete>
+  	
+  	
+  	
 	<!-- [회원] 시간표 등록된 수업 목록 출력 -->
 	<select id="timeTalbeLesson" resultType="Lesson" parameterType="SearchCriteria">
 		SELECT l.l_num,l.l_time,l.l_day,l.l_name,l.l_teacher,l.l_grade,l.l_term,
@@ -254,5 +309,102 @@
   			</if>
   		</if>
   	</sql>	
+  	<!-- [회원] 시간표 등록  	-->
+  	<insert id="enrollLesson" parameterType="Lesson">
+  		INSERT INTO tbl_timetable (tt_grade, tt_term, m_id, l_num, tt_iscomplete)  
+  		VALUES (#{tt_grade}, #{tt_term}, #{m_id}, #{l_num}, 'N') 
+  	</insert>
+  	<!-- [회원] 시간표 중복 검사 -->
+  	<select id="enrollCheck" parameterType="Lesson" resultType="Lesson">
+  		SELECT l.l_day, l.l_time  
+		FROM tbl_lesson l, tbl_timetable tt  
+		where tt.m_id = #{m_id} and tt.tt_grade = #{tt_grade} and tt.tt_term = #{tt_term} and tt.l_num = l.l_num
+  	</select>
+  	<!-- [회원] 시간표 삭제 -->
+  	<delete id="deleteLesson" parameterType="Lesson">
+  		DELETE FROM tbl_timetable WHERE l_num = #{l_num} and m_id = #{m_id} and tt_grade = #{tt_grade}
+  	</delete>
+  	<!-- [회원] 시간표 삭제 체크 -->
+  	<select id="deletecheck" resultType="String" parameterType="Lesson">
+  		select tt_iscomplete from tbl_timetable where m_id = #{m_id} and l_num = #{l_num} and tt_grade = #{tt_grade}
+  	</select>
+  	
+  	
+  	<!-- [관리자] 포인트 멤버 목록 조회 -->
+  	<select id="apointMember" resultType="Member" parameterType="SearchCriteria">
+  		select m_id, m_name, m_dept, m_grade, m_point from tbl_member 
+  		<include refid="apointMemberSearch"></include>
+  		order by m_id desc 
+  		limit #{pageStart}, #{perPageNum} 
+  	</select>
+  	<!-- [관리자] 포인트 멤버 목록 카운팅 -->
+  	<select id="apointMemberCount" resultType="int" parameterType="SearchCriteria">
+  		select count(*) from tbl_member 
+  		<include refid="apointMemberSearch"></include>
+  	</select>
+  	<!-- [관리자] 포인트 멤버 목록 검색 -->
+  	<sql id="apointMemberSearch">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'm_id'.toString()">
+  				where m_id like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'm_name'.toString()">
+  				where m_name like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'm_dept'.toString()">
+  				where m_dept like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'm_grade'.toString()">
+  				where m_grade like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'm_point'.toString()">
+  				where m_point like concat('%', #{keyword}, '%')
+  			</if>
+  		</if>
+  	</sql>
+	
+	<!-- [관리자] 멤버 리스트 전부 불러 오기 jqgrid -->
+	<select id="userList" resultType="Member">
+		select * from tbl_member order by m_id desc
+	</select>
+	
+	<!-- [관리자] 멤버 리스트 전부 불러 오기 -->
+	<select id="memberList" resultType="Member" parameterType="SearchCriteria">
+		select * from tbl_member 
+		<include refid="memberSearch"></include>
+		order by m_id desc 
+		limit #{pageStart}, #{perPageNum} 
+	</select>
+	<select id="memberData" resultType="Member" parameterType="String">
+		select * from tbl_member where m_id = #{m_id}
+	</select>
+		<!-- [관리자] 멤버 리스트 페이징 -->
+	<select id="memberListCount" resultType="int" parameterType="SearchCriteria">
+		select count(*) from tbl_member 
+		<include refid="memberSearch"></include>
+	</select>
+	 <!-- [관리자] 멤버 리스트 목록 검색 -->
+  	<sql id="memberSearch">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'm_id'.toString()">
+  				where m_id like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'm_name'.toString()">
+  				where m_name like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'm_dept'.toString()">
+  				where m_dept like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'm_grade'.toString()">
+  				where m_grade like concat('%', #{keyword}, '%')
+  			</if>
+  			<if test="keyfield == 'm_point'.toString()">
+  				where m_point like concat('%', #{keyword}, '%')
+  			</if>
+  		</if>
+  	</sql>
+  	
+  	
+  	
   </mapper>
     

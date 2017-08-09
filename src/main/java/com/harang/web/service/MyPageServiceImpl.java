@@ -19,22 +19,29 @@ public class MyPageServiceImpl implements MyPageService {
 	@Autowired
 	private MyPageDao myPageDao;
 
+	
+	
 	@Override
 	public List<RecordDTO> pointListHeader(String m_id) {
 		return myPageDao.pointListHeader(m_id);
 	}
-
 	@Override
 	public List<RecordDTO> pointListSearch(SearchCriteria cri) {
 		return myPageDao.pointListSearch(cri);
 	}
-
 	@Override
 	public int pointPagingNum(String m_id) {
 		return myPageDao.pointPagingNum(m_id);
 	}
+	@Override
+	public List<MemberDTO> apointMember(SearchCriteria cri) {
+		return myPageDao.apointMember(cri);
+	}
+	@Override
+	public int apointMemberCount(SearchCriteria cri) {
+		return myPageDao.apointMemberCount(cri);
+	}
 
-	
 
 	//주소 목록 출력 검색
 	@Override
@@ -76,8 +83,40 @@ public class MyPageServiceImpl implements MyPageService {
 	public void uchallenge_rechallenge(CertiMemberDTO certi) {
 		myPageDao.uchallenge_rechallenge(certi);
 	}
-	
+	@Override
+	public List<CertiMemberDTO> specListJson(SearchCriteria cri) {
+		return myPageDao.specListJson(cri);
+	}
+	@Override
+	public int specListJsonCount(SearchCriteria cri) {
+		return myPageDao.specListJsonCount(cri);
+	}
+	@Override
+	public String specInsert(CertiMemberDTO certi) {
+		return myPageDao.specInsert(certi);
+	}
+	@Override
+	public String specUpdateAll(CertiMemberDTO certi) {
+		return myPageDao.specUpdateAll(certi);
+	}
+	@Override
+	public String specUpdateName(CertiMemberDTO certi) {
+		return myPageDao.specUpdateName(certi);
+	}
+	@Override
+	public String specUpdateAgency(CertiMemberDTO certi) {
+		return myPageDao.specUpdateAgency(certi);
+	}
+	@Override
+	public String specUpdatePoint(CertiMemberDTO certi) {
+		return myPageDao.specUpdatePoint(certi);
+	}
+	@Override
+	public String specDelete(CertiMemberDTO certi) {
+		return myPageDao.specDelete(certi);
+	}
 
+	
 	//내 정보 수정
 	@Override
 	public void updateMyinfo(MemberDTO member) {
@@ -95,6 +134,10 @@ public class MyPageServiceImpl implements MyPageService {
 		
 		return myPageDao.pointZero(record);
 	}
+	@Override
+	public String deleteCheck(LessonDTO lesson) {
+		return myPageDao.deleteCheck(lesson);
+	}
 
 	//시간표
 	@Override
@@ -109,7 +152,27 @@ public class MyPageServiceImpl implements MyPageService {
 	public int lessonCount(SearchCriteria cri) {
 		return myPageDao.lessonCount(cri);
 	}
-
+	@Override
+	public String enrollCheck(LessonDTO lesson) {
+		return myPageDao.enrollCheck(lesson);
+	}
+	
+	@Override
+	public List<MemberDTO> userList() {
+		return myPageDao.userList();
+	}
+	@Override
+	public List<MemberDTO> memberList(SearchCriteria cri) {
+		return myPageDao.memberList(cri);
+	}
+	@Override
+	public int memberListCount(SearchCriteria cri) {
+		return myPageDao.memberListCount(cri);
+	}
+	@Override
+	public MemberDTO memberData(String m_id) {
+		return myPageDao.memberData(m_id);
+	}
 
 
 }

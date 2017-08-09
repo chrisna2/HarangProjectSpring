@@ -216,33 +216,33 @@
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/myPage?cmd=Achallenge">
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/HarangProject/myPage?cmd=Achallenge">
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
-</form>
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post" action="/HarangProject/myPage?cmd=Achallenge">
-    <input type="hidden" name="nowPage" value="" id="page"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-</form>
+  <!-- 모달 : 뒷 페이지 배경을 눌러도 꺼지지 않음 -->
+                <div class="modal fade" id="theModal" data-backdrop="static">
+                    <div class="modal-dialog" style="width:80%">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>원본 이미지 확인</h3>
+                            </div>
+                            <div class="modal-body" align="center">
+                            	<img id="bigImage" width="100%">
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" data-dismiss="modal">닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- 모달 끝 -->
+	
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
 <script>
-function prevPage() {
-    document.getElementById("prevPage").submit();
-}
-function nextPage() {
-    document.getElementById("nextPage").submit();
-}
-function goPage(nowPage) {
-    document.getElementById("page").value = nowPage;
-    document.getElementById("goPage").submit();
+//[image] 원본(큰이미지)의 이미지 이름 불러오기
+function getImageLink(fileName){
+	
+	var front = fileName.substr(0,12);
+	var end = fileName.substr(14);
+	return front + end;
+	
 }
 function checkUp(idx){
     $("#check-box").slideUp();
@@ -257,25 +257,31 @@ function checkUp(idx){
     checkform.c_point.value = $("#"+idx+"c_point").text();
     checkform.cm_regdate.value = $("#"+idx+"cm_regdate").text();
     var $image = $("#"+idx+"cm_image").val();
-    $("#cm_image").attr("src", $image);
+    $("#cm_image").attr("src", "/displayFile?fileName="+$image);
+    $("#bigImage").attr("src",  "/displayFile?fileName="+getImageLink($image));
 }
-$("#check-close").click(function(){
-    $("#check-box").slideUp();
-})
+
+	$("#check-close").click(function(){
+	    $("#check-box").slideUp();
+	});
 
    $("#complete").click(function(){
         $("#check").val("complete");
         $("#checkform")
-        .attr("action", "/HarangProject/myPage?cmd=Achallenge")
+        .attr("action", "/myPage/Achallenge")
         .submit();
     });
     
     $("#return").click(function() {
         $("#check").val("return");
         $("#checkform")
-        .attr("action", "/HarangProject/myPage?cmd=Achallenge")
+        .attr("action", "/myPage/Achallenge")
         .submit();
     });
 
+    $("#cm_image").click(
+    		  function(){
+    		  	 $("#theModal").modal('toggle');
+    		});
 
 </script>
