@@ -7,7 +7,7 @@
   	<select id = "bbList" parameterType="SearchCriteria" resultType="Bamboo">
   	
   		select distinct bb.bb_num, bb.m_id, bb_notice, bb_title, bb_content, bb_regdate, bb_count, bb_nickname,
-  		 ifnull(like_cnt,0) as like_cnt, (select count(br_num) from tbl_bbreply where bb_num = bb.bb_num) as bb_replycnt from tbl_bamboo bb left outer join
+  		 ifnull(like_cnt,0) as like_cnt, (select count(br_num) from tbl_bbreply where bb_num = bb.bb_num) as reply_cnt from tbl_bamboo bb left outer join
   		  (select bb_num, count(tbl_like.m_id) as like_cnt from tbl_like group by bb_num) li on bb.bb_num = li.bb_num where
   		  <include refid="search"></include>
   		  limit #{pageStart}, #{perPageNum} 
@@ -53,7 +53,7 @@
   	<select id = "bbNList" resultType = "Bamboo">
   	
   		select distinct bb.bb_num, bb.m_id, bb_notice, bb_title, bb_content, bb_regdate, bb_count, bb_nickname,
-  		 ifnull(like_cnt,0), (select count(br_num) from tbl_bbreply where bb_num = bb.bb_num) as bb_replycnt 
+  		 ifnull(like_cnt,0), (select count(br_num) from tbl_bbreply where bb_num = bb.bb_num) as reply_cnt 
   		 from tbl_bamboo bb left outer join (select bb_num, count(tbl_like.m_id) like_cnt from tbl_like group by bb_num) 
   		 li on bb.bb_num = li.bb_num where bb_notice = 'Y' order by bb_regdate desc  
   		
@@ -97,6 +97,35 @@
   		delete from harang.tbl_bamboo where bb_num = #{bb_num}
   	
   	</delete>
+  	
+  	<update id = "bbUpdate" parameterType="Bamboo">
+  	
+		update tbl_bamboo set bb_title = #{bb_title}, bb_nickname = #{bb_nickname}, bb_content = #{bb_content} where bb_num = #{bb_num} 
+  		
+  	</update>  
+  	
+  	<insert id = "bbrPost" parameterType="Bbreply">
+  	
+  		insert into tbl_bbreply (br_coment, br_nickname, bb_num, m_id) values (#{br_coment},#{br_nickname},#{bb_num},#{m_id})
+  	
+  	</insert>
+  	
+  	<delete id = "bbrDelete" parameterType="String">
+  	
+  		delete from tbl_bbreply where br_num = #{br_num}
+  	</delete>
+  	
+  	<insert id = "bbLike" parameterType="Like">
+  		
+  		insert into harang.tbl_like (bb_num, m_id) values (#{bb_num},#{m_id})
+  	
+  	</insert>
+  	
+  	<insert id = "bbDLike" parameterType="String">
+  		
+  		insert into harang.tbl_dlike (bb_num, m_id) values (#{bb_num},#{m_id})
+  	
+  	</insert>
   	
   	
   

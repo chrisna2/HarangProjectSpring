@@ -46,34 +46,15 @@ public class BambooDaoImpl implements BambooDao {
 		
 	}
 	@Override
-	public BambooDTO bbUpdate() {
-		// TODO Auto-generated method stub
-		return null;
+	public void bbUpdate(BambooDTO bambooDTO) {
+		
+		sqlSession.update(namespace + ".bbUpdate", bambooDTO);
 	}
 	@Override
 	public List<BbreplyDTO> bbRList(String bb_num) {
 		return sqlSession.selectList(namespace + ".bbRList", bb_num);
 	}
-	@Override
-	public BambooDTO bbLike() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public BambooDTO bbDLike() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public BambooDTO bbLikeCancle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public BambooDTO bbDLikeCancle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	@Override
 	public int bbListCount(SearchCriteria cri) {
 		
@@ -108,6 +89,36 @@ public class BambooDaoImpl implements BambooDao {
 	@Override
 	public void bbPost(BambooDTO bambooDTO) {
 		sqlSession.insert(namespace + ".bbPost", bambooDTO);
+		
+	}
+	@Override
+	public void bbrpost(BbreplyDTO bbreplyDTO) {
+		sqlSession.insert(namespace + ".bbrPost", bbreplyDTO);
+		
+	}
+	@Override
+	public void bbrdelete(String br_num) {
+		sqlSession.delete(namespace + ".bbrDelete", br_num);
+		
+	}
+	@Override
+	public void bbLike(LikeDTO likeDTO) {
+		sqlSession.insert(namespace + ".bbLike", likeDTO);
+		
+	}
+	@Override
+	public void bbDLike(LikeDTO likeDTO) {
+		sqlSession.insert(namespace + ".bbDLike", likeDTO);
+		
+	}
+	@Override
+	public void bbLikeCancle(LikeDTO likeDTO) {
+		sqlSession.delete(namespace + ".bbLikeCancle", likeDTO);
+		
+	}
+	@Override
+	public void bbDLikeCancle(LikeDTO likeDTO) {
+		sqlSession.delete(namespace + ".bbDLikeCancle", likeDTO);
 		
 	}
 		

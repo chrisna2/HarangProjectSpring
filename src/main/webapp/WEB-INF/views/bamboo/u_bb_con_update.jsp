@@ -68,10 +68,9 @@ function fnbbp(){
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
-	<form action="/HarangProject/bamboo" name="bbpostcomplete"
+	<form action="/bamboo/BB_UPDATE" name="bbpostcomplete"
 		method="post">
-		<input type="hidden" name="cmd" value="U_BB_CONUP_COMPLETE"> <input
-			type="hidden" name="bb_num" value="${bbcon.bb_num }">
+		 <input	type="hidden" name="bb_num" value="${bbcon.bb_num }">
 
 		<section class="content">
 			<!-- 세로 길이 수정 -->
@@ -142,10 +141,9 @@ function fnbbp(){
 	</form>
 
 	<!--  대나무숲 글 수정하기 페이지에서 취소를 눌렀을 때 원래 페이지로 돌아가기 위한 폼 시작 -->
-	<form method="post" action="/HarangProject/bamboo"
+	<form method="post" action="/bamboo/BB_CON"
 		name="gobacktocontent">
-		<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-			type="hidden" name="cmd" value="U_BB_CON" />
+		<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
 
 	</form>
 	<!--  대나무숲 글 수정하기 페이지에서 취소를 눌렀을 때 원래 페이지로 돌아가기 위한 폼 끝 -->

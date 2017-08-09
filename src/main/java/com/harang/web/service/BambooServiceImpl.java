@@ -38,36 +38,13 @@ public class BambooServiceImpl implements BambooService {
 	}
 
 	@Override
-	public BambooDTO bbUpdate() {
-		// TODO Auto-generated method stub
-		return null;
+	public void bbUpdate(BambooDTO bambooDTO) {
+		bambooDao.bbUpdate(bambooDTO);
 	}
 
 	
 
-	@Override
-	public BambooDTO bbLike() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BambooDTO bbDLike() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BambooDTO bbLikeCancle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BambooDTO bbDLikeCancle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public int bbListCount(SearchCriteria cri) {
@@ -113,6 +90,42 @@ public class BambooServiceImpl implements BambooService {
 	public void bbPost(BambooDTO bambooDTO) {
 		
 		bambooDao.bbPost(bambooDTO);
+		
+	}
+
+	@Override
+	public void bbrpost(BbreplyDTO bbreplyDTO) {
+		
+		bambooDao.bbrpost(bbreplyDTO);		
+	}
+
+	@Override
+	public void bbrdelete(String br_num) {
+		bambooDao.bbrdelete(br_num);
+		
+	}
+
+	@Override
+	public void bbLike(LikeDTO likeDTO) {
+		bambooDao.bbLike(likeDTO);
+		
+	}
+
+	@Override
+	public void bbDLike(LikeDTO likeDTO) {
+		bambooDao.bbDLike(likeDTO);
+		
+	}
+
+	@Override
+	public void bbLikeCancle(LikeDTO likeDTO) {
+		bambooDao.bbLikeCancle(likeDTO);
+		
+	}
+
+	@Override
+	public void bbDLikeCancle(LikeDTO likeDTO) {
+		bambooDao.bbDLikeCancle(likeDTO);
 		
 	}
 	

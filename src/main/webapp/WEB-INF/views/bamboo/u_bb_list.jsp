@@ -150,7 +150,8 @@ td {
 													pattern="yyyy-MM-dd" /></td>
 											<td>${bbNList.bb_nickname}</td>
 											
-											<td><a href="/bamboo/BB_CON?bb_num=${bbNList.bb_num }" style="color: black">${bbNList.bb_title}</a></td>
+											<td><a href="/bamboo/BB_CON?page=${pageMaker.cri.page}&bb_num=${bbNList.bb_num }" 
+											style="color: black">[공지]${bbNList.bb_title} [${bbNList.reply_cnt}]</a></td>
 											<td>${bbNList.bb_count}</td>
 											<td>${bbNList.like_cnt}</td>
 
@@ -171,7 +172,8 @@ td {
 											<td><fmt:formatDate value="${bblist.bb_regdate}"
 													pattern="yyyy-MM-dd" /></td>
 											<td>${bblist.bb_nickname}</td>
-											<td><a href="/bamboo/BB_CON?bb_num=${bblist.bb_num }" style="color: black">${bblist.bb_title}</a></td>
+											<td><a href="/bamboo/BB_CON?page=${pageMaker.cri.page}&bb_num=${bblist.bb_num }"
+											 style="color: black">${bblist.bb_title} [${bblist.reply_cnt}]</a></td>
 											<td>${bblist.bb_count}</td>
 											<td>${bblist.like_cnt}</td>
 

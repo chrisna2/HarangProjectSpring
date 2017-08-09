@@ -13,12 +13,12 @@ public interface BambooDao {
 	public List<BambooDTO> bbList(SearchCriteria cri);
 	public List<BambooDTO> bbNList();
 	public void bbDelete(String bb_num);
-	public BambooDTO bbUpdate();
+	public void bbUpdate(BambooDTO bambooDTO);
 	public List<BbreplyDTO> bbRList(String bb_num);
-	public BambooDTO bbLike();
-	public BambooDTO bbDLike();
-	public BambooDTO bbLikeCancle();
-	public BambooDTO bbDLikeCancle();
+	public void bbLike(LikeDTO likeDTO);
+	public void bbDLike(LikeDTO likeDTO);
+	public void bbLikeCancle(LikeDTO likeDTO);
+	public void bbDLikeCancle(LikeDTO likeDTO);
 	public int bbListCount(SearchCriteria cri);
 	
 	public BambooDTO bbCon(String bb_num);
@@ -29,5 +29,9 @@ public interface BambooDao {
 	public void bbUpdateCnt(String bb_num);
 	
 	public void bbPost(BambooDTO bambooDTO);
+	
+	public void bbrpost(BbreplyDTO bbreplyDTO);
+	
+	public void bbrdelete(String br_num);
 	
 }
