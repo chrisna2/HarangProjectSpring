@@ -2,7 +2,6 @@ package com.harang.web.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -116,24 +115,106 @@ public class FacilController {
 		return mav;
 	}
 	
+	// 시설 추가,수정,삭제  / 수정
 	@RequestMapping(value="/AFacilAddDel_mod")
 	public String aFacilAddDel_modify(HttpServletRequest req, RedirectAttributes rttr){
+		// 시설 종류 판단.
+		String choiceType = req.getParameter("modi_num");
+		String type = req.getParameter("endmodi_type");
+		String name = req.getParameter("endmodi_name");
+		String content = req.getParameter("endmodi_content");
+		
+		PlaygroundDTO pgdto = new PlaygroundDTO();
+		StudyroomDTO srdto = new StudyroomDTO();
+		
+		System.out.println(choiceType);
+		
+		// 스터디룸의 경우 시설번호 첫번째 's'로 판단.
+		if (choiceType.startsWith("s")) {
+			srdto.setSr_num(choiceType);
+			srdto.setSr_type(type);
+			srdto.setSr_name(name);
+			srdto.setSr_content(content);
+			
+			facilService.facilSrmodi(srdto);
+		}
+		
+		// 운동장의 경우 시설번호 첫번째 'p'로 판단.
+		else if (choiceType.startsWith("p")) {
+			pgdto.setPg_num(choiceType);
+			pgdto.setPg_type(type);
+			pgdto.setPg_name(name);
+			pgdto.setPg_content(content);
+			
+			facilService.facilPgmodi(pgdto);
+		}
 		
 		// 수정 성공 메세지
 		rttr.addFlashAttribute("result", "mod");
 		return "redirect:/facil/AFacilAddDel";
 	}
 	
+	// 시설 추가,수정,삭제  / 삭제
 	@RequestMapping(value="/AFacilAddDel_del")
 	public String aFacilAddDel_del(HttpServletRequest req, RedirectAttributes rttr){
+		// 시설 종류 판단.
+		String type = req.getParameter("del_num");
+		System.out.println(type);
+		
+		// 스터디룸의 경우 시설번호 첫번째 's'로 판단.
+		if (type.startsWith("s")) {
+			facilService.facilSrDel(type);
+		}
+		
+		// 운동장의 경우 시설번호 첫번째 'p'로 판단.
+		else if (type.startsWith("p")) {
+			facilService.facilPgDel(type);
+		}
 		
 		// 삭제성공 메세지
 		rttr.addFlashAttribute("result", "del");
 		return "redirect:/facil/AFacilAddDel";
 	}
 	
+	// 시설 추가,수정,삭제  / 추가
 	@RequestMapping(value="/AFacilAddDel_add")
 	public String aFacilAddDel_add(HttpServletRequest req, RedirectAttributes rttr){
+		// 시설 종류 판단.
+		String choiceType = req.getParameter("selectfacil");
+		String facilType = req.getParameter("facil_type");
+		String name = req.getParameter("facil_name");
+		String content = req.getParameter("facil_content");
+		
+		System.out.println(choiceType);
+		
+		PlaygroundDTO pgdto = new PlaygroundDTO();
+		StudyroomDTO srdto = new StudyroomDTO();
+		
+		// 스터디룸의 경우 시설번호 첫번째 's'로 판단.
+		if (choiceType.equals("스터디룸")) {
+			System.out.println("스터디룸 접근");
+			System.out.println(facilType + ":" + name + ":" + content);
+			
+			srdto.setSr_type(facilType);
+			srdto.setSr_name(name);
+			srdto.setSr_content(content);
+			
+			// 입력.
+			facilService.facilSrAdd(srdto);
+		}
+		
+		// 운동장의 경우 시설번호 첫번째 'p'로 판단.
+		else if (choiceType.equals("운동장")) {
+			System.out.println("운동장 접근");
+			System.out.println(facilType + ":" + name + ":" + content);
+			
+			pgdto.setPg_type(facilType);
+			pgdto.setPg_name(name);
+			pgdto.setPg_content(content);
+			
+			// 입력.
+			facilService.facilPgAdd(pgdto);
+		}
 		
 		// 추가성공 메세지
 		rttr.addFlashAttribute("result", "add");
@@ -319,5 +400,46 @@ public class FacilController {
 			
 			return "redirect:/facil/AFacilSR";
 		}
+		
+		
+		//****************************[사용자]**********************************
+		
+		// 사용자 메인 / 전체 불러오기
+		@RequestMapping(value="/FacilMain")
+		public ModelAndView facilLoadList(HttpServletRequest req){
+			// 로그인 빈을 통해서 ID 검
+			LoginBean login = new LoginBean();
 
+			// 리퀘스트로 접속자 정보를 가져옴
+			MemberDTO member = login.getLoginInfo(req);
+			String m_id = member.getM_id();
+			
+			ModelAndView mav = new ModelAndView("/facil/facilities_main");
+			
+			mav.addObject("pgmlist", facilService.loadPgReserList(m_id));
+			mav.addObject("srmlist", facilService.loadSrReserList(m_id));
+			
+			return mav; 
+		}
+		
+		// 사용자메인 / 예약 취소
+		@RequestMapping(value="/FacilMainDel")
+		public String userReserDel(HttpServletRequest req, RedirectAttributes rttr){
+			
+			String type = req.getParameter("값넣으세요.");
+			
+			// 스터디룸의 경우 시설번호 첫번째 's'로 판단.
+			if (type.startsWith("s")) {
+				facilService.deleteReserSr(type);
+			}
+			
+			// 운동장의 경우 시설번호 첫번째 'p'로 판단.
+			else if (type.startsWith("p")) {
+				facilService.deleteReserPg(type);
+			}
+			
+			rttr.addFlashAttribute("result", "addok");
+			
+			return "redirect:/facil/facilities_main";
+		}
 }

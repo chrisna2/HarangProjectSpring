@@ -35,6 +35,15 @@ public interface FacilService {
 	public List<PlaygroundDTO> schPgNumAjax(PlaygroundDTO pgdto);
 	public List<StudyroomDTO> schSrNumAjax(StudyroomDTO srdto);
 	
+	public void facilPgAdd(PlaygroundDTO pgdto);
+	public void facilSrAdd(StudyroomDTO srdto);
+	
+	public void facilPgmodi(PlaygroundDTO pgdto);
+	public void facilSrmodi(StudyroomDTO srdto);
+	
+	public void facilPgDel(String pg_num);
+	public void facilSrDel(String pg_num);
+	
 	public void schPgAdd(PgMemberDTO pgmdto);
 	public void schSrAdd(SrMemberDTO srmdto);
 	
@@ -45,5 +54,5 @@ public interface FacilService {
 	public void findReserSr();
 	
 	public void deleteReserPg(String pgm_num);
-	public void deleteReserSr(String pgm_num);
+	public void deleteReserSr(String srm_num);
 }

@@ -149,4 +149,34 @@ public class FacilDaoImpl implements FacilDao {
 		List list = sqlSession.selectList(namespace + ".loadSrList");
 		return list;
 	}
+
+	@Override
+	public void facilPgDel(String pg_num) {
+		sqlSession.delete(namespace + ".facilPgDel", pg_num);
+	}
+
+	@Override
+	public void facilSrDel(String sr_num) {
+		sqlSession.delete(namespace +".facilSrDel" , sr_num);
+	}
+
+	@Override
+	public void facilPgModi(PlaygroundDTO pgdto) {
+		sqlSession.update(namespace + ".modifyPg", pgdto);
+	}
+
+	@Override
+	public void facilSrModi(StudyroomDTO srdto) {
+		sqlSession.update(namespace + ".modifySr", srdto);
+	}
+
+	@Override
+	public void facilPgAdd(PlaygroundDTO pgdto) {
+		sqlSession.insert(namespace + ".addFacilPg", pgdto);
+	}
+
+	@Override
+	public void facilSrAdd(StudyroomDTO srdto) {
+		sqlSession.insert(namespace + ".addFacilSr", srdto);
+	}
 }

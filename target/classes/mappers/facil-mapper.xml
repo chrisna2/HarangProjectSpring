@@ -109,19 +109,19 @@
 	</insert>
 	
 	<insert id="addFacilSr" parameterType="Studyroom">
-		INSERT INTO tbl_studyroom (pg_type, pg_name, pg_content) 
+		INSERT INTO tbl_studyroom (sr_type, sr_name, sr_content) 
 		VALUES (#{sr_type},#{sr_name},#{sr_content})
 	</insert>
 	
-	<delete id="delFacilPg">
-		DELETE FROM tbl_playground WHERE pg_num = #{pg_num}
+	<delete id="facilPgDel" parameterType="Playground">
+				
+		DELETE FROM tbl_playground WHERE pg_num=#{pg_num}
 	</delete>
 	
-	<delete id="delFacilSr">
-		DELETE FROM tbl_studyroom WHERE sr_num = #{sr_num}
+	<delete id="facilSrDel" parameterType="String">
+		DELETE FROM tbl_studyroom WHERE sr_num='sr000000019'
+		
 	</delete>
-	
-	
 	
 	<insert id="aFacilPgAdd" parameterType="PgMember">
 		INSERT INTO tbl_pg_member (pgm_date, pgm_timecode, m_id, pg_num, pgm_issue)
@@ -132,9 +132,6 @@
 		INSERT INTO tbl_sr_member (srm_date, srm_timecode, m_id, sr_num, srm_issue)
 		VALUES (#{srm_date}, #{srm_timecode}, #{m_id}, #{sr_num}, #{srm_issue})
 	</insert>
-	
-	
-	
 	
 	<select id="aticketList" parameterType="SearchCriteria" resultType="FoodMember">
 		select f.f_title, f.f_selldate, f.f_point, count(fm.f_num) as fm_sellcount 

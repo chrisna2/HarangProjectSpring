@@ -35,6 +35,14 @@ public interface FacilDao {
 	public List<PlaygroundDTO> schdulePgNumAjax(PlaygroundDTO pgdto);
 	public List<StudyroomDTO> schduleSrNumAjax(StudyroomDTO srdto);
 	
+	public void facilPgDel(String pg_num);
+	public void facilSrDel(String sr_num);
+	
+	public void facilPgModi(PlaygroundDTO pgdto);
+	public void facilSrModi(StudyroomDTO srdto);
+	
+	public void facilPgAdd(PlaygroundDTO pgdto);
+	public void facilSrAdd(StudyroomDTO srdto);
 	
 	public void schdulePgAdd(PgMemberDTO pgmdto);
 	public void schduleSrAdd(SrMemberDTO srmdto);

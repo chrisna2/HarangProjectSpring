@@ -183,9 +183,33 @@ public class FacilServiceImpl implements FacilService {
 		return facilDao.loadSrList();
 	}
 
+	@Override
+	public void facilPgAdd(PlaygroundDTO pgdto) {
+		facilDao.facilPgAdd(pgdto);
+	}
 
-	
+	@Override
+	public void facilSrAdd(StudyroomDTO srdto) {
+		facilDao.facilSrAdd(srdto);
+	}
 
+	@Override
+	public void facilPgmodi(PlaygroundDTO pgdto) {
+		facilDao.facilPgModi(pgdto);
+	}
 
+	@Override
+	public void facilSrmodi(StudyroomDTO srdto) {
+		facilDao.facilSrModi(srdto);
+	}
 
+	@Override
+	public void facilPgDel(String pg_num) {
+		facilDao.facilPgDel(pg_num);
+	}
+
+	@Override
+	public void facilSrDel(String sr_num) {
+		facilDao.facilSrDel(sr_num);
+	}
 }
