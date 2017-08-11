@@ -69,7 +69,7 @@
                 <div class="box-body" align="center">
                 
 	                <h2>
-	                                         하랑 <img src="dist/img/Logo.png" class="img-circle" alt="User Image" width="75" height="75"/> 식당
+	                                         하랑 <img src="../resources/dist/img/Logo.png" class="img-circle" alt="User Image" width="75" height="75"/> 식당
 	                </h2>
 	                    <!-- 여기다 코드 벨류 입력 DB 데이터 -->
 		                <input type="hidden" id="barcodeValue" value="${thecode}" onload="generateBarcode();">
@@ -109,11 +109,11 @@
           <input type="hidden" name="f_num" value="${food.f_num}">
           <input type="hidden" name="f_title" value="${food.f_title}">
           <input type="hidden" name="f_point" value="${food.f_point}">
-          <input type="hidden" name="m_id" value="${member.m_id}">
       </form>
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
-    <script type="text/javascript" src="plugins/barcode/jquery-barcode.js"></script>
+
+    <script type="text/javascript" src="../resources/plugins/barcode/jquery-barcode.js"></script>
     <script type="text/javascript">
       function generateBarcode(){
         var value = $("#barcodeValue").val();
@@ -180,7 +180,7 @@
     	    	else if(selldate.getTime()==today.getTime()){
 	                    $("#check").val("use");
 	                    $("#ticketuse")
-	                    .attr("action", "/HarangProject/food?cmd=ticketuse")
+	                    .attr("action", "/food/ticketUse")
 	                    .submit(); 
         	    	}
     	    });
@@ -202,7 +202,7 @@
                 else if(today.getTime()<selldate.getTime()){
 	                    $("#check").val("return");
 	                    $("#ticketuse")
-		                .attr("action", "/HarangProject/food?cmd=ticketuse")
+		                .attr("action", "/food/ticketRefund")
 		                .submit();
                     }
                 else if(selldate.getTime()==today.getTime()){

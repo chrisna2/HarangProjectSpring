@@ -34,8 +34,8 @@ public class MyPageDaoImpl implements MyPageDao {
 		return sqlSession.selectList(namespace+".pointListSearch", cri);
 	}
 	@Override
-	public int pointPagingNum(String m_id) {
-		return sqlSession.selectOne(namespace+".pointPagingNum", m_id);
+	public int pointPagingNum(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".pointPagingNum", cri);
 	}
 	//[관리자]
 	@Override
@@ -45,6 +45,10 @@ public class MyPageDaoImpl implements MyPageDao {
 	@Override
 	public int apointMemberCount(SearchCriteria cri) {
 		return sqlSession.selectOne(namespace+".apointMemberCount", cri);
+	}
+	@Override
+	public MemberDTO pointPersonInfo(String m_id) {
+		return sqlSession.selectOne(namespace+".pointPersonInfo", m_id);
 	}
 
 	
@@ -92,32 +96,87 @@ public class MyPageDaoImpl implements MyPageDao {
 	//[관리자] 자격증 신규 등록
 	@Override
 	public String specInsert(CertiMemberDTO certi) {
-		sqlSession.insert(namespace+".specInsert", certi);
-		return "success"; 
+		
+		String result = "";
+		
+			try{
+				sqlSession.insert(namespace+".specInsert", certi);
+				result = "success";
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				result = "fail";
+			}
+		
+		return result; 
 	}
 	//[관리자] 자격증 모두 수정
 	@Override
 	public String specUpdateAll(CertiMemberDTO certi) {
-		sqlSession.update(namespace+".specUpdateAll", certi);
-		return "success"; 
+		
+		String result = "";
+		
+			try{
+				sqlSession.update(namespace+".specUpdateAll", certi);
+				result = "success";
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				result = "fail";
+			}
+		
+		return result; 
 	}
 	//[관리자] 자격증 이름만 수정
 	@Override
 	public String specUpdateName(CertiMemberDTO certi) {
-		sqlSession.update(namespace+".specUpdateName", certi);
-		return "success"; 
+		
+		String result = "";
+		
+			try{
+				sqlSession.update(namespace+".specUpdateName", certi);
+				result = "success";
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				result = "fail";
+			}
+		
+		return result; 
 	}
 	//[관리자] 자격증 기관만 수정
 	@Override
 	public String specUpdateAgency(CertiMemberDTO certi) {
-		sqlSession.update(namespace+".specUpdateAgency", certi);
-		return "success"; 
+		
+		String result = "";
+		
+			try{
+				sqlSession.update(namespace+".specUpdateAgency", certi);
+				result = "success";
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				result = "fail";
+			}
+		
+		return result; 
 	}
 	//[관리자] 자격증 포인트만 수정
 	@Override
 	public String specUpdatePoint(CertiMemberDTO certi) {
-		sqlSession.update(namespace+".specUpdatePoint", certi);
-		return "success"; 
+		
+		String result = "";
+		
+			try{
+				sqlSession.update(namespace+".specUpdatePoint", certi);
+				result = "success";
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				result = "fail";
+			}
+		
+		return result; 
 	}
 	//[관리자] 자격증 삭제
 	@Override
@@ -125,16 +184,15 @@ public class MyPageDaoImpl implements MyPageDao {
 		
 		String result = "";
 		
-		try {
-			sqlSession.delete(namespace+".specDelete", certi);
-			result = "success";
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-		finally {
-			result = "fail";
-		}
+			try {
+				sqlSession.delete(namespace+".specDelete", certi);
+				result = "success";
+			} 
+			catch (Exception e) {
+				e.printStackTrace();
+				result = "fail";
+			} 
+		
 		return result;
 	}
 	

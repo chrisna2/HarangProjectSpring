@@ -71,7 +71,7 @@
 	                        <td>${mem.m_dept}</td>
 	                        <td>${mem.m_grade}학년</td>
 	                        <td>${mem.m_point}p</td>
-	                        <td><a class="btn btn-primary" href="/myPage/Applist&check_id=${mem.m_id}">조회</a></td>
+	                        <td><a class="btn btn-primary" href="/myPage/Applist?check_id=${mem.m_id}">조회</a></td>
 	                      </tr>
 	                      </c:forEach>
                     </tbody>

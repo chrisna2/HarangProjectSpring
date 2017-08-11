@@ -42,6 +42,11 @@ public class FoodServiceImpl implements FoodService {
 	public List<FoodDTO> afoodinfoJson(String f_num) {
 		return foodDao.afoodinfoJson(f_num);
 	}
+	@Override
+	public List<CalanderDTO> menuJson(String m_id) {
+		return foodDao.menuJson(m_id);
+	}
+
 
 	//티켓 판매 내역 조회
 	@Override
@@ -49,8 +54,40 @@ public class FoodServiceImpl implements FoodService {
 		return foodDao.aticketList(cri);
 	}
 	@Override
-	public int aticketCountPaging() {
-		return foodDao.aticketCountPaging();
+	public int aticketCountPaging(SearchCriteria cri) {
+		return foodDao.aticketCountPaging(cri);
 	}
+	
+	//티켓 판매
+	@Override
+	public int insertTicket(FoodMemberDTO fm) {
+		return foodDao.insertTicket(fm);
+	}
+
+	@Override
+	public List<FoodMemberDTO> ticketList(SearchCriteria cri) {
+		return foodDao.ticketList(cri);
+	}
+
+	@Override
+	public int ticketListPaging(SearchCriteria cri) {
+		return foodDao.ticketListPaging(cri);
+	}
+
+	@Override
+	public FoodMemberDTO ticketPrint(FoodMemberDTO foodmember) {
+		return foodDao.ticketPrint(foodmember);
+	}
+
+	@Override
+	public int ticketUsing(FoodMemberDTO foodmember) {
+		return foodDao.ticketUsing(foodmember);
+	}
+
+	@Override
+	public int ticketRefund(FoodMemberDTO foodmember) {
+		return foodDao.ticketRefund(foodmember);
+	}
+
 
 }

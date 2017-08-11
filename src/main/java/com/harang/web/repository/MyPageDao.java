@@ -18,9 +18,10 @@ public interface MyPageDao {
 	
 	//포인트 페이지 관련
 	public List<RecordDTO> pointListSearch(SearchCriteria cri);
-	public int pointPagingNum(String m_id);
+	public int pointPagingNum(SearchCriteria cri);
 	public List<MemberDTO> apointMember(SearchCriteria cri);
 	public int apointMemberCount(SearchCriteria cri);
+	public MemberDTO pointPersonInfo(String m_id);
 	
 	//스펙리스트 페이지 관련
 	public List<CertiMemberDTO> achallengeList(SearchCriteria cri);

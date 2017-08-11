@@ -8,12 +8,12 @@ public class FoodMemberDTO {
 	private String f_num;
 	private String fm_regdate;
 	private String fm_isuse;
-	private Date fm_usedate;
+	private String fm_usedate;
 	private int f_point;
 	private String f_title;
 	private String f_content;
 	private String f_regdate;
-	private Date f_selldate;
+	private String f_selldate;
 	private int fm_sellcount;
 	
 	public int getFm_sellcount() {
@@ -46,12 +46,6 @@ public class FoodMemberDTO {
 	public void setF_regdate(String f_regdate) {
 		this.f_regdate = f_regdate;
 	}
-	public Date getF_selldate() {
-		return f_selldate;
-	}
-	public void setF_selldate(Date f_selldate) {
-		this.f_selldate = f_selldate;
-	}
 	public String getM_id() {
 		return m_id;
 	}
@@ -76,13 +70,18 @@ public class FoodMemberDTO {
 	public void setFm_isuse(String fm_isuse) {
 		this.fm_isuse = fm_isuse;
 	}
-	public Date getFm_usedate() {
+	public String getFm_usedate() {
 		return fm_usedate;
 	}
-	public void setFm_usedate(Date fm_usedate) {
+	public void setFm_usedate(String fm_usedate) {
 		this.fm_usedate = fm_usedate;
 	}
-	
+	public String getF_selldate() {
+		return f_selldate;
+	}
+	public void setF_selldate(String f_selldate) {
+		this.f_selldate = f_selldate;
+	}
 	
 	
 }

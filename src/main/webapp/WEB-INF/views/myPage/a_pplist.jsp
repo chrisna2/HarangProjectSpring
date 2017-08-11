@@ -11,19 +11,19 @@
     <script type="text/javascript">
     alert("해당 대상의 포인트를 추가 하였습니다.");
     //새로 접속 해줘야 하는 이유.. forward에 작업 기록이 남는다.
-    location.href = "/HarangProject/myPage?cmd=Applist&check_id="+${pNum};
+    location.href = "/myPage/Applist?check_id="+${check.m_id};
     </script>
 </c:if>   
 <c:if test="${result eq 'minusgo'}">
     <script type="text/javascript">
     alert("해당 대상의 포인트를 차감 하였습니다.");
-    location.href = "/HarangProject/myPage?cmd=Applist&check_id="+${pNum};
+    location.href = "/myPage/Applist?check_id="+${check.m_id};
     </script>
 </c:if>
 <c:if test="${result eq 'overpoint'}">
     <script type="text/javascript">
     alert("입력 포인트가 보유 포인트를 초과 합니다.");
-    location.href = "/HarangProject/myPage?cmd=Applist&check_id="+${pNum};
+    location.href = "/myPage/Applist?check_id="+${check.m_id};
     </script>
 </c:if>    
 </head>
@@ -51,7 +51,7 @@
                     <!-- 리스트 사용시  -->
               <div class="box">
                 <div class="box-header">
-                  <h3 class="box-title">${pName} [학번 : ${pNum} ] 포인트 거래 목록</h3>
+                  <h3 class="box-title">${check.m_name} [학번 : ${check.m_id} ] 포인트 거래 목록</h3>
                    <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -69,15 +69,9 @@
                       </tr>
                     </thead>
                     <tbody>
-                    <c:choose>
-                      <c:when test="${fn:length(pList) eq 0}">
-                      </c:when>
-                      <c:otherwise>
                       <c:forEach items="${requestScope.pList}" 
-                       begin="${paging.beginPerPage}" 
-                       end="${paging.beginPerPage + paging.numPerPage -1}"
                        var="p" varStatus="i">
-                        <c:if test="${pNum eq p.m_giver}">
+                        <c:if test="${check.m_id eq p.m_giver}">
                            <tr class="text-red">
                             <td>${p.r_regdate}</td>
                             <td>${p.r_content}</td>
@@ -86,7 +80,7 @@
                             <td>${p.m_havername} | ${p.m_haver}</td>
                           </tr>
                          </c:if>
-                         <c:if test="${pNum eq p.m_haver}">
+                         <c:if test="${check.m_id eq p.m_haver}">
                            <tr class="text-green">
                             <td>${p.r_regdate}</td>
                             <td>${p.r_content}</td>
@@ -96,39 +90,39 @@
                           </tr>
                          </c:if>
                       </c:forEach>
-                    </c:otherwise>
-                    </c:choose>
                     </tbody>
                   </table>
                 </div><!-- /.box-body -->
                  <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <c:if test="${paging.nowBlock > 0}">
-                                <li><a href="javascript:prevPage()">&laquo;</a></li>
-                            </c:if>
-                            <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-                                    <!-- if문 추가 : 20170615 -->
-                                    <c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-                                    <li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-                                    </c:if>
-                                    <!-- 끝 -->
-                            </c:forEach>
-                            <c:if test="${paging.totalBlock > paging.nowBlock +1}">
-                                <li><a href="javascript:nextPage()">&raquo;</a></li>
-                            </c:if>
-                        </ul>
+                      <ul class="pagination pagination-sm no-margin pull-right">
+						<c:if test="${pageMaker.prev}">
+	                            <li><a href="/myPage/Applist${pageMaker.makeQuery(pageMaker.startPage-1)}&check_id=${check.m_id}">&laquo;</a></li>
+	                    </c:if>
+	                    <c:forEach begin="${pageMaker.startPage}" 
+	                    		   end="${pageMaker.endPage}" 
+	                               var="idx">
+	                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+	                          		<a href="/myPage/Applist?page=${idx}&check_id=${check.m_id}">
+	                          			${idx}
+	                        	   	</a>
+	                             </li>
+	                   	</c:forEach>
+	                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+	                      <li><a href="/myPage/Applist${pageMaker.makeQuery(pageMaker.endPage+1)}&check_id=${check.m_id}">&raquo;</a></li>
+	                    </c:if>
+                    </ul>
                     <!-- 검색 폼 -->    
-                    <form action="/HarangProject/myPage?cmd=Applist" name="search" method="post">
-                     <input type="hidden" name="check_id" value="${pNum}">
+                    <form action="/myPage/Applist" name="search" method="post">
+                     <input type="hidden" name="check_id" value="${check.m_id}">
                       <div class="input-group">
                           <select name="keyfield" class="form-control input-sm pull-left" style="width: 150px;">
-                            <option value="r_regdate" ${requestScope.keyfield eq 'r_regdate' ? 'selected' : null }>거래 날짜</option>
-                            <option value="r_content" ${requestScope.keyfield eq 'r_content' ? 'selected' : null }>거래 내용</option>
-                            <option value="r_point" ${requestScope.keyfield eq 'r_point' ? 'selected' : null }>포인트</option>
-                            <option value="m_givername" ${requestScope.keyfield eq 'm_givername' ? 'selected' : null }>출금 대상</option>
-                            <option value="m_havername" ${requestScope.keyfield eq 'm_havername' ? 'selected' : null }>입금 대상</option>
+                            <option value="r_regdate" ${keyfield eq 'r_regdate' ? 'selected' : null }>거래 날짜</option>
+                            <option value="r_content" ${keyfield eq 'r_content' ? 'selected' : null }>거래 내용</option>
+                            <option value="r_point" ${keyfield eq 'r_point' ? 'selected' : null }>포인트</option>
+                            <option value="m_givername" ${keyfield eq 'm_givername' ? 'selected' : null }>출금 대상</option>
+                            <option value="m_havername" ${keyfield eq 'm_havername' ? 'selected' : null }>입금 대상</option>
                           </select>
-                          <input type="text" name="keyword" class="form-control input-sm  pull-left" value="${requestScope.keyword}" style="width: 150px;" placeholder="Search"/>
+                          <input type="text" name="keyword" class="form-control input-sm  pull-left" value="${keyword}" style="width: 150px;" placeholder="Search"/>
                          <div class="input-group-btn  pull-left">
                             <button class="btn btn-sm btn-primary"> 검색 <i class="fa fa-search"></i></button>
                          </div>
@@ -140,7 +134,7 @@
                <!-- 리스트 사용시  -->
               <div class="box">
                 <div class="box-header">
-                  <h3 class="box-title">${requestScope.pName} 회원의 포인트 수정</h3>
+                  <h3 class="box-title">${check.m_name} 회원의 포인트 수정</h3>
                    <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -149,13 +143,13 @@
                 
                  <!-- form 시작 -->
                 <form role="form" id="updatepoint" name="point" method="post">
-                <input type="hidden" name="member_id" value="${pNum}">
+                <input type="hidden" name="member_id" value="${check.m_id}">
                 <input type="hidden" name="admin_id" value="${admin.m_id}">
                 <input type="hidden" name="a_point" value="${admin.m_point}">
                 <div class="box-body">
                   <div class="input-group">
                     <span class="input-group-addon bg-gray"><i class="fa fa-location-arrow"></i>회원 포인트</span>
-                    <input type="text" name="m_point" value="${requestScope.pPoint}" class="form-control" readonly="readonly">
+                    <input type="text" name="m_point" value="${check.m_point}" class="form-control" readonly="readonly">
                     <span class="input-group-addon bg-gray"> 포인트에서</span>
                   </div>
                   <br>
@@ -172,7 +166,7 @@
                 </div><!-- /.box-body -->
                  <div class="box-footer clearfix" align="center">
                       <input type="hidden" name="check" id="check">
-                      <input type="hidden" name="check_id" value="${pNum}">
+                      <input type="hidden" name="check_id" value="${check.m_id}">
                       <input type="button" id="minus" class="btn btn-danger col-md-6 col-xs-6" value="차감합니다!">
                       <input type="button" id="plus" class="btn btn-success col-md-6 col-xs-6" value="추가합니다!">
                 </div>
@@ -183,27 +177,6 @@
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/myPage?cmd=Applist">
-   <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}" /> 
-   <input type="hidden" name="nowBlock" value="${paging.nowBlock-1}" />
-   <input type="hidden" name="check_id" value="${pNum}">
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post"
-    action="/HarangProject/myPage?cmd=Applist">
-    <input type="hidden" name="nowPage"
-        value="${paging.pagePerBlock * (paging.nowBlock+1)}" /> <input
-        type="hidden" name="nowBlock" value="${paging.nowBlock+1}" />
-        <input type="hidden" name="check_id" value="${pNum}">
-</form>
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post"
-    action="/HarangProject/myPage?cmd=Applist">
-    <input type="hidden" name="nowPage" value="" id="page" /> <input
-        type="hidden" name="nowBlock" value="${paging.nowBlock}" />
-        <input type="hidden" name="check_id" value="${pNum}">
-</form>
 <!-- 페이징 관련 폼 여기까지입니다. ----------------------------------------------------------------------------------- -->
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
@@ -233,13 +206,13 @@ function goPage(nowPage) {
     $("#plus").click(function() {
         $("#check").val("plus");
         $("#updatepoint")
-        .attr("action", "/HarangProject/myPage?cmd=Applist")
+        .attr("action", "/myPage/updatepoint")
         .submit();
     });
     $("#minus").click(function() {
         $("#check").val("minus");
         $("#updatepoint")
-        .attr("action", "/HarangProject/myPage?cmd=Applist")
+        .attr("action", "/myPage/updatepoint")
         .submit();
     });
 </script>

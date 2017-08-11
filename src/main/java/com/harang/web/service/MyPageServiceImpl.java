@@ -30,8 +30,8 @@ public class MyPageServiceImpl implements MyPageService {
 		return myPageDao.pointListSearch(cri);
 	}
 	@Override
-	public int pointPagingNum(String m_id) {
-		return myPageDao.pointPagingNum(m_id);
+	public int pointPagingNum(SearchCriteria cri) {
+		return myPageDao.pointPagingNum(cri);
 	}
 	@Override
 	public List<MemberDTO> apointMember(SearchCriteria cri) {
@@ -41,6 +41,11 @@ public class MyPageServiceImpl implements MyPageService {
 	public int apointMemberCount(SearchCriteria cri) {
 		return myPageDao.apointMemberCount(cri);
 	}
+	@Override
+	public MemberDTO pointPersonInfo(String m_id) {
+		return myPageDao.pointPersonInfo(m_id);
+	}
+
 
 
 	//주소 목록 출력 검색

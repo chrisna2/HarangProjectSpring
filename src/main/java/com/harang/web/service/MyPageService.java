@@ -14,9 +14,10 @@ public interface MyPageService {
 	public List<RecordDTO> pointListHeader(String m_id);
 	
 	public List<RecordDTO> pointListSearch(SearchCriteria cri);
-	public int pointPagingNum(String m_id);
+	public int pointPagingNum(SearchCriteria cri);
 	public List<MemberDTO> apointMember(SearchCriteria cri);
 	public int apointMemberCount(SearchCriteria cri);
+	public MemberDTO pointPersonInfo(String m_id);
 	
 	public List<CertiMemberDTO> achallengeList(SearchCriteria cri);
 	public int achallengePage(SearchCriteria cri);

@@ -98,7 +98,7 @@
                   <br>
                 </div><!-- /.box-body -->
                  <div class="box-footer clearfix" align="right">
-                      <input type="hidden" name="member_id" value="${member.m_id}">
+                      <input type="hidden" name="m_id" value="${member.m_id}">
                       <input type="hidden" name="m_point" value="${member.m_point}">
                       <input type="hidden" name="f_num">
                       <input type="button" id="closeup" class="btn btn-gray" value="닫기">
@@ -156,9 +156,9 @@
           dayNamesShort:["일","월","화","수","목","금","토"],
           allDayDefault:false,
           editable: false,
-//달력에 글자 입력 가능
-//DB에 값을 접근합니다. ajax 서블릿 commandFactory에 경로를 따로 만들어야 합니다. 
-           events : "/HarangProject/ajax?cmd=food&check=umenu",
+		//달력에 글자 입력 가능
+		//DB에 값을 접근합니다. ajax 서블릿 commandFactory에 경로를 따로 만들어야 합니다. 
+           events : "/food/menuJson",
            //입력 글자 색
            eventTextColor: '#000000',
            eventMouseover: function(calEvent, jsEvent, view) {
@@ -181,15 +181,12 @@
            },
            eventMouseout: function(calEvent, jsEvent, view) {
         	   if(calEvent.isuse == 'used'){
-                   
                    $(this).css('background-color', '#616872');
                }
                else if(calEvent.isuse == 'return'){
-
                    $(this).css('background-color', '#ff7f9d');
                }
                else if(calEvent.isuse == 'unuse'){
-
                    $(this).css('background-color', '#7793ff');
                }
                else{
@@ -212,9 +209,10 @@
         	    else if(calEvent.isuse == 'unuse'){
         	    	var choice = confirm("이미 구매한 식권입니다. 해당 식권 페이지로 가시겠습니까?");
         	        if(choice){
+        	        	//포스트 방식
             	        $("#f_num").val(calEvent.id);
             	        $("#goprint")
-            	        .attr("action", "/HarangProject/food?cmd=ticket_print")
+            	        .attr("action", "/food/ticket_print")
             	        .submit();
             	    }
         	        else{
@@ -227,7 +225,7 @@
                     $(".box-title").text("식권 구매");
                 }
                     //날짜를 클릭 했을 때 해당 날짜에 포함된 데이터를 불러 옵니다. 위와 마찮가지..
-                    $.getJSON("/HarangProject/ajax?cmd=foodinfo",
+                    $.getJSON("/food/foodinfo",
                             {f_num:calEvent.id},
                             function(data){
                                  $("#menuinfobox").slideUp();

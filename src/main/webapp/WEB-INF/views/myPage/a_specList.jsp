@@ -106,22 +106,23 @@ $().ready(function (){
 	    	caption:"자격증 목록",
 	    	refresh:true,
 	    	editurl:"/myPage/specListEdit",
-	    	/* afterSubmit : function(res){ 
+	    	afterSubmit : function(res){ 
 	    		
-	    		var aResult = res.responseText;
-	    		alert(aResuit);
-	    		var userMsg = "처리시 오류가 발생 했습니다.";
-	    		
-	    		if((aResult == "success")){
-	    			userMsg ="처리 되었습니다.";
-	    			alert(userMsg);
-	    			$(this).trigger( 'reloadGrid' );
-	    		}
-	    		
-	    		return [(aResult == "success") ? true : false, userMsg];
+	    	//이미 JSON 처리된 데이터는 parseJSON 안해 줘도 됨
+	        	alert(res.responseText);
+	        	// 변경 후
+	           	var aResult = res.responseText;
+	        	var userMsg = "수정시 오류가 발생 했습니다.";
+	        	
+	        	if((aResult == "success")){
+	        		userMsg = "수정되었습니다.";
+	        	}
+	        	
+	        	return [(aResult == "success") ? true : false, userMsg];
 
-	    	}, */
+	    	}, 
 	    	//하나의 샐 만 수정 할 경우 : 새로운 방식
+	    	//이슈 1] 새로 만든 키 값같은 경우는 입력하고 바로 나타 나지 않는다.
 	    	cellEdit:true,
 	    	cellsubmit:'remote',
 	        cellurl:'/myPage/specListEdit',
@@ -130,7 +131,7 @@ $().ready(function (){
 	        },
 	        afterSubmitCell : function(res) {   
 	        	//이미 JSON 처리된 데이터는 parseJSON 안해 줘도 됨
-	        	//alert(res.responseText);
+	        	alert(res.responseText);
 	        	// 변경 후
 	           	var aResult = res.responseText;
 	        	var userMsg = "수정시 오류가 발생 했습니다.";
@@ -144,7 +145,7 @@ $().ready(function (){
 	       }
 	})
 	.jqGrid('navButtonAdd','#gridPager',
-			{caption:"Excel",onClickButton: function(){$("#gridList").jqGrid('excelExport',{url:''})}
+			{caption:"Excel",onClickButton: function(){$("#gridList").jqGrid('excelExport',{url:'/myPage/specList/excel'})} //엑셀 출력기능(아직 미구현)
 	})
 	.jqGrid('navGrid','#gridPager',
 			{excel:true,add:true,edit:true,view:true,del:true,search:true,refresh:true},
@@ -154,8 +155,6 @@ $().ready(function (){
 			{closeOnEscape:true});
 	//.jqGrid('filterToolbar',{stringResult:true, searchOnEnter:true, defaultSearch:"cn"}); //검색 필터링 가능
 });
-
-
 </script>
 
 

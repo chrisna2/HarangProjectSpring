@@ -49,7 +49,16 @@
   		select count(r_regdate)	
   		from tbl_record 
   		where m_giver = #{m_id} or m_haver = #{m_id} 
+  		<include refid="point_search"></include>
   	</select>
+  	
+  	<select id="pointPersonInfo" resultType="Member" parameterType="String">
+  		select m_name, m_point, m_id from tbl_member where m_id = #{m_id}
+  	</select>
+  	
+  	
+  	
+  	
   	
   	<!-- [mypage] 스펙 리스트 출력 -->
 	<select id="specListMember" parameterType="SearchCriteria" resultType="CertiMember">

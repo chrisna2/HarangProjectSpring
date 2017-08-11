@@ -47,10 +47,46 @@
 		</if>
 	</sql>	
 	
-	<select id="aticketCountPaging" resultType="int">
+	<select id="aticketCountPaging" resultType="int" parameterType="SearchCriteria">
 		select count(distinct f.f_num) 
 		from tbl_food_member fm, tbl_food f 
-		where fm.f_num=f.f_num and fm.fm_isuse != 'return'; 
+		where fm.f_num=f.f_num and fm.fm_isuse != 'return';
+		<include refid="search"></include> 
 	</select>
+  
+  	<insert id="insertTicket" parameterType="FoodMember">
+  		INSERT INTO tbl_food_member (m_id, f_num, fm_isuse) VALUES (#{m_id}, #{f_num}, 'unuse')
+  	</insert>
+  	
+  	<select id="ticketList" parameterType="SearchCriteria" resultType="FoodMember">
+  		SELECT fm.fm_regdate, f.f_selldate, f.f_title, f.f_point, fm.fm_isuse, fm.fm_usedate, f.f_num 
+		FROM tbl_food_member fm, tbl_food f 
+		where f.f_num = fm.f_num and fm.m_id = #{m_id} 
+		<include refid="search"></include>
+		order by f.f_selldate desc 
+		limit #{pageStart}, #{perPageNum} 
+  	</select>
+  	
+  	<select id="ticketListPaging" resultType="int" parameterType="SearchCriteria">
+		SELECT count(*) 
+		FROM tbl_food_member fm, tbl_food f 
+		where f.f_num = fm.f_num and fm.m_id = #{m_id} 
+		<include refid="search"></include>
+	</select>
+	
+	<select id="ticketPrint" resultType="FoodMember" parameterType="FoodMember">
+		SELECT fm.fm_regdate, f.f_selldate, f.f_title, f.f_point, fm.fm_isuse, fm.fm_usedate, f.f_num, fm.m_id   
+		FROM tbl_food_member fm, tbl_food f 
+		where f.f_num = fm.f_num and fm.m_id = #{m_id} and f.f_num = #{f_num}
+	</select>
+	
+	<update id="ticketUsing" parameterType="FoodMember">
+		UPDATE tbl_food_member SET fm_isuse = 'used', fm_usedate = NOW() WHERE m_id = #{m_id} and f_num = #{f_num}
+	</update>
+	
+	<update id="ticketRefund" parameterType="FoodMember">
+		UPDATE tbl_food_member SET fm_isuse = 'return', fm_usedate = NOW() WHERE m_id = #{m_id} and f_num = #{f_num}
+	</update>
+	
   
   </mapper>

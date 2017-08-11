@@ -179,7 +179,7 @@ public class MyPageController {
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(myPageService.pointPagingNum(mdto.getM_id()));
+		pageMaker.setTotalCount(myPageService.pointPagingNum(cri));
 		
 		mav = new ModelAndView("myPage/pointList");
 		mav.addObject("pList", plist);
@@ -199,7 +199,7 @@ public class MyPageController {
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(myPageService.pointPagingNum(mdto.getM_id()));
+		pageMaker.setTotalCount(myPageService.pointPagingNum(cri));
 		
 		mav = new ModelAndView("myPage/pointList");
 		mav.addObject("pList", plist);
@@ -240,6 +240,90 @@ public class MyPageController {
 		
 		return mav;
 	}
+	@RequestMapping(value="/Applist",method = RequestMethod.GET)
+	public ModelAndView aPersonalPointListGet(String check_id, SearchCriteria cri){
+		
+		cri.setM_id(check_id);
+		
+		List<RecordDTO> plist = myPageService.pointListSearch(cri);
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.pointPagingNum(cri));
+		
+		mav = new ModelAndView("myPage/a_pplist");
+		mav.addObject("pList", plist);
+		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("check", myPageService.pointPersonInfo(check_id));
+		
+		
+		
+		return mav;
+	}
+	@RequestMapping(value="/Applist",method = RequestMethod.POST)
+	public ModelAndView aPersonalPointListPost(String check_id, SearchCriteria cri){
+		
+		cri.setM_id(check_id);
+		
+		List<RecordDTO> plist = myPageService.pointListSearch(cri);
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.pointPagingNum(cri));
+		
+		mav = new ModelAndView("myPage/a_pplist");
+		mav.addObject("pList", plist);
+		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("check", myPageService.pointPersonInfo(check_id));
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/updatepoint",method = RequestMethod.POST)
+	public ModelAndView updatepoint(HttpServletRequest request, HttpServletResponse response){
+
+		String check = request.getParameter("check");
+		
+		long m_point = Long.parseLong(request.getParameter("m_point"));
+		long a_point = Long.parseLong(request.getParameter("a_point"));
+		String r_content = request.getParameter("r_content");
+		int r_point = Integer.parseInt(request.getParameter("r_point"));
+		String member_id = request.getParameter("member_id");
+		String admin_id = request.getParameter("admin_id");
+		
+		String result = "";
+		
+		if("plus".equals(check)){
+			
+			result = pointService.recordPointTrade(r_content, 
+													a_point, 
+													r_point, 
+													admin_id, 
+													member_id);
+			if("complete".equals(result)){
+				result = "plusgo";
+			}
+			
+		}
+		else if("minus".equals(check)){
+			
+			result = pointService.recordPointTrade(r_content, 
+													m_point, 
+													r_point, 
+													member_id,
+													admin_id);
+			if("complete".equals(result)){
+				result = "minusgo";
+			}
+		}
+		
+		mav = new ModelAndView("myPage/a_pplist");
+		mav.addObject("result", result);
+		mav.addObject("check", myPageService.pointPersonInfo(member_id));
+		
+		return mav;
+	}
+	
 	
 	/**
 	 * 시간표 처음 접근 할때 하는 메소드
@@ -552,10 +636,12 @@ public class MyPageController {
 			System.out.println("잘못된 접근입니다.");
 			result ="fail";
 		}
-		
 		return result;
-		
 	}
+	
+	//@RequestMapping(value="/myPage/specList/excel",method = RequestMethod.POST)
+	
+	
 	
 	
 	
@@ -564,7 +650,6 @@ public class MyPageController {
 	public ModelAndView achallengeGet(SearchCriteria cri){
 		
 		List<CertiMemberDTO> list = myPageService.achallengeList(cri);
-		
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
