@@ -8,6 +8,23 @@
 <title>운동장(관리자)</title>
 <style>
 </style>
+<script type="text/javascript">
+window.onload = function(){
+	var result = "${result}";
+
+	if( result == null){
+
+	}
+	else if(result == "true"){
+	    alert("축제 일정을 취소하였습니다.");
+	}
+	
+	else if(result == "addok"){
+	    alert("축제 일정을 추가하였습니다.");
+	}
+	
+}
+</script>
 </head>
 <!-- 메인 페이지 구역 , 즉 작업 구역 -->
 <div class="content-wrapper">
@@ -133,7 +150,7 @@
 		<!-- 두번째 단시작 [ 2. 일정 취소  확인 ] -->
 		<div class="row">
 			<div class="col-md-12">
-				<form method="POST" action="/HarangProject/facil?cmd=AFacilPG">
+				<form method="POST" action="/facil/AFacilPgDel">
 					<!-- 2. 일정취소 확인 -->
 					<div class="box box-primary">
 						<!-- 2.box header-->
@@ -282,7 +299,7 @@
 
 			<!-- 3-2.시설 학사 일정 추가  행 넓이 설정---->
 			<div class="col-md-6">
-				<form method="POST" action="/HarangProject/facil?cmd=AFacilPG">
+				<form method="POST" action="/facil/AFacilPgAdd">
 				<!-- 3-2.시설 학사 일정 추가 List / box -->
 				<div class="box box-primary">
 					<!-- 3-2. box-header -->
@@ -320,7 +337,7 @@
 						
 								<div class="form-group col-md-4">
 									<label>시설명</label> <select class="form-control" id="addpg_type" onchange="selectfacil()" >
-										<c:forEach items="${ajaxlist}" var="s">
+										<c:forEach items="${ajaxtypelist}" var="s">
 												<option value="${s.pg_type}">${s.pg_type}</option>
 										</c:forEach>
 									</select>
@@ -375,7 +392,7 @@
 
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------>
 <%@ include file="../include/footer.jsp"%>
-<script src="plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="/resources/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
 <script>
 	$('#datepicker').datepicker({
 		format : 'yyyy-mm-dd',
@@ -398,7 +415,7 @@
 
 		var wpg_type = document.getElementById('addpg_type').value;
 		
-		$.getJSON("/HarangProject/ajax?cmd=selectPg", {
+		$.getJSON("/facil/AFacilPgNameAjax", {
 			pg_type : encodeURIComponent(wpg_type)
 		}, function(data) {
 			$("#addpg_name option").remove();
@@ -419,11 +436,10 @@
 		var varpg_name = document.getElementById('addpg_name').value;
 
 
-		$.getJSON("/HarangProject/ajax?cmd=selectPg",
+		$.getJSON("/facil/AFacilPgNumAjax",
 						{
 							pg_type : encodeURIComponent(varpg_type),
 							pg_name : encodeURIComponent(varpg_name),
-							check : 1
 						},
 						function(data) {
 							$("#addpg_num").attr("value"," ");

@@ -94,7 +94,7 @@
 
 										<option>시설을 선택하세요.</option>
 
-										<c:forEach items="${pglist}" var="s">
+										<c:forEach items="${ajaxtypelist}" var="s">
 											<option value="${s.pg_type}">${s.pg_type}</option>
 										</c:forEach>
 									</select>
@@ -386,7 +386,7 @@
 
 		var wpg_type = document.getElementById('pg_type').value;
 		
-		$.getJSON("/HarangProject/ajax?cmd=selectPg", {
+		$.getJSON("/facil/FacilPgNameAjax", {
 			pg_type : encodeURIComponent(wpg_type)
 		}, function(data) {
 			$("#pg_name option").remove();
@@ -407,7 +407,7 @@
 		var varpg_name = select09.pg_name.value;
 
 		$
-				.getJSON("/HarangProject/ajax?cmd=selectPg",
+				.getJSON("/facil/FacilPgNumAjax",
 						{
 							pg_type : encodeURIComponent(varpg_type),
 							pg_name : encodeURIComponent(varpg_name),
@@ -446,15 +446,36 @@
 		// 디버깅용.	
 		//alert(vardate2 + "," + varpg_type + "," + varpg_num);
 
-		$.getJSON("/HarangProject/ajax?cmd=selectPg", {
+		$.getJSON("/facil/FacilPgTimecodeAjax", {
 			pg_type : encodeURIComponent(varpg_type),
 			pg_num : encodeURIComponent(varpg_num),
 			pgm_date : vardate2,
-			check : 2
 			},
 			
 			function(data) {
-			$(data).each(
+				var timecode = data.pgm_timecode;
+				
+				alert(timecode);
+				
+				$("#reser02").slideUp();
+				$("#reser02").slideDown();
+
+				//타임코드 버튼 초기화.
+				for (i = 0; i < 13; i++) {
+					$("#l" + i).attr("class", "btn btn-primary")
+							   .removeAttr("disabled");
+				}
+
+				var arraytimecode = timecode.split("");
+				for (i = 0; i < 13; i++) {
+					if (arraytimecode[i] == 1) {
+						$("#l" + i).attr("class", "btn btn-danger")
+								.attr("disabled", "disabled");
+
+					}
+				}
+			/*
+				$(data).each(
 					function(index, pglist) {
 						var timecode = pglist.pgm_timecode;
 						$("#reser02").slideUp();
@@ -476,6 +497,7 @@
 						}
 
 					});
+				*/
 
 		});
 

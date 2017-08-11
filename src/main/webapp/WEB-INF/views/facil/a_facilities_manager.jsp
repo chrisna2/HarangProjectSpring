@@ -8,12 +8,16 @@
 <head>
 <title>사용 예약 취소 추가(관리자)</title>
 <script>
-	//스크롤 이동 JQuery
-	function fnMove(){
-		var offset = $("#confirm72").offset();
-		$('html, body').animate({scrollTop : offset.top}, 1200)
-	}
+	window.onload = function(){
+		var result = "${result}";
 
+		if( result == null){
+	
+		}
+	else if(result == "true"){
+		alert("예약이 취소되었습니다.");
+		}
+	}
 </script>
 </head>
 <!-- 메인 페이지 구역 , 즉 작업 구역 -->
@@ -295,7 +299,7 @@
 					<!-- /.box-header -->
 
 					<!-- box-body -->
-					<form method="POST" action="/HarangProject/facil?cmd=AFacilManager">
+					<form method="POST" action="/facil/AFacilManagerDel">
 					<div class="box-body">
 					
 							<div class="row" >
@@ -303,7 +307,7 @@
 								<!-- text input -->
 								<div class="form-group col-md-4">
 									<label>예약번호</label> <input type="text" class="form-control"
-									readonly="readonly" id="facil_num" name="facil_num">
+									readonly="readonly" id="resernum" name="resernum">
 								</div>
 								<div class="form-group col-md-4">
 									<label>학번[ID]</label> <input type="text" class="form-control"
@@ -355,7 +359,6 @@
 								<div class="col-md-3 btn-group"></div>
 									
 										<div class="col-md-3 btn-group">
-											<input type="hidden" id="deleteOk" name="deleteOk">
 											<input type="submit" class="btn btn-block btn-primary"
 												value="예약취소">
 										</div>
@@ -401,11 +404,9 @@ function selectDel(pors, facil_num, m_id, facil_type, facil_name, facilm_date, f
 	var c = transcode(facilm_timecode);
 	
 	// 타임코드를 통해서 예약한 '시간'* 포인트. = 사용시간.
-	alert(facil_point);
 	point = facil_point*c;	
 	
-		$("#facil_num").attr("value", facil_num);
-		$("#deleteOk").attr("value", facil_num);
+		$("#resernum").attr("value", facil_num);
 					   
 		$("#m_id").attr("value", m_id);
 		

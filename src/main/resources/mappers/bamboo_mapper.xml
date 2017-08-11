@@ -7,8 +7,8 @@
   	<select id = "bbList" parameterType="SearchCriteria" resultType="Bamboo">
   	
   		select distinct bb.bb_num, bb.m_id, bb_notice, bb_title, bb_content, bb_regdate, bb_count, bb_nickname,
-  		 ifnull(like_cnt,0), (select count(br_num) from tbl_bbreply where bb_num = bb.bb_num) as bb_replycnt from tbl_bamboo bb left outer join
-  		  (select bb_num, count(tbl_like.m_id) like_cnt from tbl_like group by bb_num) li on bb.bb_num = li.bb_num where
+  		 ifnull(like_cnt,0) as like_cnt, (select count(br_num) from tbl_bbreply where bb_num = bb.bb_num) as reply_cnt from tbl_bamboo bb left outer join
+  		  (select bb_num, count(tbl_like.m_id) as like_cnt from tbl_like group by bb_num) li on bb.bb_num = li.bb_num where
   		  <include refid="search"></include>
   		  limit #{pageStart}, #{perPageNum} 
   		  
@@ -34,7 +34,7 @@
   			</if>
   		
   			<if test="keyword == 'bbhotlist'.toString()">
-  				 bb_regdate> (select date_sub(now(), interval 30 day)) and bb_notice='N' order by like_cnt desc, bb.bb_count 
+  				 bb_regdate> (select date_sub(now(), interval 30 day)) and bb_notice='N' order by bb_regdate desc 
   			</if>
   		
   			<if test="keyfield == 'bb_title'.toString()">
@@ -53,13 +53,91 @@
   	<select id = "bbNList" resultType = "Bamboo">
   	
   		select distinct bb.bb_num, bb.m_id, bb_notice, bb_title, bb_content, bb_regdate, bb_count, bb_nickname,
-  		 ifnull(like_cnt,0), (select count(br_num) from tbl_bbreply where bb_num = bb.bb_num) as bb_replycnt 
+  		 ifnull(like_cnt,0), (select count(br_num) from tbl_bbreply where bb_num = bb.bb_num) as reply_cnt 
   		 from tbl_bamboo bb left outer join (select bb_num, count(tbl_like.m_id) like_cnt from tbl_like group by bb_num) 
   		 li on bb.bb_num = li.bb_num where bb_notice = 'Y' order by bb_regdate desc  
   		
   	</select>
   	
+  	<select id = "bbCon" parameterType = "String" resultType = "Bamboo">
   	
+  		select * from tbl_bamboo where bb_num = #{bb_num}
+  	
+  	</select>
+  	
+  	<select id = "bbLCnt" parameterType="String" resultType = "Like">
+  		SELECT * FROM harang.tbl_like where bb_num = #{bb_num}
+  	</select>
+  	
+  	<select id = "bbDLCnt" parameterType="String" resultType = "Dlike">
+  		SELECT * FROM harang.tbl_dlike where bb_num = #{bb_num}
+  	</select>
+  	
+  	<update id = "bbUpdateCnt" parameterType="String">
+  	
+		update tbl_bamboo set bb_count = bb_count+1 where bb_num = #{bb_num} 
+  		
+  	</update>  
+  	
+  	
+  	<select id = "bbRList" parameterType="String" resultType="Bbreply">
+  	
+  		SELECT * FROM harang.tbl_bbreply where bb_num = #{bb_num}
+  	
+  	</select>
+  	
+  	<insert id="bbPost" parameterType="Bamboo">
+  	
+  		insert into tbl_bamboo (m_id, bb_notice, bb_title, bb_content, bb_count, bb_nickname, bb_num) values (#{m_id},'N',#{bb_title},#{bb_content},0,#{bb_nickname},'')
+  	
+  	</insert>
+  	
+  	<delete id="bbDelete" parameterType="String" >
+  	
+  		delete from harang.tbl_bamboo where bb_num = #{bb_num}
+  	
+  	</delete>
+  	
+  	<update id = "bbUpdate" parameterType="Bamboo">
+  	
+		update tbl_bamboo set bb_title = #{bb_title}, bb_nickname = #{bb_nickname}, bb_content = #{bb_content} where bb_num = #{bb_num} 
+  		
+  	</update>  
+  	
+  	<insert id = "bbrPost" parameterType="Bbreply">
+  	
+  		insert into tbl_bbreply (br_coment, br_nickname, bb_num, m_id) values (#{br_coment},#{br_nickname},#{bb_num},#{m_id})
+  	
+  	</insert>
+  	
+  	<delete id = "bbrDelete" parameterType="String">
+  	
+  		delete from tbl_bbreply where br_num = #{br_num}
+  	</delete>
+  	
+  	<insert id = "bbLike" parameterType="Like">
+  		
+  		insert into harang.tbl_like (bb_num, m_id) values (#{bb_num},#{m_id})
+  	
+  	</insert>
+  	
+  	<insert id = "bbDLike" parameterType="Like">
+  		
+  		insert into harang.tbl_dlike (bb_num, m_id) values (#{bb_num},#{m_id})
+  	
+  	</insert>
+  	
+  	<delete id = "bbLikeCancle" parameterType="Dlike">
+  	
+  		DELETE FROM tbl_like WHERE bb_num=#{bb_num} and m_id=#{m_id}
+  	
+  	</delete>
+  	
+  	<delete id = "bbDLikeCancle" parameterType="Dlike">
+  	
+  		DELETE FROM tbl_dlike WHERE bb_num=#{bb_num} and m_id=#{m_id}
+  	
+  	</delete>
   	
   
   </mapper>

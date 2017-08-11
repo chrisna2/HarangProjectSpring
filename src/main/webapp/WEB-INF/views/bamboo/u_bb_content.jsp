@@ -115,7 +115,7 @@ td {
 		}
 		
 		
-	}
+	} 
 	
 	function fnBblike(){
 		document.bblike.submit()
@@ -207,33 +207,24 @@ td {
 					<div class="box-footer" style= "background-color: #dceff4">
 
 						<!-- 아이디 검사 해서 본인일 경우만 수정, 삭제 출력되도록 if문 처리 -->
-						<c:if test="${bbcon.m_id eq sessionScope.member.m_id  }">
+						<c:if test="${bbcon.m_id eq member.m_id  }">
 							<div class="pull-right">
 								<a type="button" class="btn btn-success btn-xs"
-									href="javascript:fnBbconup()">수정</a> <a type="button"
+									href="/bamboo/BB_UPDATE?bb_num=${bbcon.bb_num}">수정</a> <a type="button"
 									class="btn btn-success btn-xs" href="javascript:fnBbdel()">삭제</a>
 
 							</div>
 						</c:if>
 
-						<!--  수정을 위한 폼 시작 -->
-						<!-- 수정 하려면.. 글번호를 가져가야함.  -->
-						<form method="post" action="/HarangProject/bamboo"
-							name="bbconupdateform">
-							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-								type="hidden" name="cmd" value="U_BB_CONUP" />
-
-						</form>
-						<!--  수정을 위한 폼 끝 -->
+						
 
 						<!--  삭제를 위한 폼 시작 -->
 						<!-- 삭제 하려면.. 글번호를 가져가야함.  -->
-						<form method="post" action="/HarangProject/bamboo" name="bbcondel">
-							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-								type="hidden" name="cmd" value="U_BB_DEL" />
+						<form method="post" action="/bamboo/BB_DEL" name="bbcondel">
+							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
 
 						</form>
-						<!--  수정을 위한 폼 끝 -->
+						<!--  삭제를 위한 폼 끝 -->
 
 
 						<div align="center">
@@ -257,35 +248,38 @@ td {
 						</div>
 
 						<!-- 추천을 위한 폼 시작 -->
-						<form method="post" action="/HarangProject/bamboo" name="bblike">
-							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-								type="hidden" name="cmd" value="U_BB_LIKE" />
+						<form method="post" action="/bamboo/BB_LIKE" name="bblike">
+							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" />
+							<input type="hidden" name="m_id" value="${member.m_id}" />
+							<input type="hidden" name="page" value="${pageMaker.cri.page}" />
 
 						</form>
 						<!--  추천을 위한 폼 끝 -->
 
 						<!-- 비추천을 위한 폼 시작 -->
-						<form method="post" action="/HarangProject/bamboo" name="bbdlike">
-							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-								type="hidden" name="cmd" value="U_BB_DLIKE" />
+						<form method="post" action="/bamboo/BB_DLIKE" name="bbdlike">
+							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
+							<input type="hidden" name="m_id" value="${member.m_id}" />
+							<input type="hidden" name="page" value="${pageMaker.cri.page}" />
 
 						</form>
 						<!--  비추천을 위한 폼 끝 -->
 
 						<!-- 추천취소를 위한 폼 시작 -->
-						<form method="post" action="/HarangProject/bamboo"
+						<form method="post" action="/bamboo/BB_LIKE_CANCLE"
 							name="bblikecancle">
-							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-								type="hidden" name="cmd" value="U_BB_LIKE_CANCLE" />
-
+							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
+							<input type="hidden" name="m_id" value="${member.m_id}" />
+							<input type="hidden" name="page" value="${pageMaker.cri.page}" />
 						</form>
 						<!--  추천취소를 위한 폼 끝 -->
 
 						<!-- 비추천취소를 위한 폼 시작 -->
-						<form method="post" action="/HarangProject/bamboo"
+						<form method="post" action="/bamboo/BB_DLIKE_CANCLE"
 							name="bbdlikecancle">
-							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-								type="hidden" name="cmd" value="U_BB_DLIKE_CANCLE" />
+							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
+							<input type="hidden" name="m_id" value="${member.m_id}" />
+							<input type="hidden" name="page" value="${pageMaker.cri.page}" />
 
 						</form>
 						<!--  비추천취소를 위한 폼 끝 -->
@@ -353,11 +347,12 @@ td {
 
 					<!--  댓글 삭제를 위한 폼 -->
 
-					<form method="post" action="/HarangProject/bamboo"
+					<form method="post" action="/bamboo/BR_DELETE"
 						name="fnbrdelete">
-						<input type="hidden" name="br_num" /> <input type="hidden"
-							name="bb_num" value="${bbcon.bb_num}" /> <input type="hidden"
-							name="cmd" value="U_BR_DEL" />
+						<input type="hidden" name="br_num" /> 
+						<input type="hidden" name="bb_num" value="${bbcon.bb_num}" />
+						<input type="hidden" name="page" value="${pageMaker.cri.page}" />
+						 
 
 					</form>
 
@@ -368,9 +363,10 @@ td {
 
 
 					<!-- 여기부터 새 댓글 작성창 -->
-					<form action="/HarangProject/bamboo" name="bbreply" method="post">
-						<input type="hidden" name="cmd" value="U_BB_REPLY" /> <input
-							type="hidden" name="bb_num" value="${bbcon.bb_num }" />
+					<form action="/bamboo/BR_POST" name="bbreply" method="post">
+						<input type="hidden" name="bb_num" value="${bbcon.bb_num }" />
+						<input type="hidden" name="m_id" value="${member.m_id }" />
+						<input type="hidden" name="page" value="${pageMaker.cri.page}" />
 
 						<div class="box-footer">
 
@@ -431,7 +427,7 @@ td {
 				<div class="box">
 					<div class="box-header" style="background-color: #dceff4">
 						<h1 class="box-title">
-							<a href="/HarangProject/bamboo?cmd=BB_LIST" style="color: black">대나무숲</a>
+							<a href="/bamboo/BB_LIST" style="color: black">대나무숲</a>
 						</h1>
 						<div class="box-tools">
 
@@ -450,26 +446,24 @@ td {
 
 							<!-- 최신글 보기를 위한 form 시작 -->
 
-							<form action="/HarangProject/bamboo" name="bbnewlist"
+							<form action="/bamboo/BB_LIST" name="bbnewlist"
 								method="post">
-								<input type="hidden" name="cmd" value="BB_LIST"> <input
-									type="hidden" name="table_search" value="bbnewlist">
+								<input type="hidden" name="keyword" value="bbnewlist">
 
 							</form>
 							<!-- 최신글 보기를 위한 form 끝 -->
 
 							<!-- 인기글 보기를 위한 form 시작 -->
-							<form action="/HarangProject/bamboo" name="bbhotlist"
+							<form action="/bamboo/BB_LIST" name="bbhotlist"
 								method="post">
-								<input type="hidden" name="cmd" value="BB_LIST"> <input
-									type="hidden" name="table_search" value="bbhotlist">
+								<input type="hidden" name="keyword" value="bbhotlist">
 
 							</form>
 							<!-- 인기글 보기를 위한 form 끝 -->
 
 							<!-- 글쓰기를 위한 form 시작 -->
-							<form action="/HarangProject/bamboo" name="bbpost" method="post">
-								<input type="hidden" name="cmd" value="U_BB_POST">
+							<form action="/bamboo/BB_POST" name="bbpost" method="get">
+								
 
 							</form>
 							<!-- 인기글 보기를 위한 form 끝 -->
@@ -494,24 +488,23 @@ td {
 
 							</tr>
 
+							
+
+
 							<c:choose>
-								<c:when test="${fn:length(bbnlist) eq 0}">
-								공지사항이 없습니다.
+								<c:when test="${fn:length(bbNList) eq 0}">
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${bbnlist}" var="bbnlist"
-										begin="${paging.beginPerPage}"
-										end="${paging.beginPerPage + paging.numPerPage -1}"
-										varStatus="status">
+									<c:forEach items="${requestScope.bbNList}" var="bbNList">
 										<tr bgcolor="pink">
-											<td><fmt:formatDate value="${bbnlist.bb_regdate}"
+											<td><fmt:formatDate value="${bbNList.bb_regdate}"
 													pattern="yyyy-MM-dd" /></td>
-											<td>${bbnlist.bb_nickname}</td>
-											<td><a href="/HarangProject/bamboo?cmd=U_BB_CON&bb_num=${bbnlist.bb_num}"
-												style="color: black">[공지] ${bbnlist.bb_title}
-													[${bbnlist.reply_cnt}]</a></td>
-											<td>${bbnlist.bb_count}</td>
-											<td>${bbnlist.like_cnt}</td>
+											<td>${bbNList.bb_nickname}</td>
+											
+											<td><a href="/bamboo/BB_CON?page=${pageMaker.cri.page}&bb_num=${bbNList.bb_num }" style="color: black">[공지]${bbNList.bb_title} [${bbNList.reply_cnt}]</a></td>
+											<td>${bbNList.bb_count}</td>
+											<td>${bbNList.like_cnt}</td>
+
 
 										</tr>
 									</c:forEach>
@@ -519,44 +512,32 @@ td {
 							</c:choose>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+							<!--  일반글 목록 가져오기 시작 -->
 							<c:choose>
 								<c:when test="${fn:length(bblist) eq 0}">
-								게시물이 없습니다.
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${bblist}" var="bblist"
-										begin="${paging.beginPerPage}"
-										end="${paging.beginPerPage + paging.numPerPage -1}"
-										varStatus="status">
+									<c:forEach items="${requestScope.bblist}" var="bblist">
 										<tr>
 											<td><fmt:formatDate value="${bblist.bb_regdate}"
 													pattern="yyyy-MM-dd" /></td>
 											<td>${bblist.bb_nickname}</td>
-											<td><a
-												href="/HarangProject/bamboo?cmd=U_BB_CON&bb_num=${bblist.bb_num}"
-												style="color: black">${bblist.bb_title}
-													[${bblist.reply_cnt}]</a></td>
+											<td><a href="/bamboo/BB_CON?page=${pageMaker.cri.page}&bb_num=${bblist.bb_num }" style="color: black">${bblist.bb_title} [${bblist.reply_cnt}]</a></td>
 											<td>${bblist.bb_count}</td>
 											<td>${bblist.like_cnt}</td>
+
 
 										</tr>
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>
+							<!--  일반글 목록 가져오기 끝 -->
 
+
+
+
+
+							
 						</table>
 					</div>
 					<!-- /.box-body -->
@@ -565,40 +546,43 @@ td {
 
 
 
-						<!-- 페이징 버튼 -->
-						<div class="box-footer clearfix" style="background-color: #dceff4">
-							<ul class="pagination pagination-sm no-margin pull-right">
-								<c:if test="${paging.nowBlock > 0}">
-									<li><a href="javascript:prevPage()">&laquo;</a></li>
-								</c:if>
-								<c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}"
-									step="1">
-									<!-- if문 추가 : 20170615 -->
-									<c:if
-										test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}">
-										<li><a
-											href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-									</c:if>
-									<!-- 끝 -->
-								</c:forEach>
-								<c:if test="${paging.totalBlock > paging.nowBlock +1}">
-									<li><a href="javascript:nextPage()">&raquo;</a></li>
-								</c:if>
-							</ul>
-						<form action="/HarangProject/bamboo" name="search" method="post">
+					<!-- 페이징 버튼 -->
+					<div class="box-footer clearfix" style="background-color: #dceff4">
+						
+						<ul class="pagination pagination-sm no-margin pull-right">
+							<c:if test="${pageMaker.prev}">
+								<li><a
+									href="/bamboo/BB_CON${pageMaker.makeQuery(pageMaker.startPage-1)}&bb_num=${bbcon.bb_num}">
+									&laquo;</a></li>
+							</c:if>
+							<c:forEach begin="${pageMaker.startPage}"
+								end="${pageMaker.endPage}" var="idx">
+								<li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+									<a href="/bamboo/BB_CON?page=${idx}&bb_num=${bbcon.bb_num}" >
+									 ${idx} </a>
+								</li>
+							</c:forEach>
+							<c:if test="${pageMaker.next && pageMaker.endPage>0}">
+								<li><a
+									href="/bamboo/BB_CON${pageMaker.makeQuery(pageMaker.endPage+1)}&bb_num=${bbcon.bb_num}" >
+									&raquo;</a></li>
+							</c:if>
+						</ul>
 
-							<input type="hidden" name="cmd" value="BB_LIST">
+
+						<form action="/bamboo/BB_LIST" name="search" method="post">
+
+							
 							<div class="input-group">
 
-								<select name="sOption" class="form-control input-sm"
+								<select name="keyfield" class="form-control input-sm"
 									style="width: 150px;">
 
 									<option value="bb_title">제목</option>
 									<option value="bb_content">내용</option>
 
-								</select> <input type="text" name="table_search"
-									class="form-control input-sm" style="width: 150px;"
-									placeholder="Search" />
+								</select> <input type="text" name="keyword" class="form-control input-sm"
+									style="width: 150px;" placeholder="Search" />
 
 								<button class="btn btn-sm btn-default pull-left">
 									<i class="fa fa-search"></i>
@@ -606,8 +590,8 @@ td {
 
 							</div>
 						</form>
-						</div>
-						<!-- 페이징 버튼 -->
+					</div>
+					<!-- 페이징 버튼 -->
 
 				</div>
 			</div>
@@ -618,7 +602,7 @@ td {
 </div>
 <!-- 페이징 관련 폼 ----------------------------------------------------------------------->
 <!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/bamboo">
+<%-- <form id="prevPage" method="post" action="/HarangProject/bamboo">
 	<input type="hidden" name="cmd" value="U_BB_CON" /> <input
 		type="hidden" name="nowPage"
 		value="${paging.pagePerBlock * (paging.nowBlock-1)}" /> <input
@@ -639,7 +623,7 @@ td {
 		type="hidden" name="bb_num" value="${bbcon.bb_num }" /> <input
 		type="hidden" name="nowPage" value="" id="page" /> <input
 		type="hidden" name="nowBlock" value="${paging.nowBlock}" />
-</form>
+</form> --%>
 <!-- 페이징 관련 폼 여기까지입니다. ----------------------------------------------------------------------------------- -->
 
 
@@ -649,40 +633,3 @@ td {
 <!-- /.content-wrapper -->
 <%@ include file="../include/footer.jsp"%>
 
-<!-- ★★★Ajax를 배우면 이해 할 수 있는 곳 : 여기에 데이터를 삽입합니다. -->
-<script type="text/javascript">
-	$(function() {
-
-		/* initialize the calendar
-		 -----------------------------------------------------------------*/
-		//현재 년 월 일 불러 오기
-		var date = new Date();
-		var d = date.getDate(), m = date.getMonth(), y = date.getFullYear();
-
-		$('#calendar').fullCalendar(
-				{
-					header : {
-						left : 'prev,next',
-						center : 'title',
-						right : 'today'
-					},
-					buttonText : {
-						today : '오늘날짜',
-						month : '월별',
-						week : '주별',
-						day : '일별'
-					},
-					titleFormat : {
-						month : 'YYYY년 MMMM'
-					},
-					monthNames : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월",
-							"8월", "9월", "10월", "11월", "12월" ],
-					monthNamesShort : [ "1월", "2월", "3월", "4월", "5월", "6월",
-							"7월", "8월", "9월", "10월", "11월", "12월" ],
-					dayNames : [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일",
-							"<font color='blue'>토요일</font>" ],
-					dayNamesShort : [ "일", "월", "화", "수", "목", "금", "토" ],
-					editable : true
-				});
-	});
-</script>

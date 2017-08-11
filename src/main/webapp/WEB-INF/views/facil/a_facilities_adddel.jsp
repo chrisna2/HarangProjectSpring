@@ -11,6 +11,21 @@
 		hr{border:none; 
 		   border:1px solid #E6E6E6;}
 	</style>
+	<script>
+	window.onload = function(){
+		var result = "${result}";
+
+		if( result == "mod"){
+			alert("시설 내용이 수정되었습니다..");
+		}
+		else if(result == "del"){
+			alert("시설이 삭제되었습니다..");
+		}
+		else if(result == "add"){
+			alert("시설이 추가되었습니다..");
+		}
+	}
+</script>
 </head>
 <!-- 메인 페이지 구역 , 즉 작업 구역 -->
 <div class="content-wrapper">
@@ -263,6 +278,8 @@
 		<!-- 시설확인 시작 -->
 		<div class="row">
 			<div class="col-md-12">
+				
+				<form method="POST" action="/facil/AFacilAddDel_del"> 
 				<!-- Box -->
 				<div class="box box-primary" id="confirmcheck" hidden="hidden">
 					<!-- Box header -->
@@ -301,13 +318,12 @@
 
 					<!-- Box footer -->
 					<div class="box-footer">
-						<form method="POST" action="/HarangProject/facil?cmd=AFacilAddDel"> 
+						
+						
 						<div class="row" align="center">
 							<div class="col-md-3 btn-group"></div>
 							<div class="col-md-3 btn-group">
-								<input type="hidden" id="delete" name="delete" value="1">
-								<input type="hidden" id="checkfacil" name="checkfacil">
-								<input type="hidden" id="sendnumber" name="sendnumber">
+								
 								<input type="submit" class="btn btn-block btn-primary"
 									value="삭제">
 							</div>
@@ -316,17 +332,19 @@
 									value="다시 선택">
 							</div>
 						</div>
-						</form>
+						
 					</div>
 
 				</div>
+				</form>
+				
 			</div>
 			
 		</div>
 		<!-- 시설확인 끝 -->
 
 		<!-- 시설추가 시작 -->
-		<form method="POST" action="/HarangProject/facil?cmd=AFacilAddDel">
+		<form method="POST" action="/facil/AFacilAddDel_add">
 		<div class="row">
 			<div class="col-md-12">
 				<!-- Box -->
@@ -349,7 +367,8 @@
 
 						<div class="row">
 							<div class="form-group col-md-4">
-								<label>시설종류</label> <select class="form-control" name="selectfacil">
+								<label>시설종류</label> 
+								<select class="form-control" name="selectfacil" id="selectfacil">
 									<option value="운동장">운동장</option>
 									<option value="스터디룸">스터디룸</option>
 								</select>
@@ -405,7 +424,8 @@
 		<div class="row">
 			<div class="col-md-12">
 				<!-- Box -->
-				<form method="POST" action="/HarangProject/facil?cmd=AFacilAddDel">
+												  
+				<form method="POST" action="/facil/AFacilAddDel_mod">
 				<div class="box box-primary" id="reser03" hidden="hidden">
 					<!-- Box header -->
 					<div class="box-header">
@@ -480,7 +500,7 @@
 						<div class="row" align="center">
 							<div class="col-md-3 btn-group"></div>
 							<div class="col-md-3 btn-group">
-								<input type="hidden" name="modified" value="1">
+								
 								<input type="submit" class="btn btn-block btn-primary"
 									value="수정">
 							</div>

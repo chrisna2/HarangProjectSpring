@@ -8,6 +8,23 @@
 <title>스터디룸(관리자)</title>
 <style>
 </style>
+<script type="text/javascript">
+window.onload = function(){
+	var result = "${result}";
+
+	if( result == null){
+
+	}
+	else if(result == "true"){
+	    alert("축제 일정을 취소하였습니다.");
+	}
+	
+	else if(result == "addok"){
+	    alert("축제 일정을 추가하였습니다.");
+	}
+	
+}
+</script>
 </head>
 <!-- 메인 페이지 구역 , 즉 작업 구역 -->
 <div class="content-wrapper">
@@ -133,7 +150,7 @@
 		<!-- 두번째 단시작 [ 2. 일정 취소  확인 ] -->
 		<div class="row">
 			<div class="col-md-12">
-				<form method="POST" action="/HarangProject/facil?cmd=AFacilSR">
+				<form method="POST" action="/facil/AFacilSrDel">
 					<!-- 2. 일정취소 확인 -->
 					<div class="box box-primary">
 						<!-- 2.box header-->
@@ -281,7 +298,7 @@
 
 			<!-- 3-2.시설 학사 일정 추가  행 넓이 설정---->
 			<div class="col-md-6">
-				<form method="POST" action="/HarangProject/facil?cmd=AFacilSR">
+				<form method="POST" action="/facil/AFacilSrAdd">
 				<!-- 3-2.시설 학사 일정 추가 List / box -->
 				<div class="box box-primary">
 					<!-- 3-2. box-header -->
@@ -318,7 +335,7 @@
 							<div class="form-group col-md-4">
 								<label>시설명</label> <select class="form-control" id="addsr_type" onchange="selectfacil()" >
 									<option>시설 종류를 선택하세요</option>
-									<c:forEach items="${ajaxlist}" var="s">
+									<c:forEach items="${ajaxtypelist}" var="s">
 											<option value="${s.sr_type}">${s.sr_type}</option>
 									</c:forEach>
 								</select>
@@ -347,7 +364,6 @@
 						<div class="row">
 							<div class="col-md-3 btn-group"></div>
 							<div class="col-md-3 btn-group">
-								<input type="hidden" id="check" name="check" value="faciladd">
 								<input type="submit" class="btn btn-block btn-primary"
 									value="추가">
 							</div>
@@ -371,7 +387,7 @@
 
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------>
 <%@ include file="../include/footer.jsp"%>
-<script src="plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="/resources/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
 <script>
 	$('#datepicker').datepicker({
 		format : 'yyyy-mm-dd',
@@ -394,7 +410,7 @@
 
 		var wsr_type = document.getElementById('addsr_type').value;
 		
-		$.getJSON("/HarangProject/ajax?cmd=selectSr", {
+		$.getJSON("/facil/AFacilSrNameAjax", {
 			sr_type : encodeURIComponent(wsr_type)
 		}, function(data) {
 			$("#addsr_name option").remove();
@@ -413,7 +429,7 @@
 		var varsr_name = document.getElementById('addsr_name').value;
 
 
-		$.getJSON("/HarangProject/ajax?cmd=selectSr",
+		$.getJSON("/facil/AFacilSrNumAjax",
 						{
 							sr_type : encodeURIComponent(varsr_type),
 							sr_name : encodeURIComponent(varsr_name),

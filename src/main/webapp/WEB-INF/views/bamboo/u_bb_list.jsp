@@ -51,7 +51,7 @@ td {
 	<!----------------------------------- 메인페이지 헤더 [작업 제목] ------------------------------------------------------------->
 	<section class="content-header">
 		<h1>
-			<a href="/HarangProject/bamboo?cmd=BB_LIST" style="color: black">대나무숲
+			<a href="/bamboo/BB_LIST" style="color: black">대나무숲
 				리스트 사용자페이지</a>
 		</h1>
 		<ol class="breadcrumb">
@@ -97,7 +97,7 @@ td {
 
 							<form action="/bamboo/BB_LIST" name="bbnewlist"
 								method="post">
-								<input type="hidden" name="table_search" value="bbnewlist">
+								<input type="hidden" name="keyword" value="bbnewlist">
 
 							</form>
 							<!-- 최신글 보기를 위한 form 끝 -->
@@ -105,14 +105,14 @@ td {
 							<!-- 인기글 보기를 위한 form 시작 -->
 							<form action="/bamboo/BB_LIST" name="bbhotlist"
 								method="post">
-								<input type="hidden" name="table_search" value="bbhotlist">
+								<input type="hidden" name="keyword" value="bbhotlist">
 
 							</form>
 							<!-- 인기글 보기를 위한 form 끝 -->
 
 							<!-- 글쓰기를 위한 form 시작 -->
-							<form action="/HarangProject/bamboo" name="bbpost" method="post">
-								<input type="hidden" name="cmd" value="U_BB_POST">
+							<form action="/bamboo/BB_POST" name="bbpost" method="get">
+								
 
 							</form>
 							<!-- 인기글 보기를 위한 form 끝 -->
@@ -137,29 +137,7 @@ td {
 
 							</tr>
 
-							<%-- <c:choose>
-								<c:when test="${fn:length(bbnlist) eq 0}">
-								공지사항이 없습니다.
-								</c:when>
-								<c:otherwise>
-									<c:forEach items="${bbnlist}" var="bbnlist"
-										begin="${paging.beginPerPage}"
-										end="${paging.beginPerPage + paging.numPerPage -1}"
-										varStatus="status">
-										<tr bgcolor="pink">
-											<td><fmt:formatDate value="${bbnlist.bb_regdate}"
-													pattern="yyyy-MM-dd" /></td>
-											<td>${bbnlist.bb_nickname}</td>
-											<td><a href="/HarangProject/bamboo?cmd=U_BB_CON&bb_num=${bbnlist.bb_num}"
-												style="color: black">[공지] ${bbnlist.bb_title}
-													[${bbnlist.reply_cnt}]</a></td>
-											<td>${bbnlist.bb_count}</td>
-											<td>${bbnlist.like_cnt}</td>
-
-										</tr>
-									</c:forEach>
-								</c:otherwise>
-							</c:choose> --%>
+							
 
 
 							<c:choose>
@@ -172,7 +150,8 @@ td {
 													pattern="yyyy-MM-dd" /></td>
 											<td>${bbNList.bb_nickname}</td>
 											
-											<td><a href="#">${bbNList.bb_title}</a></td>
+											<td><a href="/bamboo/BB_CON?page=${pageMaker.cri.page}&bb_num=${bbNList.bb_num }" 
+											style="color: black">[공지]${bbNList.bb_title} [${bbNList.reply_cnt}]</a></td>
 											<td>${bbNList.bb_count}</td>
 											<td>${bbNList.like_cnt}</td>
 
@@ -193,7 +172,8 @@ td {
 											<td><fmt:formatDate value="${bblist.bb_regdate}"
 													pattern="yyyy-MM-dd" /></td>
 											<td>${bblist.bb_nickname}</td>
-											<td><a href="#">${bbNList.bb_title}</a></td>
+											<td><a href="/bamboo/BB_CON?page=${pageMaker.cri.page}&bb_num=${bblist.bb_num }"
+											 style="color: black">${bblist.bb_title} [${bblist.reply_cnt}]</a></td>
 											<td>${bblist.bb_count}</td>
 											<td>${bblist.like_cnt}</td>
 
@@ -208,53 +188,7 @@ td {
 
 
 
-							<%-- <c:forEach items="${bblist}" var="bblist">
-
-								<tr>
-									<td><fmt:formatDate value="${bblist.bb_regdate}"
-											pattern="yyyy-MM-dd" /></td>
-									<td>${bblist.bb_nickname}</td>
-									<td><a
-										href="/****************${pageMaker.makeQuery(pageMaker.cri.page) }&seq=${bblist.bb_num}">${bblist.bb_title}</a></td>
-									<td>${bblist.bb_count}</td>
-									<td>${bblist.like_cnt}</td>
-
-
-								</tr>
-
-
-
-
-
-							</c:forEach> --%>
-
-
-
-							<%-- <c:choose>
-								<c:when test="${fn:length(requestScope.bblist) eq 0}">
-								게시물이 없습니다.
-								</c:when>
-								<c:otherwise>
-									<c:forEach items="${bblist}" var="bblist"
-										begin="${paging.beginPerPage}"
-										end="${paging.beginPerPage + paging.numPerPage -1}"
-										varStatus="status">
-										<tr>
-											<td><fmt:formatDate value="${bblist.bb_regdate}"
-													pattern="yyyy-MM-dd" /></td>
-											<td>${bblist.bb_nickname}</td>
-											<td><a
-												href="/HarangProject/bamboo?cmd=U_BB_CON&bb_num=${bblist.bb_num}"
-												style="color: black">${bblist.bb_title}
-													[${bblist.reply_cnt}]</a></td>
-											<td>${bblist.bb_count}</td>
-											<td>${bblist.like_cnt}</td>
-
-										</tr>
-									</c:forEach>
-								</c:otherwise>
-							</c:choose> --%>
-
+							
 						</table>
 					</div>
 					<!-- /.box-body -->
@@ -265,25 +199,7 @@ td {
 
 					<!-- 페이징 버튼 -->
 					<div class="box-footer clearfix" style="background-color: #dceff4">
-						<%-- 	<ul class="pagination pagination-sm no-margin pull-right">
-								<c:if test="${paging.nowBlock > 0}">
-									<li><a href="javascript:prevPage()">&laquo;</a></li>
-								</c:if>
-								<c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}"
-									step="1">
-									<!-- if문 추가 : 20170615 -->
-									<c:if
-										test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}">
-										<li><a
-											href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-									</c:if>
-									<!-- 끝 -->
-								</c:forEach>
-								<c:if test="${paging.totalBlock > paging.nowBlock +1}">
-									<li><a href="javascript:nextPage()">&raquo;</a></li>
-								</c:if>
-							</ul>
-						--%>
+						
 						<ul class="pagination pagination-sm no-margin pull-right">
 							<c:if test="${pageMaker.prev}">
 								<li><a
@@ -361,40 +277,3 @@ td {
 <%@ include file="../include/footer.jsp"%>
 
 
-<!-- ★★★Ajax를 배우면 이해 할 수 있는 곳 : 여기에 데이터를 삽입합니다. -->
-<script type="text/javascript">
-	$(function() {
-
-		/* initialize the calendar
-		 -----------------------------------------------------------------*/
-		//현재 년 월 일 불러 오기
-		var date = new Date();
-		var d = date.getDate(), m = date.getMonth(), y = date.getFullYear();
-
-		$('#calendar').fullCalendar(
-				{
-					header : {
-						left : 'prev,next',
-						center : 'title',
-						right : 'today'
-					},
-					buttonText : {
-						today : '오늘날짜',
-						month : '월별',
-						week : '주별',
-						day : '일별'
-					},
-					titleFormat : {
-						month : 'YYYY년 MMMM'
-					},
-					monthNames : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월",
-							"8월", "9월", "10월", "11월", "12월" ],
-					monthNamesShort : [ "1월", "2월", "3월", "4월", "5월", "6월",
-							"7월", "8월", "9월", "10월", "11월", "12월" ],
-					dayNames : [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일",
-							"<font color='blue'>토요일</font>" ],
-					dayNamesShort : [ "일", "월", "화", "수", "목", "금", "토" ],
-					editable : true
-				});
-	});
-</script>

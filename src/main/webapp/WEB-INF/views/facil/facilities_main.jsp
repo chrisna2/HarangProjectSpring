@@ -16,6 +16,18 @@
 }
 </style>
 <script type="text/javascript">
+window.onload = function(){
+	var result = "${result}";
+
+	if( result == null){
+	
+	}
+	else if(result == "true"){
+		alert("예약이 취소되었습니다.");
+	}
+}
+
+
 function dateFormCheck(){
 	  /*날짜 비교 */
     var _reserdate = checkform.resertime.value.split("-");
@@ -37,6 +49,12 @@ function dateFormCheck(){
 
 }
 </script>
+
+
+
+
+
+
 </head>
 <!-- 메인 페이지 구역 , 즉 작업 구역 -->
 <div class="content-wrapper">
@@ -50,6 +68,7 @@ function dateFormCheck(){
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
+
 
 	<section class="content">
 		
@@ -282,8 +301,7 @@ function dateFormCheck(){
 					<!-- /.box-header -->
 
 					<!-- box-body -->
-					<form role="form" method="post" name="checkform" action="/HarangProject/facil?cmd=FacilMain" onsubmit="return dateFormCheck()">
-					<input type="hidden" id="deleteOk" name="deleteOk" value="1">
+					<form role="form" method="post" name="checkform" action="/facil/FacilMainDel" onsubmit="return dateFormCheck()">
 					<div class="box-body">
 						
 							<div class="row">
@@ -328,7 +346,7 @@ function dateFormCheck(){
 							<div class="col-md-3 btn-group">
 							</div>
 							<div class="col-md-3 btn-group">
-								<input type="button" class="btn btn-block btn-primary" value="예약취소" onclick="dateFormCheck()">
+								<input type="submit" class="btn btn-block btn-primary" value="예약취소">
 							</div>
 							<div class="col-md-3 btn-group">
 								<input type="button" class="btn btn-block  btn-primary" value="다시 선택" onclick="shutdown()">
