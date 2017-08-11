@@ -3,47 +3,53 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.harang.mapper.parttime-mapper">
-	<select id="getParttimeList" resultType="Parttime">
+	<select id="getParttimeList" resultType="Parttime" parameterType="SearchCriteria">
 		SELECT * FROM tbl_parttime
 		<include refid="searchParttimeList" />
 		ORDER BY p_regdate DESC
+		limit #{pageStart}, #{perPageNum} 
 	</select>
 
 	<sql id="searchParttimeList">
-		<if test="keyField != null">
-			<if test="keyField == '제목'">
+		<if test="keyfield != null">
+			<if test="keyfield == '제목'">
 				WHERE p_title like concat('%', #{keyword}, '%')
 			</if>
-			<if test="keyField == '시급'">
+			<if test="keyfield == '시급'">
 				WHERE p_wage > #{keyword}
 			</if>
 		</if>
 	</sql>
 
-	<select id="getMyParttimeList" resultType="Parttime">
+	<select id="getMyParttimeList" resultType="Parttime" parameterType="SearchCriteria">
 		SELECT * FROM
-		tbl_parttime WHERE m_id = #{m_id} ORDER BY p_regdate DESC
+		tbl_parttime WHERE m_id = #{m_id} 
+		ORDER BY p_regdate DESC
+		limit #{pageStart}, #{perPageNum} 
 	</select>
 
-	<select id="getDaetaList" resultType="Daeta">
+	<select id="getDaetaList" resultType="Daeta" parameterType="SearchCriteria">
 		SELECT * FROM tbl_daeta
 		<include refid="searchDaetaList" />
 		ORDER BY d_regdate DESC
+		limit #{pageStart}, #{perPageNum} 
 	</select>
 
 	<sql id="searchDaetaList">
-		<if test="keyField != null">
-			<if test="keyField == '제목'">
+		<if test="keyfield != null">
+			<if test="keyfield == '제목'">
 				WHERE d_title like concat('%', #{keyword}, '%')
 			</if>
-			<if test="keyField == '시급'">
+			<if test="keyfield == '시급'">
 				WHERE d_wage > #{keyword}
 			</if>
 		</if>
 	</sql>
 	
 	<select id="getMyDaetaList" resultType="Daeta">
-		SELECT * FROM tbl_daeta WHERE m_id = #{m_id} ORDER BY d_regdate DESC
+		SELECT * FROM tbl_daeta WHERE m_id = #{m_id} 
+		ORDER BY d_regdate DESC
+		limit #{pageStart}, #{perPageNum} 
 	</select>
 
 	<select id="getParttimeCnt_apply" resultType="int">
@@ -70,7 +76,7 @@
 		UPDATE tbl_daeta SET d_cnt = d_cnt + 1	WHERE d_num = #{d_num}	
 	</update>
 	
-	<select id="getMember">
+	<select id="getMember" resultType="Member">
 		select * from tbl_member where m_id = #{m_id}
 	</select>
 	
@@ -104,19 +110,19 @@
 		SELECT * FROM tbl_parttime_member WHERE p_num = #{p_num} ORDER BY pm_regdate ASC
 	</select>
 	
-	<select id="getMyParttimeApplyList" resultType="D_Apply">
+	<select id="getMyParttimeApplyList" resultType="P_Apply">
 		SELECT * FROM tbl_parttime_member WHERE m_id = #{m_id} ORDER BY pm_regdate DESC
 	</select>
 	
-	<select id="getDaetaApplyList">
+	<select id="getDaetaApplyList" resultType="D_Apply">
 		SELECT * FROM tbl_daeta_member WHERE d_num = #{d_num} ORDER BY dm_regdate ASC
 	</select>
 	
-	<select id="getMyDaetaApplyList">
+	<select id="getMyDaetaApplyList" resultType="D_Apply">
 		SELECT * FROM tbl_daeta_member WHERE m_id = #{m_id} ORDER BY dm_regdate DESC
 	</select>
 	
-	<select id="getParttimeApply" resultType="P_Apply">
+	<select id="getParttimeApply" parameterType="HashMap" resultType="P_Apply">
 		SELECT * FROM tbl_parttime_member WHERE p_num = #{p_num} AND m_id=#{m_id}
 	</select>
 	
@@ -172,5 +178,29 @@
 	<update id="report">
 		UPDATE tbl_daeta_member SET dm_report=#{dm_report} WHERE m_id=#{m_id} AND d_num=#{d_num}
 	</update>
+	
+	<select id="getParttimeReplyList" resultType="ParttimeReply">
+		SELECT * FROM tbl_parttime_reply WHERE p_num=#{p_num} ORDER BY pr_regdate DESC
+	</select>
+	
+	<select id="getDaetaReplyList" resultType="DaetaReply">
+		SELECT * FROM tbl_daeta_reply WHERE d_num=#{d_num} ORDER BY dr_regdate DESC
+	</select>
+	
+	<insert id="insertParttimeReply" parameterType="ParttimeReply">
+		INSERT INTO tbl_parttime_reply(pr_comment, p_num, m_id) VALUES (#{pr_comment},#{p_num},#{m_id})
+	</insert>
+	
+	<insert id="insertDaetaReply" parameterType="DaetaReply">
+		INSERT INTO tbl_daeta_reply(dr_comment, d_num, m_id) VALUES (#{dr_daeta_reply},#{d_num},#{m_id})
+	</insert>
+	
+	<delete id="deleteParttimeReply" parameterType="String">
+		DELETE FROM tbl_parttime_reply WHERE pr_num=#{pr_num}
+	</delete>
+	
+	<delete id="deleteDaetaReply" parameterType="String">
+		DELETE FROM tbl_daeta_reply WHERE dr_num=#{dr_num}
+	</delete>
 </mapper>
     
