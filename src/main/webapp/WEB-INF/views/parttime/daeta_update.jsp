@@ -33,7 +33,7 @@
                   <h3 class="box-title">알바 정보</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                  <form name="post" method="post" action="/HarangProject/parttime?cmd=DREAD">
+                  <form name="post" method="post" action="/parttime/updateDaeta">
                   	<input type="hidden" name="update" value="OK"/>
                   	<input type="hidden" name="d_num" value="${info.d_num}"/>
                   	<input type="hidden" name="tab" value="${tab}"/>
@@ -130,7 +130,7 @@
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-      <form name="cancel" method="post" action="/HarangProject/parttime?cmd=DREAD">
+      <form name="cancel" method="post" action="/parttime/DREAD">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="nowPage" value="${nowPage}"/>
       	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
@@ -139,7 +139,7 @@
 <%@ include file="../include/footer.jsp" %>
 <!-- ------------------------------------------------------------------------------------------------ -->
 <!-- 날짜 입력  -->
-    <script src="plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="../resources/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
     <script>
         $('#date1').datepicker({
         	format: 'yyyy-mm-dd',

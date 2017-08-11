@@ -178,5 +178,29 @@
 	<update id="report">
 		UPDATE tbl_daeta_member SET dm_report=#{dm_report} WHERE m_id=#{m_id} AND d_num=#{d_num}
 	</update>
+	
+	<select id="getParttimeReplyList" resultType="ParttimeReply">
+		SELECT * FROM tbl_parttime_reply WHERE p_num=#{p_num} ORDER BY pr_regdate DESC
+	</select>
+	
+	<select id="getDaetaReplyList" resultType="DaetaReply">
+		SELECT * FROM tbl_daeta_reply WHERE d_num=#{d_num} ORDER BY dr_regdate DESC
+	</select>
+	
+	<insert id="insertParttimeReply" parameterType="ParttimeReply">
+		INSERT INTO tbl_parttime_reply(pr_comment, p_num, m_id) VALUES (#{pr_comment},#{p_num},#{m_id})
+	</insert>
+	
+	<insert id="insertDaetaReply" parameterType="DaetaReply">
+		INSERT INTO tbl_daeta_reply(dr_comment, d_num, m_id) VALUES (#{dr_daeta_reply},#{d_num},#{m_id})
+	</insert>
+	
+	<delete id="deleteParttimeReply" parameterType="String">
+		DELETE FROM tbl_parttime_reply WHERE pr_num=#{pr_num}
+	</delete>
+	
+	<delete id="deleteDaetaReply" parameterType="String">
+		DELETE FROM tbl_daeta_reply WHERE dr_num=#{dr_num}
+	</delete>
 </mapper>
     

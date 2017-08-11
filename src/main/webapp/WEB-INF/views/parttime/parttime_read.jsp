@@ -215,21 +215,23 @@
 					</div>
 					<!-- /.box-body -->
 					<div class="box-footer clearfix">
-						<ul class="pagination pagination-sm no-margin pull-left">
-							<c:if test="${a_paging.nowBlock > 0}">
-							<li><a href="javascript:prevPage()">&laquo;</a></li>
-							</c:if>
-						  <c:forEach var="i" begin="0" end="${a_paging.pagePerBlock-1}" step="1">
-						  	
-						  	<c:if test="${a_paging.nowBlock*a_paging.pagePerBlock+i < a_paging.totalPage}" >
-							<li><a href="javascript:goPage('${a_paging.nowBlock*a_paging.pagePerBlock+i}')">${a_paging.nowBlock*a_paging.pagePerBlock+(i+1)}</a></li>
-						  	</c:if>
-						 
-						  </c:forEach>
-						  	<c:if test="${a_paging.totalBlock > a_paging.nowBlock +1}">
-							<li><a href="javascript:nextPage()">&raquo;</a></li>
-							</c:if>
-						</ul>
+						<ul class="pagination pagination-sm no-margin pull-right">
+						<c:if test="${a_pageMaker.prev}">
+	                            <li><a href="/parttime/PREAD${a_pageMaker.makeQuery(a_pageMaker.startPage-1)}">&laquo;</a></li>
+	                    </c:if>
+	                    <c:forEach begin="${a_pageMaker.startPage}" 
+	                    		   end="${a_pageMaker.endPage}" 
+	                               var="idx">
+	                            <li value="${a_pageMaker.cri.page == idx ? 'class=active' : ''}">
+	                          		<a href="/parttime/PREAD?page=${idx}">
+	                          			${idx}
+	                        	   	</a>
+	                             </li>
+	                   	</c:forEach>
+	                    <c:if test="${a_pageMaker.next && a_pageMaker.endPage>0}">
+	                      <li><a href="/parttime/PREAD${a_pageMaker.makeQuery(a_pageMaker.endPage+1)}">&raquo;</a></li>
+	                    </c:if>
+	                    </ul>
 					</div>
                 </div>
             </c:if>   
@@ -315,8 +317,6 @@
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
       	<input type="hidden" name="daycode" value="${daycode}"/>
       	<input type="hidden" name="day" value="${day}"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
       <form name="myresume" method="post" action="/parttime/PRESUME">
@@ -349,7 +349,6 @@ function fnList(tab){
 	}else{
 		list.action = "/parttime/PMAIN";
 	}
-	alert(list.action);
 	list.submit();
 }
 function fnApply(){apply.submit();}

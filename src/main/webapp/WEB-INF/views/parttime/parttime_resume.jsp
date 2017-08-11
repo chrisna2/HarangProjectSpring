@@ -108,18 +108,15 @@
 	<!-- /. 작업 공간 끝! -->
 	<!------------------------------------------------------------------------------------------------------------------->
 </div>
-<form name="list" method="post" action="/HarangProject/parttime?cmd=PREAD">
+<form name="list" method="post" action="/parttime/PREAD">
 	<input type="hidden" name="tab" value="${tab}"/>
-	<input type="hidden" name="a_nowPage" value="${a_nowPage}"/>
-	<input type="hidden" name="a_nowBlock" value="${a_nowBlock}"/>
-	<input type="hidden" name="nowPage" value="${nowPage}"/>
-    <input type="hidden" name="nowBlock" value="${nowBlock}"/>
 	<input type="hidden" name="p_num" value="${p_num}"/>
+	<input type="hidden" name="read" value="no"/>
 </form>
-<form name="del" method="post" action="/HarangProject/parttime?cmd=PREAD">
+<form name="del" method="post" action="/parttime/delParttimeResume">
 	<input type="hidden" name="p_num" value="${p_num}"/>
-	<input type="hidden" name="cancel" value="OK"/>
 	<input type="hidden" name="tab" value="${tab}"/>
+	<input type="hidden" name="read" value="no"/>
 </form>
 <!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
 

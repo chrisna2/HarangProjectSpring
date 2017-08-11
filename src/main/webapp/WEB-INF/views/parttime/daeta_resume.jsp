@@ -79,18 +79,13 @@
 	<!-- /. 작업 공간 끝! -->
 	<!------------------------------------------------------------------------------------------------------------------->
 </div>
-<form name="list" method="post" action="/HarangProject/parttime?cmd=DREAD">
-	<input type="hidden" name="a_nowPage" value="${a_nowPage}"/>
-	<input type="hidden" name="a_nowBlock" value="${a_nowBlock}"/>
-	<input type="hidden" name="nowPage" value="${nowPage}"/>
-    <input type="hidden" name="nowBlock" value="${nowBlock}"/>
+<form name="list" method="post" action="/parttime/DREAD">
 	<input type="hidden" name="d_num" value="${d_num}"/>
 	<input type="hidden" name="tab" value="${tab}"/>
 	<input type="hidden" name="read" value="no"/>
 </form>
-<form name="del" method="post" action="/HarangProject/parttime?cmd=DREAD">
+<form name="del" method="post" action="/parttime/delDaetaResume">
 	<input type="hidden" name="d_num" value="${d_num}"/>
-	<input type="hidden" name="cancel" value="OK"/>
 	<input type="hidden" name="tab" value="${tab}"/>
 	<input type="hidden" name="read" value="no"/>
 </form>
