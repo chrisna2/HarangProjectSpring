@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.harang.mapper.im-mapper">
+
+	<!-- 전체 리스트 -->
+	<select id="imallList" resultType="Im2" parameterType="SearchCriteria">
+		select
+		tml.lm_num,tl.l_name,tml.lm_star,tml.lm_year,tml.lm_term,tl.l_teacher,tm.m_name
+		from tbl_member_lesson tml, tbl_lesson tl, tbl_member tm
+		where
+		tml.m_id=tm.m_id and tl.l_num= tml.l_num
+		<include refid="imalllist_search"></include>
+		order by tml.lm_regdate desc
+		limit #{pageStart}, #{perPageNum};
+	</select>
+
+
+		<sql id="imalllist_search">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'l_name'.toString()">
+  				and tl.l_name like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_teacher'.toString()">
+  				and tl.l_teacher like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'm_name'.toString()">
+  				and tm.m_name like concat('%', #{keyword}, '%')
+  			</if>
+  		</if>
+  	</sql>
+	
+
+
+	<!-- 전체 리스트 -->
+	<select id="Imcount" resultType="int" parameterType="SearchCriteria">
+		select count(*)	
+		from tbl_member_lesson tml, tbl_lesson tl, tbl_member tm
+		where
+		tml.m_id=tm.m_id and tl.l_num= tml.l_num
+		<include refid="imalllist_search"></include>
+	</select>
+
+
+	<!-- 자신이 수강하고있는 수강리스트 -->
+	<select id="immyList" resultType="Im2">
+		select l.l_num,l.l_name,l.l_teacher,t.l_num,t.tt_iscomplete
+		from tbl_timetable t , tbl_lesson l
+		where t.m_id=#{m_id} and l.l_num=t.l_num
+	</select>
+
+
+	<!-- 강의평가작성할때 글정보 -->
+	<select id="imread" resultType="Im2" parameterType="String">
+		select l_name,l_teacher,l_num
+		from tbl_lesson where l_num=#{l.num}
+	</select>
+
+	<!-- 강의평가 작성 -->
+	<insert id="iminsert">
+			INSERT INTO tbl_member_lesson 
+			(m_id, l_num, lm_group, lm_year, lm_term, lm_star, lm_hw, lm_attend, lm_comment, lm_num) 
+			VALUES (#{m_id}, #{l_num}, #{lm_group}, #{lm_year}, #{lm_term}, #{lm_star}, #{lm_hw}, #{lm_attend}, #{lm_comment},'')
+			
+			
+	
+	</insert>
+	<update id="iminsert2">
+		UPDATE tbl_timetable SET tt_iscomplete='Y' WHERE m_id=#{m_id} and l_num=#{l_num}
+	
+	</update>
+
+
+
+	<!--강의평가상세보기 -->
+	<select id="imread2" resultType="Im2" parameterType="String">
+	
+		select * from tbl_member_lesson tml,tbl_lesson tl,tbl_member m
+		where lm_num=#{lm_num} and tml.l_num=tl.l_num and tml.m_id=m.m_id;
+		
+	</select>
+
+
+	<!--강의평가수정할때 글정보 -->
+	<select id="imread3" resultType="Im2" parameterType="String">
+		select tl.l_name,tl.l_teacher,lm.lm_year,lm.lm_term,lm.lm_star,lm.lm_hw,lm.lm_attend,lm.lm_group,lm.lm_comment,tl.l_num
+		from tbl_lesson tl,tbl_member_lesson lm
+		where tl.l_num=#{l_num} and tl.l_num=lm.l_num
+	</select>
+	
+	
+	<!-- 강의평가 수정  -->
+	<update id="imupdate">
+			update tbl_member_lesson set lm_year=#{lm_year}, lm_term=#{lm_term}, lm_star=#{lm_star}, lm_hw=#{lm_hw},lm_attend=#{lm_attend},lm_group=#{lm_group},lm_comment=#{lm_comment} 
+			where l_num=#{l_num} and m_id=#{m_id}
+	</update>
+	
+	
+	
+	
+	<!-- 신고등록 -->
+	<insert id="warninginsert">
+		INSERT INTO tbl_warning (lm_num, m_id, w_comment) 
+		VALUES(#{lm_num},#{m_id},#{w_comment})
+	
+	</insert>
+	
+	
+	<!-- 강의평가 상세보기 + 신고리스트 -->
+		<select id="imadetail" resultType="Im2">
+			select * from tbl_member_lesson tml ,tbl_lesson tl,tbl_member m where lm_num=#{lm_num} and tml.l_num=tl.l_num and tml.m_id=m.m_id;
+		
+		</select>
+		<select id="imadetailwarning" resultType="Im2" >
+			select * from tbl_warning where lm_num=#{lm_num}
+		</select>
+			
+	
+	
+	
+	
+	
+	<!-- 강의평가 삭제 -->
+	<delete id="imdelete">
+		delete from tbl_warning where lm_num=#{lm_num}
+	</delete>
+	
+	<delete id="imdelete2">
+		delete from tbl_member_lesson where lm_num=#{lm_num}
+	</delete>
+	
+	
+	<!--  관리자 전체글 보기 -->
+	<select id="imalist" resultType="Im2" parameterType="SearchCriteria">
+		select lm.lm_num,tl.l_name,lm.lm_star,lm.lm_year,lm.lm_term,tl.l_teacher,tm.m_name, (select count(*) 
+		from tbl_warning wt where wt.lm_num = lm.lm_num group by wt.lm_num) as w_count from tbl_member_lesson lm , tbl_lesson tl, tbl_member tm 
+		where tl.l_num=lm.l_num and lm.m_id=tm.m_id
+		
+		<include refid="imalllist_search"></include>
+		order by lm.lm_regdate desc
+		limit #{pageStart}, #{perPageNum};
+	</select>
+
+
+	
+
+
+
+
+
+</mapper>

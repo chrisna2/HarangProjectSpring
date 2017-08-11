@@ -46,7 +46,7 @@
                 
 				<div class="box-body">
 				<form role="form2" name="read3"
-					action="/HarangProject/impage?cmd=delete" method="post">
+					action="/impage/adeleteim" method="post">
 					<input type="hidden" name="lm_num" value="${read3.lm_num }" >
 					<div class="row">
 						<div class="col-md-5 form-group">
@@ -202,7 +202,7 @@ function () {
 	
 	$("#btn1").click(
 			function(){	
-				self.location = "/HarangProject/impage?cmd=amain";
+				self.location = "/impage/amain";
 				
 			}
 	);

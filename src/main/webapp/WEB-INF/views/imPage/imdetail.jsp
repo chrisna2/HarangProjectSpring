@@ -158,7 +158,7 @@
                 
                 <!-- form 시작 -->
                 
-                <form role="form" action="/HarangProject/impage?cmd=warning" method="post">
+                <form role="form" action="/impage/waring" method="post">
               	<input type="hidden" name="lm_num" value="${read2.lm_num }"/>
                 <div class="box-body">
                  <div class="input-group">
@@ -223,7 +223,7 @@ function () {
 	
 	$("#btn2").click(
 			function(){	
-				self.location = "/HarangProject/impage?cmd=main";
+				self.location = "/impage/main";
 				
 			}
 	);

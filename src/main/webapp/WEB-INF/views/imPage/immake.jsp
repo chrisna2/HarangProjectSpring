@@ -32,11 +32,12 @@
 
 				<!-- form 시작 -->
 				<form role="form2" name="read5"
-					action="/HarangProject/impage?cmd=insert" method="post">
+					action="/impage/insert2" method="post">
 
 				<input type="hidden" name="l_num" value="${read.l_num }"/>
-			
-					
+			<input type="hidden" name="m_id" value="${member.m_id}">
+				
+						
 
 					<div class="box-body">
 						<div class="input-group">
@@ -145,7 +146,7 @@ function () {
 	
 	$("#btn1").click(
 			function(){	
-				self.location = "/HarangProject/impage?cmd=main";
+				self.location = "/impage/main";
 				
 			}
 	);

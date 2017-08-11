@@ -6,24 +6,64 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.service.BookService;
+import com.harang.web.utill.PageMaker;
 
 @Controller
-@RequestMapping("/book")
+@RequestMapping("/harangdin")
 public class BookController {
-//if문만
+
 	@Autowired
 	private BookService bookService;
 	
 	private ModelAndView mav;
 	
+	private PageMaker pagemaker ;
+	
 	@RequestMapping(value="/main", method=RequestMethod.GET)
-	public ModelAndView harangdinmainGet(){
+	public ModelAndView harangdinmainGet(SearchCriteria cri){
+		
+		
+		
+		
+		pagemaker = new PageMaker();
+		pagemaker.setCri(cri);
+		pagemaker.setTotalCount(bookService.Bookcount(cri));
+		
+	
+	
+		
 		mav = new ModelAndView("harangdin/harangdin_main");
+		mav.addObject("harangdinmain",bookService.booklist(cri));
+		mav.addObject("pageMaker",pagemaker);
 		
 		return mav;
 		
 	}
+	
+	
+	@RequestMapping(value="/main", method=RequestMethod.POST)
+	public ModelAndView harangdinmainPost(SearchCriteria cri){
+		
+	
+		
+		pagemaker = new PageMaker();
+		pagemaker.setCri(cri);
+		pagemaker.setTotalCount(bookService.Bookcount(cri));
+		
+	
+	
+		
+		mav = new ModelAndView("harangdin/harangdin_main");
+		mav.addObject("harangdinmain",bookService.booklist(cri));
+		mav.addObject("pageMaker",pagemaker);
+		
+		return mav;
+		
+	}
+	
+	
 	
 	
 	@RequestMapping(value="/Amain", method=RequestMethod.GET)
