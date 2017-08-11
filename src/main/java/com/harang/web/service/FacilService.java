@@ -35,6 +35,9 @@ public interface FacilService {
 	public List<PlaygroundDTO> schPgNumAjax(PlaygroundDTO pgdto);
 	public List<StudyroomDTO> schSrNumAjax(StudyroomDTO srdto);
 	
+	public String loadPgTimecodeAjax(PgMemberDTO pgmdto);
+	public List<SrMemberDTO> loadSrTimecodeAjax(SrMemberDTO srmdto);
+	
 	public void facilPgAdd(PlaygroundDTO pgdto);
 	public void facilSrAdd(StudyroomDTO srdto);
 	

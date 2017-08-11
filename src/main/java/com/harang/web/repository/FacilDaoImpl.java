@@ -179,4 +179,29 @@ public class FacilDaoImpl implements FacilDao {
 	public void facilSrAdd(StudyroomDTO srdto) {
 		sqlSession.insert(namespace + ".addFacilSr", srdto);
 	}
+
+	@Override
+	public List<PgMemberDTO> loadPgTimecodeAjax(PgMemberDTO pgmdto) {
+		String a = pgmdto.getPg_num();
+		String b = pgmdto.getPgm_date();
+		
+		System.out.println("온 데이터는?" + a + b);
+		System.out.println("타임코드 쿼리");
+																	
+		List<PgMemberDTO> list = sqlSession.selectList(namespace + ".loadPgTimecode", pgmdto);
+		System.out.println("타임코드 쿼리 완료");
+		
+		for(int i =0 ; i<list.size(); i++){
+			String c = list.get(i).getPgm_timecode();
+			System.out.println("DAO에서의 타임코드는 : " + c);
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<SrMemberDTO> loadSrTimecodeAjax(SrMemberDTO srmdto) {
+		List list = sqlSession.selectList(namespace + ".loadSrTimecode", srmdto);
+		return list;
+	}
 }

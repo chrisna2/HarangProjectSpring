@@ -120,7 +120,6 @@
 	
 	<delete id="facilSrDel" parameterType="String">
 		DELETE FROM tbl_studyroom WHERE sr_num='sr000000019'
-		
 	</delete>
 	
 	<insert id="aFacilPgAdd" parameterType="PgMember">
@@ -132,6 +131,15 @@
 		INSERT INTO tbl_sr_member (srm_date, srm_timecode, m_id, sr_num, srm_issue)
 		VALUES (#{srm_date}, #{srm_timecode}, #{m_id}, #{sr_num}, #{srm_issue})
 	</insert>
+	
+	<select id="loadPgTimecode" parameterType="PgMember" resultType="PgMember">
+		SELECT pgm_timecode FROM tbl_pg_member WHERE pgm_date=#{pgm_date} AND pg_num=#{pg_num}
+	</select>
+	
+	<select id="loadSrTimecode" parameterType="SrMember" resultType="SrMember">
+		SELECT pgm_timecode FROM tbl_sr_member WHERE srm_date=#{srm_date} AND sr_num=#{sr_num}
+	</select>
+	
 	
 	<select id="aticketList" parameterType="SearchCriteria" resultType="FoodMember">
 		select f.f_title, f.f_selldate, f.f_point, count(fm.f_num) as fm_sellcount 
@@ -165,5 +173,7 @@
 		from tbl_food_member fm, tbl_food f 
 		where fm.f_num=f.f_num and fm.fm_isuse != 'return'; 
 	</select>
+	
+	
   
   </mapper>

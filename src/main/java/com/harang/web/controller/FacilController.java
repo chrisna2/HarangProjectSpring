@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -442,4 +443,61 @@ public class FacilController {
 			
 			return "redirect:/facil/facilities_main";
 		}
+		
+		//****************************************************************
+		// 사용자 운동장 예약 / 메인.
+		@RequestMapping(value="/FacilPGreserv")
+		public ModelAndView userPgMain(){
+			ModelAndView mav = new ModelAndView("/facil/facilities_playground");
+			mav.addObject("ajaxtypelist",facilService.schPgTypeAjax());
+			return mav;
+		}
+		
+		// 사용자 운동장 예약 / 예약 셀렉트문[facil type] 불러오기..
+		@ResponseBody
+		@RequestMapping(value="/FacilPgNameAjax")
+		public List<PlaygroundDTO> userPgNameAjax(HttpServletRequest req) throws UnsupportedEncodingException{
+				String pg_type = URLDecoder.decode(req.getParameter("pg_type"), "UTF-8");
+				List<PlaygroundDTO> list = facilService.schPgNameAjax(pg_type);
+				return list;
+		}
+		
+		// [Ajax]사용자 운동장 예약 / 예약  [facil name] 불러오기.
+		@ResponseBody
+		@RequestMapping(value="/FacilPgNumAjax")
+		public List<PlaygroundDTO> userPgNumAjax(HttpServletRequest req) throws UnsupportedEncodingException{
+				String pg_type = URLDecoder.decode(req.getParameter("pg_type"), "UTF-8");
+				String pg_name = URLDecoder.decode(req.getParameter("pg_name"), "UTF-8");
+				
+				PlaygroundDTO pgdto = new PlaygroundDTO();
+				pgdto.setPg_type(pg_type);
+				pgdto.setPg_name(pg_name);
+				
+				List<PlaygroundDTO> list = facilService.schPgNumAjax(pgdto);
+				
+				return list;
+		}
+		
+		// [Ajax] 사용자 운동장 예약 / Front의 Date값과 위에서 구한 facil_num과 type으로 timecode출력. 
+		@ResponseBody
+		@RequestMapping(value="/FacilPgTimecodeAjax")
+		public PgMemberDTO userPgList(HttpServletRequest req, PgMemberDTO pgmdto) throws UnsupportedEncodingException{
+
+			String timecode = facilService.loadPgTimecodeAjax(pgmdto);
+			pgmdto.setPgm_timecode(timecode);
+		
+			return pgmdto;
+		}
+		
+		// 사용자 운동장 예약 / 예약
+		@RequestMapping(value="/FacilPgReser")
+		public ModelAndView userPgReser(PgMemberDTO pgdto){
+			ModelAndView mav = new ModelAndView();
+			
+			return mav;
+		}
+		
+		//****************************************************************
+		// 사용자 스터디룸 예약 / 메인.
+
 }

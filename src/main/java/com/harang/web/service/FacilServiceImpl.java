@@ -1,5 +1,6 @@
 package com.harang.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,6 @@ import com.harang.web.repository.FacilDao;
 @Service
 public class FacilServiceImpl implements FacilService {
 
-	
 	@Autowired
 	private FacilDao facilDao;
 	
@@ -211,5 +211,44 @@ public class FacilServiceImpl implements FacilService {
 	@Override
 	public void facilSrDel(String sr_num) {
 		facilDao.facilSrDel(sr_num);
+	}
+
+	@Override
+	public String loadPgTimecodeAjax(PgMemberDTO pgmdto) {
+		
+		List<PgMemberDTO> list = facilDao.loadPgTimecodeAjax(pgmdto);
+		System.out.println("1112222222222222222222");
+		
+		for(int i =0 ; i<list.size(); i++){
+			String a = list.get(i).getPgm_timecode();
+			System.out.println("Service에서의 타임코드는 : " + a);
+		}
+		
+		ArrayList getTimecode = new ArrayList();
+		
+		String result = null;
+		long basic = 10000000000000L;
+		
+		for(int i = 0; i<list.size(); i++){
+			getTimecode.add(list.get(i).getPgm_timecode());
+			
+			
+			for(int j = 0; j<getTimecode.size(); j++){
+				String cutA = getTimecode.get(i).toString().substring(1);
+				long b = Long.parseLong(cutA);
+				basic += b;
+			}
+			
+			String a = Long.toString(basic);
+			result = a.substring(1);
+			System.out.println(result);
+		}
+		return result;
+	}
+
+	@Override
+	public List<SrMemberDTO> loadSrTimecodeAjax(SrMemberDTO srmdto) {
+		List<SrMemberDTO> list = facilDao.loadSrTimecodeAjax(srmdto);
+		return list;
 	}
 }
