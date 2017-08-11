@@ -38,6 +38,9 @@
 		<typeAlias type="com.harang.web.domain.StudyroomDTO" alias="Studyroom"/>
 		<typeAlias type="com.harang.web.domain.WarningDTO" alias="Warning"/>
 		<typeAlias type="com.harang.web.domain.ZipDTO" alias="zip"/>
+		
+		<typeAlias type="com.harang.web.domain.ImDTO" alias="Im"/>
+		<typeAlias type="com.harang.web.domain.Im2DTO" alias="Im2"/>
 	</typeAliases>
 	<!-- DB 드라이버 설정도 root-context.xml에서 한다 (Spring사용) -->
  	<!-- SQL맵퍼의 작업의 경로는 이제 root-context.xml파일에서 설정한다. -->

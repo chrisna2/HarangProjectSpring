@@ -37,25 +37,27 @@
 					
 				<!-- form 시작 -->
 				<form role="form2"
-					action="/HarangProject/impage?cmd=update" method="post">
-						<input type="hidden" name="l_num" value="${read.l_num }"/>
-						<input type="hidden" name="lm_num" value="${read.lm_num }"/>
+					action="/impage/update" method="post">
+						<input type="hidden" name="l_num" value="${read3.l_num }"/>
+						<input type="hidden" name="lm_num" value="${read3.lm_num }"/>
+						<input type="hidden" name="m_id" value="${member.m_id }"/>
+			
                 <div class="box-body" >
                   <div class="input-group">
                     <span class="input-group-addon">강의명</span>
-                    <input type="text" name="l_name" value="${read.l_name }" class="form-control" >
+                    <input type="text" name="l_name" value="${read3.l_name }" class="form-control" >
                   </div>
                    <div class="input-group">
                     <span class="input-group-addon">교수명</span>
-                    <input type="text" name="l_teacher" class="form-control" value="${read.l_teacher }" >
+                    <input type="text" name="l_teacher" class="form-control" value="${read3.l_teacher }" >
                   </div>
                    <div class="input-group">
                     <span class="input-group-addon">강의평가년도</span>
-                    <input type="text" name="lm_year" class="form-control" value="${read.lm_year }" >
+                    <input type="text" name="lm_year" class="form-control" value="${read3.lm_year }" >
                   </div>
                    <div class="input-group">
                     <span class="input-group-addon">강의평가학기</span>
-                    <input type="text" class="form-control" name="lm_term" value="${read.lm_term }">
+                    <input type="text" class="form-control" name="lm_term" value="${read3.lm_term }">
                   </div>
                     <div class="input-group">
                     <span class="input-group-addon">만족도</span>
@@ -103,7 +105,7 @@
             
                    <div class="input-group">
                     <span class="input-group-addon">총평</span>
-                    <input type="text" class="form-control" value="${read.lm_comment }" name="lm_comment">
+                    <input type="text" class="form-control" value="${read3.lm_comment }" name="lm_comment">
                   </div>
                   
                  
@@ -140,7 +142,7 @@ function () {
 	
 	$("#btn1").click(
 			function(){	
-				self.location = "/HarangProject/impage?cmd=main";
+				self.location = "/impage/main";
 				
 			}
 	);

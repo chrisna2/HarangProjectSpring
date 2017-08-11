@@ -5,7 +5,7 @@
 <head>
 <script type="text/javascript">
 	alert("강의평가가 삭제되었습니다.");
-	self.location = "/HarangProject/impage?cmd=amain";
+	self.location = "/impage/amain";
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>

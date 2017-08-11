@@ -42,18 +42,18 @@
                   
                     <div class="input-group">
                     	
-                    <form action="/HarangProject/impage?cmd=amain" name="search" method="post">  
+                    <form action="/impage/amain" name="search" method="post">  
  
-                    <input type="text" name="keyword" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+                    <input type="text" name="keyword" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search" value='${keyword}'/>
                    
-                       <select class="form-control input-sm pull-right" name="keyword" style="width: 80px; heigh:30px;">
+                       <select class="form-control input-sm pull-right" name="keyfield" style="width: 80px; heigh:30px;">
                      
                        
                        		
-                       	 <option value="l_name" ${requestScope.keyfield eq 'l_name' ? 'selected' : null}> 강의명</option>
-                        <option value="l_teacher" ${requestScope.keyfield eq 'l_teacher' ? 'selected' : null}> 교수명</option>
-                        <option value="m_name" ${requestScope.keyfield eq 'm_name' ? 'selected' : null}> 작성자 </option>
-                        <option value="c_point" ${requestScope.keyfield eq 'c_point' ? 'selected' : null}> 도전 보상 </option>
+                       	 <option value="l_name" ${keyfield eq 'l_name' ? 'selected' : null}> 강의명</option>
+                        <option value="l_teacher" ${keyfield eq 'l_teacher' ? 'selected' : null}> 교수명</option>
+                        <option value="m_name" ${keyfield eq 'm_name' ? 'selected' : null}> 작성자 </option>
+                       
                     
                        
                 
@@ -88,14 +88,14 @@
                     <tbody>
                 
                      
-                      <c:choose>
-						<c:when test="${fn:length(alllist) eq 0}">
-						</c:when>
-          				<c:otherwise>
+                     
+					
+
+          				
                       <c:forEach var="all" items="${requestScope.alllist}"
-                       begin="${paging.beginPerPage}"  end="${paging.beginPerPage + paging.numPerPage -1}">
+                       >
                        <tr>
-                        <td><a href="/HarangProject/impage?cmd=adetail&lm_num=${all.lm_num}"> ${all.lm_num} </a></td>
+                        <td><a href="/impage/adetail?lm_num=${all.lm_num}"> ${all.lm_num} </a></td>
                         <td>${all.l_name }</td>
                         <td>${all.lm_star}</td>
                         <td>${all.lm_year}</td>
@@ -107,8 +107,8 @@
 					 	  
                       </tr>
                         </c:forEach>
-                        </c:otherwise>
-                   </c:choose>
+                       
+                 
                    </tbody>
                  
                   
@@ -119,19 +119,20 @@
                   </table>
                 <div class="box-footer clearfix">
                    <ul class="pagination pagination-sm no-margin pull-right">
-							<c:if test="${paging.nowBlock > 0}">
-							<li><a href="javascript:prevPage()">&laquo;</a></li>
-							</c:if>
-						  <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-                            <!-- if문 추가 : 20170615 -->
-                               <c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-                                    <li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-                               </c:if>
-                            <!-- 끝 -->
-						  </c:forEach>
-						  	<c:if test="${paging.totalBlock > paging.nowBlock +1}">
-							<li><a href="javascript:nextPage()">&raquo;</a></li>
-							</c:if>
+							<c:if test="${pageMaker.prev}">
+										<li><a
+											href="/impage/amain${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+									</c:if>
+									<c:forEach begin="${pageMaker.startPage}"
+										end="${pageMaker.endPage}" var="idx">
+										<li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+											<a href="/impage/amain?page=${idx}"> ${idx} </a>
+										</li>
+									</c:forEach>
+									<c:if test="${pageMaker.next && pageMaker.endPage>0}">
+										<li><a
+											href="/impage/amain${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+									</c:if>
 						</ul>
                 </div><!-- /.box-body -->
                 </div><!-- /.box-body -->

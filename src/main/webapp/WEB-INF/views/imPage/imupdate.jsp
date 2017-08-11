@@ -4,7 +4,7 @@
 <html>
 <script type="text/javascript">
 	alert("수강평가 수정이 완료되었습니다.");
-	self.location = "/HarangProject/impage?cmd=main";
+	self.location = "/impage/main";
 </script>
 
 <head>

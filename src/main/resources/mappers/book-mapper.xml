@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.harang.mapper.book-mapper">
+
+	
+	<select id="booklist" resultType="Book" parameterType="SearchCriteria">
+		SELECT b_num, b_name, b_writer, b_pub, b_want 
+		from tbl_book where b_choice='판매' 
+		
+		<include refid="booklist_search"></include>
+		order by b_num desc
+		limit #{pageStart}, #{perPageNum};
+	</select>
+	
+		<sql id="booklist_search">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'b_name'.toString()">
+  				and b_name like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'b_writer'.toString()">
+  				and b_writer like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'b_pub'.toString()">
+  				and b_pub like concat('%', #{keyword}, '%')
+  			</if>
+  		</if>
+  	</sql>
+  	
+  	<sql id="booklist_search2">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'b_name'.toString()">
+  				where b_name like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'b_writer'.toString()">
+  				where b_writer like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'b_pub'.toString()">
+  				where b_pub like concat('%', #{keyword}, '%')
+  			</if>
+  		</if>
+  	</sql>
+	
+	
+	
+	<!-- 전체 리스트 -->
+	<select id="bookcount" resultType="int" parameterType="SearchCriteria">
+	    select count(*)	
+		from tbl_book
+		
+		 <include refid="booklist_search2"></include>
+	</select>
+	
+
+
+
+
+
+</mapper>
