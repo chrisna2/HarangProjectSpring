@@ -453,7 +453,7 @@
 			},
 			
 			function(data) {
-				var timecode = data.responseText;
+				var timecode = data.pgm_timecode;
 				
 				alert(timecode);
 				
