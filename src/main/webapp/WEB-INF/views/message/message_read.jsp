@@ -109,7 +109,6 @@
 <%@ include file="../include/footer.jsp" %>
 <script>
 function fnList(tab){
-	alert(tab);
 	if(tab == 'INBOX'){
 		document.list.action = "/message/INBOX";
 	}else if(tab == 'SENT'){

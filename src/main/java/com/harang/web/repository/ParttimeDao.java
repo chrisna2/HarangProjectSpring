@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.harang.web.domain.D_ApplyDTO;
 import com.harang.web.domain.DaetaDTO;
+import com.harang.web.domain.DaetaReplyDTO;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.P_ApplyDTO;
 import com.harang.web.domain.ParttimeDTO;
+import com.harang.web.domain.ParttimeReplyDTO;
 import com.harang.web.domain.SearchCriteria;
 
 public interface ParttimeDao {
@@ -32,8 +34,8 @@ public interface ParttimeDao {
 	public List<D_ApplyDTO> getDaetaApplyList(String d_num);
 	public List<P_ApplyDTO> getMyParttimeApplyList(HashMap<String, Object> params);
 	public List<D_ApplyDTO> getMyDaetaApplyList(HashMap<String, Object> params);
-	public P_ApplyDTO getParttimeApply(HashMap<String, Object> params);
-	public D_ApplyDTO getDaetaApply(HashMap<String, Object> params);
+	public List<P_ApplyDTO> getParttimeApply(HashMap<String, Object> params);
+	public List<D_ApplyDTO> getDaetaApply(HashMap<String, Object> params);
 	public void updateParttimeChoice(HashMap<String, Object> params);
 	public void updateDaetaChoice(HashMap<String, Object> params);
 	public void deleteParttimeApply(HashMap<String, Object> params);
@@ -45,4 +47,10 @@ public interface ParttimeDao {
 	public List<String> getPicked(String d_num);
 	public void updateDaetaMember(D_ApplyDTO d_apply);
 	public void report(D_ApplyDTO d_apply);
+	public List<ParttimeReplyDTO> getParttimeReplyList(String p_num);
+	public List<DaetaReplyDTO> getDaetaReplyList(String d_num);
+	public void insertParttimeReply(ParttimeReplyDTO p_reply);
+	public void insertDaetaReply(DaetaReplyDTO d_reply);
+	public void deleteParttimeReply(String pr_num);
+	public void deleteDaetaReply(String dr_num);
 }

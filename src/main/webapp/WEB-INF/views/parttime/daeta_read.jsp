@@ -164,7 +164,7 @@
 	                </div>
                 
                 <!-- form 시작 -->
-                <form role="form" action="/HarangProject/parttime?cmd=DREAD" method="post">
+                <form role="form" action="/parttime/DREAD" method="post">
 	              	<input type="hidden" name="d_num" value="${info.d_num}"/>
 	              	<input type="hidden" name="warning" value="OK"/>
 	                <div class="box-body">
@@ -221,10 +221,7 @@
 								<td></td>
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${resume}" var="resume" 
-											   begin="${a_paging.beginPerPage}" 
-											   end="${a_paging.beginPerPage + a_paging.numPerPage -1}" 
-											   varStatus="status">
+									<c:forEach items="${resume}" var="resume" >   
 										<tr>
 											<td>${resume.list_num}</td>
 											<td>${resume.m_name}</td>
@@ -261,21 +258,23 @@
 					</div>
 					<!-- /.box-body -->
 					<div class="box-footer clearfix">
-						<ul class="pagination pagination-sm no-margin pull-left">
-							<c:if test="${a_paging.nowBlock > 0}">
-							<li><a href="javascript:prevPage()">&laquo;</a></li>
-							</c:if>
-						  <c:forEach var="i" begin="0" end="${a_paging.pagePerBlock-1}" step="1">
-						  	
-						  	<c:if test="${a_paging.nowBlock*a_paging.pagePerBlock+i < a_paging.totalPage}" >
-							<li><a href="javascript:goPage('${a_paging.nowBlock*a_paging.pagePerBlock+i}')">${a_paging.nowBlock*a_paging.pagePerBlock+(i+1)}</a></li>
-						  	</c:if>
-						 
-						  </c:forEach>
-						  	<c:if test="${a_paging.totalBlock > a_paging.nowBlock +1}">
-							<li><a href="javascript:nextPage()">&raquo;</a></li>
-							</c:if>
-						</ul>
+						<ul class="pagination pagination-sm no-margin pull-right">
+						<c:if test="${a_pageMaker.prev}">
+	                            <li><a href="/parttime/DREAD${a_pageMaker.makeQuery(a_pageMaker.startPage-1)}">&laquo;</a></li>
+	                    </c:if>
+	                    <c:forEach begin="${a_pageMaker.startPage}" 
+	                    		   end="${a_pageMaker.endPage}" 
+	                               var="idx">
+	                            <li value="${a_pageMaker.cri.page == idx ? 'class=active' : ''}">
+	                          		<a href="/parttime/DREAD?page=${idx}">
+	                          			${idx}
+	                        	   	</a>
+	                             </li>
+	                   	</c:forEach>
+	                    <c:if test="${a_pageMaker.next && a_pageMaker.endPage>0}">
+	                      <li><a href="/parttime/DREAD${a_pageMaker.makeQuery(a_pageMaker.endPage+1)}">&raquo;</a></li>
+	                    </c:if>
+	                    </ul>
 					</div>
                 </div>
             </c:if>   
@@ -290,7 +289,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                 	<!-- 댓글쓰기 -->
-                <form method="post" action="/HarangProject/parttime?cmd=DREAD">
+                <form method="post" action="/parttime/DREAD">
                 	<div class="input-group input-group-sm">
                 	  	<input type="hidden" name="d_num" value="${info.d_num}" id="d_num"/>
                 	  	<input type="hidden" name="comment" value="insert"/>
@@ -311,77 +310,58 @@
     </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<form name="list" method="post" action="/HarangProject/parttime">
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
-      	<input type="hidden" name="cmd" value="${tab}"/>
-      </form>
-      <form name="apply" method="post" action="/HarangProject/parttime?cmd=DAPPLY">
+	  
+      <form name="apply" method="post" action="/parttime/DAPPLY">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       </form>
-      <form name="cancel" method="post" action="/HarangProject/parttime?cmd=DREAD">
+      <form name="cancel" method="post" action="/parttime/DREAD">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       	<input type="hidden" name="cancel" value="OK"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="resume" method="post" action="/HarangProject/parttime?cmd=DRESUME">
+      <form name="resume" method="post" action="/parttime/DRESUME">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       	<input type="hidden" name="m_id" value="" id="resume_id"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-    	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
     	<input type="hidden" name="a_nowPage" value="${a_paging.nowPage}"/>
 		<input type="hidden" name="a_nowBlock" value="${a_paging.nowBlock}"/>
       </form>
-      <form name="pick" method="post" action="/HarangProject/parttime?cmd=DREAD">
+      <form name="pick" method="post" action="/parttime/DREAD">
         <input type="hidden" name="tab" value="${tab}"/>
       	<input type="hidden" name="a_nowPage" value="${a_paging.nowPage}"/>
 		<input type="hidden" name="a_nowBlock" value="${a_paging.nowBlock}"/>
-		<input type="hidden" name="nowPage" value="${nowPage}"/>
-    	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
 		<input type="hidden" name="d_num" value="${d_num}"/>
 		<input type="hidden" name="choice" value="Y"/> 
 		<input type="hidden" name="choice_id" value="" id="choice_id"/>
       </form>
-      <form name="del" method="post" action="/HarangProject/parttime?cmd=DMAIN">
+      <form name="del" method="post" action="/parttime/deleteDaeta">
         <input type="hidden" name="tab" value="${tab}"/>
       	<input type="hidden" name="delete" value="OK"/>
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       </form>
-      <form name="update" method="post" action="/HarangProject/parttime">
+      <form name="update" method="post" action="/parttime/DUPDATE">
         <input type="hidden" name="tab" value="${tab}"/>
         <input type="hidden" name="d_num" value="${info.d_num}"/>
-      	<input type="hidden" name="cmd" value="DUPDATE"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       </form>
-      <form name="myresume" method="post" action="/HarangProject/parttime">
-      	<input type="hidden" name="cmd" value="DRESUME"/>
+      <form name="myresume" method="post" action="/parttime/DRESUME">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="m_id" value="${m_id}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="success" method="post" action="/HarangProject/parttime?cmd=DREAD">
+      <form name="success" method="post" action="/parttime/DREAD">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="m_id" value="" id="success_id"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       	<input type="hidden" name="givePoint" value="OK"/>
       </form> 
-      <form name="deny" method="post" action="/HarangProject/parttime?cmd=DREAD">
+      <form name="deny" method="post" action="/parttime/DREAD">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="m_id" value="" id="deny_id"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       	<input type="hidden" name="givePoint" value="NO"/>
       </form>    
-      <form name="comdel" id="commentDel" method="post" action="/HarangProject/parttime">
-      	<input type="hidden" name="cmd" value="DREAD"/>
+      <form name="comdel" id="commentDel" method="post" action="/parttime/DREAD">
       	<input type="hidden" name="comment" value="delete"/>
       	<input type="hidden" name="dr_num" value="" id="dr_num"/>
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
@@ -392,8 +372,7 @@
 		<input type="hidden" name="nowPage" value="${nowPage}"/>
     	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       </form>
-      <form name="refresh" method="post" action="/HarangProject/parttime">
-      	<input type="hidden" name="cmd" value="DREAD"/>
+      <form name="refresh" method="post" action="/parttime/DREAD">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form> 
@@ -417,7 +396,13 @@ $(function(){
 			alert("신고 완료!");
 		});
 });
-function fnList(tab){list.submit();}
+function fnList(tab){
+	if(tab == 'MYPAGE'){
+		location.href = "/parttime/MYPAGE";
+	}else{
+		location.href = "/parttime/DMAIN";
+	}
+}
 function fnApply(){apply.submit();}
 function fnMyResume(){myresume.submit();}
 function fnUpdate(){update.submit();}
@@ -467,7 +452,7 @@ function fnPick(m_id){
 //댓글
 var d_num = $("#d_num").val();
 
-$.getJSON("/HarangProject/ajax?cmd=dReply",{d_num:d_num}, function(data){
+$.getJSON("/parttime/dReply",{d_num:d_num}, function(data){
         $("#ajax span").remove();
         $(data).each(function(index, drlist){
              $("#ajax").append(

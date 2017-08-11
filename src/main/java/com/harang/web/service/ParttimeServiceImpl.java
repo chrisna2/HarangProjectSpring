@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.harang.web.domain.D_ApplyDTO;
 import com.harang.web.domain.DaetaDTO;
+import com.harang.web.domain.DaetaReplyDTO;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.P_ApplyDTO;
 import com.harang.web.domain.ParttimeDTO;
+import com.harang.web.domain.ParttimeReplyDTO;
 import com.harang.web.domain.SearchCriteria;
 import com.harang.web.repository.ParttimeDao;
 
@@ -126,12 +128,12 @@ public class ParttimeServiceImpl implements ParttimeService {
 	}
 
 	@Override
-	public P_ApplyDTO getParttimeApply(HashMap<String, Object> params) {
+	public List<P_ApplyDTO> getParttimeApply(HashMap<String, Object> params) {
 		return parttimeDao.getParttimeApply(params);
 	}
 
 	@Override
-	public D_ApplyDTO getDaetaApply(HashMap<String, Object> params) {
+	public List<D_ApplyDTO> getDaetaApply(HashMap<String, Object> params) {
 		return parttimeDao.getDaetaApply(params);
 	}
 
@@ -188,6 +190,36 @@ public class ParttimeServiceImpl implements ParttimeService {
 	@Override
 	public void report(D_ApplyDTO d_apply) {
 		parttimeDao.report(d_apply);
+	}
+
+	@Override
+	public List<ParttimeReplyDTO> getParttimeReplyList(String p_num) {
+		return parttimeDao.getParttimeReplyList(p_num);
+	}
+
+	@Override
+	public List<DaetaReplyDTO> getDaetaReplyList(String d_num) {
+		return parttimeDao.getDaetaReplyList(d_num);
+	}
+
+	@Override
+	public void insertParttimeReply(ParttimeReplyDTO p_reply) {
+		parttimeDao.insertParttimeReply(p_reply);
+	}
+
+	@Override
+	public void insertDaetaReply(DaetaReplyDTO d_reply) {
+		parttimeDao.insertDaetaReply(d_reply);
+	}
+
+	@Override
+	public void deleteParttimeReply(String pr_num) {
+		parttimeDao.deleteParttimeReply(pr_num);
+	}
+
+	@Override
+	public void deleteDaetaReply(String dr_num) {
+		parttimeDao.deleteDaetaReply(dr_num);
 	}
 
 }
