@@ -11,11 +11,14 @@ import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 
 public interface FacilDao {
-	public List<PgMemberDTO> ReserPgListAll();
-	public List<SrMemberDTO> ReserSrListAll();
+	public List<PgMemberDTO> reserPgListAll();
+	public List<SrMemberDTO> reserSrListAll();
 
-	public List<PgMemberDTO> ReserPgList(String m_id);
-	public List<SrMemberDTO> ReserSrList(String m_id);
+	public List<PgMemberDTO> reserPgList(String m_id);
+	public List<SrMemberDTO> reserSrList(String m_id);
+	
+	public void userReserPg(PgMemberDTO pgmdto);
+	public void userReserSr(SrMemberDTO srmdto);
 	
 	public List<PgMemberDTO> schedulePgListLoad();
 	public List<SrMemberDTO> scheduleSrListLoad();
@@ -27,6 +30,7 @@ public interface FacilDao {
 	public List<StudyroomDTO> schduleTypeSrLoadAjax();
 	
 	public List<PlaygroundDTO> schduleNamePgLoadAjax(String pg_type);
+	//public List<PlaygroundDTO> testchduleNamePgLoadAjax(PlaygroundDTO pgdto);
 	public List<StudyroomDTO> schduleNameSrLoadAjax(String sr_type);
 	
 	public List<PlaygroundDTO> loadPgList();

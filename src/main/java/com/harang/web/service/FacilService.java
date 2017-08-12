@@ -27,6 +27,7 @@ public interface FacilService {
 	public List<ScheduleDTO> scheduleToSr();
 	
 	public List<PlaygroundDTO> schPgNameAjax(String pg_type);
+	//public List<PlaygroundDTO> testschPgNameAjax(PlaygroundDTO pgdto);
 	public List<StudyroomDTO> schSrNameAjax(String sr_type);
 	
 	public List<PlaygroundDTO> schPgTypeAjax();
@@ -36,7 +37,7 @@ public interface FacilService {
 	public List<StudyroomDTO> schSrNumAjax(StudyroomDTO srdto);
 	
 	public String loadPgTimecodeAjax(PgMemberDTO pgmdto);
-	public List<SrMemberDTO> loadSrTimecodeAjax(SrMemberDTO srmdto);
+	public String loadSrTimecodeAjax(SrMemberDTO srmdto);
 	
 	public void facilPgAdd(PlaygroundDTO pgdto);
 	public void facilSrAdd(StudyroomDTO srdto);
@@ -49,6 +50,9 @@ public interface FacilService {
 	
 	public void schPgAdd(PgMemberDTO pgmdto);
 	public void schSrAdd(SrMemberDTO srmdto);
+	
+	public void userReserPg(PgMemberDTO pgmdto);
+	public void userReserSr(SrMemberDTO srmdto);
 	
 	public void selectReserPg();
 	public void selectReserSr();

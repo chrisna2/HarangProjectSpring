@@ -16,7 +16,7 @@
 <c:if test="${tradecheck eq 'overpoint'}">
     <script type="text/javascript">
     alert("입력 포인트가 보유 포인트를 초과 합니다.");
-    location.href = "/HarangProject/facil?cmd=FacilSRreserv";
+    location.href = "/facil/FacilPGreserv";
     </script>
 </c:if>    
 </head>
@@ -94,7 +94,7 @@
 
 										<option>시설을 선택하세요.</option>
 
-										<c:forEach items="${srlist}" var="s">
+										<c:forEach items="${ajaxtypelist}" var="s">
 											<option value="${s.sr_type}">${s.sr_type}</option>
 										</c:forEach>
 									</select>
@@ -250,7 +250,7 @@
 					<!-- 최종결제 box-body -->
 					<!-- <form method="post" action="/HarangProject/facil?cmd=FacilSRreserv"> -->
 
-					<form method="post" action="/HarangProject/facil?cmd=FacilSRreserv">
+					<form method="post" action="/facil/FacilSrReser">
 						<div class="box-body ">
 							<div class="row ">
 								<!-- 사용 시간 -->
@@ -260,8 +260,7 @@
 										type="hidden" id="ssrm_date" name="ssrm_date" /> <input
 										type="hidden" id="ssr_num" name="ssr_num" /> <input
 										type="hidden" id="ssrm_timecode" name="ssrm_timecode" /> <input
-										type="hidden" id="minuspoint" name="minuspoint"> <input
-										type="hidden" name="checkout" value="yes" />
+										type="hidden" id="minuspoint" name="minuspoint">
 								</div>
 								<!-- 보유 포인트 -->
 								<div class="col-md-3">
@@ -371,7 +370,7 @@
 
 		var wsr_type = document.getElementById('sr_type').value;
 
-		$.getJSON("/HarangProject/ajax?cmd=selectSr", {
+		$.getJSON("/facil/FacilSrNameAjax", {
 			sr_type : encodeURIComponent(wsr_type)
 		}, function(data) {
 			$("#sr_name option").remove();
@@ -393,7 +392,7 @@
 
 		$
 				.getJSON(
-						"/HarangProject/ajax?cmd=selectSr",
+						"/facil/FacilSrNumAjax",
 						{
 							sr_type : encodeURIComponent(varsr_type),
 							sr_name : encodeURIComponent(varsr_name),
@@ -432,37 +431,31 @@
 		// 디버깅용.	
 		//alert(vardate2 + "," + varsr_type + "," + varsr_num);
 
-		$.getJSON("/HarangProject/ajax?cmd=selectSr", {
+		$.getJSON("/facil/FacilSrTimecodeAjax", {
 			sr_type : encodeURIComponent(varsr_type),
 			sr_num : encodeURIComponent(varsr_num),
 			srm_date : vardate2,
-			check : 2
 		},
 
 		function(data) {
-			$(data).each(
-					function(index, srlist) {
-						var timecode = srlist.srm_timecode;
-						$("#reser02").slideUp();
-						$("#reser02").slideDown();
+			var timecode = data.pgm_timecode;
+			$("#reser02").slideUp();
+			$("#reser02").slideDown();
 
-						//타임코드 버튼 초기화.
-						for (i = 0; i < 13; i++) {
-							$("#l" + i).attr("class", "btn btn-primary");
+			//타임코드 버튼 초기화.
+			for (i = 0; i < 13; i++) {
+				$("#l" + i).attr("class", "btn btn-primary")
+						   .removeAttr("disabled");
+			}
 
-						}
+			var arraytimecode = timecode.split("");
+			for (i = 0; i < 13; i++) {
+				if (arraytimecode[i] == 1) {
+					$("#l" + i).attr("class", "btn btn-danger")
+							.attr("disabled", "disabled");
 
-						var arraytimecode = timecode.split("");
-						for (i = 0; i < 13; i++) {
-							if (arraytimecode[i] == 1) {
-								$("#l" + i).attr("class", "btn btn-danger")
-										.attr("disabled", "disabled");
-
-							}
-						}
-
-					});
-
+				}
+			}
 		});
 
 	}

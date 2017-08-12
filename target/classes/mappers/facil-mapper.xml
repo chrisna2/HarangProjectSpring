@@ -49,11 +49,11 @@
 	</select>
 	
 	<select id="schPgTypeAjax" resultType="Playground">
-		SELECT * FROM tbl_playground GROUP BY pg_type
+		SELECT pg_type FROM tbl_playground GROUP BY pg_type
 	</select>
 	
 	<select id="schSrTypeAjax" resultType="Studyroom">
-		SELECT * FROM tbl_studyroom GROUP BY sr_type
+		SELECT sr_type FROM tbl_studyroom GROUP BY sr_type
 	</select>
 	
 	<select id="scheduleToPg" resultType="Schedure">
@@ -65,9 +65,19 @@
 	</select>
 	
 	<select id="schPgNameAjax" resultType="Playground">
-		SELECT pg_name, pg_num, pg_content, pg_point FROM  tbl_playground WHERE pg_type=#{pg_type}
+		SELECT pg_name, pg_num, pg_content, pg_point FROM tbl_playground WHERE pg_type=#{pg_type}
 	</select>
 	
+	<insert id="reserPgComplate" parameterType="Playground">
+		INSERT INTO tbl_pg_member (pgm_date, pgm_timecode, m_id, pg_num, pgm_issue, pgm_num)
+		VALUES (#{pgm_date}, #{pgm_timecode}, #{m_id}, #{pg_num}, '학생예약', '')
+	</insert>
+	
+	<insert id="reserSrComplate" parameterType="Studyroom">
+		INSERT INTO tbl_sr_member (srm_date, srm_timecode, m_id, sr_num, srm_issue, srm_num)
+		VALUES (#{srm_date}, #{srm_timecode}, #{m_id}, #{sr_num}, '학생예약', '')
+	</insert>
+		
 	<!-- 파라미터값은 동일하기때문에 생략. -->
 	<select id="schSrNameAjax" resultType="Studyroom">
 		SELECT sr_name, sr_num, sr_content, sr_point FROM  tbl_studyroom WHERE sr_type=#{sr_type}
@@ -118,8 +128,8 @@
 		DELETE FROM tbl_playground WHERE pg_num=#{pg_num}
 	</delete>
 	
-	<delete id="facilSrDel" parameterType="String">
-		DELETE FROM tbl_studyroom WHERE sr_num='sr000000019'
+	<delete id="facilSrDel" parameterType="Studyroom">
+		DELETE FROM tbl_studyroom WHERE sr_num=#{sr_num}
 	</delete>
 	
 	<insert id="aFacilPgAdd" parameterType="PgMember">
@@ -137,7 +147,7 @@
 	</select>
 	
 	<select id="loadSrTimecode" parameterType="SrMember" resultType="SrMember">
-		SELECT pgm_timecode FROM tbl_sr_member WHERE srm_date=#{srm_date} AND sr_num=#{sr_num}
+		SELECT srm_timecode FROM tbl_sr_member WHERE srm_date=#{srm_date} AND sr_num=#{sr_num}
 	</select>
 	
 	
