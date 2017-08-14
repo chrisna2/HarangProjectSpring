@@ -113,40 +113,31 @@
 
 						<!-- 셀렉트  -->
 
-						<form action="/HarangProject/facil?cmd=AFacilAddDel" name="search" method="post">
+						<form action="/facil/AFacilAddDel" name="pgsearch" method="post">
 							<div class="row">
-								<div class="col-md-3" align="center">
-									<select 
-										class="form-control input-sm pull-left"
-										style="width: 150px"
-										name="keyword">
-										
-										
-										
-										
-										 <option value="pg_num" ${requestScope.keyfield eq 'pg_num' ? 'selected' : null}> 시설 번호</option>
-                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null}> 시설명</option>
-                        <option value="pg_type" ${requestScope.keyfield eq 'pg_type' ? 'selected' : null}> 호수 </option>
-       
-										
-										
-									
-										
-									</select>
-								</div>
-								
-								<div class="col-md-3" align="center">
-									<input type="text" 
-										   name="keyfield"
-										   class="form-control input-sm  pull-left" 
-										   style="width: 150px;"
-										   placeholder="Search" />
-									<div class="input-group-btn  pull-left">
-										<button
-											type="submit" 
-											class="btn btn-sm btn-primary">
-											검색 <i class="fa fa-search"></i>
-										</button>
+								<div class="input-group">
+									<div class="col-md-3" align="center">
+										<select name="keyfield"
+											class="form-control input-sm pull-left" style="width: 150px;">
+											<option value="pg_num"
+												${keyfield eq 'pg_num' ? 'selected' : null }>예약번호</option>
+											<option value="pg_type"
+												${keyfield eq 'pg_type' ? 'selected' : null }>시설명</option>
+											<option value="pg_name"
+												${keyfield eq 'pg_name' ? 'selected' : null }>호수</option>
+										</select>
+									</div>
+
+									<div class="col-md-3" align="center">
+										<input type="text" name="keyword"
+											   class="form-control input-sm  pull-left"
+											   style="width: 150px;" 
+											   placeholder="Search" />
+										<div class="input-group-btn  pull-left">
+											<button class="btn btn-sm btn-primary">
+												검색 <i class="fa fa-search"></i>
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -231,37 +222,31 @@
 
 						<!-- 셀렉트  -->
 
-						<form action="/HarangProject/facil?cmd=AFacilAddDel" name="search" method="post">
+						<form action="/facil/AFacilAddDel" name="srsearch" method="post">
 							<div class="row">
-								<div class="col-md-3" align="center">
-									<select 
-										class="form-control input-sm pull-left"
-										style="width: 150px"
-										name="keyword">
-										
-										
-											 <option value="pg_num" ${requestScope.keyfield eq 'pg_num' ? 'selected' : null}> 시설 번호</option>
-                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null}> 시설명</option>
-                        <option value="pg_type" ${requestScope.keyfield eq 'pg_type' ? 'selected' : null}> 호수 </option>
-										
-										
-									
-										
-									</select>
-								</div>
-								
-								<div class="col-md-3" align="center">
-									<input type="text" 
-										   name="keyfield"
-										   class="form-control input-sm  pull-left" 
-										   style="width: 150px;"
-										   placeholder="Search" />
-									<div class="input-group-btn  pull-left">
-										<button
-											type="submit" 
-											class="btn btn-sm btn-primary">
-											검색 <i class="fa fa-search"></i>
-										</button>
+								<div class="input-group">
+									<div class="col-md-3" align="center">
+										<select name="keyfield"
+											class="form-control input-sm pull-left" style="width: 150px;">
+											<option value="sr_num"
+												${keyfield eq 'sr_num' ? 'selected' : null }>예약번호</option>
+											<option value="sr_type"
+												${keyfield eq 'sr_type' ? 'selected' : null }>시설명</option>
+											<option value="sr_name"
+												${keyfield eq 'sr_name' ? 'selected' : null }>호수</option>
+										</select>
+									</div>
+
+									<div class="col-md-3" align="center">
+										<input type="text" name="keyword"
+											   class="form-control input-sm  pull-left"
+											   style="width: 150px;" 
+											   placeholder="Search" />
+										<div class="input-group-btn  pull-left">
+											<button class="btn btn-sm btn-primary">
+												검색 <i class="fa fa-search"></i>
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
 import com.harang.web.domain.ScheduleDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 import com.harang.web.repository.FacilDao;
@@ -35,10 +36,11 @@ public class FacilServiceImpl implements FacilService {
 	
 	// 운동장 예약 목록 불러오기 / m_id로 검색.
 	@Override
-	public List<PgMemberDTO> loadPgReserList(String m_id) {
-		List<PgMemberDTO> list = facilDao.reserPgList(m_id);
+	public List<PgMemberDTO> loadPgReserList(SearchCriteria cri) {
+
+		List<PgMemberDTO> list = facilDao.reserPgList(cri);
 		
-		// Timecode를  불러와서 계산하는 과정. 
+				// Timecode를  불러와서 계산하는 과정. 
 		for(int i = 0;  i< list.size() ; i++){
 			int count = 0;
 			String timecode = list.get(i).getPgm_timecode();
@@ -57,8 +59,8 @@ public class FacilServiceImpl implements FacilService {
 
 	// 스터디룸 예약 목록 불러오기 / m_id로 검색.
 	@Override
-	public List<SrMemberDTO> loadSrReserList(String m_id) {
-		List<SrMemberDTO> list = facilDao.reserSrList(m_id); 
+	public List<SrMemberDTO> loadSrReserList(SearchCriteria cri) {
+		List<SrMemberDTO> list = facilDao.reserSrList(cri); 
 		
 		for(int i = 0;  i< list.size() ; i++){
 			int count = 0;
@@ -175,13 +177,13 @@ public class FacilServiceImpl implements FacilService {
 	}
 
 	@Override
-	public List<PlaygroundDTO> loadPgList() {
-		return facilDao.loadPgList();
+	public List<PlaygroundDTO> loadPgList(SearchCriteria cri) {
+		return facilDao.loadPgList(cri);
 	}
 
 	@Override
-	public List<StudyroomDTO> loadSrList() {
-		return facilDao.loadSrList();
+	public List<StudyroomDTO> loadSrList(SearchCriteria cri) {
+		return facilDao.loadSrList(cri);
 	}
 
 	@Override

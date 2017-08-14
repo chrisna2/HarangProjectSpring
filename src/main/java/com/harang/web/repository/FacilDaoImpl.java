@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
 import com.harang.web.domain.ScheduleDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 
@@ -35,15 +36,15 @@ public class FacilDaoImpl implements FacilDao {
 	}
 
 	@Override
-	public List<PgMemberDTO> reserPgList(String m_id) {
-		List list = sqlSession.selectList(namespace + ".ReserPgList", m_id);
+	public List<PgMemberDTO> reserPgList(SearchCriteria cri) {
+		List list = sqlSession.selectList(namespace + ".ReserPgList", cri);
 		return list;
 	}
 
 	@Override
-	public List<SrMemberDTO> reserSrList(String m_id) {
+	public List<SrMemberDTO> reserSrList(SearchCriteria cri) {
 		
-		List list = sqlSession.selectList(namespace + ".ReserSrList", m_id);
+		List list = sqlSession.selectList(namespace + ".ReserSrList", cri);
 		return list;
 	}
 
@@ -168,14 +169,14 @@ public class FacilDaoImpl implements FacilDao {
 	}
 
 	@Override
-	public List<PlaygroundDTO> loadPgList() {
-		List list = sqlSession.selectList(namespace + ".loadPgList");
+	public List<PlaygroundDTO> loadPgList(SearchCriteria cri) {
+		List list = sqlSession.selectList(namespace + ".loadPgList", cri);
 		return list;
 	}
 
 	@Override
-	public List<StudyroomDTO> loadSrList() {
-		List list = sqlSession.selectList(namespace + ".loadSrList");
+	public List<StudyroomDTO> loadSrList(SearchCriteria cri) {
+		List list = sqlSession.selectList(namespace + ".loadSrList", cri);
 		return list;
 	}
 

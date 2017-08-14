@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,21 +18,32 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 import com.harang.web.service.FacilService;
+import com.harang.web.service.PointService;
 import com.harang.web.utill.LoginBean;
+import com.harang.web.utill.PageMaker;
 
 @Controller
 @RequestMapping("/facil")
 public class FacilController {
 
+	static final String FACIL_ADMIN = "admin03";
+	
 	@Autowired
 	private FacilService facilService;
+	
+	@Autowired
+	private PointService pointService;
+	
+	private PageMaker pageMaker;
 
+	// 사용자 메인 / 전체 불러오기
 	// 사용자 예약 내역 확인 페이지(Main) > 내역을 불러온다.
 	@RequestMapping(value = "/FacilMain", method = RequestMethod.GET)
-	public ModelAndView mainLoadList(HttpServletRequest req) {
+	public ModelAndView mainLoadList(SearchCriteria cri, HttpServletRequest req) {
 
 		// 로그인 빈을 통해서 ID 검
 		LoginBean login = new LoginBean();
@@ -39,11 +51,43 @@ public class FacilController {
 		// 리퀘스트로 접속자 정보를 가져옴
 		MemberDTO member = login.getLoginInfo(req);
 		String m_id = member.getM_id();
+		
+		cri.setM_id(m_id);
 
 		ModelAndView mav = new ModelAndView("/facil/facilities_main");
 
-		mav.addObject("pgmlist", facilService.loadPgReserList(m_id));
-		mav.addObject("srmlist", facilService.loadSrReserList(m_id));
+		mav.addObject("pgmlist", facilService.loadPgReserList(cri));
+		mav.addObject("srmlist", facilService.loadSrReserList(cri));
+
+		return mav;
+	}
+	
+	// 검색을 위한 Post page
+	@RequestMapping(value = "/FacilMain", method = RequestMethod.POST)
+	public ModelAndView mainSerchLoadList(SearchCriteria cri, HttpServletRequest req) {
+
+		// 로그인 빈을 통해서 ID 검
+		LoginBean login = new LoginBean();
+
+		// 리퀘스트로 접속자 정보를 가져옴
+		MemberDTO member = login.getLoginInfo(req);
+		
+		String m_id = member.getM_id();
+		// id를 받아오는 다른 방법.
+		//MemberDTO mdto  = (MemberDTO)session.getAttribute("member"); 
+		
+		// cri에 id값 입력.
+		cri.setM_id(m_id);
+		
+		System.out.println(cri.getKeyfield());
+		System.out.println(cri.getKeyword());
+		
+		pageMaker = new PageMaker();
+		
+		ModelAndView mav = new ModelAndView("/facil/facilities_main");
+		
+		mav.addObject("pgmlist", facilService.loadPgReserList(cri));
+		mav.addObject("srmlist", facilService.loadSrReserList(cri));
 
 		return mav;
 	}
@@ -108,11 +152,25 @@ public class FacilController {
 	// ******************************* 시설 추가
 	// ************************************
 	// 시설 추가,수정,삭제 / 메인
-	@RequestMapping(value = "/AFacilAddDel")
-	public ModelAndView aFacilAddDelLoadList(HttpServletRequest req) {
+	@RequestMapping(value = "/AFacilAddDel", method = RequestMethod.GET)
+	public ModelAndView aFacilAddDelLoadList(HttpServletRequest req, SearchCriteria cri) {
 		ModelAndView mav = new ModelAndView("/facil/a_facilities_adddel");
-		mav.addObject("srlist", facilService.loadSrList());
-		mav.addObject("pglist", facilService.loadPgList());
+		mav.addObject("srlist", facilService.loadSrList(cri));
+		mav.addObject("pglist", facilService.loadPgList(cri));
+
+		return mav;
+	}
+	
+	// 검색을 위한 POST방식 접
+	@RequestMapping(value = "/AFacilAddDel", method = RequestMethod.POST)
+	public ModelAndView aFacilAddDelSearchLoadList(HttpServletRequest req, SearchCriteria cri) {
+		
+		System.out.println(cri.getKeyfield());
+		System.out.println(cri.getKeyword());
+		
+		ModelAndView mav = new ModelAndView("/facil/a_facilities_adddel");
+		mav.addObject("srlist", facilService.loadSrList(cri));
+		mav.addObject("pglist", facilService.loadPgList(cri));
 
 		return mav;
 	}
@@ -402,23 +460,8 @@ public class FacilController {
 
 	// ****************************[사용자]**********************************
 
-	// 사용자 메인 / 전체 불러오기
-	@RequestMapping(value = "/FacilMain")
-	public ModelAndView facilLoadList(HttpServletRequest req) {
-		// 로그인 빈을 통해서 ID 검
-		LoginBean login = new LoginBean();
 
-		// 리퀘스트로 접속자 정보를 가져옴
-		MemberDTO member = login.getLoginInfo(req);
-		String m_id = member.getM_id();
 
-		ModelAndView mav = new ModelAndView("/facil/facilities_main");
-
-		mav.addObject("pgmlist", facilService.loadPgReserList(m_id));
-		mav.addObject("srmlist", facilService.loadSrReserList(m_id));
-
-		return mav;
-	}
 
 	// 사용자메인 / 예약 취소
 	@RequestMapping(value = "/FacilMainDel")
@@ -579,8 +622,8 @@ public class FacilController {
 		String m_id = member.getM_id();
 
 		// 포인트 차감을 위한 reques 나중에 수정해줄것!
-		req.getParameter("minuspoint");
-
+		long minusPoint =Long.parseLong(req.getParameter("minuspoint"));
+		
 		// JSP 설계 실수로 이렇게 받아서 진행한다.. ㅠ
 		srmdto.setM_id(m_id);
 		srmdto.setSr_num(req.getParameter("ssr_num"));
@@ -588,7 +631,9 @@ public class FacilController {
 		srmdto.setSrm_date(req.getParameter("ssrm_date"));
 
 		facilService.userReserSr(srmdto);
-
+		
+		String r_content = m_id + "님이 " +  minusPoint +"를 사용하셨습니다.";
+		
 		// 결제가 성공적으로 이뤄졌다 포인트 연계후 if으로 나눌것.
 		req.setAttribute("tradecheck", "complete");
 

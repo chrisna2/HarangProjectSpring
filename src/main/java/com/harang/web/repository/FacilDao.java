@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
 import com.harang.web.domain.ScheduleDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 
@@ -14,8 +15,8 @@ public interface FacilDao {
 	public List<PgMemberDTO> reserPgListAll();
 	public List<SrMemberDTO> reserSrListAll();
 
-	public List<PgMemberDTO> reserPgList(String m_id);
-	public List<SrMemberDTO> reserSrList(String m_id);
+	public List<PgMemberDTO> reserPgList(SearchCriteria cri);
+	public List<SrMemberDTO> reserSrList(SearchCriteria cri);
 	
 	public void userReserPg(PgMemberDTO pgmdto);
 	public void userReserSr(SrMemberDTO srmdto);
@@ -33,8 +34,8 @@ public interface FacilDao {
 	//public List<PlaygroundDTO> testchduleNamePgLoadAjax(PlaygroundDTO pgdto);
 	public List<StudyroomDTO> schduleNameSrLoadAjax(String sr_type);
 	
-	public List<PlaygroundDTO> loadPgList();
-	public List<StudyroomDTO> loadSrList();
+	public List<PlaygroundDTO> loadPgList(SearchCriteria cri);
+	public List<StudyroomDTO> loadSrList(SearchCriteria cri);
 	
 	public List<PlaygroundDTO> schdulePgNumAjax(PlaygroundDTO pgdto);
 	public List<StudyroomDTO> schduleSrNumAjax(StudyroomDTO srdto);

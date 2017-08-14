@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
 import com.harang.web.domain.ScheduleDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 
@@ -14,11 +15,11 @@ public interface FacilService {
 	public List<PgMemberDTO> loadPgReserListAll();
 	public List<SrMemberDTO> loadSrReserListAll();
 	
-	public List<PlaygroundDTO> loadPgList();
-	public List<StudyroomDTO> loadSrList();
+	public List<PlaygroundDTO> loadPgList(SearchCriteria cri);
+	public List<StudyroomDTO> loadSrList(SearchCriteria cri);
 	
-	public List<PgMemberDTO> loadPgReserList(String m_id);
-	public List<SrMemberDTO> loadSrReserList(String m_id);
+	public List<PgMemberDTO> loadPgReserList(SearchCriteria cri);
+	public List<SrMemberDTO> loadSrReserList(SearchCriteria cri);
 	
 	public List<PgMemberDTO> schedulePgList();
 	public List<SrMemberDTO> scheduleSrList();
