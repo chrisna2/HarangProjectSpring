@@ -49,6 +49,8 @@ public interface MyPageDao {
 	public List<MemberDTO> memberList(SearchCriteria cri);
 	public MemberDTO memberData(String m_id);
 	public int memberListCount(SearchCriteria cri);
+	public String newMemberNum(String num4);
+	public int addMemberInsert(MemberDTO member);
 	
 	//내 정보 수정
 	public void updateMyinfo(MemberDTO member);
@@ -62,6 +64,16 @@ public interface MyPageDao {
 	public int lessonCount(SearchCriteria cri);
 	public String enrollCheck(LessonDTO lesson);
 	public String deleteCheck(LessonDTO lesson);
+	public List<LessonDTO> aLessonList(SearchCriteria cri);
+	public int aLessonListCount(SearchCriteria cri);
+	public int aLessonUpdateCell(LessonDTO lesson);
+	public int aLessonDelete(LessonDTO lesson);
+	public int aLessonInsert(LessonDTO lesson);
+	public List<LessonDTO> l_roomList();
+	public List<LessonDTO> l_deptList();
+	public List<LessonDTO> l_teacherList();
+	public List<LessonDTO> findTimetableRoom(LessonDTO lesson);
+	public List<LessonDTO> findTimetableTeacher(LessonDTO lesson);
 	
 	
 }

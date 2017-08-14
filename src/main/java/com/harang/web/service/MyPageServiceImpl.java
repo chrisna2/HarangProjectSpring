@@ -162,6 +162,52 @@ public class MyPageServiceImpl implements MyPageService {
 		return myPageDao.enrollCheck(lesson);
 	}
 	
+	//[시간표] 수업 등록 
+	@Override
+	public List<LessonDTO> aLessonList(SearchCriteria cri) {
+		return myPageDao.aLessonList(cri);
+	}
+	@Override
+	public int aLessonListCount(SearchCriteria cri) {
+		return myPageDao.aLessonListCount(cri);
+	}
+	@Override
+	public int aLessonUpdateCell(LessonDTO lesson) {
+		return myPageDao.aLessonUpdateCell(lesson);
+	}
+	@Override
+	public int aLessonDelete(LessonDTO lesson) {
+		return myPageDao.aLessonDelete(lesson);
+	}
+	@Override
+	public int aLessonInsert(LessonDTO lesson) {
+		return myPageDao.aLessonInsert(lesson);
+	}
+	@Override
+	public List<LessonDTO> l_roomList() {
+		return myPageDao.l_roomList();
+	}
+	@Override
+	public List<LessonDTO> l_deptList() {
+		return myPageDao.l_deptList();
+	}
+	@Override
+	public List<LessonDTO> l_teacherList() {
+		return myPageDao.l_teacherList();
+	}
+	@Override
+	public List<LessonDTO> findTimetableRoom(LessonDTO lesson) {
+		return myPageDao.findTimetableRoom(lesson);
+	}
+	@Override
+	public List<LessonDTO> findTimetableTeacher(LessonDTO lesson) {
+		return myPageDao.findTimetableTeacher(lesson);
+	}
+
+
+	
+	
+	//회원 관련
 	@Override
 	public List<MemberDTO> userList() {
 		return myPageDao.userList();
@@ -178,6 +224,13 @@ public class MyPageServiceImpl implements MyPageService {
 	public MemberDTO memberData(String m_id) {
 		return myPageDao.memberData(m_id);
 	}
-
+	@Override
+	public String newMemberNum(String num4) {
+		return myPageDao.newMemberNum(num4);
+	}
+	@Override
+	public int addMemberInsert(MemberDTO member) {
+		return myPageDao.addMemberInsert(member);
+	}
 
 }

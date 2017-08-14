@@ -3,6 +3,7 @@ package com.harang.web.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -159,14 +160,70 @@ public class MyPageController {
     	
     	return mav;
     }
+  
+    
+    @RequestMapping(value = "/Anewmem",method = RequestMethod.POST)
+    public ModelAndView newMember(){
+    	
+    	mav = new ModelAndView("myPage/a_newMember");
+    	
+    	return mav;
+    }
+    
+    @RequestMapping(value = "/addMember",method = RequestMethod.POST)
+    public ModelAndView addMemberInsert(HttpServletRequest request, HttpServletResponse response){
+    	
+    	
+    	MemberDTO member = new MemberDTO();
+    	
+    	member.setM_id(request.getParameter("m_id"));
+    	member.setM_name(request.getParameter("m_name"));
+    	member.setM_dept(request.getParameter("m_dept"));
+    	member.setM_birth(request.getParameter("m_birth"));
+    	member.setM_pw(request.getParameter("m_birth"));
+    	
+    	int result = myPageService.addMemberInsert(member);
+    	
+    	System.out.println(result);
+
+    	String msg = "error";
+    	
+    	if(1 == result){
+    		msg = "complete";
+    	}
+    	
+    	mav = new ModelAndView("myPage/a_memResult");
+    	
+    	mav.addObject("msg", msg);
+    	
+    	return mav;
+    }
+    
+    @RequestMapping(value = "/membernum")
+    public @ResponseBody String newMemberNum(String num4){
+    	
+    	System.out.println(num4);
+    	
+    	String num3 = myPageService.newMemberNum(num4);
+    	String num5 = num3.substring(6, 9);
+    	int num6 = Integer.parseInt(num5)+1000+1;
+    	String num7 = Integer.toString(num6);
+    	String num8 = num7.substring(1);
+    	
+    	System.out.println(num8);
+    	
+    	return num8;
+    }
     
     @RequestMapping(value = "/userData")
     public @ResponseBody MemberDTO getUserData(String m_id){
     	
-    	return myPageService.memberData(m_id);
+    	MemberDTO member = myPageService.memberData(m_id);
+    	
+    	System.out.println(member.toString());
+    	
+    	return member;
 	}
-	
-	
 	
 	
 	@RequestMapping(value="/pointList",method = RequestMethod.GET)
@@ -224,6 +281,7 @@ public class MyPageController {
 		
 		return mav;
 	}
+	
 	@RequestMapping(value="/ApointCheck",method = RequestMethod.POST)
 	public ModelAndView aPointListPost(SearchCriteria cri){
 		
@@ -256,10 +314,9 @@ public class MyPageController {
 		mav.addObject("pageMaker", pageMaker);
 		mav.addObject("check", myPageService.pointPersonInfo(check_id));
 		
-		
-		
 		return mav;
 	}
+	
 	@RequestMapping(value="/Applist",method = RequestMethod.POST)
 	public ModelAndView aPersonalPointListPost(String check_id, SearchCriteria cri){
 		
@@ -410,37 +467,161 @@ public class MyPageController {
 		return mav;
 	}
 	
-/*	
-
-	@RequestMapping(value="/timeTable/refreshLesson")
-	public @ResponseBody List<LessonDTO> lessonList(HttpServletRequest request) throws UnsupportedEncodingException{
+	
+	@RequestMapping(value="/aLessonList",method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> aLessonListJson(@RequestParam(value = "page", required=false) int page,
+													    	@RequestParam(value = "rows", required=false) int rows,
+													    	@RequestParam(value = "sidx", required=false) String sidx,
+													    	@RequestParam(value = "sord", required=false) String sord,
+													    	@RequestParam(value = "searchField", required=false) String searchField,
+													        @RequestParam(value = "searchString", required=false) String searchString) throws JsonProcessingException{
+															//무조건 이 방식대로 가야 함...써글. jqgrid 내장 함수 명임
 		
+		//SearchCriteria 사용 가능!!!
 		SearchCriteria cri = new SearchCriteria();
+		cri.setPage(page); // page : 현재 보이는 페이지
+		cri.setPerPageNum(rows); //rows : 페이지 당 등록된 줄의 숫자
+		cri.setKeyfield(searchField);
+		cri.setKeyword(searchString);
 		
-		cri.setKeyfield(request.getParameter("keyfield"));
-		cri.setKeyword(URLDecoder.decode(request.getParameter("keyword"), "UTF-8" ));
-		cri.setTt_grade(Integer.parseInt(request.getParameter("tt_grade")));
-		cri.setTt_term(Integer.parseInt(request.getParameter("tt_term")));
-		cri.setM_id(request.getParameter("m_id"));
+		List<LessonDTO> list = myPageService.aLessonList(cri);
 		
-		return myPageService.lessonList(cri);
+		//페이징..
+		int totCount = myPageService.aLessonListCount(cri);
+		double totalPage = (double)totCount/rows;
+		
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		modelMap.put("total",(int)Math.ceil(totalPage));
+		modelMap.put("record",totCount);
+		modelMap.put("page", page);
+		modelMap.put("rows", list);
+		
+		return modelMap;
 		
 	}
 		
-	@RequestMapping(value="/timeTable/refreshTimetable")
-	public @ResponseBody List<LessonDTO> timeTableList(HttpServletRequest request){
-						
-		SearchCriteria cri = new SearchCriteria();
+	@RequestMapping(value="/aLessonListEdit",method = RequestMethod.POST)
+	public @ResponseBody String aLessonListEdit(HttpServletRequest request, HttpServletResponse response){
 		
-		cri.setTt_grade(Integer.parseInt(request.getParameter("tt_grade")));
-		cri.setTt_term(Integer.parseInt(request.getParameter("tt_term")));
-		cri.setM_id(request.getParameter("m_id"));
+		String oper = request.getParameter("oper");
 		
-		System.out.println(cri.getTt_grade()+"/"+cri.getTt_grade()+"/"+cri.getM_id());
-
-		return myPageService.timeTalbeLesson(cri);
+		LessonDTO lesson = new LessonDTO();
+		
+		lesson.setCellName(request.getParameter("cellName"));
+		String cellValue = request.getParameter("cellValue");//의미 없음...
+		lesson.setL_num(request.getParameter("id"));
+		lesson.setL_name(request.getParameter("l_name"));
+		lesson.setL_ismust(request.getParameter("l_ismust"));
+		lesson.setL_dept(request.getParameter("l_dept"));
+		lesson.setL_teacher(request.getParameter("l_teacher"));
+		lesson.setL_room(request.getParameter("l_room"));
+		lesson.setL_time(request.getParameter("l_time"));
+		lesson.setL_day(request.getParameter("l_day"));
+		lesson.setL_grade(request.getParameter("l_grade"));
+		lesson.setL_term(request.getParameter("l_term"));
+		if(null == request.getParameter("l_credit")||"".equals(request.getParameter("l_credit"))){
+			lesson.setL_credit(0);
+		}
+		else{
+			lesson.setL_credit(Integer.parseInt(request.getParameter("l_credit")));
+		}
+		
+		int check = 0;
+		
+		if("add".equals(oper)){
+			check = myPageService.aLessonInsert(lesson);
+		}
+		else if("edit".equals(oper)){
+			check = myPageService.aLessonUpdateCell(lesson);
+		}
+		else if("del".equals(oper)){
+			check = myPageService.aLessonDelete(lesson);
+		}
+		else{
+			check = 0;
+		}
+		
+		String result = null;
+		if(check == 1){
+			result="success";
+		}else{
+			result="fail";
+		}
+		
+		return result;
 	}
-*/
+	
+	@RequestMapping(value="/Anewlesson",method = RequestMethod.POST)
+	public ModelAndView aNewLesson(){
+		
+		mav = new ModelAndView("myPage/a_lessonplus");
+		
+		mav.addObject("dlist", myPageService.l_deptList());
+		mav.addObject("tlist", myPageService.l_teacherList());
+		mav.addObject("rlist", myPageService.l_roomList());
+		
+		return mav;
+				
+	}
+	
+	@RequestMapping(value="/findtt")
+	public @ResponseBody List<LessonDTO> findTimetable(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+		
+		LessonDTO lesson = new LessonDTO();
+		
+		String check  = request.getParameter("check");
+		lesson.setL_term(request.getParameter("l_term"));
+		
+		List<LessonDTO> list = new ArrayList<>();
+		
+		if("room".equals(check)){
+			
+			lesson.setL_room(URLDecoder.decode(request.getParameter("l_room"), "UTF-8"));
+			list = myPageService.findTimetableRoom(lesson);
+			
+		}
+		else if("teacher".equals(check)){
+			
+			lesson.setL_teacher(URLDecoder.decode(request.getParameter("l_teacher"), "UTF-8"));
+			list =  myPageService.findTimetableTeacher(lesson);
+		}
+		
+		return list;
+		
+	}
+	
+	
+	@RequestMapping(value="/Alesson",method = RequestMethod.GET)
+	public ModelAndView alessonGet(){
+		
+		mav = new ModelAndView("myPage/a_lessonList");
+		
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/aLessonPlus",method = RequestMethod.POST)
+	public ModelAndView aLessonPlus(LessonDTO lesson){
+		
+		int check = myPageService.aLessonInsert(lesson);
+		
+		String result = "";
+		
+		if(check == 1){
+			result = "insert_complete";
+		}
+		else{
+			result = "insert_fail";
+		}
+		
+		mav = new ModelAndView("myPage/a_lessonList");
+		
+		mav.addObject("result", result);
+		
+		return mav;
+		
+	}
 	
 	/**
 	 * 시간표 등록 ajax 등록..
@@ -610,7 +791,7 @@ public class MyPageController {
 			
 			//이슈 1] 어떻게 result 값을 jsp페이지 밖으로 리보내줄까? -> 해결 
 			//이슈 2] 업데이트, 삭제에 필요한 pk 값은 어떻게 받아와야 하나? //해결.. 했는데.. 꺼림찍 -> 해결 
-			//이슈 3] 입력이 완료되고 자동 생성된 pk 값을 어떻게 받아 올까? (트리거로 생성된 값) || JQGRID에 입력후 새로고침을 AJAX안에서 어떻게 실행 할까?
+			//이슈 3] 입력이 완료되고 자동 생성된 pk 값을 어떻게 받아 올까? (트리거로 생성된 값) || JQGRID에 입력후 새로고침을 AJAX안에서 어떻게 실행 할까? -> 미해결
 			
 		}
 		else if("edit".equals(oper)){
@@ -755,15 +936,6 @@ public class MyPageController {
 			myPageService.uchallenge_rechallenge(certi);
 			mav.addObject("msg", "rechallenge_success");
 		}
-		
-		return mav;
-	}
-	
-	
-	@RequestMapping(value="/Alesson",method = RequestMethod.GET)
-	public ModelAndView alessonGet(){
-		
-		mav = new ModelAndView("myPage/a_lessonList");
 		
 		return mav;
 	}

@@ -283,6 +283,51 @@ public class MyPageDaoImpl implements MyPageDao {
 			return "evaluated"; 
 		}
 	}
+	//[관리자] 시간표 수업 등록 및 수정
+	@Override
+	public List<LessonDTO> aLessonList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".aLessonList", cri);
+	}
+	@Override
+	public int aLessonListCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".aLessonListCount", cri);
+	}
+	@Override
+	public int aLessonUpdateCell(LessonDTO lesson) {
+		System.out.println(lesson.toString());
+		return sqlSession.update(namespace+".aLessonUpdateCell", lesson);
+	}
+	@Override
+	public int aLessonDelete(LessonDTO lesson) {
+		return sqlSession.delete(namespace+".aLessonDelete", lesson);
+	}
+	@Override
+	public int aLessonInsert(LessonDTO lesson) {
+		return sqlSession.insert(namespace+".aLessonInsert", lesson);
+	}
+	@Override
+	public List<LessonDTO> l_roomList() {
+		return sqlSession.selectList(namespace+".l_roomList");
+	}
+	@Override
+	public List<LessonDTO> l_deptList() {
+		return sqlSession.selectList(namespace+".l_deptList");
+	}
+	@Override
+	public List<LessonDTO> l_teacherList() {
+		return sqlSession.selectList(namespace+".l_teacherList");
+	}
+	@Override
+	public List<LessonDTO> findTimetableRoom(LessonDTO lesson) {
+		return sqlSession.selectList(namespace+".findTimetableRoom", lesson);
+	}
+	@Override
+	public List<LessonDTO> findTimetableTeacher(LessonDTO lesson) {
+		return sqlSession.selectList(namespace+".findTimetableTeacher", lesson);
+	}
+	
+	
+	
 	@Override
 	public List<MemberDTO> userList() {
 		return sqlSession.selectList(namespace+".userList");
@@ -298,5 +343,13 @@ public class MyPageDaoImpl implements MyPageDao {
 	@Override
 	public MemberDTO memberData(String m_id) {
 		return sqlSession.selectOne(namespace+".memberData", m_id);
+	}
+	@Override
+	public String newMemberNum(String num4) {
+		return sqlSession.selectOne(namespace+".newMemberNum", num4);
+	}
+	@Override
+	public int addMemberInsert(MemberDTO member) {
+		return sqlSession.insert(namespace+".addMemberInsert", member);
 	}
 }

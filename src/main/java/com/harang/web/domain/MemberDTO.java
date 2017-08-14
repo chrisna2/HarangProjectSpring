@@ -2,6 +2,14 @@ package com.harang.web.domain;
 
 public class MemberDTO {
 
+	@Override
+	public String toString() {
+		return "MemberDTO [m_id=" + m_id + ", m_dept=" + m_dept + ", m_regdate=" + m_regdate + ", m_pw=" + m_pw
+				+ ", m_grade=" + m_grade + ", m_name=" + m_name + ", m_birth=" + m_birth + ", m_mail=" + m_mail
+				+ ", m_photo=" + m_photo + ", m_addr=" + m_addr + ", m_tel=" + m_tel + ", m_fee=" + m_fee + ", m_point="
+				+ m_point + ", m_age=" + m_age + ", m_maxnum=" + m_maxnum + ", enabled=" + enabled + "]";
+	}
+	
 	private String m_id;
 	private String m_dept;
 	private String m_regdate;

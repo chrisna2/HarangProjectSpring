@@ -26,7 +26,14 @@
     <script type="text/javascript">
     alert("해당 수업이 수정 실패 했습니다.");
     </script>
-</c:if>   
+</c:if> 
+<!-- jqgrid CSS 파일 링크 -->
+<!-- 테마 css -->
+	<link rel="stylesheet" type="text/css" media="screen" href="../resources/plugins/jQueryUI/themes/cupertino/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="../resources/plugins/jqgrid/css/ui.jqgrid.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="../resources/plugins/jqgrid/css/ui.jqgrid-bootstrap-ui.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="../resources/plugins/jqgrid/css/ui.jqgrid-bootstrap.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="../resources/plugins/jqgrid/src/css/ui.multiselect.css" />
 </head>
 	  <!-- 메인 페이지 구역 , 즉 작업 구역 -->
       <div class="content-wrapper">
@@ -36,7 +43,7 @@
              	수업 등록 수정
           </h1>
          <br>
-         <form name="newlesson" action="/HarangProject/myPage?cmd=Anewlesson" method="post">
+         <form name="newlesson" action="/myPage/Anewlesson" method="post">
             <input type="submit" class="btn btn-success col-md-9 col-xs-9" value="수업 신규 등록">
          </form>
          <br>
@@ -52,134 +59,17 @@
         <section class="content">
           <!-- 세로 길이 수정 -->
           <div class="row">
-           <!-- 너비 사이즈 수정  : col-->
            <div class="col-md-9">
-            <!-- 리스트 사용시  -->
-             <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">수업 목록</h3>
-                   <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                  </div>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>수업 번호</th>
-                        <th>주요 학과</th>
-                        <th>필수 여부</th>
-                        <th>수업 명</th>
-                        <th>대상 학년</th>
-                        <th>학기</th>
-                        <th>수업 요일</th>
-                        <th>수업 시간</th>
-                        <th>교수님</th>
-                        <th>강의실</th>
-                        <th>이수 학점</th>
-                        <th>시간표 수정</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <c:choose>
-                        <c:when test="${fn:length(llist) eq 0}">
-                        </c:when>
-                        <c:otherwise>
-                        <c:forEach items="${llist}"
-                          begin="${paging.beginPerPage}" 
-                          end="${paging.beginPerPage + paging.numPerPage -1}" 
-                          varStatus="i"
-                          var="l">
-                          <tr>
-                            <td>${l.l_num}</td>
-                            <td>${l.l_dept}</td>
-                            <td>${l.l_ismust}</td>
-                            <td>${l.l_name}</td>
-                            <td>${l.l_grade}</td>
-                            <td>${l.l_term}</td>
-                            <td>${l.l_day}</td>
-                            <td>${l.l_time}</td>
-                            <td>${l.l_teacher}</td>
-                            <td>${l.l_room}</td>
-                            <td>${l.l_credit}</td>
-                            <td><input type="button" onclick="updatelesson('${l.l_num}')"  class="btn btn-primary" value="수업 수정" /></td>
-                          </tr>
-                            </c:forEach>
-                        </c:otherwise>
-                        </c:choose>
-                    </tbody>
-                  </table>
-                </div><!-- /.box-body -->
-                 <div class="box-footer clearfix">
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                            <c:if test="${paging.nowBlock > 0}">
-                            <li><a href="javascript:prevPage()">&laquo;</a></li>
-                            </c:if>
-                          <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-                            <!-- if문 추가 : 20170615 -->
-                               <c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-                                    <li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-                               </c:if>
-                            <!-- 끝 -->
-                          </c:forEach>
-                            <c:if test="${paging.totalBlock > paging.nowBlock +1}">
-                            <li><a href="javascript:nextPage()">&raquo;</a></li>
-                            </c:if>
-                        </ul>
-                    <!-- 검색 폼 -->    
-                    <form name="search" method="post" action="/HarangProject/myPage?cmd=Alesson">
-                      <div class="input-group">
-                          <input type="hidden" name="grade" value="${grade}"/>
-                          <input type="hidden" name="term" value="${term}"/>
-                          <input type="hidden" name='check' value="search">
-                          <select name="keyfield" class="form-control input-sm pull-left" style="width: 150px;">
-                            <option value="l_num" ${keyfield eq 'l_num' ? 'selected' : null }>수업 번호</option>
-                            <option value="l_dept" ${keyfield eq 'l_dept' ? 'selected' : null }>주요 학과</option>
-                            <option value="l_ismust" ${keyfield eq 'l_ismust' ? 'selected' : null }>필수 여부</option>
-                            <option value="l_name" ${keyfield eq 'l_name' ? 'selected' : null }>수업명</option>
-                            <option value="l_grade" ${keyfield eq 'l_grade' ? 'selected' : null }>대상 학년</option>
-                            <option value="l_day" ${keyfield eq 'l_day' ? 'selected' : null }>수업 요일</option>
-                            <option value="l_time" ${keyfield eq 'l_time' ? 'selected' : null }>수업 시간</option>
-                            <option value="l_teacher" ${keyfield eq 'l_teacher' ? 'selected' : null }>교수님</option>
-                            <option value="l_room" ${keyfield eq 'l_room' ? 'selected' : null }>강의실</option>
-                            <option value="l_credit" ${keyfield eq 'l_credit' ? 'selected' : null }>이수 학점</option>
-                          </select>
-                          <input type="text" name="keyword" class="form-control input-sm  pull-left" style="width: 150px;" value="${keyword}"/>
-                         <div class="input-group-btn  pull-left">
-                            <button type="submit" class="btn btn-sm btn-primary"> 검색 <i class="fa fa-search"></i></button>
-                         </div>
-                      </div>
-                    </form>
-                </div>
-              </div><!-- /.box -->
+		          
+		      <!-- jqgrid 사용  -->
+		      <table id="gridList"></table>
+		      <div id="gridPager"></div>
 		          
               </div><!-- /.col -->
            </div><!-- /.row -->
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-      <!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/myPage?cmd=Alesson">
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
-    <input type="hidden" name="keyword" value="${keyword}"/>
-    <input type="hidden" name="keyfield" value="${keyfield}"/>
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/HarangProject/myPage?cmd=Alesson">
-    <input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
-    <input type="hidden" name="keyword" value="${keyword}"/>
-    <input type="hidden" name="keyfield" value="${keyfield}"/>
-</form>
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post" action="/HarangProject/myPage?cmd=Alesson">
-    <input type="hidden" name="nowPage" value="" id="page"/>
-    <input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-    <input type="hidden" name="keyword" value="${keyword}"/>
-    <input type="hidden" name="keyfield" value="${keyfield}"/>
-</form>
 <!-- 수업 수정 : 수업 시간 수정 -->
 <form id="update" name="update" method="post" action="/HarangProject/myPage?cmd=Aupdatelesson">
     <input type="hidden" name="l_num" value=""> 
@@ -187,6 +77,10 @@
       
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+<script src="../resources/plugins/jQueryUI/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../resources/plugins/jqgrid/js/i18n/grid.locale-kr.js" type="text/javascript"></script>
+<script src="../resources/plugins/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
 <script>
 //페이징
 function prevPage() {
@@ -200,11 +94,98 @@ function goPage(nowPage) {
     document.getElementById("goPage").submit();
 }
 function updatelesson(l_num) {
-
 	update.l_num.value = l_num;
-    //alert(update.l_num.value);
     update.submit();
-	
 }
+
+
+$().ready(function (){
+	$("#gridList")
+	.jqGrid({
+	        url:'/myPage/aLessonList',
+	        datatype: "json",
+	        mtype:'POST',
+	        //로딩중일때 출력시킬 로딩내용
+	        loadtext : '로딩중..',
+	        colNames:['수업 번호','주요 학과', '필수', '수업명', '학년', '학기', '요일', '시간', '교수님', '강의실', '학점', ''],
+	        colModel:[
+	                {name:'l_num', index:'l_num', key:true, editable:false, width:120}, //primary key가 되는 부분에 설정해 줘야함
+	                {name:'l_dept', index:'l_dept', editable:true, edittype:"select", editoptions:{value:"국어국문학과:국어국문학과;컴퓨터공학과:컴퓨터공학과;산업디자인학과:산업디자인학과;수학과:수학과;경영학과:경영학과;교양학과:교양학과"}, width:150},
+	                {name:'l_ismust', index:'l_ismust', editable:true, edittype:"select", editoptions:{value:"필수:필수;선택:선택"}, width:70},
+	                {name:'l_name', index:'l_name', editable:true, edittype:"text", width:150},
+	                {name:'l_grade', index:'l_grade', editable:true, edittype:"select", editoptions:{value:"1:1;2:2;3:3;4:4"}, width:50},
+	                {name:'l_term', index:'l_term', editable:true, edittype:"select", editoptions:{value:"1:1;2:2"}, width:50},
+	                {name:'l_day', index:'l_day', editable:true, edittype:"select", editoptions:{value:"월:월;화:화;수:수;목:목;금:금"}, width:50},
+	                {name:'l_time', index:'l_time', editable:true, edittype:"text", width:50},
+	                {name:'l_teacher', index:'l_teacher', editable:true, edittype:"text", width:70},
+	                {name:'l_room', index:'l_room', editable:true, edittype:"text", width:150},
+	                {name:'l_credit', index:'l_credit', editable:true, edittype:"text", width:50},
+	                {name:'myac', search:false, formatter:'actions', formatoptions:{keys:true}, width:100},
+	        ],
+	        //한 페이지에서 보여줄 데이터 갯수
+	        rowNum:20,
+	        autowidth: true,
+	        rowList:[20,30,40,50],
+	        pager: $('#gridPager'),
+	        sortname: 'l_num',
+	        width:'100%',
+	        height: '100%',
+	        multiselect: true,
+		    viewrecords: true,
+		    sortorder: "desc",
+	    	caption:"수업 목록 수정",
+	    	refresh:true,
+	    	editurl:"/myPage/aLessonListEdit",
+	    	afterSubmit : function(res){ 
+	    		
+	    	//이미 JSON 처리된 데이터는 parseJSON 안해 줘도 됨
+	        	alert(res.responseText);
+	        	// 변경 후
+	           	var aResult = res.responseText;
+	        	var userMsg = "수정시 오류가 발생 했습니다.";
+	        	
+	        	if((aResult == "success")){
+	        		userMsg = "수정되었습니다.";
+	        	}
+	        	
+	        	return [(aResult == "success") ? true : false, userMsg];
+
+	    	}, 
+	    	//하나의 샐 만 수정 할 경우 : 새로운 방식
+	    	//이슈 1] 새로 만든 키 값같은 경우는 입력하고 바로 나타 나지 않는다.
+	    	cellEdit:true,
+	    	cellsubmit:'remote',
+	        cellurl:'/myPage/aLessonListEdit',
+	      	beforeSubmitCell : function(rowid, cellname, value) {   // submit 전
+	            return {"id":rowid, "cellName":cellname, "cellValue":value}
+	        },
+	        afterSubmitCell : function(res) {   
+	        	//이미 JSON 처리된 데이터는 parseJSON 안해 줘도 됨
+	        	//alert(res.responseText);
+	        	// 변경 후
+	           	var aResult = res.responseText;
+	        	var userMsg = "수정시 오류가 발생 했습니다.";
+	        	
+	        	if((aResult == "success")){
+	        		userMsg = "수정되었습니다.";
+	        	}
+	        	
+	        	return [(aResult == "success") ? true : false, userMsg];
+
+	       }
+	})
+	.jqGrid('navButtonAdd','#gridPager',
+			{caption:"Excel",onClickButton: function(){$("#gridList").jqGrid('excelExport',{url:'/myPage/specList/excel'})} //엑셀 출력기능(아직 미구현)
+	})
+	.jqGrid('navGrid','#gridPager',
+			{excel:true,edit:true,view:true,del:true,search:true,refresh:true},
+			{closeAfterAdd:true,reloadAfterSubmit:false,closeOnEscape:true},
+			{reloadAfterSubmit:false,closeOnEscape:true},
+			{multipleSearch:true,multipleGroup:true, showQuery:true, closeOnEscape:true, onSearch:function(){}},
+			{closeOnEscape:true});
+	//.jqGrid('filterToolbar',{stringResult:true, searchOnEnter:true, defaultSearch:"cn"}); //검색 필터링 가능
+});
+
+
 
 </script>

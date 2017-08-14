@@ -56,10 +56,6 @@
   		select m_name, m_point, m_id from tbl_member where m_id = #{m_id}
   	</select>
   	
-  	
-  	
-  	
-  	
   	<!-- [mypage] 스펙 리스트 출력 -->
 	<select id="specListMember" parameterType="SearchCriteria" resultType="CertiMember">
 		select c.c_num, c.c_name, c.c_agency, c.c_point, cm.cm_iscomplete, cm.cm_completedate, cm.cm_regda1te, cm.cm_image 
@@ -338,6 +334,122 @@
   		select tt_iscomplete from tbl_timetable where m_id = #{m_id} and l_num = #{l_num} and tt_grade = #{tt_grade}
   	</select>
   	
+  	<!-- [관리자] 수업 목록 출력 / jqgrid -->
+  	<select id="aLessonList" resultType="Lesson"  parameterType="SearchCriteria">
+  		SELECT l_num,l_time,l_day,l_name,l_teacher,l_grade,l_term,l_credit,l_room,l_ismust,l_dept 
+  		from tbl_lesson 
+  		<include refid="alesson_search"></include>
+  		limit #{pageStart}, #{perPageNum} 
+  	</select>
+  	<!-- [관리자] 수업 목록 페이징 출력  / jqgrid -->
+  	<select id="aLessonListCount" resultType="int" parameterType="SearchCriteria">
+  		SELECT count(*)  
+  		from tbl_lesson 
+  		<include refid="alesson_search"></include>
+  	</select>
+  	<!-- [관리자] 수업목록 검색 트리  / jqgrid  -->
+  	<sql id="alesson_search">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'l_dept'.toString()">
+  				where l_dept like concat('%', #{keyword}, '%')  
+  			</if>
+  			<if test="keyfield == 'l_ismust'.toString()">
+  				where l_ismust like concat('%', #{keyword}, '%')  
+  			</if>
+  			<if test="keyfield == 'l_name'.toString()">
+  				where l_name like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_grade'.toString()">
+  				where l_grade like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_time'.toString()">
+  				where l_time like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_teacher'.toString()">
+  				where l_teacher like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_room'.toString()">
+  				where l_room like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 'l_credit'.toString()">
+  				where l_credit like concat('%', #{keyword}, '%') 
+  			</if>
+  		</if>
+  	</sql>	
+  	<!-- [관리자] 수업목록 수정 트리 셀  / jqgrid  -->
+  	<update id="aLessonUpdateCell" parameterType="Lesson">
+  		update tbl_lesson set 
+  		<if test="cellName != null"> 
+	  		<if test="cellName == 'l_name'.toString()">
+	  			l_name=#{l_name} 
+	  		</if>
+	  		<if test="cellName == 'l_ismust'.toString()">
+	  			l_ismust=#{l_ismust} 
+	  		</if>
+	  		<if test="cellName == 'l_dept'.toString()">
+	  			l_dept=#{l_dept} 
+	  		</if>
+	  		<if test="cellName == 'l_grade'.toString()">
+	  			l_grade=#{l_grade} 
+	  		</if>
+	  		<if test="cellName == 'l_term'.toString()">
+	  			l_term=#{l_term} 
+	  		</if>
+	  		<if test="cellName == 'l_day'.toString()">
+	  			l_day=#{l_day} 
+	  		</if>
+	  		<if test="cellName == 'l_time'.toString()">
+	  			l_time=#{l_time} 
+	  		</if>
+	  		<if test="cellName == 'l_teacher'.toString()">
+	  			l_teacher=#{l_teacher} 
+	  		</if>
+	  		<if test="cellName == 'l_room'.toString()">
+	  			l_room=#{l_room} 
+	  		</if>
+	  		<if test="cellName == 'l_credit'.toString()">
+	  			l_credit=#{l_credit} 
+	  		</if>
+	  	</if>
+	  	<if test="cellName == null">
+	  		l_name=#{l_name}, l_ismust=#{l_ismust}, l_dpet=#{l_dpet}, l_grade=#{l_grade}, l_term=#{l_term}, l_day=#{l_day}, 
+	  		l_time=#{l_time}, l_teacher=#{l_teacher}, l_room=#{l_room}, l_credit=#{l_credit} 
+	  	</if>
+  		where l_num=#{l_num}  	
+  	</update>
+  	<!-- [관리자] 수업목록 삭제  / jqgrid  -->
+  	<delete id="aLessonDelete" parameterType="Lesson">
+  		delete from tbl_lesson where l_num=#{l_num}
+  	</delete>
+  	<!-- [관리자] 수업목록 추가  / jqgrid  -->
+  	<insert id="aLessonInsert" parameterType="Lesson">
+  		insert into tbl_lesson(l_name,l_ismust,l_dept,l_grade,l_term,l_day,l_time,l_teacher,l_room,l_credit,l_num) 
+  		values (#{l_name},#{l_ismust},#{l_dept},#{l_grade},#{l_term},#{l_day},#{l_time},#{l_teacher},#{l_room},#{l_credit},'')
+  	</insert>
+  	<!-- [관리자] 수업목록 추가, 수강실목록, 교수 목록, 학과목록 추가 -->
+  	<select id="l_roomList" resultType="Lesson">
+  		select l_room from tbl_lesson group by l_room
+  	</select>
+  	<select id="l_deptList" resultType="Lesson">
+  		select l_dept from tbl_lesson group by l_dept
+  	</select>
+  	<select id="l_teacherList" resultType="Lesson">
+  		select l_teacher from tbl_lesson group by l_teacher
+  	</select>
+  	<!-- [관리자] 해당 시간표 검색 (강의실 기준) -->
+  	<select id="findTimetableRoom" parameterType="Lesson" resultType="Lesson">
+  		SELECT l_time,l_day,l_name,l_teacher,l_room,l_dept 
+		from tbl_lesson 
+		where l_room = #{l_room}
+		and l_term = #{l_term}
+  	</select>
+  	<!-- [관리자] 해당 시간표 검색 (교수 기준) -->
+  	<select id="findTimetableTeacher" parameterType="Lesson" resultType="Lesson">
+  		SELECT l_time,l_day,l_name,l_teacher,l_room,l_dept 
+		from tbl_lesson 
+		where l_teacher = #{l_teacher} 
+		and l_term = #{l_term} 
+  	</select>
   	
   	<!-- [관리자] 포인트 멤버 목록 조회 -->
   	<select id="apointMember" resultType="Member" parameterType="SearchCriteria">
@@ -413,7 +525,13 @@
   		</if>
   	</sql>
   	
+  	<select id="newMemberNum" parameterType="String" resultType="String">
+  		select max(m_id) as num3 from tbl_member where m_id like concat('%', #{num4}, '%')
+  	</select>
   	
+  	<insert id="addMemberInsert" parameterType="Member">
+  		insert into tbl_member(m_name,m_id,m_dept,m_birth,m_pw) values(#{m_name},#{m_id},#{m_dept},#{m_birth},#{m_pw})
+  	</insert>
   	
   </mapper>
     

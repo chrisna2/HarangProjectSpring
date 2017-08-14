@@ -257,8 +257,8 @@ function checkUp(idx){
     checkform.c_point.value = $("#"+idx+"c_point").text();
     checkform.cm_regdate.value = $("#"+idx+"cm_regdate").text();
     var $image = $("#"+idx+"cm_image").val();
-    $("#cm_image").attr("src", "/displayFile?fileName="+$image);
-    $("#bigImage").attr("src",  "/displayFile?fileName="+getImageLink($image));
+	$("#cm_image").attr("src", "/displayFile?fileName="+$image);
+	$("#bigImage").attr("src",  "/displayFile?fileName="+getImageLink($image));
 }
 
 	$("#check-close").click(function(){

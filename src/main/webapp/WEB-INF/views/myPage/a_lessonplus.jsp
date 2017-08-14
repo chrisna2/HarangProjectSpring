@@ -31,7 +31,7 @@
            <div class="col-md-9">
            
              <div class="box">
-                <form name="lesson" action="/HarangProject/myPage?cmd=AnewlessonUpdate" method="post">
+                <form name="lesson" action="/myPage/aLessonPlus" method="post">
                 <div class="box-header">
                     <h3 class="box-title">수업 개설</h3>
                 </div>
@@ -122,7 +122,7 @@
                     <input type="hidden" name="check" value="insert">
                     <button type="button" class="btn btn-info" onclick="tfindtt()">선생님 시간표 검색</button>
                     <button type="button" class="btn btn-info" onclick="rfindtt()">수강실 시간표 검색</button>
-                    <button type="button" class="btn btn-gray"> 취소  </button>
+                    <button type="button" class="btn btn-warning" onclick="resetTime()">시간표 리셋</button>
                     <button type="submit" class="btn btn-success"> 신규 등록  </button>
                 </div>
            </form>
@@ -259,7 +259,7 @@ function tfindtt() {
 	
 	
     $.getJSON(
-    		"/HarangProject/ajax?cmd=findtt", 
+    		"/myPage/findtt", 
     		{check:l_check,l_term:al_term,l_teacher:encodeURIComponent(al_teacher)}, 
     	    function(data) {
     			$(data).each(function(index, ttlist){
@@ -348,7 +348,7 @@ function rfindtt() {
     
     
     $.getJSON(
-            "/HarangProject/ajax?cmd=findtt", 
+            "/myPage/findtt", 
             {check:l_check,l_term:al_term,l_room:encodeURIComponent(al_room)}, 
             function(data) {
                 $(data).each(function(index, ttlist){
@@ -419,9 +419,16 @@ function rfindtt() {
                         }
                 });
     });
-
-    
 }
-
+function resetTime(){
+	 // 시간표에 해당 내용을 올리는 For문
+    for(i=1;i<=9;i++){
+    	for(j=1;j<=5;j++){
+	        $("#t"+i+" > #d"+j)
+	        .css("background","#FFFFFF")
+	        .html("");
+    	}
+    }
+}
 
 </script>

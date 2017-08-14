@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!-- daterange picker -->
-<link href="../plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
+<link href="../resources/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
 <%@ include file="../include/a_header.jsp" %>
 
 <!-- 해더  삽입  [지우지마세여]------------------------------------------------------------------------------------------------->
@@ -24,17 +24,13 @@ function checkform(){
     input.m_id.value = m_id;
     input.num4.value = num4;
 
-   
-
     return true;
     
 }
 
-
 function deptcheck(){ 
-	  i = input.num2.selectedIndex; // 선택항목의 인덱스 번호
-	
-	
+	  
+	i = input.num2.selectedIndex; // 선택항목의 인덱스 번호
 	  
       var dept= input.num2.options[i].value; // 선택항목 value
     	
@@ -42,26 +38,22 @@ function deptcheck(){
     		dept="국문학과";
     		
     	} else if(dept=="02"){
-    		dept="수학과";
+    		dept="컴퓨터공학과";
     		
     	} else if(dept=="03"){
-    		dept="컴퓨터 공학과";
+    		dept="산업디자인학과";
     		
     	} else if(dept=="04"){
-    		dept="경영학과";
+    		dept="수학과";
     		
     	} else if(dept=="05"){
-    		dept="정보통신학과";
+    		dept="경영학과";
     		
     	} 
-      
     
     	 input.m_dept.value = dept;
   
 }
-
-
-
 </script>
      <title>신입생 편입생 등록</title>
 </head>
@@ -94,13 +86,12 @@ function deptcheck(){
                 </div>
                 
                 <!-- form 시작 -->
-                <form role="form" name="input" action="/HarangProject/myPage?cmd=Anewmem" method="post" onsubmit="return checkform()">
+                <form role="form" name="input" action="/myPage/addMember" method="post" onsubmit="return checkform()">
                 
                 <div class="box-body">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-smile-o"></i> 이름</span>
                     <input type="text" name="m_name" class="form-control"   placeholder="이름">
-                    
                   </div>
                   <br>
                   <div class="input-group">
@@ -112,14 +103,15 @@ function deptcheck(){
                     </select>
                     <span class="input-group-addon"> - </span>
                     <select class="form-control"  name="num2" onchange="deptcheck()">
+                        <option selected="selected">학과를 선택해 주세요</option>
                         <option value="01" >01:국문학과</option>
-                        <option value="02" selected="selected">02:수학과</option>
-                        <option value="03" >03:컴퓨터 공학과</option>
-                        <option value="04" >04:경영학과</option>
-                        <option value="05" >05:정보통신학과</option>
+                        <option value="02" >02:컴퓨터공학과</option>
+                        <option value="03" >03:산업디자인학과</option>
+                        <option value="04" >04:수학과</option>
+                        <option value="05" >05:경영학과</option>
                     </select>
                     <span class="input-group-addon"> - </span>
-                    <input type="text" name="num3" class="form-control"   >
+                    <input type="text" name="num3" class="form-control">
                     <input type="hidden" name="m_id" value="">
                     <input type="hidden" name="num4" value="">
       
@@ -165,11 +157,7 @@ function deptcheck(){
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
  <!-- date-range-picker -->
 <%@ include file="../include/footer.jsp" %>
-    
-    <script>
-   
-    
-    
+<script>
     function idcheck(){ 
         i = input.num1.selectedIndex; // 선택항목의 인덱스 번호
         var num1= input.num1.options[i].value; // 선택항목 value
@@ -188,23 +176,14 @@ function deptcheck(){
    }
     
     function numclick() {
-   	 var num1 = input.num1.value;
+   	    var num1 = input.num1.value;
    	    var num2 = input.num2.value;
-   	  
-   	    var num4_1 = num1+""+num2;
-   	  $.getJSON("/HarangProject/ajax?cmd=membernum",
-   			  {num4:num4_1},
+   	    var num4 = num1+""+num2;
+   	  $.get("/myPage/membernum",
+   			  {num4:num4},
               function(data){  
-              $(data).each(function(index, list){
-               input.num3.value = list.m_maxnum;
-              
-           });
+   			  	//alert(data);
+              	input.num3.value = data;
        });
-   	    
-   	  
-   	
    }
-    
-   
-    
-    </script>
+</script>

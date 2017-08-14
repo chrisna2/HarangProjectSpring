@@ -212,7 +212,7 @@
         	        	//포스트 방식
             	        $("#f_num").val(calEvent.id);
             	        $("#goprint")
-            	        .attr("action", "/food/ticket_print")
+            	        .attr("action", "/food/ticketPrint")
             	        .submit();
             	    }
         	        else{

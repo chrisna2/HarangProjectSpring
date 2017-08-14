@@ -2,6 +2,15 @@ package com.harang.web.domain;
 
 public class LessonDTO {
 
+	@Override
+	public String toString() {
+		return "LessonDTO [l_num=" + l_num + ", l_time=" + l_time + ", l_day=" + l_day + ", l_name=" + l_name
+				+ ", l_teacher=" + l_teacher + ", l_dept=" + l_dept + ", l_ismust=" + l_ismust + ", l_grade=" + l_grade
+				+ ", l_term=" + l_term + ", l_credit=" + l_credit + ", l_room=" + l_room + ", m_id=" + m_id
+				+ ", tt_grade=" + tt_grade + ", tt_term=" + tt_term + ", keyword=" + keyword + ", keyfield=" + keyfield
+				+ ", cellName=" + cellName + "]";
+	}
+	
 	private String l_num;
 	private String l_time;
 	private String l_day;
@@ -18,8 +27,15 @@ public class LessonDTO {
 	private int tt_term;
 	private String keyword;
 	private String keyfield;
+	private String cellName;
 	
 
+	public String getCellName() {
+		return cellName;
+	}
+	public void setCellName(String cellName) {
+		this.cellName = cellName;
+	}
 	public String getKeyword() {
 		return keyword;
 	}
