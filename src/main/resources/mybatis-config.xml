@@ -32,7 +32,7 @@
 		<typeAlias type="com.harang.web.domain.PgMemberDTO" alias="PgMember"/>
 		<typeAlias type="com.harang.web.domain.PlaygroundDTO" alias="Playground"/>
 		<typeAlias type="com.harang.web.domain.Schedule_memberDTO" alias="Schedule_member"/>
-		<typeAlias type="com.harang.web.domain.ScheduleDTO" alias="Schedure"/>
+		<typeAlias type="com.harang.web.domain.ScheduleDTO" alias="Schedule"/>
 		<typeAlias type="com.harang.web.domain.SearchCriteria" alias="SearchCriteria"/>
 		<typeAlias type="com.harang.web.domain.SrMemberDTO" alias="SrMember"/>
 		<typeAlias type="com.harang.web.domain.StudyroomDTO" alias="Studyroom"/>

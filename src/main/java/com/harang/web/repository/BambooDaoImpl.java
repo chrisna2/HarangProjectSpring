@@ -91,6 +91,13 @@ public class BambooDaoImpl implements BambooDao {
 		sqlSession.insert(namespace + ".bbPost", bambooDTO);
 		
 	}
+	
+	@Override
+	public void abbPost(BambooDTO bambooDTO) {
+		sqlSession.insert(namespace + ".abbPost", bambooDTO);
+		
+	}
+	
 	@Override
 	public void bbrpost(BbreplyDTO bbreplyDTO) {
 		sqlSession.insert(namespace + ".bbrPost", bbreplyDTO);
@@ -121,6 +128,7 @@ public class BambooDaoImpl implements BambooDao {
 		sqlSession.delete(namespace + ".bbDLikeCancle", likeDTO);
 		
 	}
+	
 		
 	
 

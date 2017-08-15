@@ -31,7 +31,7 @@ td {
 		document.bbpost.submit()
 	}
 	///////////////// 페이지 관련 javascript function////////////////////
-	function prevPage() {
+	/* function prevPage() {
 		document.getElementById("prevPage").submit();
 	}
 	function nextPage() {
@@ -40,7 +40,7 @@ td {
 	function goPage(nowPage) {
 		document.getElementById("page").value = nowPage;
 		document.getElementById("goPage").submit();
-	}
+	} */
 	/////////////////////////////끝//////////////////////////////////
 </script>
 
@@ -52,7 +52,7 @@ td {
 	<section class="content-header">
 		<h1>
 			<a href="/bamboo/BB_LIST" style="color: black">대나무숲
-				리스트 사용자페이지</a>
+				</a>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i> 메인</a></li>
@@ -115,7 +115,7 @@ td {
 								
 
 							</form>
-							<!-- 인기글 보기를 위한 form 끝 -->
+							<!-- 글쓰기를 위한 form 끝 -->
 
 
 
@@ -251,7 +251,7 @@ td {
 
 <!-- 페이징 관련 폼 ----------------------------------------------------------------------->
 <!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/bamboo">
+<%-- <form id="prevPage" method="post" action="/HarangProject/bamboo">
 	<input type="hidden" name="cmd" value="BB_LIST" /> <input
 		type="hidden" name="nowPage"
 		value="${paging.pagePerBlock * (paging.nowBlock-1)}" /> <input
@@ -269,7 +269,7 @@ td {
 	<input type="hidden" name="cmd" value="BB_LIST" /> <input
 		type="hidden" name="nowPage" value="" id="page" /> <input
 		type="hidden" name="nowBlock" value="${paging.nowBlock}" />
-</form>
+</form> --%>
 <!-- 페이징 관련 폼 여기까지입니다. ----------------------------------------------------------------------------------- -->
 <!-- /.col -->
 

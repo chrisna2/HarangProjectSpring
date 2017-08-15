@@ -12,7 +12,7 @@
 	
 	function fnGoback(){
 		
-		document.gobocktocontent.submit();
+		document.gobacktocontent.submit();
 	}
 	
 	function fnbbp(){
@@ -68,10 +68,9 @@
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
-	<form action="/HarangProject/bamboo" name="bbpostcomplete"
+	<form action="/bamboo/BB_UPDATE" name="bbpostcomplete"
 		method="post">
-		<input type="hidden" name="cmd" value="A_BB_CONUP_COMPLETE"> <input
-			type="hidden" name="bb_num" value="${bbcon.bb_num }">
+		 <input	type="hidden" name="bb_num" value="${bbcon.bb_num }">
 		<section class="content">
 			<!-- 세로 길이 수정 -->
 			<div class="row">
@@ -91,14 +90,14 @@
 
 							<div class="form-group">
 								<label>닉네임</label> <input type="text" class="form-control"
-									value="${bbcon.bb_nickname }" name="bb_nickname" />
+									value="${bbcon.bb_nickname }" name="bb_nickname" readonly="readonly" />
 							</div>
 							
 							
 							<div class="row">
 								<div class="col-md-2 form-group">
 									<div class="checkbox">
-										<label> <input type="checkbox" name = "gongji">공지사항 등록
+										<label> <input type="checkbox" name = "bb_notice">공지사항 등록
 										</label>
 									</div>
 
@@ -146,10 +145,9 @@
 	
 	
 	<!--  대나무숲 글 수정하기 페이지에서 취소를 눌렀을 때 원래 페이지로 돌아가기 위한 폼 시작 -->
-	<form method="post" action="/HarangProject/bamboo"
+	<form method="post" action="/bamboo/BB_CON"
 		name="gobacktocontent">
-		<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-			type="hidden" name="cmd" value="U_BB_CON" />
+		<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
 
 	</form>
 	<!--  대나무숲 글 수정하기 페이지에서 취소를 눌렀을 때 원래 페이지로 돌아가기 위한 폼 끝 -->

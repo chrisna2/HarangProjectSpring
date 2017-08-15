@@ -56,11 +56,11 @@
 		SELECT * FROM tbl_studyroom GROUP BY sr_type
 	</select>
 	
-	<select id="scheduleToPg" resultType="Schedure">
+	<select id="scheduleToPg" resultType="Schedule">
 		SELECT * FROM tbl_schedule WHERE s_location LIKE '%운동장%'
 	</select>
 	
-	<select id="scheduleToSr" resultType="Schedure">
+	<select id="scheduleToSr" resultType="Schedule">
 		SELECT * FROM tbl_schedule WHERE s_location LIKE '%스터디룸%'
 	</select>
 	

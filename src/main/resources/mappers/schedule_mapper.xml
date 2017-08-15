@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.harang.mapper.schedule-mapper">
+
+	<select id="schList" parameterType="SearchCriteria" resultType="Schedule">
+
+		select s_num, s_grade, s_ispoint, s_title, s_content, s_dstart,
+		s_dend, s_dept, s_location,
+		s_rstart, s_rend from tbl_schedule where
+		<include refid="search"></include>
+		(s_grade like concat('%', #{m_grade}, '%') or s_grade = '1234')
+		and (s_dept = '전체' or s_dept = #{s_dept}) order by s_dstart
+
+
+	</select>
+
+
+	<sql id="search">
+		<if test="keyword == null">
+			
+		</if>
+		<if test="keyword != null">
+			#{keyfield} like concat('%', #{keyword}, '%') and
+		</if>
+
+	</sql>
+
+
+
+</mapper>

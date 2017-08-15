@@ -258,13 +258,13 @@
               </a>
             </li>
             <li>
-              <a href="/schedule/A_SCH_LIST">
+              <a href="/schedule/SCH_LIST">
                 <i class="fa fa-calendar"></i>
                 <span>학사 일정 관리</span>
               </a>
             </li>
             <li>
-              <a href="/bamboo/A_BB_LIST">
+              <a href="/bamboo/BB_LIST">
                 <i class="fa fa-group"></i><span>하랑 대나무 숲 관리</span>
               </a>
             </li>

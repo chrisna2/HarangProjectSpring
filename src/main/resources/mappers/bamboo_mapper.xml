@@ -92,6 +92,23 @@
   	
   	</insert>
   	
+  	<insert id="abbPost" parameterType="Bamboo">
+  	
+  		insert into tbl_bamboo (m_id, bb_notice, bb_title, bb_content, bb_count, bb_nickname, bb_num) values (#{m_id},
+  		<include refid="bb_notice"></include>,#{bb_title},#{bb_content},0,#{bb_nickname},'')
+  	
+  	</insert>
+  	
+  	<sql id="bb_notice">
+  		<if test="bb_notice == null"> 'N' </if>
+  		<if test="bb_notice != null"> 'Y' </if>
+  		
+  	</sql>	
+  	
+  	
+  	
+  	
+  	
   	<delete id="bbDelete" parameterType="String" >
   	
   		delete from harang.tbl_bamboo where bb_num = #{bb_num}
@@ -100,7 +117,7 @@
   	
   	<update id = "bbUpdate" parameterType="Bamboo">
   	
-		update tbl_bamboo set bb_title = #{bb_title}, bb_nickname = #{bb_nickname}, bb_content = #{bb_content} where bb_num = #{bb_num} 
+		update tbl_bamboo set bb_notice = <include refid="bb_notice"></include> , bb_title = #{bb_title}, bb_nickname = #{bb_nickname}, bb_content = #{bb_content} where bb_num = #{bb_num} 
   		
   	</update>  
   	

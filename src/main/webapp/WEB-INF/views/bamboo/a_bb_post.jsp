@@ -39,6 +39,7 @@ function fnbbp(){
 	
 	
 	else {
+		
 		document.bbpostcomplete.submit();
 					
 	}
@@ -69,8 +70,8 @@ function fnbbp(){
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
-	<form action="/HarangProject/bamboo" name="bbpostcomplete" method="post">
-		<input type = "hidden" name="cmd" value="A_BB_POST_COMPLETE">
+	<form action="/bamboo/BB_POST" name="bbpostcomplete" method="post">
+	<input type = "hidden" name = "m_id" value = "${sessionScope.admin.m_id }">
 		<section class="content">
 			<!-- 세로 길이 수정 -->
 			<div class="row">
@@ -98,7 +99,7 @@ function fnbbp(){
 							<div class="row">
 								<div class="col-md-2 form-group">
 									<div class="checkbox">
-										<label> <input type="checkbox" name = "gongji">공지사항 등록
+										<label> <input type="checkbox" name = "bb_notice">공지사항 등록
 										</label>
 									</div>
 
@@ -130,7 +131,7 @@ function fnbbp(){
 							</div>
 							<div class="col-md-2">
 								<a class="btn btn-block btn-danger"
-									href="/HarangProject/bamboo?cmd=A_BB_LIST">취소</a>
+									href="/bamboo/BB_LIST">취소</a>
 							</div>
 						</div>
 

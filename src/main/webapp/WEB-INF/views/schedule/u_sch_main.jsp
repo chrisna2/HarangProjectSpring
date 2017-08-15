@@ -141,28 +141,7 @@ div#s_content {
 						<div class="box">
 							<div class="box-header" style="background-color: #dceff4 ">
 								<h3 class="box-title">학사 일정</h3>
-								<div class="box-tools">
-								<form action="/HarangProject/schedule" name="search" method="post">
-								<input type="hidden" name="cmd" value="U_SCH_LIST">
-									<div class="input-group">
-										<input type="text" name="table_search"
-											class="form-control input-sm pull-right"
-											style="width: 150px;" placeholder="Search" /> <select
-											class="form-control input-sm pull-right"
-											style="width: 150px;" name="sOption">
-											<option value="s_ispoint">포인트 지급</option>
-											<option value="s_dept">학과</option>
-											<option value="s_title">제목</option>
-
-										</select>
-										<div class="input-group-btn">
-											<button class="btn btn-sm btn-default">
-												<i class="fa fa-search"></i>
-											</button>
-										</div>
-									</div>
-									</form>
-								</div>
+								
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body table-responsive no-padding">
@@ -236,6 +215,66 @@ div#s_content {
 							</ul>
 						</div>
 						<!-- 페이징 버튼 -->
+						
+						
+						
+						<!-- 페이징 버튼 -->
+					<div class="box-footer clearfix" style="background-color: #dceff4">
+						
+						<ul class="pagination pagination-sm no-margin pull-right">
+							<c:if test="${pageMaker.prev}">
+								<li><a
+									href="/schedule/SCH_LIST${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+							</c:if>
+							<c:forEach begin="${pageMaker.startPage}"
+								end="${pageMaker.endPage}" var="idx">
+								<li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+									<a href="/schedule/SCH_LIST?page=${idx}"> ${idx} </a>
+								</li>
+							</c:forEach>
+							<c:if test="${pageMaker.next && pageMaker.endPage>0}">
+								<li><a
+									href="/schedule/SCH_LIST${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+							</c:if>
+						</ul>
+
+
+						<form action="/schedule/SCH_LIST" name="search" method="post">
+
+							
+							<div class="input-group">
+
+								<select
+											class="form-control input-sm pull-right"
+											style="width: 150px;" name="keyfield">
+											<option value="s_ispoint">포인트 지급</option>
+											<option value="s_dept">학과</option>
+											<option value="s_title">제목</option>
+
+										</select> <input type="text" name="keyword"
+											class="form-control input-sm pull-right"
+											style="width: 150px;" placeholder="Search" />
+
+								<button class="btn btn-sm btn-default pull-left">
+									<i class="fa fa-search"></i>
+								</button>
+
+							</div>
+						</form>
+					</div>
+					<!-- 페이징 버튼 -->
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 						</div>
 						<!-- /.box -->
 					</div>
