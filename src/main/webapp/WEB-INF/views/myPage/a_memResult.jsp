@@ -16,7 +16,7 @@
 				location.href = "/myPage/AmemList";
 			}
 			else if("error" == msg){
-				alert("신규 회원 등록 시 오류 가 발생 했습니다. 다시 등록 해 주세여");
+				alert("신규 회원 등록 시 오류 가 발생 했습니다. 다시 등록 해 주세요.");
 				location.href = "/myPage/Anewmem";
 			}
 		}

@@ -33,6 +33,8 @@ public interface MyPageService {
 	public String specUpdateAgency(CertiMemberDTO certi);
 	public String specUpdatePoint(CertiMemberDTO certi);
 	public String specDelete(CertiMemberDTO certi);
+	public int challengeComplete(CertiMemberDTO certi);
+	public int challengeReturn(CertiMemberDTO certi);
 	
 	public List<ZipDTO> sidoList();
 	public List<ZipDTO> gugunList(ZipDTO zip);

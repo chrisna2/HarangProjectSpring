@@ -38,6 +38,8 @@ public interface MyPageDao {
 	public String specUpdateAgency(CertiMemberDTO certi);
 	public String specUpdatePoint(CertiMemberDTO certi);
 	public String specDelete(CertiMemberDTO certi);
+	public int challengeComplete(CertiMemberDTO certi);
+	public int challengeReturn(CertiMemberDTO certi);
 	
 	//주소 목록
 	public List<ZipDTO> sidoList();
@@ -74,7 +76,6 @@ public interface MyPageDao {
 	public List<LessonDTO> l_teacherList();
 	public List<LessonDTO> findTimetableRoom(LessonDTO lesson);
 	public List<LessonDTO> findTimetableTeacher(LessonDTO lesson);
-	
 	
 }
 

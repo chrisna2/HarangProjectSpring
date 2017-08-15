@@ -74,6 +74,12 @@
 		AND t_read_date is null AND m_sender = #{m_sender}
 	</select>
 	
+    <!-- 받은 메시지를 상위 5개 만 뽑아서 검색 -->
+	<select id="getGivenMessageListHeader" resultType="Message">
+		SELECT * FROM tbl_text WHERE m_reader=#{m_id} AND NOT m_sender=#{m_id} AND t_read_del = 'N' 
+		ORDER BY t_send_date DESC 
+		limit 5
+	</select>
 	
   </mapper>
     

@@ -23,7 +23,9 @@ public interface FoodDao {
 	
 	//티켓 리스트 출력
 	public List<FoodMemberDTO> aticketList(SearchCriteria cri);
+	public List<FoodMemberDTO> aticketListChart(SearchCriteria cri);
 	public int aticketCountPaging(SearchCriteria cri);
+	
 	
 	//티켓 구매 내역
 	public List<FoodMemberDTO> ticketList(SearchCriteria cri);
@@ -31,7 +33,6 @@ public interface FoodDao {
 	
 	//티켓 출력
 	public FoodMemberDTO ticketPrint(FoodMemberDTO foodmember);
-	
 	public int ticketUsing(FoodMemberDTO foodmember);
 	public int ticketRefund(FoodMemberDTO foodmember);
 	

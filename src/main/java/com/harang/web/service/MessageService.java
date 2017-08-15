@@ -12,6 +12,7 @@ public interface MessageService {
 	public void postMessage(MessageDTO message);
 	public void postMessage(String title, String content, String sender, String reader);
 	public List<MessageDTO> getGivenMessageList(String m_id);
+	public List<MessageDTO> getGivenMessageListHeader(String m_id);
 	public List<MessageDTO> getSentMessageList(String m_id);
 	public List<MessageDTO> getToMeMessageList(String m_id);
 	public MessageDTO getMessage(String t_num);

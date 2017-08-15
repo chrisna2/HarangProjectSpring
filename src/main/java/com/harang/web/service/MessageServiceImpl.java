@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.MessageDTO;
 import com.harang.web.repository.MessageDao;
+import com.harang.web.repository.MyPageDao;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -87,6 +88,11 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public int getNotReadMessage_toMe(String m_id) {
 		return messageDao.getNotReadMessage_toMe(m_id);
+	}
+
+	@Override
+	public List<MessageDTO> getGivenMessageListHeader(String m_id) {
+		return messageDao.getGivenMessageListHeader(m_id);
 	}
 
 }

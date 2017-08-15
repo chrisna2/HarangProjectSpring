@@ -128,6 +128,10 @@ public class FoodDaoImpl implements FoodDao {
 	public int aticketCountPaging(SearchCriteria cri) {
 		return sqlSession.selectOne(namespace+".aticketCountPaging", cri);
 	}
+	@Override
+	public List<FoodMemberDTO> aticketListChart(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".aticketListChart", cri);
+	}
 
 	@Override
 	public List<FoodMemberDTO> ticketList(SearchCriteria cri) {
@@ -153,6 +157,7 @@ public class FoodDaoImpl implements FoodDao {
 	public int ticketRefund(FoodMemberDTO foodmember) {
 		return sqlSession.update(namespace+".ticketRefund", foodmember);
 	}
+
 
 
 

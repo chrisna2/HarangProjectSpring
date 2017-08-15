@@ -68,6 +68,10 @@ public class MessageDaoImpl implements MessageDao {
 	public int getNotReadMessage_toMe(String m_id) {
 		return sqlSession.selectOne(namespace+".getNotReadMessage_toMe", m_id);
 	}
+	@Override
+	public List<MessageDTO> getGivenMessageListHeader(String m_id) {
+		return sqlSession.selectList(namespace+".getGivenMessageListHeader", m_id);
+	}
 	
 	
 

@@ -57,6 +57,11 @@ public class FoodServiceImpl implements FoodService {
 	public int aticketCountPaging(SearchCriteria cri) {
 		return foodDao.aticketCountPaging(cri);
 	}
+	@Override
+	public List<FoodMemberDTO> aticketListChart(SearchCriteria cri) {
+		return foodDao.aticketListChart(cri);
+	}
+
 	
 	//티켓 판매
 	@Override
@@ -88,6 +93,7 @@ public class FoodServiceImpl implements FoodService {
 	public int ticketRefund(FoodMemberDTO foodmember) {
 		return foodDao.ticketRefund(foodmember);
 	}
+
 
 
 }

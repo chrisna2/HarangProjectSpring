@@ -120,6 +120,15 @@ public class MyPageServiceImpl implements MyPageService {
 	public String specDelete(CertiMemberDTO certi) {
 		return myPageDao.specDelete(certi);
 	}
+	@Override
+	public int challengeComplete(CertiMemberDTO certi) {
+		return myPageDao.challengeComplete(certi);
+	}
+	@Override
+	public int challengeReturn(CertiMemberDTO certi) {
+		return myPageDao.challengeReturn(certi);
+	}
+
 
 	
 	//내 정보 수정

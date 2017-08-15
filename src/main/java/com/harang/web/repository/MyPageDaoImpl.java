@@ -196,6 +196,15 @@ public class MyPageDaoImpl implements MyPageDao {
 		return result;
 	}
 	
+	@Override
+	public int challengeComplete(CertiMemberDTO certi) {
+		return sqlSession.update(namespace+".challengeComplete", certi);
+	}
+	@Override
+	public int challengeReturn(CertiMemberDTO certi) {
+		return sqlSession.update(namespace+".challengeReturn", certi);
+	}
+	
 	
 	// 주소 검색  Dao
 	@Override

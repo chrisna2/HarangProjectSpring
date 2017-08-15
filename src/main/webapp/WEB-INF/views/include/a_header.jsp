@@ -129,7 +129,7 @@
                       <!-- 메세지 반복문 지점 시작 -->
                       <c:forEach items="${head_msg}" var="msg">
                         <li><!-- 메세지 시작 -->
-                        <a href="/message/READ&t_num=${msg.t_num}&tab=INBOX">
+                        <a href="/message/READ?t_num=${msg.t_num}&tab=INBOX">
                           <div class="pull-left">
                             <img src="${msg.s_photo}" class="img-circle" alt="User Image"/>
                           </div>

@@ -7,19 +7,6 @@
 <!-- 페이지 헤드 라인 : 제목 -->
 <head>
      <title>스펙 업 관리</title>
-<c:if test="${result eq 'complete'}">
-    <script type="text/javascript">
-    alert("해당 회원에게 포인트가 지급 되었습니다.");
-    //새로 접속 해줘야 하는 이유.. forward에 작업 기록이 남는다.
-    location.href = "/HarangProject/myPage?cmd=Achallenge";
-    </script>
-</c:if>   
-<c:if test="${result eq 'return'}">
-    <script type="text/javascript">
-    alert("해당 대상의 자격증을 등록 취소했습니다.");
-    location.href = "/HarangProject/myPage?cmd=Achallenge";
-    </script>
-</c:if>
 </head>
 	  <!-- 메인 페이지 구역 , 즉 작업 구역 -->
       <div class="content-wrapper">
@@ -266,16 +253,14 @@ function checkUp(idx){
 	});
 
    $("#complete").click(function(){
-        $("#check").val("complete");
         $("#checkform")
-        .attr("action", "/myPage/Achallenge")
+        .attr("action", "/myPage/AchallengeComplete")
         .submit();
     });
     
     $("#return").click(function() {
-        $("#check").val("return");
         $("#checkform")
-        .attr("action", "/myPage/Achallenge")
+        .attr("action", "/myPage/AchallengeReturn")
         .submit();
     });
 

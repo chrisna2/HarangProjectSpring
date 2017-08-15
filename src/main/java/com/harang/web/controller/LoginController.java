@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.ZipDTO;
 import com.harang.web.service.LoginService;
+import com.harang.web.service.MessageService;
 import com.harang.web.service.MyPageService;
 import com.harang.web.utill.RandomFileRenamePolicy;
 import com.harang.web.utill.UploadBean;
@@ -41,6 +42,9 @@ public class LoginController {
 	
 	@Autowired
 	private MyPageService myPageService;
+	
+	@Autowired
+	private MessageService messageService;
 	
 	private String uploadPath;
 	
@@ -74,11 +78,15 @@ public class LoginController {
 		if("[ROLE_MEMBER]".equals(check)){
 			session.setAttribute("member", loginService.refresh(m_id));
 			session.setAttribute("PLH", myPageService.pointListHeader(m_id));
+			session.setAttribute("head_msg", messageService.getGivenMessageListHeader(m_id));
+			session.setAttribute("NRM", messageService.getNotReadMessage(m_id));
 			request.setAttribute("loginType", "member");
 		}
 		else if("[ROLE_ADMIN]".equals(check)){
 			session.setAttribute("admin", loginService.refresh(m_id));
 			session.setAttribute("PLH", myPageService.pointListHeader(m_id));
+			session.setAttribute("head_msg", messageService.getGivenMessageListHeader(m_id));
+			session.setAttribute("NRM", messageService.getNotReadMessage(m_id));
 			request.setAttribute("loginType", "admin");
 		}
 		else if("[ROLE_NEWBEE]".equals(check)){

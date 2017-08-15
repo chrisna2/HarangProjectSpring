@@ -11,6 +11,7 @@ public interface MessageDao {
 	public List<String> getMember_id(String m_name);
 	public void postMessage(MessageDTO message);
 	public List<MessageDTO> getGivenMessageList(String m_id);
+	public List<MessageDTO> getGivenMessageListHeader(String m_id);
 	public List<MessageDTO> getSentMessageList(String m_id);
 	public List<MessageDTO> getToMeMessageList(String m_id);
 	public MessageDTO getMessage(String t_num);

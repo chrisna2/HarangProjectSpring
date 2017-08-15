@@ -23,6 +23,7 @@ public interface FoodService {
 	//티켓 리스트 출력
 	public List<FoodMemberDTO> aticketList(SearchCriteria cri);
 	public int aticketCountPaging(SearchCriteria cri);
+	public List<FoodMemberDTO> aticketListChart(SearchCriteria cri);
 		
 	//티켓 구매 내역
 	public List<FoodMemberDTO> ticketList(SearchCriteria cri);

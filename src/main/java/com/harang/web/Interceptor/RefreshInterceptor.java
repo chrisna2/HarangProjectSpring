@@ -12,6 +12,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.service.LoginService;
+import com.harang.web.service.MessageService;
 import com.harang.web.service.MyPageService;
 import com.harang.web.utill.LoginBean;
 
@@ -22,6 +23,9 @@ public class RefreshInterceptor extends HandlerInterceptorAdapter{
 	
 	@Autowired
 	private MyPageService myPageService;
+	
+	@Autowired
+	private MessageService messageService;
 	
 	@Autowired
 	private LoginService loginService;
@@ -41,8 +45,8 @@ public class RefreshInterceptor extends HandlerInterceptorAdapter{
 		
 		session.setAttribute("member", loginService.refresh(m_id));
 		session.setAttribute("PLH", myPageService.pointListHeader(m_id));
-		//session.setAttribute("head_msg", messege.getGivenMessageListMini(input_id));
-		//session.setAttribute("NRM", messege.getNotReadMessage(input_id));
+		session.setAttribute("head_msg", messageService.getGivenMessageListHeader(m_id));
+		session.setAttribute("NRM", messageService.getNotReadMessage(m_id));
 		
 	}
 }

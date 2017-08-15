@@ -717,6 +717,66 @@ public class MyPageController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/AchallengeComplete",method = RequestMethod.POST)
+	public ModelAndView challengeComplete(HttpServletRequest request,HttpServletResponse response){
+		
+		LoginBean login = new LoginBean();
+		MemberDTO admin = login.getLoginInfo(request);
+		
+		String r_content = "[스펙 업 성공!] "+ request.getParameter("c_name") +" : "
+							+ request.getParameter("c_point") + " 포인트 지급";
+		int c_point = Integer.parseInt(request.getParameter("c_point"));
+		String member_id = request.getParameter("m_id");
+		String c_num = request.getParameter("c_num");
+		
+		CertiMemberDTO certi = new CertiMemberDTO();
+		certi.setM_id(member_id);
+		certi.setC_num(c_num);
+		
+		int check = myPageService.challengeComplete(certi);
+		
+		String result = "";
+		
+		if(check == 1){
+			result = pointService.recordPointTrade(r_content, 
+												   admin.getM_point(), 
+												   c_point, 
+												   admin.getM_id(),
+												   member_id);
+		}
+		
+		mav = new ModelAndView("myPage/a_challengeComplete");
+
+		mav.addObject("result", result);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/AchallengeReturn",method = RequestMethod.POST)
+	public ModelAndView challengeReturn(HttpServletRequest request,HttpServletResponse response){
+		
+		String member_id = request.getParameter("m_id");
+		String c_num = request.getParameter("c_num");
+		
+		CertiMemberDTO certi = new CertiMemberDTO();
+		certi.setM_id(member_id);
+		certi.setC_num(c_num);		
+		
+		int check = myPageService.challengeReturn(certi);
+		
+		String result = "";
+		
+		if(check == 1){
+			result = "return";
+		}
+		
+		mav = new ModelAndView("myPage/a_challengeComplete");
+		
+		mav.addObject("result", result);
+		
+		return mav;
+	}
+	
 	@RequestMapping(value="/specList",method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> specListJson(	@RequestParam(value = "page", required=false) int page,
 													    	@RequestParam(value = "rows", required=false) int rows,
@@ -821,9 +881,6 @@ public class MyPageController {
 	}
 	
 	//@RequestMapping(value="/myPage/specList/excel",method = RequestMethod.POST)
-	
-	
-	
 	
 	
 	

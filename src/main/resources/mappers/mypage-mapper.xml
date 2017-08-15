@@ -249,6 +249,14 @@
   	<delete id="specDelete" parameterType="CertiMember">
   		delete from tbl_certificate where c_num=#{c_num}
   	</delete>
+  	<!-- [관리자] 자격증 심사 OK -->
+  	<update id="challengeComplete" parameterType="CertiMember">
+	  	UPDATE tbl_certi_member SET cm_iscomplete = 'complete', cm_completedate = NOW() WHERE c_num = #{c_num} and m_id = #{m_id}
+  	</update>
+  	<!-- [관리자] 자격증 심사 NO -->
+  	<update id="challengeReturn" parameterType="CertiMember">
+  		UPDATE tbl_certi_member SET cm_iscomplete = 'return', cm_completedate = NOW() WHERE c_num = #{c_num} and m_id = #{m_id}
+  	</update>
   	
   	
   	
@@ -450,6 +458,7 @@
 		where l_teacher = #{l_teacher} 
 		and l_term = #{l_term} 
   	</select>
+  	
   	
   	<!-- [관리자] 포인트 멤버 목록 조회 -->
   	<select id="apointMember" resultType="Member" parameterType="SearchCriteria">

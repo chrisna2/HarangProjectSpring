@@ -204,7 +204,6 @@
                 </div><!-- /.box-body -->
                 
                  <div class="box-footer" align="right">
-                    <input type="button" class="btn" onclick="location.href=history.go(-1)" value="뒤로가기">
                     <input type="reset" class="btn" value="리셋">
                     <input type="submit" class="btn btn-primary" value="개인정보 수정">
                 </div>

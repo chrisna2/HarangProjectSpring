@@ -340,9 +340,15 @@ function memberData(m_id){
 			    $("#userData").slideUp();
 				
 				var usermail = data.m_mail;
+				var userdept = data.m_dept;
 				
-				if(usermail == null || usermail == ""){
+				if(userdept == "관리자"){
+					alert("관리자의 정보는 수정 할 수 없습니다.");
+					return;
+				}
+				else if(usermail == null || usermail == ""){
 					alert("아직 회원이 회원으로 등록 하지 않았습니다.");
+					return;
 				}
 				else{
 					var mailArray = usermail.split('@');

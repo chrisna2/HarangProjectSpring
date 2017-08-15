@@ -47,6 +47,16 @@
 		</if>
 	</sql>	
 	
+	<select id="aticketListChart" resultType="FoodMember" parameterType="SearchCriteria">
+		select f.f_title, f.f_selldate, f.f_point, count(fm.f_num) as fm_sellcount 
+		from tbl_food_member fm, tbl_food f 
+		where fm.f_num=f.f_num and fm.fm_isuse != 'return' 
+		<include refid="search"></include>
+		group by fm.f_num 
+		order by f.f_selldate
+		limit #{pageStart}, #{perPageNum} 
+	</select>
+	
 	<select id="aticketCountPaging" resultType="int" parameterType="SearchCriteria">
 		select count(distinct f.f_num) 
 		from tbl_food_member fm, tbl_food f 
@@ -87,6 +97,7 @@
 	<update id="ticketRefund" parameterType="FoodMember">
 		UPDATE tbl_food_member SET fm_isuse = 'return', fm_usedate = NOW() WHERE m_id = #{m_id} and f_num = #{f_num}
 	</update>
+	
 	
   
   </mapper>
