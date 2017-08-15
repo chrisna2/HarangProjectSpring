@@ -59,10 +59,8 @@
 							</h3>
 						</div><!-- /.box-header -->
 						<div class='box-body pad'>
-							<form name="apply" method="post" action="/HarangProject/parttime?cmd=DREAD">
+							<form name="apply" method="post" action="/parttime/applyDaeta">
 								<input type="hidden" name="d_num" value="${d_num}"/>
-								<input type="hidden" name="nowPage" value="${nowPage}"/>
-      							<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       							<input type="hidden" name="tab" value="${tab}"/>
       							<input type="hidden" name="read" value="no"/>							
 							<label>지원 동기</label>
@@ -86,10 +84,8 @@
 	<!-- /. 작업 공간 끝! -->
 	<!------------------------------------------------------------------------------------------------------------------->
 </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<form name="cancel" method="post" action="/HarangProject/parttime?cmd=DREAD">
+<form name="cancel" method="post" action="/parttime/DREAD">
 	<input type="hidden" name="d_num" value="${d_num}"/>
-	<input type="hidden" name="nowPage" value="${nowPage}"/>
-    <input type="hidden" name="nowBlock" value="${nowBlock}"/>
     <input type="hidden" name="read" value="no"/>
     <input type="hidden" name="tab" value="${tab}"/>
 </form>

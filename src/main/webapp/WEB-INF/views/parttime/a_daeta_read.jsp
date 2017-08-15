@@ -141,10 +141,7 @@
 								<td></td>
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${resume}" var="resume" 
-											   begin="${a_paging.beginPerPage}" 
-											   end="${a_paging.beginPerPage + a_paging.numPerPage -1}" 
-											   varStatus="status">
+									<c:forEach items="${resume}" var="resume" >
 										<tr>
 											<td>${resume.list_num}</td>
 											<td>${resume.m_name}</td>
@@ -170,21 +167,24 @@
 					</div>
 					<!-- /.box-body -->
 					<div class="box-footer clearfix">
-						<ul class="pagination pagination-sm no-margin pull-left">
-							<c:if test="${a_paging.nowBlock > 0}">
-							<li><a href="javascript:prevPage()">&laquo;</a></li>
-							</c:if>
-						  <c:forEach var="i" begin="0" end="${a_paging.pagePerBlock-1}" step="1">
-						  	
-						  	<c:if test="${a_paging.nowBlock*a_paging.pagePerBlock+i < a_paging.totalPage}" >
-							<li><a href="javascript:goPage('${a_paging.nowBlock*a_paging.pagePerBlock+i}')">${a_paging.nowBlock*a_paging.pagePerBlock+(i+1)}</a></li>
-						  	</c:if>
-						 
-						  </c:forEach>
-						  	<c:if test="${a_paging.totalBlock > a_paging.nowBlock +1}">
-							<li><a href="javascript:nextPage()">&raquo;</a></li>
-							</c:if>
-						</ul>
+						<ul class="pagination pagination-sm no-margin pull-right">
+						<c:if test="${pageMaker.prev}">
+	                            <li><a href="/parttime/DMAIN${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+	                    </c:if>
+	                    <c:forEach begin="${pageMaker.startPage}" 
+	                    		   end="${pageMaker.endPage}" 
+	                               var="idx">
+	                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+	                          		<a href="/parttime/DMAIN?page=${idx}">
+	                          			${idx}
+	                        	   	</a>
+	                             </li>
+	                   	</c:forEach>
+	                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+	                      <li><a href="/parttime/DMAIN${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+	                    </c:if>
+	                    </ul>
+					
 					</div>
                 </div>
             </c:if>   
@@ -199,7 +199,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                 	<!-- 댓글쓰기 -->
-                <form method="post" action="/HarangProject/parttime?cmd=DREAD">
+                <form method="post" action="/parttime/DREAD">
                 	<div class="input-group input-group-sm">
                 	  	<input type="hidden" name="d_num" value="${info.d_num}" id="d_num"/>
                 	  	<input type="hidden" name="comment" value="insert"/>

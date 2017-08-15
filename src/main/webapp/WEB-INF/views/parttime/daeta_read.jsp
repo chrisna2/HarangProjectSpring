@@ -315,24 +315,18 @@
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="cancel" method="post" action="/parttime/DREAD">
+      <form name="cancel" method="post" action="/parttime/delDaetaResume">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
-      	<input type="hidden" name="cancel" value="OK"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
       <form name="resume" method="post" action="/parttime/DRESUME">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       	<input type="hidden" name="m_id" value="" id="resume_id"/>
-    	<input type="hidden" name="a_nowPage" value="${a_paging.nowPage}"/>
-		<input type="hidden" name="a_nowBlock" value="${a_paging.nowBlock}"/>
       </form>
-      <form name="pick" method="post" action="/parttime/DREAD">
+      <form name="pick" method="post" action="/parttime/choiceDaeta">
         <input type="hidden" name="tab" value="${tab}"/>
-      	<input type="hidden" name="a_nowPage" value="${a_paging.nowPage}"/>
-		<input type="hidden" name="a_nowBlock" value="${a_paging.nowBlock}"/>
-		<input type="hidden" name="d_num" value="${d_num}"/>
-		<input type="hidden" name="choice" value="Y"/> 
+		<input type="hidden" name="d_num" value="${info.d_num}"/>
 		<input type="hidden" name="choice_id" value="" id="choice_id"/>
       </form>
       <form name="del" method="post" action="/parttime/deleteDaeta">
@@ -349,17 +343,15 @@
       	<input type="hidden" name="m_id" value="${m_id}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="success" method="post" action="/parttime/DREAD">
+      <form name="success" method="post" action="/parttime/givePoint">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="m_id" value="" id="success_id"/>
       	<input type="hidden" name="tab" value="${tab}"/>
-      	<input type="hidden" name="givePoint" value="OK"/>
       </form> 
-      <form name="deny" method="post" action="/parttime/DREAD">
+      <form name="deny" method="post" action="/parttime/denyPoint">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="m_id" value="" id="deny_id"/>
       	<input type="hidden" name="tab" value="${tab}"/>
-      	<input type="hidden" name="givePoint" value="NO"/>
       </form>    
       <form name="comdel" id="commentDel" method="post" action="/parttime/DREAD">
       	<input type="hidden" name="comment" value="delete"/>
@@ -367,10 +359,6 @@
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="m_id" value="${m_id}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
-      	<input type="hidden" name="a_nowPage" value="${a_paging.nowPage}"/>
-		<input type="hidden" name="a_nowBlock" value="${a_paging.nowBlock}"/>
-		<input type="hidden" name="nowPage" value="${nowPage}"/>
-    	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       </form>
       <form name="refresh" method="post" action="/parttime/DREAD">
       	<input type="hidden" name="d_num" value="${info.d_num}"/>

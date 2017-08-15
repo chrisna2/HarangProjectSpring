@@ -107,26 +107,26 @@
 	</delete>
 	
 	<select id="getParttimeApplyList" resultType="P_Apply">
-		SELECT * FROM tbl_parttime_member WHERE p_num = #{p_num} ORDER BY pm_regdate ASC
+		SELECT * FROM tbl_parttime_member WHERE p_num = #{p_num} ORDER BY pm_regdate ASC 
 	</select>
 	
 	<select id="getMyParttimeApplyList" resultType="P_Apply">
-		SELECT * FROM tbl_parttime_member WHERE m_id = #{m_id} ORDER BY pm_regdate DESC
+		SELECT * FROM tbl_parttime_member WHERE m_id = #{m_id} ORDER BY pm_regdate DESC limit #{pageStart}, #{perPageNum} 
 	</select>
 	
 	<select id="getDaetaApplyList" resultType="D_Apply">
-		SELECT * FROM tbl_daeta_member WHERE d_num = #{d_num} ORDER BY dm_regdate ASC
+		SELECT * FROM tbl_daeta_member WHERE d_num = #{d_num} ORDER BY dm_regdate ASC 
 	</select>
 	
 	<select id="getMyDaetaApplyList" resultType="D_Apply">
-		SELECT * FROM tbl_daeta_member WHERE m_id = #{m_id} ORDER BY dm_regdate DESC
+		SELECT * FROM tbl_daeta_member WHERE m_id = #{m_id} ORDER BY dm_regdate DESC limit #{pageStart}, #{perPageNum} 
 	</select>
 	
 	<select id="getParttimeApply" parameterType="HashMap" resultType="P_Apply">
 		SELECT * FROM tbl_parttime_member WHERE p_num = #{p_num} AND m_id=#{m_id}
 	</select>
 	
-	<select id="getDaetaApply" resultType="D_Apply">
+	<select id="getDaetaApply" parameterType="HashMap" resultType="D_Apply">
 		SELECT * FROM tbl_daeta_member WHERE d_num = #{d_num} AND m_id=#{m_id}
 	</select>
 	
@@ -180,7 +180,7 @@
 	</update>
 	
 	<select id="getParttimeReplyList" resultType="ParttimeReply">
-		SELECT * FROM tbl_parttime_reply WHERE p_num=#{p_num} ORDER BY pr_regdate DESC
+		SELECT * FROM tbl_parttime_reply WHERE p_num=#{p_num} ORDER BY pr_regdate DESC 
 	</select>
 	
 	<select id="getDaetaReplyList" resultType="DaetaReply">
