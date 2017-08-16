@@ -93,21 +93,21 @@
 					<!-- 페이징 버튼 -->
 					<div class="box-footer clearfix">
 	                    <ul class="pagination pagination-sm no-margin pull-right">
-						<c:if test="${pageMaker.prev}">
-	                            <li><a href="/parttime/PMAIN${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
-	                    </c:if>
-	                    <c:forEach begin="${pageMaker.startPage}" 
-	                    		   end="${pageMaker.endPage}" 
-	                               var="idx">
-	                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
-	                          		<a href="/parttime/PMAIN?page=${idx}">
-	                          			${idx}
-	                        	   	</a>
-	                             </li>
-	                   	</c:forEach>
-	                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
-	                      <li><a href="/parttime/PMAIN${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
-	                    </c:if>
+							<c:if test="${pageMaker.prev}">
+		                            <li><a href="/parttime/PMAIN${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+		                    </c:if>
+		                    <c:forEach begin="${pageMaker.startPage}" 
+		                    		   end="${pageMaker.endPage}" 
+		                               var="idx">
+		                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+		                          		<a href="/parttime/PMAIN?page=${idx}">
+		                          			${idx}
+		                        	   	</a>
+		                             </li>
+		                   	</c:forEach>
+		                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+		                      <li><a href="/parttime/PMAIN${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+		                    </c:if>
 	                    </ul>
 					
 					<form name="search" method="post" action="/parttime/PMAIN">
@@ -147,6 +147,7 @@
 <form name="read" method="post" action="/parttime/PREAD">
 	<input type="hidden" name="p_num" value="" id="p_num"/>
 	<input type="hidden" name="tab" value="PMAIN"/>
+	<input type="hidden" name="page" value="${pageMaker.cri.page}"/>
 </form>
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------>
 <%@ include file="../include/footer.jsp"%>

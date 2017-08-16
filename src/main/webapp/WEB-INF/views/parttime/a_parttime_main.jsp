@@ -34,7 +34,7 @@
 					<div class="box-body">
 						<div class="row">
 						<div class="col-md-2">
-							<button class="btn btn-xs btn-info" onclick="fnPost()">글쓰기</button>
+							<button class="btn btn-xs btn-info" onclick="location.href='/parttime/PPOST'">글쓰기</button>
 						</div>
 						<div class="col-md-9"></div>
 						<div class="col-md-1">
@@ -58,10 +58,7 @@
 								게시물이 없습니다.
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${list}" var="list" 
-											   begin="${paging.beginPerPage}" 
-											   end="${paging.beginPerPage + paging.numPerPage -1}" 
-											   varStatus="status">
+									<c:forEach items="${list}" var="list" >
 										<tr>
 											<td><input type="checkbox" id="${status.index}"/></td>
 											<td>${list.list_num}</td>
@@ -87,20 +84,22 @@
 					</div>
 					<div class="box-footer clearfix">
 						<ul class="pagination pagination-sm no-margin pull-right">
-							<c:if test="${paging.nowBlock > 0}">
-							<li><a href="javascript:prevPage()">&laquo;</a></li>
-							</c:if>
-						  <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-						  	<!-- if문 추가 : 20170615 -->
-						  	<c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-							<li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-						  	</c:if>
-						  	<!-- 끝 -->
-						  </c:forEach>
-						  	<c:if test="${paging.totalBlock > paging.nowBlock +1}">
-							<li><a href="javascript:nextPage()">&raquo;</a></li>
-							</c:if>
-						</ul>
+							<c:if test="${pageMaker.prev}">
+		                            <li><a href="/parttime/PMAIN${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+		                    </c:if>
+		                    <c:forEach begin="${pageMaker.startPage}" 
+		                    		   end="${pageMaker.endPage}" 
+		                               var="idx">
+		                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+		                          		<a href="/parttime/PMAIN?page=${idx}">
+		                          			${idx}
+		                        	   	</a>
+		                             </li>
+		                   	</c:forEach>
+		                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+		                      <li><a href="/parttime/PMAIN${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+		                    </c:if>
+	                    </ul>
 					</div>
 					
 					<form name="search" method="post" action="/HarangProject/parttime?cmd=PMAIN">
@@ -136,68 +135,24 @@
 	</section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->
 </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/parttime?cmd=PMAIN">
-	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
-	<input type="hidden" name="keyword" value="${keyword}"/>
-	<input type="hidden" name="keyField" value="${keyField}"/>
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/HarangProject/parttime?cmd=PMAIN">
-	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
-	<input type="hidden" name="keyword" value="${keyword}"/>
-	<input type="hidden" name="keyField" value="${keyField}"/>
-</form>
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post" action="/HarangProject/parttime?cmd=PMAIN">
-	<input type="hidden" name="nowPage" value="" id="page"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-	<input type="hidden" name="keyword" value="${keyword}"/>
-	<input type="hidden" name="keyField" value="${keyField}"/>
-</form>
-<!-- 페이징 관련 폼 여기까지입니다. ----------------------------------------------------------------------------------- -->
-<!-- 글 쓰기 -->
-<form name="post" method="post" action="/HarangProject/parttime?cmd=PPOST">
-	<input type="hidden" name="nowPage" value="${paging.nowPage}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-</form>
-
 <!-- 글 읽기 -->
-<form name="read" method="post" action="/HarangProject/parttime?cmd=PREAD">
+<form name="read" method="post" action="/parttime/PREAD">
 	<input type="hidden" name="p_num" value="" id="p_num"/>
-	<input type="hidden" name="nowPage" value="${paging.nowPage}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
 </form>
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------>
 <%@ include file="../include/a_footer.jsp"%>
 
 <!-- --------------------------------------------------------------------------------------------------- -->
 <script>
-///////////////// 페이지 관련 javascript function////////////////////
-function prevPage(){
-	document.getElementById("prevPage").submit();
-}
-function nextPage(){
-	document.getElementById("nextPage").submit();
-}
-function goPage(nowPage){
-	document.getElementById("page").value = nowPage;
-	document.getElementById("goPage").submit();
-}
-/////////////////////////////끝//////////////////////////////////
+
 
 function fnRead(p_num){
 	document.getElementById("p_num").value = p_num;
 	document.read.submit();
 }
 
-function fnPost(){
-	document.post.submit();
-}
 function fnRefresh(){
-	location.href="/HarangProject/parttime?cmd=PMAIN";
+	location.href="/parttime/PMAIN";
 }
 </script>
  

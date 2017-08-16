@@ -187,10 +187,7 @@
 								<td></td>
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${resume}" var="resume" 
-											   begin="${a_paging.beginPerPage}" 
-											   end="${a_paging.beginPerPage + a_paging.numPerPage -1}" 
-											   varStatus="status">
+									<c:forEach items="${resume}" var="resume">
 										<tr>
 											<td>${resume.list_num}</td>
 											<td>${resume.m_name}</td>
@@ -214,25 +211,7 @@
 						</table>
 					</div>
 					<!-- /.box-body -->
-					<div class="box-footer clearfix">
-						<ul class="pagination pagination-sm no-margin pull-right">
-						<c:if test="${a_pageMaker.prev}">
-	                            <li><a href="/parttime/PREAD${a_pageMaker.makeQuery(a_pageMaker.startPage-1)}">&laquo;</a></li>
-	                    </c:if>
-	                    <c:forEach begin="${a_pageMaker.startPage}" 
-	                    		   end="${a_pageMaker.endPage}" 
-	                               var="idx">
-	                            <li value="${a_pageMaker.cri.page == idx ? 'class=active' : ''}">
-	                          		<a href="/parttime/PREAD?page=${idx}">
-	                          			${idx}
-	                        	   	</a>
-	                             </li>
-	                   	</c:forEach>
-	                    <c:if test="${a_pageMaker.next && a_pageMaker.endPage>0}">
-	                      <li><a href="/parttime/PREAD${a_pageMaker.makeQuery(a_pageMaker.endPage+1)}">&raquo;</a></li>
-	                    </c:if>
-	                    </ul>
-					</div>
+					
                 </div>
             </c:if>   
                 
@@ -247,10 +226,12 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                 	<!-- 댓글쓰기 -->
-                <form method="post" action="/parttime/PREAD">
+                <form method="post" action="/parttime/commentParttime">
+                	<input type="hidden" name="tab" value="${tab}"/>
+                	<input type="hidden" name="read" value="no"/>
+                	<input type="hidden" name="page" value="${pageMaker.cri.page}"/>
                 	<div class="input-group input-group-sm">
                 	  	<input type="hidden" name="p_num" value="${info.p_num}" id="p_num"/>
-                	  	<input type="hidden" name="comment" value="insert"/>
 	                   	<input type="text" name="pr_comment" class="form-control">
 	                    <span class="input-group-btn">
 	                    	<button class="btn btn-success btn-flat" type="submit">Go!</button>
@@ -260,6 +241,7 @@
                   	<br>
                   	<!-- 댓글 목록 들어갈 위치 -->
                 	<div class="input-group" id="ajax"></div>
+                	<input type="hidden" id="m_id" value="${m_id}"/>
                 </div>
               </div><!-- /.box -->
               
@@ -269,48 +251,27 @@
        </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-      <form name="list" method="post" action="">
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
-      	<input type="hidden" name="tab" value="${tab}"/>
-      </form>
+      
       <form name="apply" method="post" action="/parttime/PAPPLY">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="cancel" method="post" action="/parttime/PREAD">
+      <form name="cancel" method="post" action="/parttime/delParttimeResume">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
-      	<input type="hidden" name="cancel" value="OK"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
       <form name="resume" method="post" action="/parttime/PRESUME">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
       	<input type="hidden" name="m_id" value="" id="resume_id"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-    	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
-    	<input type="hidden" name="a_nowPage" value="${a_paging.nowPage}"/>
-		<input type="hidden" name="a_nowBlock" value="${a_paging.nowBlock}"/>
 		<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="pick" method="post" action="/parttime/PREAD">
-      	<input type="hidden" name="a_nowPage" value="${a_paging.nowPage}"/>
-		<input type="hidden" name="a_nowBlock" value="${a_paging.nowBlock}"/>
-		<input type="hidden" name="nowPage" value="${nowPage}"/>
-    	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
-		<input type="hidden" name="p_num" value="${p_num}"/>
-		<input type="hidden" name="choice" value="Y"/> 
+      <form name="pick" method="post" action="/parttime/choiceParttime">
+		<input type="hidden" name="p_num" value="${info.p_num}"/>
 		<input type="hidden" name="choice_id" value="" id="choice_id"/>
 		<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="del" method="post" action="/parttime/PMAIN">
-      	<input type="hidden" name="delete" value="OK"/>
+      <form name="del" method="post" action="/parttime/deleteParttime">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
       <form name="update" method="post" action="/parttime/PUPDATE">
@@ -324,16 +285,12 @@
       	<input type="hidden" name="m_id" value="${m_id}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
-      <form name="comdel" id="commentDel" method="post" action="/parttime/PREAD">
-      	<input type="hidden" name="comment" value="delete"/>
+      <form name="comdel" id="commentDel" method="post" action="/parttime/delCommentParttime">
       	<input type="hidden" name="pr_num" value="" id="pr_num"/>
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
       	<input type="hidden" name="m_id" value="${m_id}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
-      	<input type="hidden" name="a_nowPage" value="${a_paging.nowPage}"/>
-		<input type="hidden" name="a_nowBlock" value="${a_paging.nowBlock}"/>
-		<input type="hidden" name="nowPage" value="${nowPage}"/>
-    	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
+      	<input type="hidden" name="read" value="no"/>
       </form>
       <form name="refresh" method="post" action="/parttime/PREAD">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
@@ -345,11 +302,10 @@
 <script>
 function fnList(tab){
 	if(tab == 'MYPAGE'){
-		list.action = "/parttime/MYPAGE";
+		location.href = "/parttime/MYPAGE";
 	}else{
-		list.action = "/parttime/PMAIN";
+		location.href = "/parttime/PMAIN";
 	}
-	list.submit();
 }
 function fnApply(){apply.submit();}
 function fnMyResume(){myresume.submit();}
@@ -383,22 +339,23 @@ function fnPick(m_id){
 
 
 var p_num = $("#p_num").val();
+var m_id = $("#m_id").val();
           
-$.getJSON("/HarangProject/ajax?cmd=pReply",{p_num:p_num}, function(data){
+$.getJSON("/parttime/pReply",{p_num:p_num}, function(data){
         $("#ajax span").remove();
         $(data).each(function(index, prlist){
-             $("#ajax").append(
-            		 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-            		+ "<span class='btn btn-success btn-xs'>" + prlist.m_name + "</span>" 
-            		+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + prlist.pr_comment 
-            		+ "&nbsp;&nbsp;&nbsp;&nbsp;"
-            		+"<small>" + prlist.pr_regdate + "</small>"
-                 	+ "<c:if test='${info.m_id eq m_id}'>" 
-                 	+ "&nbsp;&nbsp;&nbsp;&nbsp;"
-                 	+ "<button class='btn btn-default btn-xs' id='rdel"+prlist.pr_num+"'>삭제</button>" 
-                 	+ "<input type='hidden' value='"+prlist.pr_num+"'/>"
-                 	+ "</c:if><br>" 
-                 	);
+            var html = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+        		+ "<span class='btn btn-success btn-xs'>" + prlist.m_name + "</span>" 
+        		+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + prlist.pr_comment 
+        		+ "&nbsp;&nbsp;&nbsp;&nbsp;"
+        		+"<small>" + prlist.pr_regdate + "</small>"; 
+        		
+        	if (prlist.m_id == m_id){ html += "&nbsp;&nbsp;&nbsp;&nbsp;"
+             	+ "<button class='btn btn-default btn-xs' id='rdel"+prlist.pr_num+"'>삭제</button>" 
+             	+ "<input type='hidden' value='"+prlist.pr_num+"'/>" }	
+        	
+        	 $("#ajax").append(html + "<br>");
+             
              
              $("#rdel"+prlist.pr_num).click(function(){
             	 if(confirm("정말 삭제하시겠습니까?")==true){

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
 import com.harang.web.domain.ScheduleDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 
@@ -23,27 +24,27 @@ public class FacilDaoImpl implements FacilDao {
 	private static final String namespace = "com.harang.mapper.facil-mapper";
 	
 	@Override
-	public List<PgMemberDTO> ReserPgListAll() {
-		List list = sqlSession.selectList(namespace + ".ReserPgListAll");
+	public List<PgMemberDTO> reserPgListAll(SearchCriteria cri) {
+		List list = sqlSession.selectList(namespace + ".ReserPgListAll", cri);
 		return list;
 	}
 
 	@Override
-	public List<SrMemberDTO> ReserSrListAll() {
-		List list = sqlSession.selectList(namespace + ".ReserSrListAll");
+	public List<SrMemberDTO> reserSrListAll(SearchCriteria cri) {
+		List list = sqlSession.selectList(namespace + ".ReserSrListAll", cri);
 		return list;
 	}
 
 	@Override
-	public List<PgMemberDTO> ReserPgList(String m_id) {
-		List list = sqlSession.selectList(namespace + ".ReserPgList", m_id);
+	public List<PgMemberDTO> reserPgList(SearchCriteria cri) {
+		List list = sqlSession.selectList(namespace + ".ReserPgList", cri);
 		return list;
 	}
 
 	@Override
-	public List<SrMemberDTO> ReserSrList(String m_id) {
+	public List<SrMemberDTO> reserSrList(SearchCriteria cri) {
 		
-		List list = sqlSession.selectList(namespace + ".ReserSrList", m_id);
+		List list = sqlSession.selectList(namespace + ".ReserSrList", cri);
 		return list;
 	}
 
@@ -95,24 +96,53 @@ public class FacilDaoImpl implements FacilDao {
 
 	@Override
 	public List<PlaygroundDTO> schduleTypePgLoadAjax() {
-		List list = sqlSession.selectList(namespace + ".schPgTypeAjax");
+		List<PlaygroundDTO> list = sqlSession.selectList(namespace + ".schPgTypeAjax");
 		return list;
 	}
 
 	@Override
 	public List<StudyroomDTO> schduleTypeSrLoadAjax() {
-		List list = sqlSession.selectList(namespace + ".schSrTypeAjax");
+		List<StudyroomDTO> list = sqlSession.selectList(namespace + ".schSrTypeAjax");
 		return list;
 	}
 
 	@Override
 	public List<PlaygroundDTO> schduleNamePgLoadAjax(String pg_type) {
-		return sqlSession.selectList(namespace + ".schPgNameAjax", pg_type);
+
+		List<PlaygroundDTO> list = sqlSession.selectList(namespace + ".schPgNameAjax", pg_type);
+
+		return list;
 	}
+	
+	/*
+	 //테스트 코드로 남겨놓음. macOS사용시 MySQL datasource 중 url에 DB명 뒤에 ?
+	 //<property name="url" value="jdbc:mysql://localhost:3306/harang?characterEncoding=UTF-8"/>이렇게 추가해줄것.
+	@Override
+	public List<PlaygroundDTO> testchduleNamePgLoadAjax(PlaygroundDTO pgdto) {
+	System.out.println("테스트 dao에 접근함.");
+	System.out.println("가지고 온 값은? : " + pgdto.getPg_type());
+		
+	List<PlaygroundDTO> list = sqlSession.selectList(namespace + ".schPgNameAjax2", pgdto.getPg_type());
+		
+		for(int i=0; i<list.size();i++){
+			System.out.println("값이 들어을까요?");
+			System.out.println("여기에 들어와야되는데 왜 안들어오니?" + list.get(i).getPg_name());
+			
+			if(list.get(i).getPg_name() == null){
+				System.out.println("값이 없습니다.");
+			}
+			else{
+				System.out.println("성공적.");
+			}
+		}
+		
+		return list;
+	}
+	*/
 
 	@Override
 	public List<StudyroomDTO> schduleNameSrLoadAjax(String sr_type) {
-		List list = sqlSession.selectList(namespace + ".schSrNameAjax", sr_type);
+		List<StudyroomDTO> list = sqlSession.selectList(namespace + ".schSrNameAjax", sr_type);
 		return list;
 	}
 
@@ -139,14 +169,14 @@ public class FacilDaoImpl implements FacilDao {
 	}
 
 	@Override
-	public List<PlaygroundDTO> loadPgList() {
-		List list = sqlSession.selectList(namespace + ".loadPgList");
+	public List<PlaygroundDTO> loadPgList(SearchCriteria cri) {
+		List list = sqlSession.selectList(namespace + ".loadPgList", cri);
 		return list;
 	}
 
 	@Override
-	public List<StudyroomDTO> loadSrList() {
-		List list = sqlSession.selectList(namespace + ".loadSrList");
+	public List<StudyroomDTO> loadSrList(SearchCriteria cri) {
+		List list = sqlSession.selectList(namespace + ".loadSrList", cri);
 		return list;
 	}
 
@@ -182,26 +212,26 @@ public class FacilDaoImpl implements FacilDao {
 
 	@Override
 	public List<PgMemberDTO> loadPgTimecodeAjax(PgMemberDTO pgmdto) {
-		String a = pgmdto.getPg_num();
-		String b = pgmdto.getPgm_date();
-		
-		System.out.println("온 데이터는?" + a + b);
-		System.out.println("타임코드 쿼리");
-																	
+					
 		List<PgMemberDTO> list = sqlSession.selectList(namespace + ".loadPgTimecode", pgmdto);
-		System.out.println("타임코드 쿼리 완료");
-		
-		for(int i =0 ; i<list.size(); i++){
-			String c = list.get(i).getPgm_timecode();
-			System.out.println("DAO에서의 타임코드는 : " + c);
-		}
-		
 		return list;
 	}
 
 	@Override
 	public List<SrMemberDTO> loadSrTimecodeAjax(SrMemberDTO srmdto) {
-		List list = sqlSession.selectList(namespace + ".loadSrTimecode", srmdto);
+		List<SrMemberDTO> list = sqlSession.selectList(namespace + ".loadSrTimecode", srmdto);
 		return list;
 	}
+
+	@Override
+	public void userReserPg(PgMemberDTO pgmdto) {
+		sqlSession.insert(namespace + ".reserPgComplate", pgmdto);
+	}
+
+	@Override
+	public void userReserSr(SrMemberDTO srmdto) {
+		sqlSession.insert(namespace + ".reserSrComplate", srmdto);
+	}
+
+
 }

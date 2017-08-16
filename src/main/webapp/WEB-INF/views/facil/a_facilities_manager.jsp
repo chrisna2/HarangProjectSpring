@@ -108,42 +108,37 @@
 						</div>
 
 						<!-- 검색문 / 셀렉트  -->
-						<form action="/HarangProject/facil?cmd=AFacilManager" name="search" method="post">
+						<form action="/facil/AFacilManager" name="pgsearch" method="post">
 							<div class="row">
-								
-								<div class="col-md-3" align="center">
-									<select 
-										class="form-control input-sm pull-left"
-										style="width: 150px"
-										name="keyword">
-										
-										
-										
-												 <option value="pgm_num" ${requestScope.keyfield eq 'pgm_num' ? 'selected' : null}> 예약번호</option>
-                        <option value="pgm_regdate" ${requestScope.keyfield eq 'pgm_regdate' ? 'selected' : null}> 예약한 날짜</option>
-                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null}> 학번[ID] </option>
-                        <option value="p.pg_type" ${requestScope.keyfield eq 'p.pg_type' ? 'selected' : null}>시설명 </option>
-                        <option value="p.pg_name" ${requestScope.keyfield eq 'p.pg_name' ? 'selected' : null}> 호수 </option>
-                        <option value="pgm_date" ${requestScope.keyfield eq 'pgm_date' ? 'selected' : null}> 예약날짜 </option>
-										
-										
-									
-										
-									</select>
-								</div>
-								
-								<div class="col-md-3" align="center">
-									<input type="text" 
-										   name="keyfield"
-										   class="form-control input-sm  pull-left" 
-										   style="width: 150px;"
-										   placeholder="Search" />
-									<div class="input-group-btn  pull-left">
-										<button
-											type="submit" 
-											class="btn btn-sm btn-primary">
-											검색 <i class="fa fa-search"></i>
-										</button>
+								<div class="input-group">
+									<div class="col-md-3" align="center">
+										<select name="keyfield"
+											class="form-control input-sm pull-left" style="width: 150px;">
+											<option value="pgm_num"
+												${keyfield eq 'pgm_num' ? 'selected' : null }>예약번호</option>
+											<option value="pgm_regdate"
+												${keyfield eq 'pgm_regdate' ? 'selected' : null }>예약한 날짜</option>
+											<option value="m_id"
+												${keyfield eq 'm_id' ? 'selected' : null }>학번</option>
+											<option value="pg_type"
+												${keyfield eq 'pg_type' ? 'selected' : null }>시설명</option>
+											<option value="pg_name"
+												${keyfield eq 'pg_name' ? 'selected' : null }>호수</option>
+											<option value="pg_date"
+												${keyfield eq 'pgm_date' ? 'selected' : null }>예약날짜</option>
+										</select>
+									</div>
+
+									<div class="col-md-3" align="center">
+										<input type="text" name="keyword"
+											   class="form-control input-sm  pull-left"
+											   style="width: 150px;" 
+											   placeholder="Search" />
+										<div class="input-group-btn  pull-left">
+											<button class="btn btn-sm btn-primary">
+												검색 <i class="fa fa-search"></i>
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -228,42 +223,38 @@
 						</div>
 
 						<!-- 검색문 / 셀렉트  -->
-						<form action="/HarangProject/facil?cmd=AFacilManager" name="search" method="post">
+						<!-- 검색문 / 셀렉트  -->
+						<form action="/facil/AFacilManager" name="srsearch" method="post">
 							<div class="row">
-								
-								<div class="col-md-3" align="center">
-									<select 
-										class="form-control input-sm pull-left"
-										style="width: 150px"
-										name="keyword">
-										
-										
-										
-										
-										 <option value="pgm_num" ${requestScope.keyfield eq 'pgm_num' ? 'selected' : null}> 예약번호</option>
-                        <option value="pgm_regdate" ${requestScope.keyfield eq 'pgm_regdate' ? 'selected' : null}> 예약한 날짜</option>
-                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null}> 학번[ID] </option>
-                        <option value="p.pg_type" ${requestScope.keyfield eq 'p.pg_type' ? 'selected' : null}>시설명 </option>
-                        <option value="p.pg_name" ${requestScope.keyfield eq 'p.pg_name' ? 'selected' : null}> 호수 </option>
-                        <option value="pgm_date" ${requestScope.keyfield eq 'pgm_date' ? 'selected' : null}> 예약날짜 </option>
-										
-										
-								
-									</select>
-								</div>
-								
-								<div class="col-md-3" align="center">
-									<input type="text" 
-										   name="keyfield"
-										   class="form-control input-sm  pull-left" 
-										   style="width: 150px;"
-										   placeholder="Search" />
-									<div class="input-group-btn  pull-left">
-										<button
-											type="submit" 
-											class="btn btn-sm btn-primary">
-											검색 <i class="fa fa-search"></i>
-										</button>
+								<div class="input-group">
+									<div class="col-md-3" align="center">
+										<select name="keyfield"
+											class="form-control input-sm pull-left" style="width: 150px;">
+											<option value="srm_num"
+												${keyfield eq 'srm_num' ? 'selected' : null }>예약번호</option>
+											<option value="pgm_regdate"
+												${keyfield eq 'srm_regdate' ? 'selected' : null }>예약한 날짜</option>
+											<option value="m_id"
+												${keyfield eq 'm_id' ? 'selected' : null }>학번</option>
+											<option value="pg_type"
+												${keyfield eq 'sr_type' ? 'selected' : null }>시설명</option>
+											<option value="pg_name"
+												${keyfield eq 'sr_name' ? 'selected' : null }>호수</option>
+											<option value="pg_date"
+												${keyfield eq 'srm_date' ? 'selected' : null }>예약날짜</option>
+										</select>
+									</div>
+
+									<div class="col-md-3" align="center">
+										<input type="text" name="keyword"
+											   class="form-control input-sm  pull-left"
+											   style="width: 150px;" 
+											   placeholder="Search" />
+										<div class="input-group-btn  pull-left">
+											<button class="btn btn-sm btn-primary">
+												검색 <i class="fa fa-search"></i>
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>

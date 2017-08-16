@@ -33,11 +33,8 @@
                   <h3 class="box-title">알바 정보</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                  <form name="post" method="post" action="/HarangProject/parttime?cmd=DMAIN">
+                  <form name="post" method="post" action="/parttime/insertDaeta">
                   	<input type="hidden" name="m_id" value="${m_id}"/>
-                  	<input type="hidden" name="insert" value="OK"/>
-					<input type="hidden" name="nowPage" value="${nowPage}"/>
-      				<input type="hidden" name="nowBlock" value="${nowBlock}"/>
                     <!-- text input -->
                     <div class="row">
 	                    <div class="col-md-3 form-group">
@@ -120,21 +117,17 @@
         </div><!-- /.row -->
      </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
-     </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<form name="cancel" method="post" action="/HarangProject/parttime?cmd=DMAIN">
-	<input type="hidden" name="nowPage" value="${nowPage}"/>
-    <input type="hidden" name="nowBlock" value="${nowBlock}"/>
-</form>  
+     </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->  
 
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/a_footer.jsp" %>
 <!-- ------------------------------------------------------------------------------------------------ -->
   
     <!-- 날짜 -->
-    <script src="plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
-    <script src="plugins/timepicker/bootstrap-timepicker.min.js" type="text/javascript"></script>
+    <script src="../resources/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="../resources/plugins/timepicker/bootstrap-timepicker.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-	<script src="plugins/daterangepicker/daterangepicker.js"></script>
+	<script src="../resources/plugins/daterangepicker/daterangepicker.js"></script>
     <script>
    
         $( "#date1" ).datepicker({
@@ -154,17 +147,21 @@
     $(".onlynum").keyup(function(){$(this).val( $(this).val().replace(/[^0-9]/g,"") );} );
     	
     function fnPost(){
-    	if(confirm("제출과 동시에 포인트가 빠져나갑니다.\n정말 제출하시겠습니까?") == true){
-    		document.post.submit();
-   		}else{
-   			return;
-   		}
-   		
+    	if ($('input[required]').is(":empty")){
+    		alert("등록하시겠습니까? (빈 칸이 있으면 등록할 수 없습니다.)");
+    		$(this).focus();
+    	}else{
+    		if(confirm("제출과 동시에 포인트가 빠져나갑니다.\n정말 제출하시겠습니까?") == true){
+        		document.post.submit();
+       		}else{
+       			return;
+       		}
+    	}
    	}
     	
    	function fnCancel(){
    		if(confirm("현재 작성한 내용이 모두 사라집니다.\n정말 취소하시겠습니까?") == true){
-   			document.cancel.submit();
+   			location.href="/parttime/DMAIN";
    		}else{
    			return;
    		}
@@ -172,7 +169,7 @@
    	
    	function fnList(){
    		if(confirm("현재 작성한 내용이 모두 사라집니다.\n정말 목록으로 이동하시겠습니까?") == true){
-   			document.cancel.submit();
+   			location.href="/parttime/DMAIN";
    		}else{
    			return;
    		}

@@ -6,7 +6,7 @@
 	<select id="getParttimeList" resultType="Parttime" parameterType="SearchCriteria">
 		SELECT * FROM tbl_parttime
 		<include refid="searchParttimeList" />
-		ORDER BY p_regdate DESC
+		ORDER BY p_num DESC
 		limit #{pageStart}, #{perPageNum} 
 	</select>
 
@@ -20,14 +20,22 @@
 			</if>
 		</if>
 	</sql>
+	
+	<select id="countParttimeList" resultType="int">
+		SELECT count(p_num) FROM tbl_parttime;
+	</select>
 
 	<select id="getMyParttimeList" resultType="Parttime" parameterType="SearchCriteria">
 		SELECT * FROM
 		tbl_parttime WHERE m_id = #{m_id} 
-		ORDER BY p_regdate DESC
+		ORDER BY p_num DESC
 		limit #{pageStart}, #{perPageNum} 
 	</select>
-
+	
+	<select id="countMyParttimeList" resultType="int">
+		SELECT count(p_num) FROM tbl_parttime WHERE m_id = #{m_id}
+	</select>
+	
 	<select id="getDaetaList" resultType="Daeta" parameterType="SearchCriteria">
 		SELECT * FROM tbl_daeta
 		<include refid="searchDaetaList" />
@@ -46,10 +54,18 @@
 		</if>
 	</sql>
 	
+	<select id="countDaetaList" resultType="int">
+		SELECT count(d_num) FROM tbl_daeta
+	</select>
+	
 	<select id="getMyDaetaList" resultType="Daeta">
 		SELECT * FROM tbl_daeta WHERE m_id = #{m_id} 
 		ORDER BY d_regdate DESC
 		limit #{pageStart}, #{perPageNum} 
+	</select>
+	
+	<select id="countMyDaetaList" resultType="int">
+		SELECT count(d_num) FROM tbl_daeta WHERE m_id = #{m_id} 
 	</select>
 
 	<select id="getParttimeCnt_apply" resultType="int">
@@ -107,26 +123,34 @@
 	</delete>
 	
 	<select id="getParttimeApplyList" resultType="P_Apply">
-		SELECT * FROM tbl_parttime_member WHERE p_num = #{p_num} ORDER BY pm_regdate ASC
+		SELECT * FROM tbl_parttime_member WHERE p_num = #{p_num} ORDER BY pm_regdate ASC 
 	</select>
 	
 	<select id="getMyParttimeApplyList" resultType="P_Apply">
-		SELECT * FROM tbl_parttime_member WHERE m_id = #{m_id} ORDER BY pm_regdate DESC
+		SELECT * FROM tbl_parttime_member WHERE m_id = #{m_id} ORDER BY pm_regdate DESC limit #{pageStart}, #{perPageNum} 
+	</select>
+	
+	<select id="countMyParttimeApplyList" resultType="int">
+		SELECT count(p_num) FROM tbl_parttime_member WHERE m_id = #{m_id}
 	</select>
 	
 	<select id="getDaetaApplyList" resultType="D_Apply">
-		SELECT * FROM tbl_daeta_member WHERE d_num = #{d_num} ORDER BY dm_regdate ASC
+		SELECT * FROM tbl_daeta_member WHERE d_num = #{d_num} ORDER BY dm_regdate ASC 
 	</select>
 	
 	<select id="getMyDaetaApplyList" resultType="D_Apply">
-		SELECT * FROM tbl_daeta_member WHERE m_id = #{m_id} ORDER BY dm_regdate DESC
+		SELECT * FROM tbl_daeta_member WHERE m_id = #{m_id} ORDER BY dm_regdate DESC limit #{pageStart}, #{perPageNum} 
+	</select>
+	
+	<select id="countMyDaetaApplyList" resultType="int">
+		SELECT count(d_num) FROM tbl_daeta_member WHERE m_id = #{m_id}
 	</select>
 	
 	<select id="getParttimeApply" parameterType="HashMap" resultType="P_Apply">
 		SELECT * FROM tbl_parttime_member WHERE p_num = #{p_num} AND m_id=#{m_id}
 	</select>
 	
-	<select id="getDaetaApply" resultType="D_Apply">
+	<select id="getDaetaApply" parameterType="HashMap" resultType="D_Apply">
 		SELECT * FROM tbl_daeta_member WHERE d_num = #{d_num} AND m_id=#{m_id}
 	</select>
 	
@@ -180,7 +204,7 @@
 	</update>
 	
 	<select id="getParttimeReplyList" resultType="ParttimeReply">
-		SELECT * FROM tbl_parttime_reply WHERE p_num=#{p_num} ORDER BY pr_regdate DESC
+		SELECT * FROM tbl_parttime_reply WHERE p_num=#{p_num} ORDER BY pr_regdate DESC 
 	</select>
 	
 	<select id="getDaetaReplyList" resultType="DaetaReply">
@@ -192,7 +216,7 @@
 	</insert>
 	
 	<insert id="insertDaetaReply" parameterType="DaetaReply">
-		INSERT INTO tbl_daeta_reply(dr_comment, d_num, m_id) VALUES (#{dr_daeta_reply},#{d_num},#{m_id})
+		INSERT INTO tbl_daeta_reply(dr_comment, d_num, m_id) VALUES (#{dr_comment},#{d_num},#{m_id})
 	</insert>
 	
 	<delete id="deleteParttimeReply" parameterType="String">

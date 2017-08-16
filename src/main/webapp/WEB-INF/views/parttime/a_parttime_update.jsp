@@ -33,8 +33,7 @@
                   <h3 class="box-title">채용 정보</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                  <form name="post" method="post" action="/HarangProject/parttime?cmd=PREAD">
-                  	<input type="hidden" name="update" value="OK"/>
+                  <form name="post" method="post" action="/parttime/updateParttime">
                   	<input type="hidden" name="p_num" value="${info.p_num}"/>
                   	<input type="hidden" name="p_daycode" value="" id = "p_daycode" required="required"/>
                     <input type="hidden" name="read" value="no"/>
@@ -134,10 +133,8 @@
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-      <form name="cancel" method="post" action="/HarangProject/parttime?cmd=PREAD">
+      <form name="cancel" method="post" action="/parttime/PREAD">
       	<input type="hidden" name="p_num" value="${info.p_num}"/>
-      	<input type="hidden" name="nowPage" value="${nowPage}"/>
-      	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 

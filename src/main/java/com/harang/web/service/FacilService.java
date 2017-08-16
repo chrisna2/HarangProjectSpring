@@ -7,18 +7,19 @@ import javax.servlet.http.HttpServletRequest;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
 import com.harang.web.domain.ScheduleDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 
 public interface FacilService {
-	public List<PgMemberDTO> loadPgReserListAll();
-	public List<SrMemberDTO> loadSrReserListAll();
+	public List<PgMemberDTO> loadPgReserListAll(SearchCriteria cri);
+	public List<SrMemberDTO> loadSrReserListAll(SearchCriteria cri);
 	
-	public List<PlaygroundDTO> loadPgList();
-	public List<StudyroomDTO> loadSrList();
+	public List<PlaygroundDTO> loadPgList(SearchCriteria cri);
+	public List<StudyroomDTO> loadSrList(SearchCriteria cri);
 	
-	public List<PgMemberDTO> loadPgReserList(String m_id);
-	public List<SrMemberDTO> loadSrReserList(String m_id);
+	public List<PgMemberDTO> loadPgReserList(SearchCriteria cri);
+	public List<SrMemberDTO> loadSrReserList(SearchCriteria cri);
 	
 	public List<PgMemberDTO> schedulePgList();
 	public List<SrMemberDTO> scheduleSrList();
@@ -27,6 +28,7 @@ public interface FacilService {
 	public List<ScheduleDTO> scheduleToSr();
 	
 	public List<PlaygroundDTO> schPgNameAjax(String pg_type);
+	//public List<PlaygroundDTO> testschPgNameAjax(PlaygroundDTO pgdto);
 	public List<StudyroomDTO> schSrNameAjax(String sr_type);
 	
 	public List<PlaygroundDTO> schPgTypeAjax();
@@ -36,7 +38,7 @@ public interface FacilService {
 	public List<StudyroomDTO> schSrNumAjax(StudyroomDTO srdto);
 	
 	public String loadPgTimecodeAjax(PgMemberDTO pgmdto);
-	public List<SrMemberDTO> loadSrTimecodeAjax(SrMemberDTO srmdto);
+	public String loadSrTimecodeAjax(SrMemberDTO srmdto);
 	
 	public void facilPgAdd(PlaygroundDTO pgdto);
 	public void facilSrAdd(StudyroomDTO srdto);
@@ -49,6 +51,9 @@ public interface FacilService {
 	
 	public void schPgAdd(PgMemberDTO pgmdto);
 	public void schSrAdd(SrMemberDTO srmdto);
+	
+	public void userReserPg(PgMemberDTO pgmdto);
+	public void userReserSr(SrMemberDTO srmdto);
 	
 	public void selectReserPg();
 	public void selectReserSr();

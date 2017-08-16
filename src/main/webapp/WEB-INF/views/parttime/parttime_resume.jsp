@@ -110,11 +110,11 @@
 </div>
 <form name="list" method="post" action="/parttime/PREAD">
 	<input type="hidden" name="tab" value="${tab}"/>
-	<input type="hidden" name="p_num" value="${p_num}"/>
+	<input type="hidden" name="p_num" value="${resume.p_num}"/>
 	<input type="hidden" name="read" value="no"/>
 </form>
 <form name="del" method="post" action="/parttime/delParttimeResume">
-	<input type="hidden" name="p_num" value="${p_num}"/>
+	<input type="hidden" name="p_num" value="${resume.p_num}"/>
 	<input type="hidden" name="tab" value="${tab}"/>
 	<input type="hidden" name="read" value="no"/>
 </form>

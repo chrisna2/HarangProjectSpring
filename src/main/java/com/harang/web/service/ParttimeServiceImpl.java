@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.harang.web.domain.Criteria;
 import com.harang.web.domain.D_ApplyDTO;
 import com.harang.web.domain.DaetaDTO;
 import com.harang.web.domain.DaetaReplyDTO;
@@ -28,8 +29,8 @@ public class ParttimeServiceImpl implements ParttimeService {
 	}
 
 	@Override
-	public List<ParttimeDTO> getMyParttimeList(HashMap<String, Object> params) {
-		return parttimeDao.getMyParttimeList(params);
+	public List<ParttimeDTO> getMyParttimeList(SearchCriteria cri) {
+		return parttimeDao.getMyParttimeList(cri);
 	}
 
 	@Override
@@ -38,8 +39,8 @@ public class ParttimeServiceImpl implements ParttimeService {
 	}
 
 	@Override
-	public List<DaetaDTO> getMyDaetaList(HashMap<String, Object> params) {
-		return parttimeDao.getMyDaetaList(params);
+	public List<DaetaDTO> getMyDaetaList(SearchCriteria cri) {
+		return parttimeDao.getMyDaetaList(cri);
 	}
 
 	@Override
@@ -118,13 +119,13 @@ public class ParttimeServiceImpl implements ParttimeService {
 	}
 
 	@Override
-	public List<P_ApplyDTO> getMyParttimeApplyList(HashMap<String, Object> params) {
-		return parttimeDao.getMyParttimeApplyList(params);
+	public List<P_ApplyDTO> getMyParttimeApplyList(SearchCriteria cri) {
+		return parttimeDao.getMyParttimeApplyList(cri);
 	}
 
 	@Override
-	public List<D_ApplyDTO> getMyDaetaApplyList(HashMap<String, Object> params) {
-		return parttimeDao.getMyDaetaApplyList(params);
+	public List<D_ApplyDTO> getMyDaetaApplyList(SearchCriteria cri) {
+		return parttimeDao.getMyDaetaApplyList(cri);
 	}
 
 	@Override
@@ -220,6 +221,36 @@ public class ParttimeServiceImpl implements ParttimeService {
 	@Override
 	public void deleteDaetaReply(String dr_num) {
 		parttimeDao.deleteDaetaReply(dr_num);
+	}
+
+	@Override
+	public int countParttimeList() {
+		return parttimeDao.countParttimeList();
+	}
+
+	@Override
+	public int countDaetaList() {
+		return parttimeDao.countDaetaList();
+	}
+
+	@Override
+	public int countMyParttimeList(String m_id) {
+		return parttimeDao.countMyParttimeList(m_id);
+	}
+
+	@Override
+	public int countMyDaetaList(String m_id) {
+		return parttimeDao.countMyDaetaList(m_id);
+	}
+
+	@Override
+	public int countMyParttimeApplyList(String m_id) {
+		return parttimeDao.countMyParttimeApplyList(m_id);
+	}
+
+	@Override
+	public int countMyDaetaApplyList(String m_id) {
+		return parttimeDao.countMyDaetaApplyList(m_id);
 	}
 
 }

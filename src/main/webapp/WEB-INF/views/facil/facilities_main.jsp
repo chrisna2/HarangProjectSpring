@@ -16,38 +16,35 @@
 }
 </style>
 <script type="text/javascript">
-window.onload = function(){
-	var result = "${result}";
+	window.onload = function() {
+		var result = "${result}";
 
-	if( result == null){
-	
+		if (result == null) {
+
+		} else if (result == "true") {
+			alert("예약이 취소되었습니다.");
+		}
 	}
-	else if(result == "true"){
-		alert("예약이 취소되었습니다.");
+
+	function dateFormCheck() {
+		/*날짜 비교 */
+		var _reserdate = checkform.resertime.value.split("-");
+		//alert(_reserdate);
+		var year = _reserdate[0];
+		var month = _reserdate[1];
+		var day = _reserdate[2];
+		var reserdate = new Date();
+		reserdate.setFullYear(year, month - 1, day);
+		var today = new Date();
+
+		if (today.getTime() > reserdate.getTime()) {
+			alert("이미 예약일을 지난 시설예약은 환불이 불가합니다.");
+			return false;
+		} else {
+			return true;
+		}
+
 	}
-}
-
-
-function dateFormCheck(){
-	  /*날짜 비교 */
-    var _reserdate = checkform.resertime.value.split("-");
-    //alert(_reserdate);
-    var year = _reserdate[0];
-    var month = _reserdate[1];
-    var day = _reserdate[2];
-    var reserdate = new Date();
-    reserdate.setFullYear(year, month - 1, day);
-    var today = new Date();
-
-    if(today.getTime()>reserdate.getTime()){
-        alert("이미 예약일을 지난 시설예약은 환불이 불가합니다.");
-        return false;
-    }
-    else{
-        return true;
-    }  
-
-}
 </script>
 
 
@@ -71,7 +68,7 @@ function dateFormCheck(){
 
 
 	<section class="content">
-		
+
 		<!-- 운동장 테이블 위치 -->
 		<!-- 세로 길이 수정 -->
 		<div class="row">
@@ -105,7 +102,7 @@ function dateFormCheck(){
 								</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${requestScope.pgmlist}" var="p" varStatus="i">
+								<c:forEach items="${requestScope.pgmlist}" var="p" varStatus="i">
 									<tr class="text-blue">
 										<td>${p.pgm_num}</td>
 										<td>운동장</td>
@@ -113,11 +110,11 @@ function dateFormCheck(){
 										<td>${p.pg_name}</td>
 										<td>${p.pgm_date}</td>
 										<td>${p.payoutpoint}</td>
-										<td>
-										<input type="button" class="btn btn-primary" value="선택" 
-										onclick="pgSelectDelete('${p.pgm_num}','${p.pg_type}','${p.pg_name}','${p.pgm_date}','${p.payoutpoint}')" />
+										<td><input type="button" class="btn btn-primary"
+											value="선택"
+											onclick="pgSelectDelete('${p.pgm_num}','${p.pg_type}','${p.pg_name}','${p.pgm_date}','${p.payoutpoint}')" />
 										</td>
-										
+
 									</tr>
 								</c:forEach>
 
@@ -143,31 +140,37 @@ function dateFormCheck(){
 						</div>
 
 						<!-- 셀렉트  -->
-						
-						<form action="">
-						<div class="row">
-							<div class="col-md-3" align="center">
-								<select class="form-control input-sm pull-left"
-									style="width: 150px;">
-									<option>시설종류</option>
-									<option>시설명</option>
-									<option>호수</option>
-									<option>예약시간</option>
-								</select>
-							</div>
-							<div class="col-md-3" align="center">
-								<input type="text" name="table_search"
-									class="form-control input-sm  pull-left" style="width: 150px;"
-									placeholder="Search" />
-								<div class="input-group-btn  pull-left">
-									<button class="btn btn-sm btn-primary">
-										검색 <i class="fa fa-search"></i>
-									</button>
+
+						<form action="/facil/FacilMain" name="pgsearch" method="post">
+							<div class="row">
+								<div class="input-group">
+									<div class="col-md-3" align="center">
+										<select name="keyfield"
+											class="form-control input-sm pull-left" style="width: 150px;">
+											<option value="pg_type"
+												${keyfield eq 'pg_type' ? 'selected' : null }>시설명</option>
+											<option value="pg_name"
+												${keyfield eq 'pg_name' ? 'selected' : null }>호수</option>
+											<option value="pgm_date"
+												${keyfield eq 'pgm_date' ? 'selected' : null }>예약 날짜</option>
+										</select>
+									</div>
+
+									<div class="col-md-3" align="center">
+										<input type="text" name="keyword"
+											   class="form-control input-sm  pull-left"
+											   style="width: 150px;" 
+											   placeholder="Search" />
+										<div class="input-group-btn  pull-left">
+											<button class="btn btn-sm btn-primary">
+												검색 <i class="fa fa-search"></i>
+											</button>
+										</div>
+									</div>
 								</div>
 							</div>
-							</div>
 						</form>
-						
+
 					</div>
 				</div>
 				<!-- /.box -->
@@ -209,7 +212,7 @@ function dateFormCheck(){
 								</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${requestScope.srmlist}" var="s" varStatus="i">
+								<c:forEach items="${requestScope.srmlist}" var="s" varStatus="i">
 									<tr class="text-blue">
 										<td>${s.srm_num}</td>
 										<td>스터디룸</td>
@@ -217,10 +220,9 @@ function dateFormCheck(){
 										<td>${s.sr_name}</td>
 										<td>${s.srm_date}</td>
 										<td>${s.payoutpoint}</td>
-										<td>
-										
-										<input type="button" class="btn btn-primary" value="선택" 
-										onclick="srSelectDelete('${s.srm_num}','${s.sr_type}','${s.sr_name}','${s.srm_date}','${s.payoutpoint}')" />
+										<td><input type="button" class="btn btn-primary"
+											value="선택"
+											onclick="srSelectDelete('${s.srm_num}','${s.sr_type}','${s.sr_name}','${s.srm_date}','${s.payoutpoint}')" />
 										</td>
 									</tr>
 								</c:forEach>
@@ -247,31 +249,37 @@ function dateFormCheck(){
 						</div>
 
 						<!-- 셀렉트  -->
-						
-						<form action="">
-						<div class="row">
-							<div class="col-md-3" align="center">
-								<select class="form-control input-sm pull-left"
-									style="width: 150px;">
-									<option>시설종류</option>
-									<option>시설명</option>
-									<option>호수</option>
-									<option>예약시간</option>
-								</select>
-							</div>
-							<div class="col-md-3" align="center">
-								<input type="text" name="table_search"
-									class="form-control input-sm  pull-left" style="width: 150px;"
-									placeholder="Search" />
-								<div class="input-group-btn  pull-left">
-									<button class="btn btn-sm btn-primary">
-										검색 <i class="fa fa-search"></i>
-									</button>
+
+						<form action="/facil/FacilMain" name="srsearch" method="post">
+							<div class="row">
+								<div class="input-group">
+									<div class="col-md-3" align="center">
+										<select name="keyfield"
+											class="form-control input-sm pull-left" style="width: 150px;">
+											<option value="sr_type"
+												${keyfield eq 'sr_type' ? 'selected' : null }>시설명</option>
+											<option value="sr_name"
+												${keyfield eq 'sr_name' ? 'selected' : null }>호수</option>
+											<option value="srm_date"
+												${keyfield eq 'srm_date' ? 'selected' : null }>예약 날짜</option>
+										</select>
+									</div>
+
+									<div class="col-md-3" align="center">
+										<input type="text" name="keyword"
+											   class="form-control input-sm  pull-left"
+											   style="width: 150px;" 
+											   placeholder="Search" />
+										<div class="input-group-btn  pull-left">
+											<button class="btn btn-sm btn-primary">
+												검색 <i class="fa fa-search"></i>
+											</button>
+										</div>
+									</div>
 								</div>
 							</div>
-							</div>
 						</form>
-						
+
 					</div>
 				</div>
 				<!-- /.box -->
@@ -301,9 +309,10 @@ function dateFormCheck(){
 					<!-- /.box-header -->
 
 					<!-- box-body -->
-					<form role="form" method="post" name="checkform" action="/facil/FacilMainDel" onsubmit="return dateFormCheck()">
-					<div class="box-body">
-						
+					<form role="form" method="post" name="checkform"
+						action="/facil/FacilMainDel" onsubmit="return dateFormCheck()">
+						<div class="box-body">
+
 							<div class="row">
 
 								<!-- text input -->
@@ -315,47 +324,51 @@ function dateFormCheck(){
 							</div>
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label>시설종류</label> 
-									<input type="text" id="mfaciltype" name="mfaciltype" class="form-control" readonly="readonly" style="width: 200px">
+									<label>시설종류</label> <input type="text" id="mfaciltype"
+										name="mfaciltype" class="form-control" readonly="readonly"
+										style="width: 200px">
 								</div>
 								<div class="form-group col-md-4">
-									<label>시설명</label> 
-									<input type="text" id="faciltype" name="faciltype" class="form-control" readonly="readonly" style="width: 200px">
+									<label>시설명</label> <input type="text" id="faciltype"
+										name="faciltype" class="form-control" readonly="readonly"
+										style="width: 200px">
 								</div>
 								<div class="form-group col-md-4">
-									<label>호수</label> 
-									<input type="text" id="facilname" name="facilname" class="form-control" readonly="readonly" style="width: 100px">
+									<label>호수</label> <input type="text" id="facilname"
+										name="facilname" class="form-control" readonly="readonly"
+										style="width: 100px">
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label>예약시간</label> 
-									<input type="text" id="resertime" name="resertime" class="form-control" readonly="readonly">
+									<label>예약시간</label> <input type="text" id="resertime"
+										name="resertime" class="form-control" readonly="readonly">
 								</div>
 								<div class="form-group col-md-4">
-									<label>환불포인트</label> 
-									<input type="text" id="backpoint" name="backpoint" class="form-control" readonly="readonly" >
+									<label>환불포인트</label> <input type="text" id="backpoint"
+										name="backpoint" class="form-control" readonly="readonly">
 								</div>
 							</div>
-						
-						<!-- /.box-body -->
-						<!-- box-footer -->
-						<div class="box-footer">
-												<div class="row" align="center">
-							<div class="col-md-3 btn-group">
+
+							<!-- /.box-body -->
+							<!-- box-footer -->
+							<div class="box-footer">
+								<div class="row" align="center">
+									<div class="col-md-3 btn-group"></div>
+									<div class="col-md-3 btn-group">
+										<input type="submit" class="btn btn-block btn-primary"
+											value="예약취소">
+									</div>
+									<div class="col-md-3 btn-group">
+										<input type="button" class="btn btn-block  btn-primary"
+											value="다시 선택" onclick="shutdown()">
+									</div>
+								</div>
 							</div>
-							<div class="col-md-3 btn-group">
-								<input type="submit" class="btn btn-block btn-primary" value="예약취소">
-							</div>
-							<div class="col-md-3 btn-group">
-								<input type="button" class="btn btn-block  btn-primary" value="다시 선택" onclick="shutdown()">
-							</div>
+
+							<!-- /.box-footer -->
 						</div>
-						</div>
-						
-						<!-- /.box-footer -->
-					</div>
 					</form>
 					<!-- /.box -->
 				</div>
@@ -374,33 +387,33 @@ function dateFormCheck(){
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------>
 <%@ include file="../include/footer.jsp"%>
 <script type="text/javascript">
-	function srSelectDelete(srm_num, sr_type, sr_name, srm_date, payoutpoint){
+	function srSelectDelete(srm_num, sr_type, sr_name, srm_date, payoutpoint) {
 
 		$("#cancel").slideUp();
 		$("#cancel").slideDown();
-		
-		$("#mfaciltype").attr("value","스터디룸");
-		$("#resernum").attr("value",srm_num);
-		$("#faciltype").attr("value",sr_type);
-		$("#facilname").attr("value",sr_name);
-		$("#resertime").attr("value",srm_date);
-		$("#backpoint").attr("value",payoutpoint);
+
+		$("#mfaciltype").attr("value", "스터디룸");
+		$("#resernum").attr("value", srm_num);
+		$("#faciltype").attr("value", sr_type);
+		$("#facilname").attr("value", sr_name);
+		$("#resertime").attr("value", srm_date);
+		$("#backpoint").attr("value", payoutpoint);
 	}
-	
-	function pgSelectDelete(pgm_num, pg_type, pg_name, pgm_date, payoutpoint){
+
+	function pgSelectDelete(pgm_num, pg_type, pg_name, pgm_date, payoutpoint) {
 
 		$("#cancel").slideUp();
 		$("#cancel").slideDown();
-		
-		$("#mfaciltype").attr("value","운동장");
-		$("#resernum").attr("value",pgm_num);
-		$("#faciltype").attr("value",pg_type);
-		$("#facilname").attr("value",pg_name);
-		$("#resertime").attr("value",pgm_date);
-		$("#backpoint").attr("value",payoutpoint);
+
+		$("#mfaciltype").attr("value", "운동장");
+		$("#resernum").attr("value", pgm_num);
+		$("#faciltype").attr("value", pg_type);
+		$("#facilname").attr("value", pg_name);
+		$("#resertime").attr("value", pgm_date);
+		$("#backpoint").attr("value", payoutpoint);
 	}
-	function shutdown(){
+	function shutdown() {
 		$("#cancel").slideUp();
-		}
+	}
 </script>
 

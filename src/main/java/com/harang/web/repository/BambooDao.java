@@ -29,6 +29,7 @@ public interface BambooDao {
 	public void bbUpdateCnt(String bb_num);
 	
 	public void bbPost(BambooDTO bambooDTO);
+	public void abbPost(BambooDTO bambooDTO);
 	
 	public void bbrpost(BbreplyDTO bbreplyDTO);
 	

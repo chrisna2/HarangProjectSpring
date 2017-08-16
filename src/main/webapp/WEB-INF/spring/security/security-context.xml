@@ -7,7 +7,14 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- 기본 설정을 : beans 에서 security로 전환 즉 접두사  security 안써도 됨 대신  beans는 써야 됨 -->
 
+
 	<http auto-config="true">
+	
+		<headers>
+	
+		 <frame-options disabled="true"/>
+	
+	    </headers>
 		<!-- 
 		<intercept-url pattern="/login/login" access="permitAll"/>
 		<intercept-url pattern="/**" access="permitAll"/>

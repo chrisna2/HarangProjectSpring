@@ -9,7 +9,7 @@ public class SearchCriteria extends Criteria {
 	private int tt_term;
 	
 	public int getTt_grade() {
-		return tt_grade;
+		return tt_grade; 
 	}
 	public void setTt_grade(int tt_grade) {
 		this.tt_grade = tt_grade;

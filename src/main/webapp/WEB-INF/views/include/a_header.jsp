@@ -264,7 +264,7 @@
               </a>
             </li>
             <li>
-              <a href="/bamboo/A_BB_LIST">
+              <a href="/bamboo/BB_LIST">
                 <i class="fa fa-group"></i><span>하랑 대나무 숲 관리</span>
               </a>
             </li>

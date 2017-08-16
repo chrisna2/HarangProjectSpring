@@ -68,15 +68,15 @@ public class UploadBean {
 	}
 	
 	//날짜 별로 업로드 폴더 생성
-	private static String calcPath(String uploadPath){
+	public static String calcPath(String uploadPath){
 		
 		Calendar cal = Calendar.getInstance();
 		
-		String yearPath = File.separator+cal.get(Calendar.YEAR);
+		String yearPath = "/"+cal.get(Calendar.YEAR);
 		
-		String monthPath = yearPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.MONTH)+1);
+		String monthPath = yearPath + "/" + new DecimalFormat("00").format(cal.get(Calendar.MONTH)+1);
 
-		String datePath = monthPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.DATE));
+		String datePath = monthPath + "/" + new DecimalFormat("00").format(cal.get(Calendar.DATE));
 		
 		makeDir(uploadPath,yearPath,monthPath,datePath);
 		
@@ -84,7 +84,7 @@ public class UploadBean {
 		
 	}
 	//실제 폴더 생성
-	private static void makeDir(String uploadPath, String... paths){
+	public static void makeDir(String uploadPath, String... paths){
 		//이미 이전의 파일의 폴더가 존재 한다면...
 		if(new File(paths[paths.length-1]).exists()){
 			return;

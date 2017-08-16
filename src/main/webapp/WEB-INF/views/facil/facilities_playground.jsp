@@ -16,7 +16,7 @@
 <c:if test="${tradecheck eq 'overpoint'}">
     <script type="text/javascript">
     alert("입력 포인트가 보유 포인트를 초과 합니다.");
-    location.href = "/HarangProject/facil?cmd=FacilPGreserv";
+    location.href = "/facil/FacilPGreserv";
     </script>
 </c:if>    
 </head>
@@ -263,20 +263,20 @@
 					<!-- 최종결제 box-body -->
 					<!-- <form method="post" action="/HarangProject/facil?cmd=FacilPGreserv"> -->
 					
-					<form method="post" action="/HarangProject/facil?cmd=FacilPGreserv">
+					<form method="post" action="/facil/FacilPgReser">
 						<div class="box-body ">
 							<div class="row ">
 								<!-- 사용 시간 -->
 								<div class="col-md-3">
 									<label>사용시간</label> <input type="text" class="form-control"
 										readonly="readonly" style="width: 150px" id="count">
-										
-										<input type="hidden" id="spgm_date" name="spgm_date" />
-										<input type="hidden" id="spg_num" name="spg_num" />
-										<input type="hidden" id="spgm_timecode" name="spgm_timecode" />
-										<input type="hidden" id="minuspoint" name="minuspoint">
-										<input type="hidden" name="checkout" value="yes"/>
 								</div>
+								
+								<input type="hidden" id="spgm_date" name="spgm_date" />
+								<input type="hidden" id="spg_num" name="spg_num" />
+								<input type="hidden" id="spgm_timecode" name="spgm_timecode" />
+								<input type="hidden" id="minuspoint" name="minuspoint">
+								
 								<!-- 보유 포인트 -->
 								<div class="col-md-3">
 									<label>보유 포인트</label> <input type="text" class="form-control"
@@ -446,6 +446,7 @@
 		// 디버깅용.	
 		//alert(vardate2 + "," + varpg_type + "," + varpg_num);
 
+		// 1개의 값을 받아올시에.
 		$.getJSON("/facil/FacilPgTimecodeAjax", {
 			pg_type : encodeURIComponent(varpg_type),
 			pg_num : encodeURIComponent(varpg_num),
@@ -454,9 +455,6 @@
 			
 			function(data) {
 				var timecode = data.pgm_timecode;
-				
-				alert(timecode);
-				
 				$("#reser02").slideUp();
 				$("#reser02").slideDown();
 
@@ -474,7 +472,7 @@
 
 					}
 				}
-			/*
+			/*	//이건 리스트로 받을때.
 				$(data).each(
 					function(index, pglist) {
 						var timecode = pglist.pgm_timecode;

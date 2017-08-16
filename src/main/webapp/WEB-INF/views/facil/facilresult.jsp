@@ -6,18 +6,18 @@
 <c:if test="${tradecheck eq 'complete'}">
 <script>
 alert("시설 예약이 완료 되었습니다.");
-location.href="/HarangProject/facil?cmd=FacilMain"
+location.href="/facil/FacilMain"
 </script>
 </c:if>
 <c:if test="${tradecheck eq 'overpoint' and facheck eq 'pg'}">
 <script>
 alert("운동장 예약이 실패 했습니다.");
-location.href="/HarangProject/facil?cmd=FacilPGreserv"
+location.href="/facil/FacilPGreserv"
 </script>
 </c:if>
 <c:if test="${tradecheck eq 'overpoint' and facheck eq 'sr'}">
 <script>
 alert("스터디룸 예약이 실패 했습니다.");
-location.href="/HarangProject/facil?cmd=FacilSRreserv"
+location.href="/facil/FacilSRreserv"
 </script>
 </c:if>

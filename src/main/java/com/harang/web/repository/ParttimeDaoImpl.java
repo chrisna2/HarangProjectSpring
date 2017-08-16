@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.harang.web.domain.Criteria;
 import com.harang.web.domain.D_ApplyDTO;
 import com.harang.web.domain.DaetaDTO;
 import com.harang.web.domain.DaetaReplyDTO;
@@ -29,9 +30,9 @@ public class ParttimeDaoImpl implements ParttimeDao {
 	}
 
 	@Override
-	public List<ParttimeDTO> getMyParttimeList(HashMap<String, Object> params) {
+	public List<ParttimeDTO> getMyParttimeList(SearchCriteria cri) {
 		// params : m_id, searchCriteria
-		return sqlSession.selectList(namespace+".getMyParttimeList", params);
+		return sqlSession.selectList(namespace+".getMyParttimeList", cri);
 	}
 
 	@Override
@@ -40,8 +41,8 @@ public class ParttimeDaoImpl implements ParttimeDao {
 	}
 
 	@Override
-	public List<DaetaDTO> getMyDaetaList(HashMap<String, Object> params) {
-		return sqlSession.selectList(namespace+".getMyDaetaList", params);
+	public List<DaetaDTO> getMyDaetaList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".getMyDaetaList",cri);
 	}
 
 	@Override
@@ -120,13 +121,13 @@ public class ParttimeDaoImpl implements ParttimeDao {
 	}
 
 	@Override
-	public List<P_ApplyDTO> getMyParttimeApplyList(HashMap<String, Object> params) {
-		return sqlSession.selectList(namespace+".getMyParttimeApplyList", params);
+	public List<P_ApplyDTO> getMyParttimeApplyList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".getMyParttimeApplyList", cri);
 	}
 
 	@Override
-	public List<D_ApplyDTO> getMyDaetaApplyList(HashMap<String, Object> params) {
-		return sqlSession.selectList(namespace+".getMyDaetaApplyList", params);
+	public List<D_ApplyDTO> getMyDaetaApplyList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".getMyDaetaApplyList", cri);
 	}
 
 	@Override
@@ -223,6 +224,36 @@ public class ParttimeDaoImpl implements ParttimeDao {
 	@Override
 	public void deleteDaetaReply(String dr_num) {
 		sqlSession.delete(namespace+".deleteDaetaReply", dr_num);
+	}
+
+	@Override
+	public int countParttimeList() {
+		return sqlSession.selectOne(namespace+".countParttimeList");
+	}
+
+	@Override
+	public int countDaetaList() {
+		return sqlSession.selectOne(namespace+".countDaetaList");
+	}
+
+	@Override
+	public int countMyParttimeList(String m_id) {
+		return sqlSession.selectOne(namespace+".countMyParttimeList", m_id);
+	}
+
+	@Override
+	public int countMyDaetaList(String m_id) {
+		return sqlSession.selectOne(namespace+".countMyDaetaList", m_id);
+	}
+
+	@Override
+	public int countMyParttimeApplyList(String m_id) {
+		return sqlSession.selectOne(namespace+".countMyParttimeApplyList", m_id);
+	}
+
+	@Override
+	public int countMyDaetaApplyList(String m_id) {
+		return sqlSession.selectOne(namespace+".countMyDaetaApplyList", m_id);
 	}
 
 }

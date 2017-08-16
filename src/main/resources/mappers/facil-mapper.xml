@@ -4,29 +4,112 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.harang.mapper.facil-mapper">
   
-  	<select id="ReserPgListAll" resultType="PgMember">
+  	<select id="ReserPgListAll" parameterType="SearchCriteria" resultType="PgMember">
+  		SELECT m.pgm_num, m.pg_num, m.m_id, m.pgm_regdate, m.pgm_timecode, p.pg_type, p.pg_name, m.pgm_date, p.pg_point
+  		FROM tbl_pg_member m, tbl_playground p 
+  		WHERE m.pg_num = p.pg_num
+  		<include refid="searchReserPgListAll"></include>
+  		ORDER BY m.pgm_date ASC
+  	</select>
+  	<sql id="searchReserPgListAll">
+  			<if test="keyfield != null">
+  				<if test="keyfield == 'pgm_num'.toString()">
+  					and m.pgm_num like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'm_id'.toString()">
+  					and m.m_id like concat('%', #{keyword}, '%') 
+  				</if>
+  		  		<if test="keyfield == 'pg_type'.toString()">
+  					and p.pg_type like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'pg_name'.toString()">
+  					and p.pg_name like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'pgm_date'.toString()">
+  					and m.pgm_date like concat('%', #{keyword}, '%')
+  				</if>
+  				<if test="keyfield == 'pgm_regdate'.toString()">
+  					and m.pgm_regdate like concat('%', #{keyword}, '%')
+  				</if>
+  			</if>
+  	</sql>
+  	
+
+  	
+  	<select id="ReserSrListAll" parameterType="SearchCriteria" resultType="SrMember">
+  		SELECT m.srm_num, m.sr_num, m.m_id, m.srm_regdate, m.srm_timecode, s.sr_type, s.sr_name, m.srm_date, s.sr_point
+  		FROM tbl_sr_member m, tbl_studyroom s 
+  		WHERE m.sr_num = s.sr_num
+  		<include refid="searchReserSrListAll"></include>
+  		ORDER BY m.srm_date ASC
+  	</select>	
+  	  	
+  	  	<sql id="searchReserSrListAll">
+  			<if test="keyfield != null">
+  				<if test="keyfield == 'srm_num'.toString()">
+  					and m.srm_num like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'm_id'.toString()">
+  					and m.m_id like concat('%', #{keyword}, '%') 
+  				</if>
+  		  		<if test="keyfield == 'sr_type'.toString()">
+  					and s.sr_type like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'sr_name'.toString()">
+  					and s.sr_name like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'srm_date'.toString()">
+  					and m.srm_date like concat('%', #{keyword}, '%')
+  				</if>
+  				<if test="keyfield == 'srm_regdate'.toString()">
+  					and m.srm_regdate like concat('%', #{keyword}, '%')
+  				</if>
+  			</if>
+  	</sql>
+
+  	<select id="ReserPgList" parameterType="SearchCriteria" resultType="PgMember">
   		SELECT m.pgm_num, m.pg_num, m.m_id, m.pgm_regdate, m.pgm_timecode, p.pg_type, p.pg_name, m.pgm_date, p.pg_point
   		FROM tbl_pg_member m, tbl_playground p WHERE m.pg_num = p.pg_num
+  		AND m.m_id= #{m_id} 
+  		<include refid="reserPgSearch"></include>
   		ORDER BY m.pgm_date ASC
   	</select>
   	
-  	<select id="ReserSrListAll" resultType="SrMember">
-  		SELECT m.srm_num, m.sr_num, m.m_id, m.srm_regdate, m.srm_timecode, s.sr_type, s.sr_name, m.srm_date, s.sr_point
-  		FROM tbl_sr_member m, tbl_studyroom s WHERE m.sr_num = s.sr_num
-  		ORDER BY m.srm_date ASC
-  	</select>
-
-  	<select id="ReserPgList" resultType="PgMember">
-  		SELECT m.pgm_num, m.pg_num, m.m_id, m.pgm_regdate, m.pgm_timecode, p.pg_type, p.pg_name, m.pgm_date, p.pg_point
-  		FROM tbl_pg_member m, tbl_playground p WHERE m.pg_num = p.pg_num
-  		AND m.m_id= #{m_id} ORDER BY m.pgm_date ASC
-  	</select>
+  	<sql id="reserPgSearch">
+  			<if test="keyfield != null">
+  		  		<if test="keyfield == 'pg_type'.toString()">
+  					and p.pg_type like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'pg_name'.toString()">
+  					and p.pg_name like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'pgm_date'.toString()">
+  					and m.pgm_date like concat('%', #{keyword}, '%')
+  				</if>
+  			</if>
+  	</sql>
   	
   	<select id="ReserSrList" resultType="SrMember">
   		SELECT m.srm_num, m.sr_num, m.m_id, m.srm_regdate, m.srm_timecode, s.sr_type, s.sr_name, m.srm_date, s.sr_point
   		FROM tbl_sr_member m, tbl_studyroom s WHERE m.sr_num = s.sr_num
-  		AND m.m_id= #{m_id} ORDER BY m.srm_date ASC
+  		AND m.m_id= #{m_id} 
+  		<include refid="reserSrSearch"></include>
+  		ORDER BY m.srm_date ASC
   	</select>
+  	
+  	<sql id="reserSrSearch">
+  			<if test="keyfield != null">
+  		  		<if test="keyfield == 'sr_type'.toString()">
+  					and s.sr_type like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'sr_name'.toString()">
+  					and s.sr_name like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'srm_date'.toString()">
+  					and m.srm_date like concat('%', #{keyword}, '%')
+  				</if>
+  			</if>
+  	</sql>
   	
   	<delete id="ReserPgCancel" >
   		DELETE FROM tbl_pg_member WHERE pgm_num=#{pgm_num}
@@ -49,11 +132,11 @@
 	</select>
 	
 	<select id="schPgTypeAjax" resultType="Playground">
-		SELECT * FROM tbl_playground GROUP BY pg_type
+		SELECT pg_type FROM tbl_playground GROUP BY pg_type
 	</select>
 	
 	<select id="schSrTypeAjax" resultType="Studyroom">
-		SELECT * FROM tbl_studyroom GROUP BY sr_type
+		SELECT sr_type FROM tbl_studyroom GROUP BY sr_type
 	</select>
 	
 	<select id="scheduleToPg" resultType="Schedure">
@@ -65,9 +148,19 @@
 	</select>
 	
 	<select id="schPgNameAjax" resultType="Playground">
-		SELECT pg_name, pg_num, pg_content, pg_point FROM  tbl_playground WHERE pg_type=#{pg_type}
+		SELECT pg_name, pg_num, pg_content, pg_point FROM tbl_playground WHERE pg_type=#{pg_type}
 	</select>
 	
+	<insert id="reserPgComplate" parameterType="Playground">
+		INSERT INTO tbl_pg_member (pgm_date, pgm_timecode, m_id, pg_num, pgm_issue, pgm_num)
+		VALUES (#{pgm_date}, #{pgm_timecode}, #{m_id}, #{pg_num}, '학생예약', '')
+	</insert>
+	
+	<insert id="reserSrComplate" parameterType="Studyroom">
+		INSERT INTO tbl_sr_member (srm_date, srm_timecode, m_id, sr_num, srm_issue, srm_num)
+		VALUES (#{srm_date}, #{srm_timecode}, #{m_id}, #{sr_num}, '학생예약', '')
+	</insert>
+		
 	<!-- 파라미터값은 동일하기때문에 생략. -->
 	<select id="schSrNameAjax" resultType="Studyroom">
 		SELECT sr_name, sr_num, sr_content, sr_point FROM  tbl_studyroom WHERE sr_type=#{sr_type}
@@ -85,11 +178,41 @@
 	
 	<select id="loadPgList" resultType="Playground">
 		SELECT * FROM tbl_playground
+		<include refid="loadPgListSearch"></include>
 	</select>
+	
+	<sql id="loadPgListSearch">
+  			<if test="keyfield != null">
+  		  		<if test="keyfield == 'pg_num'.toString()">
+  					WHERE pg_num like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'pg_type'.toString()">
+  					WHERE pg_type like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'pg_name'.toString()">
+  					WHERE pg_name like concat('%', #{keyword}, '%')
+  				</if>
+  			</if>
+  	</sql>
 	
 	<select id="loadSrList" resultType="Studyroom">
 		SELECT * FROM tbl_studyroom
+		<include refid="loadSrListSearch"></include>
 	</select>
+	
+	<sql id="loadSrListSearch">
+  			<if test="keyfield != null">
+  		  		<if test="keyfield == 'sr_num'.toString()">
+  					WHERE sr_num like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'sr_type'.toString()">
+  					WHERE sr_type like concat('%', #{keyword}, '%') 
+  				</if>
+  				<if test="keyfield == 'sr_name'.toString()">
+  					WHERE sr_name like concat('%', #{keyword}, '%')
+  				</if>
+  			</if>
+  	</sql>
 	
 	<update id="modifyPg" parameterType="Playground">
 		UPDATE tbl_playground  
@@ -118,8 +241,8 @@
 		DELETE FROM tbl_playground WHERE pg_num=#{pg_num}
 	</delete>
 	
-	<delete id="facilSrDel" parameterType="String">
-		DELETE FROM tbl_studyroom WHERE sr_num='sr000000019'
+	<delete id="facilSrDel" parameterType="Studyroom">
+		DELETE FROM tbl_studyroom WHERE sr_num=#{sr_num}
 	</delete>
 	
 	<insert id="aFacilPgAdd" parameterType="PgMember">
@@ -137,9 +260,8 @@
 	</select>
 	
 	<select id="loadSrTimecode" parameterType="SrMember" resultType="SrMember">
-		SELECT pgm_timecode FROM tbl_sr_member WHERE srm_date=#{srm_date} AND sr_num=#{sr_num}
+		SELECT srm_timecode FROM tbl_sr_member WHERE srm_date=#{srm_date} AND sr_num=#{sr_num}
 	</select>
-	
 	
 	<select id="aticketList" parameterType="SearchCriteria" resultType="FoodMember">
 		select f.f_title, f.f_selldate, f.f_point, count(fm.f_num) as fm_sellcount 
@@ -173,7 +295,4 @@
 		from tbl_food_member fm, tbl_food f 
 		where fm.f_num=f.f_num and fm.fm_isuse != 'return'; 
 	</select>
-	
-	
-  
-  </mapper>
+ </mapper>

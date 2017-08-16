@@ -92,6 +92,12 @@ public class BambooServiceImpl implements BambooService {
 		bambooDao.bbPost(bambooDTO);
 		
 	}
+	
+	@Override
+	public void abbPost(BambooDTO bambooDTO) {
+		bambooDao.abbPost(bambooDTO);
+		
+	}
 
 	@Override
 	public void bbrpost(BbreplyDTO bbreplyDTO) {
@@ -128,6 +134,8 @@ public class BambooServiceImpl implements BambooService {
 		bambooDao.bbDLikeCancle(likeDTO);
 		
 	}
+
+	
 	
 	
 

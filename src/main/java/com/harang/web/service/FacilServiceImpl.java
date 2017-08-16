@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
 import com.harang.web.domain.ScheduleDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 import com.harang.web.repository.FacilDao;
@@ -22,23 +23,24 @@ public class FacilServiceImpl implements FacilService {
 	private FacilDao facilDao;
 	
 	@Override
-	public List<PgMemberDTO> loadPgReserListAll() {
-		List<PgMemberDTO> list = facilDao.ReserPgListAll();
+	public List<PgMemberDTO> loadPgReserListAll(SearchCriteria cri) {
+		List<PgMemberDTO> list = facilDao.reserPgListAll(cri);
 		return list;
 	}
 
 	@Override
-	public List<SrMemberDTO> loadSrReserListAll() {
-		 List<SrMemberDTO> list = facilDao.ReserSrListAll();	
+	public List<SrMemberDTO> loadSrReserListAll(SearchCriteria cri) {
+		 List<SrMemberDTO> list = facilDao.reserSrListAll(cri);	
 		return list;
 	}
 	
 	// 운동장 예약 목록 불러오기 / m_id로 검색.
 	@Override
-	public List<PgMemberDTO> loadPgReserList(String m_id) {
-		List<PgMemberDTO> list = facilDao.ReserPgList(m_id);
+	public List<PgMemberDTO> loadPgReserList(SearchCriteria cri) {
+
+		List<PgMemberDTO> list = facilDao.reserPgList(cri);
 		
-		// Timecode를  불러와서 계산하는 과정. 
+				// Timecode를  불러와서 계산하는 과정. 
 		for(int i = 0;  i< list.size() ; i++){
 			int count = 0;
 			String timecode = list.get(i).getPgm_timecode();
@@ -57,8 +59,8 @@ public class FacilServiceImpl implements FacilService {
 
 	// 스터디룸 예약 목록 불러오기 / m_id로 검색.
 	@Override
-	public List<SrMemberDTO> loadSrReserList(String m_id) {
-		List<SrMemberDTO> list = facilDao.ReserSrList(m_id); 
+	public List<SrMemberDTO> loadSrReserList(SearchCriteria cri) {
+		List<SrMemberDTO> list = facilDao.reserSrList(cri); 
 		
 		for(int i = 0;  i< list.size() ; i++){
 			int count = 0;
@@ -131,17 +133,18 @@ public class FacilServiceImpl implements FacilService {
 		return facilDao.scheduleToSrList();
 	}
 
+	
 	@Override
 	public List<PlaygroundDTO> schPgNameAjax(String pg_type) {
-		System.out.println("테스트2");
-		System.out.println(pg_type);
 		return facilDao.schduleNamePgLoadAjax(pg_type);
 	}
-
+	
+	
 	@Override
 	public List<StudyroomDTO> schSrNameAjax(String sr_type) {
 		return facilDao.schduleNameSrLoadAjax(sr_type);
 	}
+	
 
 	@Override
 	public List<PlaygroundDTO> schPgTypeAjax() {
@@ -174,13 +177,13 @@ public class FacilServiceImpl implements FacilService {
 	}
 
 	@Override
-	public List<PlaygroundDTO> loadPgList() {
-		return facilDao.loadPgList();
+	public List<PlaygroundDTO> loadPgList(SearchCriteria cri) {
+		return facilDao.loadPgList(cri);
 	}
 
 	@Override
-	public List<StudyroomDTO> loadSrList() {
-		return facilDao.loadSrList();
+	public List<StudyroomDTO> loadSrList(SearchCriteria cri) {
+		return facilDao.loadSrList(cri);
 	}
 
 	@Override
@@ -217,7 +220,6 @@ public class FacilServiceImpl implements FacilService {
 	public String loadPgTimecodeAjax(PgMemberDTO pgmdto) {
 		
 		List<PgMemberDTO> list = facilDao.loadPgTimecodeAjax(pgmdto);
-		System.out.println("1112222222222222222222");
 		
 		for(int i =0 ; i<list.size(); i++){
 			String a = list.get(i).getPgm_timecode();
@@ -247,8 +249,46 @@ public class FacilServiceImpl implements FacilService {
 	}
 
 	@Override
-	public List<SrMemberDTO> loadSrTimecodeAjax(SrMemberDTO srmdto) {
+	public String loadSrTimecodeAjax(SrMemberDTO srmdto) {
 		List<SrMemberDTO> list = facilDao.loadSrTimecodeAjax(srmdto);
-		return list;
+		
+		for(int i =0 ; i<list.size(); i++){
+			String a = list.get(i).getSrm_timecode();
+			System.out.println("Service에서의 타임코드는 : " + a);
+		}
+		
+		ArrayList getTimecode = new ArrayList();
+		
+		String result = null;
+		long basic = 10000000000000L;
+		
+		for(int i = 0; i<list.size(); i++){
+			getTimecode.add(list.get(i).getSrm_timecode());
+			
+			
+			for(int j = 0; j<getTimecode.size(); j++){
+				String cutA = getTimecode.get(i).toString().substring(1);
+				long b = Long.parseLong(cutA);
+				basic += b;
+			}
+			
+			String a = Long.toString(basic);
+			result = a.substring(1);
+			System.out.println(result);
+		}
+		
+		return result;
 	}
+
+	@Override
+	public void userReserPg(PgMemberDTO pgmdto) {
+		facilDao.userReserPg(pgmdto);
+	}
+
+	@Override
+	public void userReserSr(SrMemberDTO srmdto) {
+		facilDao.userReserSr(srmdto);
+	}
+
+
 }

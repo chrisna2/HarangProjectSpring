@@ -12,7 +12,7 @@
 	
 	function fnGoback(){
 		
-		document.gobocktocontent.submit();
+		document.gobacktocontent.submit();
 	}
 	
 	function fnbbp(){
@@ -20,7 +20,7 @@
 		//alert(CKEDITOR.instances.editor1.getData().length);
 		
 		if(document.bbpostcomplete.bb_nickname.value ==""||
-				CKEDITOR.instances.editor1.getData() ==""||
+				CKEDITOR.instances.bb_content.getData() ==""||
 				document.bbpostcomplete.bb_title.value ==""){
 			
 			alert("빠짐없이 입력 해주세요");
@@ -68,10 +68,9 @@
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
-	<form action="/HarangProject/bamboo" name="bbpostcomplete"
+	<form action="/bamboo/BB_UPDATE" name="bbpostcomplete"
 		method="post">
-		<input type="hidden" name="cmd" value="A_BB_CONUP_COMPLETE"> <input
-			type="hidden" name="bb_num" value="${bbcon.bb_num }">
+		 <input	type="hidden" name="bb_num" value="${bbcon.bb_num }">
 		<section class="content">
 			<!-- 세로 길이 수정 -->
 			<div class="row">
@@ -91,14 +90,14 @@
 
 							<div class="form-group">
 								<label>닉네임</label> <input type="text" class="form-control"
-									value="${bbcon.bb_nickname }" name="bb_nickname" />
+									value="${bbcon.bb_nickname }" name="bb_nickname" readonly="readonly" />
 							</div>
 							
 							
 							<div class="row">
 								<div class="col-md-2 form-group">
 									<div class="checkbox">
-										<label> <input type="checkbox" name = "gongji">공지사항 등록
+										<label> <input type="checkbox" name = "bb_notice">공지사항 등록
 										</label>
 									</div>
 
@@ -117,7 +116,7 @@
 
 						<div class='box-body pad'>
 
-							<textarea id="editor1" name="bb_content" rows="10" cols="80">
+							<textarea id="bb_content" name="bb_content" rows="10" cols="80">
                                             ${bbcon.bb_content }
                     </textarea>
 						</div>
@@ -146,10 +145,9 @@
 	
 	
 	<!--  대나무숲 글 수정하기 페이지에서 취소를 눌렀을 때 원래 페이지로 돌아가기 위한 폼 시작 -->
-	<form method="post" action="/HarangProject/bamboo"
+	<form method="post" action="/bamboo/BB_CON"
 		name="gobacktocontent">
-		<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> <input
-			type="hidden" name="cmd" value="U_BB_CON" />
+		<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
 
 	</form>
 	<!--  대나무숲 글 수정하기 페이지에서 취소를 눌렀을 때 원래 페이지로 돌아가기 위한 폼 끝 -->
@@ -164,30 +162,62 @@
 <%@ include file="../include/footer.jsp"%>
 
 <!-- CK Editor -->
-<script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+<script src="../resources/plugins/ckeditor/ckeditor.js"></script>
 <!-- jQuery 2.1.3 -->
-<script src="../../plugins/jQuery/jQuery-2.1.3.min.js"></script>
+<script src="../resources/plugins/jQuery/jQuery-2.1.3.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='../../plugins/fastclick/fastclick.min.js'></script>
+<script src='../resources/plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/app.min.js" type="text/javascript"></script>
+<script src="../resources/dist/js/app.min.js" type="text/javascript"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js" type="text/javascript"></script>
-<!-- CK Editor -->
-<script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+<script src="../resources/dist/js/demo.js" type="text/javascript"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script
-	src="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"
+	src="../resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"
 	type="text/javascript"></script>
 <script type="text/javascript">
-	$(function() {
+		
+	       // ckeditor setting
+	       var ckeditor_config = {
+	            resize_enabled : true, // 에디터 크기를 조절함
+	            enterMode : CKEDITOR.ENTER_BR , // 엔터키를 <br> 로 적용함.
+	            shiftEnterMode : CKEDITOR.ENTER_P ,  // 쉬프트 +  엔터를 <p> 로 적용함.
+	            toolbarCanCollapse : true , 
+	            removePlugins : "elementspath", // DOM 출력하지 않음
+	            filebrowserUploadUrl: '/bamboo/file_upload', // 파일 업로드를 처리 할 경로 설정.
+	            // 에디터에 사용할 기능들 정의
+	            toolbar : [
+	              [ 'Source', '-' , 'NewPage', 'Preview' ],
+	              [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
+	              [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+	              [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ],
+	              '/',
+	              [ 'Styles', 'Format', 'Font', 'FontSize' ],
+	              [ 'TextColor', 'BGColor' ],
+	              [ 'Image', 'Flash', 'Table','SpecialChar' , 'Link', 'Unlink','Youtube']
+
+	            ]
+	          };
+	       
+	       var editor = null;
+	       
+	       jQuery(function() {
+	            // ckeditor 적용
+	            editor = CKEDITOR.replace( "bb_content" , ckeditor_config );
+	       });
+
+
+	       // 전송을 위한 체크 함수
+	       function form_save(form) {
+	            editor.updateElement();
+
+	       }
+		
 		// Replace the <textarea id="editor1"> with a CKEditor
 		// instance, using default configuration.
-		CKEDITOR.replace('editor1');
+		//CKEDITOR.replace('editor1');
 		//bootstrap WYSIHTML5 - text editor
-		$(".textarea").wysihtml5();
-	});
+		//$(".textarea").wysihtml5();
 </script>
-
