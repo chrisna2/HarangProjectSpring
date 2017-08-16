@@ -18,6 +18,10 @@ public interface ParttimeService {
 	public List<ParttimeDTO> getMyParttimeList(SearchCriteria cri);
 	public List<DaetaDTO> getDaetaList(SearchCriteria cri);
 	public List<DaetaDTO> getMyDaetaList(SearchCriteria cri);
+	public int countParttimeList();
+	public int countDaetaList();
+	public int countMyParttimeList(String m_id);
+	public int countMyDaetaList(String m_id);
 	public int getParttimeCnt_apply(String p_num);
 	public int getDaetaCnt_apply(String d_num);
 	public ParttimeDTO getParttime(String p_num);
@@ -35,6 +39,8 @@ public interface ParttimeService {
 	public List<D_ApplyDTO> getDaetaApplyList(String d_num);
 	public List<P_ApplyDTO> getMyParttimeApplyList(SearchCriteria cri);
 	public List<D_ApplyDTO> getMyDaetaApplyList(SearchCriteria cri);
+	public int countMyParttimeApplyList(String m_id);
+	public int countMyDaetaApplyList(String m_id);
 	public List<P_ApplyDTO> getParttimeApply(HashMap<String, Object> params);
 	public List<D_ApplyDTO> getDaetaApply(HashMap<String, Object> params);
 	public void updateParttimeChoice(HashMap<String, Object> params);

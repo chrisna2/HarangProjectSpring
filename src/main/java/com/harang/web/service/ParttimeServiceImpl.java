@@ -223,4 +223,34 @@ public class ParttimeServiceImpl implements ParttimeService {
 		parttimeDao.deleteDaetaReply(dr_num);
 	}
 
+	@Override
+	public int countParttimeList() {
+		return parttimeDao.countParttimeList();
+	}
+
+	@Override
+	public int countDaetaList() {
+		return parttimeDao.countDaetaList();
+	}
+
+	@Override
+	public int countMyParttimeList(String m_id) {
+		return parttimeDao.countMyParttimeList(m_id);
+	}
+
+	@Override
+	public int countMyDaetaList(String m_id) {
+		return parttimeDao.countMyDaetaList(m_id);
+	}
+
+	@Override
+	public int countMyParttimeApplyList(String m_id) {
+		return parttimeDao.countMyParttimeApplyList(m_id);
+	}
+
+	@Override
+	public int countMyDaetaApplyList(String m_id) {
+		return parttimeDao.countMyDaetaApplyList(m_id);
+	}
+
 }

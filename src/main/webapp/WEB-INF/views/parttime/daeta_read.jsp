@@ -164,9 +164,11 @@
 	                </div>
                 
                 <!-- form 시작 -->
-                <form role="form" action="/parttime/DREAD" method="post">
+                <form role="form" action="/parttime/report" method="post">
 	              	<input type="hidden" name="d_num" value="${info.d_num}"/>
-	              	<input type="hidden" name="warning" value="OK"/>
+	              	<input type="hidden" name="m_id" value="${m_id}"/>
+	              	<input type="hidden" name="tab" value="${tab}"/>
+	              	]<input type="hidden" name="read" value="no"/>
 	                <div class="box-body">
 	                  <div class="input-group">
 	                    <span class="input-group-addon"><i class="fa fa-sort-numeric-desc"></i> 신고내용</span>
@@ -289,10 +291,11 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                 	<!-- 댓글쓰기 -->
-                <form method="post" action="/parttime/DREAD">
+                <form method="post" action="/parttime/commentDaeta">
+                	<input type="hidden" name="tab" value="${tab}"/>
+                	<input type="hidden" name="read" value="no"/>
                 	<div class="input-group input-group-sm">
                 	  	<input type="hidden" name="d_num" value="${info.d_num}" id="d_num"/>
-                	  	<input type="hidden" name="comment" value="insert"/>
 	                   	<input type="text" name="dr_comment" class="form-control">
 	                    <span class="input-group-btn">
 	                    	<button class="btn btn-success btn-flat" type="submit">Go!</button>
@@ -302,6 +305,7 @@
                   	<br>
                   	<!-- 댓글 목록 들어갈 위치 -->
                 	<div class="input-group" id="ajax"></div>
+                	<input type="hidden" id="m_id" value="${m_id}"/>
                 </div>
               </div><!-- /.box -->
               
@@ -353,8 +357,7 @@
       	<input type="hidden" name="m_id" value="" id="deny_id"/>
       	<input type="hidden" name="tab" value="${tab}"/>
       </form>    
-      <form name="comdel" id="commentDel" method="post" action="/parttime/DREAD">
-      	<input type="hidden" name="comment" value="delete"/>
+      <form name="comdel" id="commentDel" method="post" action="/parttime/delCommentDaeta">
       	<input type="hidden" name="dr_num" value="" id="dr_num"/>
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       	<input type="hidden" name="m_id" value="${m_id}"/>
@@ -439,22 +442,22 @@ function fnPick(m_id){
 
 //댓글
 var d_num = $("#d_num").val();
+var m_id = $("#m_id").val();
 
 $.getJSON("/parttime/dReply",{d_num:d_num}, function(data){
         $("#ajax span").remove();
         $(data).each(function(index, drlist){
-             $("#ajax").append(
-            		 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-            		+ "<span class='btn btn-success btn-xs'>" + drlist.m_name + "</span>" 
-            		+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + drlist.dr_comment 
-            		+ "&nbsp;&nbsp;&nbsp;&nbsp;"
-            		+"<small>" + drlist.dr_regdate + "</small>"
-                 	+ "<c:if test='${info.m_id eq m_id}'>" 
-                 	+ "&nbsp;&nbsp;&nbsp;&nbsp;"
+            var html = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+        		+ "<span class='btn btn-success btn-xs'>" + drlist.m_name + "</span>" 
+        		+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + drlist.dr_comment 
+        		+ "&nbsp;&nbsp;&nbsp;&nbsp;"
+        		+"<small>" + drlist.dr_regdate + "</small>";
+        		
+        		if (drlist.m_id == m_id){ html += "&nbsp;&nbsp;&nbsp;&nbsp;"
                  	+ "<button class='btn btn-default btn-xs' id='rdel"+drlist.dr_num+"'>삭제</button>" 
-                 	+ "<input type='hidden' value='"+drlist.dr_num+"'/>"
-                 	+ "</c:if><br>" 
-                 	);
+                 	+ "<input type='hidden' value='"+drlist.dr_num+"'/>"}
+        		
+        	$("#ajax").append(html + "<br>");
              
              $("#rdel"+drlist.dr_num).click(function(){
             	 if(confirm("정말 삭제하시겠습니까?")==true){

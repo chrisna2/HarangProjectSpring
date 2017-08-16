@@ -147,6 +147,7 @@
 <form name="read" method="post" action="/parttime/PREAD">
 	<input type="hidden" name="p_num" value="" id="p_num"/>
 	<input type="hidden" name="tab" value="PMAIN"/>
+	<input type="hidden" name="page" value="${pageMaker.cri.page}"/>
 </form>
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------>
 <%@ include file="../include/footer.jsp"%>

@@ -30,6 +30,7 @@ import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.MessageDTO;
 import com.harang.web.domain.P_ApplyDTO;
 import com.harang.web.domain.ParttimeDTO;
+import com.harang.web.domain.ParttimeReplyDTO;
 import com.harang.web.domain.SearchCriteria;
 import com.harang.web.service.MessageService;
 import com.harang.web.service.ParttimeService;
@@ -75,7 +76,7 @@ public class ParttimeController {
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(list.size());
+		pageMaker.setTotalCount(parttimeService.countParttimeList());
 		
 		// 마감일이 지나면 [마감]으로 말머리 변경
 		afterDeadline(list, "p");	
@@ -83,7 +84,7 @@ public class ParttimeController {
 		// 추가정보 저장=> 1.글번호 2.해당 글에 지원한 지원자
 		for (int i = 0; i < list.size(); i++) {
 			ParttimeDTO dto = list.get(i);
-			dto.setList_num(list.size() - i); // 글번호
+			dto.setList_num(Integer.parseInt(dto.getP_num().substring(1,10))); // 글번호
 			dto.setCnt_apply(parttimeService.getParttimeCnt_apply(dto.getP_num())); // 지원자수
 			if (dto.getM_id().equals("admin02")) {
 				dto.setM_name("관리자");
@@ -264,7 +265,7 @@ public class ParttimeController {
 	 * @return mav ModelAndView
 	 */
 	@RequestMapping("/PREAD")
-	public ModelAndView readParttime(HttpSession session, String p_num, String tab, String read, Criteria cri){
+	public ModelAndView readParttime(HttpSession session, String p_num, String tab, String read, SearchCriteria cri, String result){
 		MemberDTO login = loginBean.getLoginIngfo(session);
 		String url = "parttime/parttime_read";
 		if(loginBean.adminCheck(login.getM_id())){url = "parttime/a_parttime_read";}
@@ -298,6 +299,7 @@ public class ParttimeController {
 		mav.addObject("info", parttime);
 		mav.addObject("daycode", splitCode(parttime.getP_daycode()));
 		mav.addObject("day", day);
+		mav.addObject("result", result);
 		return mav;
 	}
 	
@@ -322,6 +324,23 @@ public class ParttimeController {
 	}
 	
 	/**
+	 * 알바모집에 지원하는 페이지로 이동하는 메서드.
+	 * @param session 세션
+	 * @param d_num 알바모집 글 번호
+	 * @param tab 어느페이지로 돌아올지 저장한 변수
+	 * @return mav ModelAndView
+	 */
+	@RequestMapping("PAPPLY")
+	public ModelAndView applyParttime(HttpSession session, String p_num, String tab){
+		MemberDTO login = loginBean.getLoginIngfo(session);
+		ModelAndView mav = new ModelAndView("parttime/parttime_apply");
+		mav.addObject("member", login);
+		mav.addObject("p_num", p_num);
+		mav.addObject("tab", tab);
+		return mav;
+	}
+	
+	/**
 	 * 알바 모집글에 지원하는 메서드. (모집자에게 지원 확인 메시지 보내는 기능 포함)
 	 * @param session 세션
 	 * @param apply P_ApplyDTO
@@ -340,7 +359,7 @@ public class ParttimeController {
 		String content = "\"" + dto.getP_title() + "\"글에 " + login.getM_name() + "님이 지원하였습니다. 해당 글에서 이력서를 확인해주세요.";
 		messageService.postMessage(title, content, "admin02", login.getM_id());
 		
-		ModelAndView mav = new ModelAndView("redirect:parttime/PREAD");
+		ModelAndView mav = new ModelAndView("redirect:/parttime/PREAD");
 		mav.addObject("p_num", apply.getP_num());
 		return mav;
 	}
@@ -378,7 +397,7 @@ public class ParttimeController {
 				+ " 입니다.";
 		messageService.postMessage(title2, content2, "admin02", login.getM_id());
 		
-		ModelAndView mav = new ModelAndView("redirect:parttime/PREAD");
+		ModelAndView mav = new ModelAndView("redirect:/parttime/PREAD");
 		mav.addObject("p_num", p_num);
 		return mav;
 	}
@@ -461,6 +480,62 @@ public class ParttimeController {
 		return mav;
 	}
 	
+	/**
+	 * 대타 모집 게시글에 댓글을 ajax로 처리하는 메서드.
+	 * @param req 리퀘스트
+	 * @return DaetaDTO 리스트
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping("/pReply")
+	public @ResponseBody List<ParttimeReplyDTO> nameAjaxParttime(HttpServletRequest req) throws UnsupportedEncodingException{
+		String p_num = req.getParameter("p_num");
+		List<ParttimeReplyDTO> prlist = parttimeService.getParttimeReplyList(p_num);
+		for(int i=0; i<prlist.size();i++){
+			ParttimeReplyDTO dto = (ParttimeReplyDTO)prlist.get(i);
+			dto.setM_name((parttimeService.getMember(dto.getM_id()).getM_name())); //이름저장
+		}
+		return prlist;
+	}
+	
+	/**
+	 * 댓글을 추가하는 메서드.
+	 * @param reply ParttimeReplyDTO
+	 * @param read 조회수 올릴지 말지 결정하는 변수
+	 * @param tab 어느 페이지로 돌아갈지 결정하는 변수
+	 * @return mav ModelAndView
+	 */
+	@RequestMapping("commentParttime")
+	public ModelAndView insertParttimeComment(HttpSession session, ParttimeReplyDTO reply, String read, String tab){		
+		MemberDTO login = loginBean.getLoginIngfo(session);
+		reply.setM_id(login.getM_id());
+		parttimeService.insertParttimeReply(reply);
+		ModelAndView mav = new ModelAndView("redirect:/parttime/PREAD");
+		mav.addObject("result", "success");
+		mav.addObject("read", read);
+		mav.addObject("p_num", reply.getP_num());
+		mav.addObject("tab", tab);
+		return mav;
+	}
+	
+	/**
+	 * 댓글을 삭제하는 메서드.
+	 * @param session 세션
+	 * @param pr_num 댓글 번호
+	 * @param p_num 알바 모집 글번호
+	 * @param read 조회수 올릴지 결정하는 변수.
+	 * @param tab 어느 페이지로 돌아갈지 결정하는 변수
+	 * @return mav ModelAndView
+	 */
+	@RequestMapping("delCommentParttime")
+	public ModelAndView deleteParttimeComment(HttpSession session, String pr_num, String p_num, String read, String tab){		
+		parttimeService.deleteParttimeReply(pr_num);
+		ModelAndView mav = new ModelAndView("redirect:/parttime/PREAD");
+		mav.addObject("read", read);
+		mav.addObject("p_num", p_num);
+		mav.addObject("tab", tab);
+		return mav;
+	}
+	
 	/** 알바 모집 끝*/
 	
 	
@@ -483,7 +558,7 @@ public class ParttimeController {
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(list.size());
+		pageMaker.setTotalCount(parttimeService.countDaetaList());
 		
 		// 마감일이 지나면 [마감]으로 말머리 변경
 		afterDeadline(list, "d");	
@@ -491,7 +566,7 @@ public class ParttimeController {
 		// 추가정보 저장=> 1.글번호 2.해당 글에 지원한 지원자
 		for (int i = 0; i < list.size(); i++) {
 			DaetaDTO dto = list.get(i);
-			dto.setList_num(list.size() - i); // 글번호
+			dto.setList_num(Integer.parseInt(dto.getD_num().substring(1,10))); // 글번호
 			dto.setCnt_apply(parttimeService.getDaetaCnt_apply(dto.getD_num())); // 지원자수
 			List<String> picked = parttimeService.getPicked(dto.getD_num());
 			if(!picked.isEmpty()) dto.setD_pick(picked.get(0)); // 채용된 사람 회원번호
@@ -576,10 +651,10 @@ public class ParttimeController {
 	 * @return mav ModelAndView
 	 */
 	@RequestMapping("/reportSolved")
-	public ModelAndView reportSolved(String d_num, @RequestAttribute("d_picked") String m_id){
+	public ModelAndView reportSolved(String d_num, String d_picked){
 	
 		D_ApplyDTO apply = new D_ApplyDTO();
-		apply.setM_id(m_id);
+		apply.setM_id(d_picked);
 		apply.setD_num(d_num);
 		apply.setDm_report("Solved");
 		parttimeService.report(apply);
@@ -633,6 +708,7 @@ public class ParttimeController {
 		/** 글 정보 */
 		DaetaDTO daeta = parttimeService.getDaeta(d_num);
 		isApply(mav, login.getM_id(), d_num, "d"); // 이 글에 지원했는지 안했는지
+		ispicked(mav, d_num, login.getM_id()); // 지원했다면 채용되었는지 아닌지
 		
 		/** 조회수 증가 */
 		counterUp(d_num, read, "d");
@@ -649,13 +725,41 @@ public class ParttimeController {
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setDisplayPageNum(5);
-		pageMaker.setTotalCount(list.size());
+		pageMaker.setTotalCount(parttimeService.getDaetaCnt_apply(d_num));
 		
 		mav.addObject("m_id", login.getM_id());
 		mav.addObject("resume", list);
 		mav.addObject("info", daeta);
 		mav.addObject("a_pageMaker", pageMaker);
 		return mav;
+	}
+	
+	/**
+	 * 지원자가 채용되었는지 아닌지 확인하는 메서드.
+	 * @param mav ModelAndView
+	 * @param d_num 대타모집 글번호
+	 * @param m_id 회원아이디
+	 */
+	public void ispicked(ModelAndView mav, String d_num, String m_id){
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("m_id", m_id);
+		params.put("d_num", d_num);
+		
+		List list = parttimeService.getDaetaApply(params);
+		if(list.size()>0){
+			D_ApplyDTO apply = (D_ApplyDTO) list.get(0);
+			if("Y".equals(apply.getDm_choice())){
+				mav.addObject("pick", "OK");
+			}
+			
+			//이미 신고했다면 파라미터보내기
+			if(apply.getDm_report() != null){
+				if((apply.getDm_report().equals("N") == false) && apply.getDm_report() != "Solved"){
+					mav.addObject("alreadyReport", "OK");
+				}
+			}
+		
+		}
 	}
 	
 	/**
@@ -857,6 +961,46 @@ public class ParttimeController {
 	}
 	
 	/**
+	 * 댓글을 등록하는 메서드.
+	 * @param session 세션
+	 * @param reply DaetaReplyDTO
+	 * @param read 조회수 올릴지 결정하는 변수
+	 * @param tab 어느 페이지로 이동할지 결정하는 변수
+	 * @return mav ModelAndView
+	 */
+	@RequestMapping("commentDaeta")
+	public ModelAndView insertDaetaComment(HttpSession session, DaetaReplyDTO reply, String read, String tab){		
+		MemberDTO login = loginBean.getLoginIngfo(session);
+		reply.setM_id(login.getM_id());
+		parttimeService.insertDaetaReply(reply);
+		ModelAndView mav = new ModelAndView("redirect:/parttime/DREAD");
+		mav.addObject("result", "success");
+		mav.addObject("read", read);
+		mav.addObject("d_num", reply.getD_num());
+		mav.addObject("tab", tab);
+		return mav;
+	}
+	
+	/**
+	 * 댓글을 삭제하는 메서드.
+	 * @param session 세션
+	 * @param dr_num 댓글 번호
+	 * @param d_num 대타 모집 글번호
+	 * @param read 조회수 올릴지 결정하는 변수
+	 * @param tab 어느 페이지로 이동할지 결정하는 변수
+	 * @return mav ModelAndView
+	 */
+	@RequestMapping("delCommentDaeta")
+	public ModelAndView deleteDaetaComment(HttpSession session, String dr_num, String d_num, String read, String tab){		
+		parttimeService.deleteDaetaReply(dr_num);
+		ModelAndView mav = new ModelAndView("redirect:/parttime/DREAD");
+		mav.addObject("read", read);
+		mav.addObject("d_num", d_num);
+		mav.addObject("tab", tab);
+		return mav;
+	}
+	
+	/**
 	 * 이력서를 삭제하는 메서드.
 	 * @param session 세션
 	 * @param d_num 대타모집 글번호
@@ -958,10 +1102,28 @@ public class ParttimeController {
 		mav.addObject("tab", tab);
 		return mav;
 	}
+	
+	/**
+	 * 포인트 지급 거절시 관리자에게 신고하는 메서드.
+	 * @param apply D_ApplyDTO
+	 * @param tab 어느 페이지로 갈지 저장하는 변수
+	 * @param read 조회수를 올릴지 말지를 결정하는 변수
+	 * @return mav ModelAndView
+	 */
+	@RequestMapping("/report")
+	public ModelAndView report(D_ApplyDTO apply, String tab, String read){
+		parttimeService.report(apply);
+		ModelAndView mav = new ModelAndView("redirect:/parttime/DREAD");
+		mav.addObject("d_num", apply.getD_num());
+		mav.addObject("tab", tab);
+		mav.addObject("read", "no");
+		return mav;
+	}
+	
 	/** 대타 모집 끝 */
 	
-	/** 알바, 대타 공통으로 쓰는 메서드 */
 	
+	/** 알바, 대타 공통으로 쓰는 메서드 */
 	
 	/**
 	 * 모집글에 지원했는지 확인하는 메서드.
@@ -1004,7 +1166,6 @@ public class ParttimeController {
 		}
 	}
 	
-	
 	/**
 	 * 현재 날짜와 출생일을 비교하여 나이를 계산하는 메서드.
 	 * @param birth
@@ -1030,8 +1191,6 @@ public class ParttimeController {
 		return today.get(Calendar.YEAR) - birthDay.get(Calendar.YEAR) + factor;
 	}
 	
-	
-	
 	/** 읽은 것으로 취급하지 않는 것이 아니라면 알바인지 대타인지 구분하여 조회수를 증가시키는 메서드. */
 	public void counterUp(String num,String read, String pORd){
 		if(!"no".equals(read)){
@@ -1043,13 +1202,12 @@ public class ParttimeController {
 		}
 	}
 	
-	/** 마이페이지 */
 	
 	/** 알바, 대타 공통으로 쓰는 메서드 끝 */
 	
 	
 	/** 내가 쓴 글 */
-	@RequestMapping(value="/MYPAGE", method=RequestMethod.GET)
+	@RequestMapping(value="/MYPAGE", method=RequestMethod.POST)
 	public ModelAndView getMyListGet(HttpSession session,SearchCriteria cri) {
 		MemberDTO login = loginBean.getLoginIngfo(session);
 		ModelAndView mav = new ModelAndView("parttime/mypage");
@@ -1065,28 +1223,54 @@ public class ParttimeController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/MYPAGE", method=RequestMethod.POST)
-	public ModelAndView getMyListPost(HttpSession session,SearchCriteria cri) {
+	@RequestMapping(value="/MYPAGE", method=RequestMethod.GET)
+	public ModelAndView getMyListPost(HttpSession session,SearchCriteria cri, String n) {
 		MemberDTO login = loginBean.getLoginIngfo(session);
 		ModelAndView mav = new ModelAndView("parttime/mypage");
 		
 		cri.setM_id(login.getM_id());
 		
-		getMyParttimeList(cri, mav);
-		getMyDaetaList(cri, mav);
-		getMyParttimeApplyList(cri, mav);
-		getMyDaetaApplyList(cri, mav);
+		SearchCriteria _cri = new SearchCriteria();
+		_cri.setM_id(login.getM_id());
+		
+		getMyParttimeList(_cri, mav);
+		getMyDaetaList(_cri, mav);
+		getMyParttimeApplyList(_cri, mav);
+		getMyDaetaApplyList(_cri, mav);
+		
+		if(n!=null){
+			switch(n){
+				case "1":
+					getMyParttimeList(cri, mav);
+					break;
+				case "2":
+					getMyDaetaList(cri, mav);
+					break;
+				case "3":
+					getMyParttimeApplyList(cri, mav);
+					break;
+				case "4":
+					getMyDaetaApplyList(cri, mav);
+					break;
+				default:
+					break;
+			}
+		}
 		
 		return mav;
 	}
 	
-	
 	public void getMyParttimeList(SearchCriteria cri, ModelAndView mav) {
+		pageMaker = new PageMaker();
+		cri.setPerPageNum(5);
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(parttimeService.countMyParttimeList(cri.getM_id()));
+		
 		List plist = parttimeService.getMyParttimeList(cri);
 		// 추가정보 저장=> 1.글번호 2.해당 글에 지원한 지원자
 		for (int i = 0; i < plist.size(); i++) {
 			ParttimeDTO dto = (ParttimeDTO) plist.get(i);
-			dto.setList_num(plist.size() - i); // 글번호
+			dto.setList_num(Integer.parseInt(dto.getP_num().substring(1,10))); // 글번호
 			dto.setCnt_apply(parttimeService.getParttimeCnt_apply(dto.getP_num())); // 지원자수
 			if (dto.getM_id().equals("admin02")) {
 				dto.setM_name("관리자");
@@ -1096,21 +1280,21 @@ public class ParttimeController {
 			plist.set(i, dto);
 		}
 		
-		pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setDisplayPageNum(5);
-		pageMaker.setTotalCount(plist.size());
-		
 		mav.addObject("pageMaker1", pageMaker);
 		mav.addObject("plist", plist);
 	}
 	
 	public void getMyDaetaList(SearchCriteria cri, ModelAndView mav) {
+		pageMaker = new PageMaker();
+		cri.setPerPageNum(5);
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(parttimeService.countMyDaetaList(cri.getM_id()));
+		
 		List dlist = parttimeService.getMyDaetaList(cri);
 		// 추가정보 저장=> 1.글번호 2.해당 글에 지원한 지원자
 		for (int i = 0; i < dlist.size(); i++) {
 			DaetaDTO dto = (DaetaDTO) dlist.get(i);
-			dto.setList_num(dlist.size() - i); // 글번호
+			dto.setList_num(Integer.parseInt(dto.getD_num().substring(1,10))); // 글번호
 			dto.setCnt_apply(parttimeService.getDaetaCnt_apply(dto.getD_num())); // 지원자수
 			if (dto.getM_id().equals("admin02")) {
 				dto.setM_name("관리자");
@@ -1120,22 +1304,22 @@ public class ParttimeController {
 			dlist.set(i, dto);
 		}
 		
-		pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setDisplayPageNum(5);
-		pageMaker.setTotalCount(dlist.size());
-		
 		mav.addObject("pageMaker2", pageMaker);
 		mav.addObject("dlist", dlist);
 	}
 	
 	public void getMyParttimeApplyList(SearchCriteria cri, ModelAndView mav) {
+		pageMaker = new PageMaker();
+		cri.setPerPageNum(5);
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(parttimeService.countMyParttimeApplyList(cri.getM_id()));
+		
 		List applyList = parttimeService.getMyParttimeApplyList(cri); //내가 지원한 이력서 목록
 		List p_alist = new ArrayList<>(); 
 		for(int i=0; i<applyList.size();i++){
 			P_ApplyDTO apply = (P_ApplyDTO) applyList.get(i); 
 			ParttimeDTO dto = parttimeService.getParttime(apply.getP_num()); //내가 지원한 글의 정보
-			dto.setList_num(i+1); // 글번호 설정
+			dto.setList_num(Integer.parseInt(dto.getP_num().substring(1,10))); // 글번호 설정
 			dto.setCnt_apply(parttimeService.getParttimeCnt_apply(dto.getP_num())); // 지원자수
 			dto.setM_name(parttimeService.getMember(dto.getM_id()).getM_name());// 작성자의 회원번호로 검색하여 지원자 이름을 받아온다.
 			
@@ -1151,22 +1335,22 @@ public class ParttimeController {
 			p_alist.add(dto);
 		} 
 		
-		pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setDisplayPageNum(5);
-		pageMaker.setTotalCount(p_alist.size());
-		
 		mav.addObject("pageMaker3", pageMaker);
 		mav.addObject("p_resume",p_alist);
 	}
 	
 	public void getMyDaetaApplyList(SearchCriteria cri, ModelAndView mav) {
+		pageMaker = new PageMaker();
+		cri.setPerPageNum(5);
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(parttimeService.countMyDaetaApplyList(cri.getM_id()));
+		
 		List applyList = parttimeService.getMyDaetaApplyList(cri); //내가 지원한 이력서 목록
 		List d_alist = new ArrayList<>(); 
 		for(int i=0; i<applyList.size();i++){
 			D_ApplyDTO apply = (D_ApplyDTO) applyList.get(i); 
 			DaetaDTO dto = parttimeService.getDaeta(apply.getD_num()); //내가 지원한 글의 정보
-			dto.setList_num(i+1); // 글번호 설정
+			dto.setList_num(Integer.parseInt(dto.getD_num().substring(1,10))); // 글번호 설정
 			dto.setCnt_apply(parttimeService.getDaetaCnt_apply(dto.getD_num())); // 지원자수
 			dto.setM_name(parttimeService.getMember(dto.getM_id()).getM_name());// 작성자의 회원번호로 검색하여 지원자 이름을 받아온다.
 			
@@ -1181,11 +1365,6 @@ public class ParttimeController {
 			d_alist.add(dto);
 			
 		} 
-		
-		pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setDisplayPageNum(5);
-		pageMaker.setTotalCount(d_alist.size());
 		
 		mav.addObject("pageMaker4", pageMaker);
 		mav.addObject("d_resume",d_alist);

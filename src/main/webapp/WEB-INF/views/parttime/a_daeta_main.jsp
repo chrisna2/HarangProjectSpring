@@ -200,7 +200,6 @@
 				<!-- 신고 -->
 				<form method="post" action="/parttime/reportSolved">
 					<input type="hidden" name="d_num" value="" id="report_num"/>
-	                <input type="hidden" name="solved" value="OK"/>
               <div class="box box-danger" id="theRemote" style="display: none;">
 	                <div class="box-header">
 	                  <h3 class="box-title">신고 내용</h3>
@@ -225,7 +224,7 @@
 	                </div><!-- /.box-body -->
 	                
 	                 <div class="box-footer" align="right">
-	                    <button type="submit" class="btn btn-danger" onclick="fnSolve()">해결</button>
+	                    <button type="submit" class="btn btn-danger">해결</button>
 	                </div>
 	              </div><!-- /.box -->
 	              </form>

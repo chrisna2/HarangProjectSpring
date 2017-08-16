@@ -226,4 +226,34 @@ public class ParttimeDaoImpl implements ParttimeDao {
 		sqlSession.delete(namespace+".deleteDaetaReply", dr_num);
 	}
 
+	@Override
+	public int countParttimeList() {
+		return sqlSession.selectOne(namespace+".countParttimeList");
+	}
+
+	@Override
+	public int countDaetaList() {
+		return sqlSession.selectOne(namespace+".countDaetaList");
+	}
+
+	@Override
+	public int countMyParttimeList(String m_id) {
+		return sqlSession.selectOne(namespace+".countMyParttimeList", m_id);
+	}
+
+	@Override
+	public int countMyDaetaList(String m_id) {
+		return sqlSession.selectOne(namespace+".countMyDaetaList", m_id);
+	}
+
+	@Override
+	public int countMyParttimeApplyList(String m_id) {
+		return sqlSession.selectOne(namespace+".countMyParttimeApplyList", m_id);
+	}
+
+	@Override
+	public int countMyDaetaApplyList(String m_id) {
+		return sqlSession.selectOne(namespace+".countMyDaetaApplyList", m_id);
+	}
+
 }

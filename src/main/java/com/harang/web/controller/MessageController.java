@@ -32,20 +32,6 @@ public class MessageController {
 	
 	private LoginBean loginBean = new LoginBean();
 	
-	/*
-	public PagingDto paging(int listSize, String _nowPage, String _nowBlock) {
-		PagingBean pbean = new PagingBean();
-		int nowPage = 0, nowBlock = 0;
-		//System.out.println("CHECK1 : "+_nowPage);
-		if(!("").equals(_nowPage) || null != _nowPage ){
-			//System.out.println("CHECK2 : "+_nowPage);
-			nowPage = Integer.parseInt(_nowPage);}
-		if(!("").equals(_nowBlock) || null != _nowBlock) {nowBlock = Integer.parseInt(_nowBlock);}
-		PagingDto paging = pbean.Paging(listSize, 20, nowPage, 1, nowBlock);
-		return paging;
-	}
-	*/
-	
 	/**
 	 * 받은 메시지 함에 리스트를 가져오는 메서드.
 	 * @param session 세션
@@ -60,24 +46,12 @@ public class MessageController {
 		}
 		
 		List<MessageDTO> givenList = setList(messageService.getGivenMessageList(login.getM_id()));
-		
-		
-		/*
-		PagingDto paging = paging(givenList.size(), nowPage, nowBlock);
-		if((nowPage != null && nowBlock != null)|| (nowPage != "" && nowBlock != "")){
-			System.out.println("1 : "+nowPage+", "+ nowBlock);
-			paging = paging(givenList.size(), Integer.parseInt(nowPage), Integer.parseInt(nowBlock));
-		}else{
-			System.out.println("2 : "+nowPage+", "+ nowBlock);
-			paging = paging(givenList.size(), 0, 0);
-		}
-		*/
+
 		
 		ModelAndView mav = new ModelAndView(url);
 		messageNotRead(mav, session); //안 읽은 메시지
 		mav.addObject("list", givenList);
 		mav.addObject("tab", "INBOX");
-		//mav.addObject("paging", paging);
 		return mav;
 	}
 	
@@ -95,20 +69,11 @@ public class MessageController {
 		}
 		
 		List<MessageDTO> sentList = setList(messageService.getSentMessageList(login.getM_id())); 
-		/*
-		PagingDto paging;
-		if(nowPage == null && nowBlock == null){
-			paging = paging(sentList.size(), 0, 0);
-		}else{
-			paging = paging(sentList.size(), Integer.parseInt(nowPage), Integer.parseInt(nowBlock));
-		}
-		*/
 		
 		ModelAndView mav = new ModelAndView(url);
 		messageNotRead(mav, session); //안 읽은 메시지
 		mav.addObject("list", sentList);
 		mav.addObject("tab", "SENT");
-		//mav.addObject("paging", paging);
 		return mav;
 	}
 	
@@ -126,20 +91,12 @@ public class MessageController {
 		}
 		
 		List<MessageDTO> toMeList = setList(messageService.getToMeMessageList(login.getM_id())); 
-		/*
-		PagingDto paging;
-		if(nowPage == null && nowBlock == null){
-			paging = paging(toMeList.size(), 0, 0);
-		}else{
-			paging = paging(toMeList.size(), Integer.parseInt(nowPage), Integer.parseInt(nowBlock));
-		}
-		*/
+		
 		
 		ModelAndView mav = new ModelAndView(url);
 		messageNotRead(mav, session); //안 읽은 메시지
 		mav.addObject("list", toMeList);
 		mav.addObject("tab", "TOME");
-		//mav.addObject("paging", paging);
 		return mav;
 	}
 	
