@@ -122,8 +122,7 @@ function showKeyCode(event) {
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
-	<form action="/HarangProject/schedule" name="schupdatecomplete" method="post"  onsubmit="return fnschup()">
-		<input type = "hidden" name="cmd" value="A_SCH_CON_UP_COMPLETE">
+	<form action="/schedule/SCH_UPDATE" name="schupdatecomplete" method="post"  onsubmit="return fnschup()">
 		<input type="hidden" name="s_num" value="${schcon.s_num }">
 		<section class="content">
 			<!-- 세로 길이 수정 -->

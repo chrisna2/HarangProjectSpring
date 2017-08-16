@@ -34,6 +34,18 @@ public class FacilServiceImpl implements FacilService {
 		return list;
 	}
 	
+	@Override
+	public int reserPgListAllCount(SearchCriteria cri) {
+		
+		return facilDao.reserPgListAllCount(cri);
+	}
+
+	@Override
+	public int reserSrListAllCount(SearchCriteria cri) {
+		
+		return facilDao.reserSrListAllCount(cri);
+	}
+	
 	// 운동장 예약 목록 불러오기 / m_id로 검색.
 	@Override
 	public List<PgMemberDTO> loadPgReserList(SearchCriteria cri) {
@@ -289,6 +301,4 @@ public class FacilServiceImpl implements FacilService {
 	public void userReserSr(SrMemberDTO srmdto) {
 		facilDao.userReserSr(srmdto);
 	}
-
-
 }

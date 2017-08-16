@@ -15,6 +15,9 @@ public interface FacilService {
 	public List<PgMemberDTO> loadPgReserListAll(SearchCriteria cri);
 	public List<SrMemberDTO> loadSrReserListAll(SearchCriteria cri);
 	
+	public int reserPgListAllCount(SearchCriteria cri);
+	public int reserSrListAllCount(SearchCriteria cri);
+	
 	public List<PlaygroundDTO> loadPgList(SearchCriteria cri);
 	public List<StudyroomDTO> loadSrList(SearchCriteria cri);
 	

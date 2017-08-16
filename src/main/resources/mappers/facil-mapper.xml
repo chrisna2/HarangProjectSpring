@@ -10,6 +10,7 @@
   		WHERE m.pg_num = p.pg_num
   		<include refid="searchReserPgListAll"></include>
   		ORDER BY m.pgm_date ASC
+  		limit #{pageStart}, #{perPageNum} 
   	</select>
   	<sql id="searchReserPgListAll">
   			<if test="keyfield != null">
@@ -34,6 +35,20 @@
   			</if>
   	</sql>
   	
+  	<select id="ReserPgListAllCount" parameterType="SearchCriteria" resultType="int">
+  		SELECT count(*)
+  		FROM tbl_pg_member m, tbl_playground p 
+  		WHERE m.pg_num = p.pg_num
+  		<include refid="searchReserPgListAll"></include>
+  	</select>
+  	
+  	<select id="ReserSrListAllCount" parameterType="SearchCriteria" resultType="int">
+  		SELECT count(*)
+  		FROM tbl_sr_member m, tbl_studyroom s 
+  		WHERE m.sr_num = s.sr_num
+  		<include refid="searchReserSrListAll"></include>
+  	</select>
+  	
 
   	
   	<select id="ReserSrListAll" parameterType="SearchCriteria" resultType="SrMember">
@@ -42,6 +57,7 @@
   		WHERE m.sr_num = s.sr_num
   		<include refid="searchReserSrListAll"></include>
   		ORDER BY m.srm_date ASC
+  		limit #{pageStart}, #{perPageNum} 
   	</select>	
   	  	
   	  	<sql id="searchReserSrListAll">
@@ -139,11 +155,11 @@
 		SELECT sr_type FROM tbl_studyroom GROUP BY sr_type
 	</select>
 	
-	<select id="scheduleToPg" resultType="Schedure">
+	<select id="scheduleToPg" resultType="Schedule">
 		SELECT * FROM tbl_schedule WHERE s_location LIKE '%운동장%'
 	</select>
 	
-	<select id="scheduleToSr" resultType="Schedure">
+	<select id="scheduleToSr" resultType="Schedule">
 		SELECT * FROM tbl_schedule WHERE s_location LIKE '%스터디룸%'
 	</select>
 	
@@ -262,6 +278,8 @@
 	<select id="loadSrTimecode" parameterType="SrMember" resultType="SrMember">
 		SELECT srm_timecode FROM tbl_sr_member WHERE srm_date=#{srm_date} AND sr_num=#{sr_num}
 	</select>
+	
+	<!-- ******************************************************************************************** -->
 	
 	<select id="aticketList" parameterType="SearchCriteria" resultType="FoodMember">
 		select f.f_title, f.f_selldate, f.f_point, count(fm.f_num) as fm_sellcount 

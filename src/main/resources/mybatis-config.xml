@@ -32,7 +32,6 @@
 		<typeAlias type="com.harang.web.domain.PgMemberDTO" alias="PgMember"/>
 		<typeAlias type="com.harang.web.domain.PlaygroundDTO" alias="Playground"/>
 		<typeAlias type="com.harang.web.domain.Schedule_memberDTO" alias="Schedule_member"/>
-		<typeAlias type="com.harang.web.domain.ScheduleDTO" alias="Schedure"/>
 		<typeAlias type="com.harang.web.domain.SearchCriteria" alias="SearchCriteria"/>
 		<typeAlias type="com.harang.web.domain.SrMemberDTO" alias="SrMember"/>
 		<typeAlias type="com.harang.web.domain.StudyroomDTO" alias="Studyroom"/>
@@ -41,6 +40,9 @@
 		
 		<typeAlias type="com.harang.web.domain.ImDTO" alias="Im"/>
 		<typeAlias type="com.harang.web.domain.Im2DTO" alias="Im2"/>
+		
+		<typeAlias type="com.harang.web.domain.ScheduleDTO" alias="Schedule"/>
+		<typeAlias type="com.harang.web.domain.SearchCriteria2" alias="SearchCriteria2"/>
 	</typeAliases>
 	<!-- DB 드라이버 설정도 root-context.xml에서 한다 (Spring사용) -->
  	<!-- SQL맵퍼의 작업의 경로는 이제 root-context.xml파일에서 설정한다. -->

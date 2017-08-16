@@ -277,7 +277,7 @@
               </a>
             </li>
             <li>
-              <a href="/schedule/U_SCH_LIST">
+              <a href="/schedule/SCH_LIST">
                 <i class="fa fa-calendar"></i><span>학사일정</span>
               </a>
             </li>

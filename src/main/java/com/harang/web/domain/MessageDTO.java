@@ -15,7 +15,6 @@ public class MessageDTO {
 	private String m_reader_name;
 	private String s_photo;
 	
-	
 	public String getS_photo() {
 		return s_photo;
 	}

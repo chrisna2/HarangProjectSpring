@@ -141,28 +141,6 @@ div#s_content {
 						<div class="box">
 							<div class="box-header" style="background-color: #dceff4 ">
 								<h3 class="box-title">학사 일정</h3>
-								<div class="box-tools">
-								<form action="/HarangProject/schedule" name="search" method="post">
-								<input type="hidden" name="cmd" value="U_SCH_LIST">
-									<div class="input-group">
-										<input type="text" name="table_search"
-											class="form-control input-sm pull-right"
-											style="width: 150px;" placeholder="Search" /> <select
-											class="form-control input-sm pull-right"
-											style="width: 150px;" name="sOption">
-											<option value="s_ispoint">포인트 지급</option>
-											<option value="s_dept">학과</option>
-											<option value="s_title">제목</option>
-
-										</select>
-										<div class="input-group-btn">
-											<button class="btn btn-sm btn-default">
-												<i class="fa fa-search"></i>
-											</button>
-										</div>
-									</div>
-									</form>
-								</div>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body table-responsive no-padding">
@@ -177,28 +155,18 @@ div#s_content {
 									</tr>
 									<c:choose>
 										<c:when test="${fn:length(schlist) eq 0}">
-								학사일정이 없습니다.
-								</c:when>
+										</c:when>
 										<c:otherwise>
-											<c:forEach items="${schlist}" var="schlist"
-												begin="${paging.beginPerPage}"
-												end="${paging.beginPerPage + paging.numPerPage -1}"
-												varStatus="i">
+											<c:forEach items="${schlist}" var="schlist">
 												<tr>
 													<td>${schlist.s_dept}</td>
 													<td>${schlist.s_dstart}</td>
 													<td><a href = "#" style="color: black" onclick="schRead('${schlist.s_num}')">${schlist.s_title} </a></td>
 													<td><c:choose>
-															<c:when test="${'1234' eq schlist.s_grade}">
-								전체
-								</c:when>
-															<c:otherwise>
-								${schlist.s_grade }	
-								</c:otherwise>
-														</c:choose></td>
-
-
-
+															<c:when test="${'1234' eq schlist.s_grade}">전체</c:when>
+															<c:otherwise>${schlist.s_grade }</c:otherwise>
+														</c:choose>
+													</td>
 													<td>${schlist.s_ispoint}</td>
 
 												</tr>
@@ -214,28 +182,72 @@ div#s_content {
 							</div>
 							<!-- /.box-body -->
 
-							<!-- 페이징 버튼 -->
-						<div class="box-footer clearfix" style="background-color: #dceff4 ">
-							<ul class="pagination pagination-sm no-margin pull-right">
-								<c:if test="${paging.nowBlock > 0}">
-									<li><a href="javascript:prevPage()">&laquo;</a></li>
-								</c:if>
-								<c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}"
-									step="1">
-									<!-- if문 추가 : 20170615 -->
-									<c:if
-										test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}">
-										<li><a
-											href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-									</c:if>
-									<!-- 끝 -->
-								</c:forEach>
-								<c:if test="${paging.totalBlock > paging.nowBlock +1}">
-									<li><a href="javascript:nextPage()">&raquo;</a></li>
-								</c:if>
-							</ul>
-						</div>
+							
+						
+						
+						
 						<!-- 페이징 버튼 -->
+					<div class="box-footer clearfix" style="background-color: #dceff4">
+					
+						
+						<ul class="pagination pagination-sm no-margin pull-right">
+							<c:if test="${pageMaker.prev}">
+								<li><a
+									href="/schedule/SCH_LIST${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+							</c:if>
+							<c:forEach begin="${pageMaker.startPage}"
+								end="${pageMaker.endPage}" var="idx">
+								<li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+									<a href="/schedule/SCH_LIST?page=${idx}"> ${idx} </a>
+								</li>
+							</c:forEach>
+							<c:if test="${pageMaker.next && pageMaker.endPage>0}">
+								<li><a
+									href="/schedule/SCH_LIST${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+							</c:if>
+						</ul>
+
+
+						<form action="/schedule/SCH_LIST" name="search" method="post">
+
+							
+							
+							
+							<div class="input-group">
+
+								<select class="form-control input-sm "
+											style="width: 150px;" name="keyfield">
+											<option value="s_ispoint">포인트 지급</option>
+											<option value="s_dept">학과</option>
+											<option value="s_title">제목</option>
+
+										</select>  <input type="text" name="keyword"
+											class="form-control input-sm "
+											style="width: 150px;" placeholder="Search" />
+
+								<button class="btn btn-sm btn-default pull-left">
+									<i class="fa fa-search"></i>
+								</button>
+
+							</div>
+						</form>
+					</div>
+					
+					
+					
+					<!-- 페이징 버튼 -->
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 						</div>
 						<!-- /.box -->
 					</div>
@@ -249,25 +261,28 @@ div#s_content {
 	
 	<!--  참가신청을 위한 폼 시작 -->
 	<!-- 참가신청 하려면.. 글번호를 가져가야함.  -->
-	<form method="post" action="/HarangProject/schedule"
+	<form method="post" action="/schedule/SCH_JOIN"
 		name="schjoin">
 		<input type="hidden" name="s_num" value="" /> 
-		<input type="hidden" name="cmd" value="U_SCH_JOIN" />
+		<input type="hidden" name="m_id" value="${sessionScope.member.m_id }" /> 
+		<input type="hidden" name="m_grade" value="${sessionScope.member.m_grade }" /> 
+		
 	</form>
 	<!--  참가신청을 위한 폼 끝 -->
 	
 	<!--  참가취소를 위한 폼 시작 -->
 	<!-- 참가취소 하려면.. 글번호를 가져가야함.  -->
-	<form method="post" action="/HarangProject/schedule"
+	<form method="post" action="/schedule/SCH_JOIN_CANCLE"
 		name="schjoincancle">
 		<input type="hidden" name="s_num" value="" /> 
-		<input type="hidden" name="cmd" value="U_SCH_JOIN_CANCLE" />
+		<input type="hidden" name="m_id" value="${sessionScope.member.m_id }" /> 
+		<input type="hidden" name="m_grade" value="${sessionScope.member.m_grade }" /> 
 	</form>
 	<!--  참가신청을 위한 폼 끝 -->
 	
 	<!-- 페이징 관련 폼 ----------------------------------------------------------------------->
 	<!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-	<form id="prevPage" method="post" action="/HarangProject/schedule">
+	<%-- <form id="prevPage" method="post" action="/HarangProject/schedule">
 		<input type="hidden" name="cmd" value="U_SCH_LIST" /> <input
 			type="hidden" name="nowPage"
 			value="${paging.pagePerBlock * (paging.nowBlock-1)}" /> <input
@@ -285,7 +300,7 @@ div#s_content {
 		<input type="hidden" name="cmd" value="U_SCH_LIST" /> <input
 			type="hidden" name="nowPage" value="" id="page" /> <input
 			type="hidden" name="nowBlock" value="${paging.nowBlock}" />
-	</form>
+	</form> --%>
 	<!-- 페이징 관련 폼 여기까지입니다. ----------------------------------------------------------------------------------- -->
 	
 	
@@ -302,7 +317,7 @@ div#s_content {
 
 <!-- ★★★Ajax를 배우면 이해 할 수 있는 곳 : 여기에 데이터를 삽입합니다. -->
 <script type="text/javascript">
-	$(function() {
+	 $(function() {
 
 		/* initialize the calendar
 		 -----------------------------------------------------------------*/
@@ -310,7 +325,7 @@ div#s_content {
 		var date = new Date();
 		var d = date.getDate(), m = date.getMonth(), y = date.getFullYear();
 
-		$('#calendar')
+		 $('#calendar')
 				.fullCalendar(
 						{
 							header : {
@@ -335,7 +350,7 @@ div#s_content {
 									"금요일", "<font color='blue'>토요일</font>" ],
 							dayNamesShort : [ "일", "월", "화", "수", "목", "금", "토" ],
 							editable : false,
-							events : "/HarangProject/ajax?cmd=sche",
+							events : "/schedule/schCal",
 							//입력 글자 색
 							eventTextColor : '#000000',
 							eventMouseover : function(calEvent, jsEvent, view) {
@@ -346,7 +361,7 @@ div#s_content {
 								$("#schcon").slideUp();
 								$("#schcon").slideDown();
 								//날짜를 클릭 했을 때 해당 날짜에 포함된 데이터를 불러 옵니다. 위와 마찮가지..
-								$.getJSON("/HarangProject/ajax?cmd=schecon",{s_num : calEvent.id},function(data) {
+								$.getJSON("/schedule/schRead",{s_num : calEvent.id},function(data) {
 													
 													$(data).each(function(index, schconlist) {
 														$("#s_content").html(schconlist.s_content);
@@ -431,9 +446,9 @@ div#s_content {
 		
 		
 		
-	});
+	}); 
 	
-	
+	 
 	
 	
 	
@@ -451,7 +466,7 @@ function schRead(s_num) {
 		//alert($.now()); 
 		$("#schcon").slideUp();
 		$("#schcon").slideDown();
-		$.getJSON("/HarangProject/ajax?cmd=schecon",{s_num : s_num},function(data) {
+		$.getJSON("/schedule/schRead",{s_num : s_num},function(data) {
 			$(data).each(function(index, schconlist) {
 				$("#s_content").html(schconlist.s_content);
 				var ss_num = schconlist.s_num;
@@ -528,7 +543,7 @@ function schRead(s_num) {
 		});
 	}); 
 }	
-	
+	 
 
 function scjoin(s_num){
 	document.schjoin.submit();

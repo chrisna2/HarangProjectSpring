@@ -22,20 +22,53 @@
 	<!-- 받은 메시지를 모두 검색 -->
 	<select id="getGivenMessageList" resultType="Message">
 		SELECT * FROM tbl_text WHERE m_reader=#{m_id} AND NOT m_sender=#{m_id} AND t_read_del = 'N' 
+		<include refid="searchMessage"></include> 
 		ORDER BY t_send_date DESC 
+		limit #{pageStart}, #{perPageNum} 
+	</select>
+	<!-- 받은 메시지를 모두 페이징 -->
+	<select id="getGivenMessageListCount" resultType="int">
+		SELECT count(*) FROM tbl_text WHERE m_reader=#{m_id} AND NOT m_sender=#{m_id} AND t_read_del = 'N'
+		<include refid="searchMessage"></include> 
 	</select>
 	
 	<!-- 보낸 메시지를 모두 검색 -->
 	<select id="getSentMessageList" resultType="Message">
-		SELECT * FROM tbl_text WHERE m_sender=#{m_id} AND NOT m_reader=#{m_id} AND t_send_del = 'N'
-		ORDER BY t_send_date DESC
+		SELECT * FROM tbl_text WHERE m_sender=#{m_id} AND NOT m_reader=#{m_id} AND t_send_del = 'N' 
+		<include refid="searchMessage"></include>
+		ORDER BY t_send_date DESC 
+		limit #{pageStart}, #{perPageNum} 
+	</select>
+	<!-- 보낸 메시지를 모두 페이징 -->
+	<select id="getSentMessageListCount" resultType="int">
+		SELECT count(*) FROM tbl_text WHERE m_sender=#{m_id} AND NOT m_reader=#{m_id} AND t_send_del = 'N' 
+		<include refid="searchMessage"></include>
 	</select>
 	
 	<!-- 내게 쓴 메시지를 모두 검색 -->
 	<select id="getToMeMessageList" resultType="Message">
-		SELECT * FROM tbl_text WHERE m_reader=#{m_id} AND m_sender =#{m_id}
-		ORDER BY t_send_date DESC
+		SELECT * FROM tbl_text WHERE m_reader=#{m_id} AND m_sender =#{m_id} 
+		<include refid="searchMessage"></include>
+		ORDER BY t_send_date DESC 
+		limit #{pageStart}, #{perPageNum} 
 	</select>
+	<!-- 내게 쓴 메시지를 모두 페이징 -->
+	<select id="getToMeMessageListCount" resultType="int">
+		SELECT count(*) FROM tbl_text WHERE m_reader=#{m_id} AND m_sender =#{m_id}
+		ORDER BY t_send_date DESC 
+		<include refid="searchMessage"></include>
+	</select>
+	<!-- 메세지 통합 검색 -->
+	<sql id="searchMessage">
+		<if test="keyfield != null">
+  			<if test="keyfield == 'm_sender'.toString()">
+  				and m_sender like concat('%', #{keyword}, '%') 
+  			</if>
+  			<if test="keyfield == 't_title'.toString()">
+  				and t_title like concat('%', #{keyword}, '%') 
+  			</if>
+  		</if>
+	</sql>
 	
 	<!-- 메시지 번호로 메시지를 검색 -->
 	<select id="getMessage" resultType="Message">

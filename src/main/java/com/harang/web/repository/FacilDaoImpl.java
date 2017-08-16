@@ -28,12 +28,25 @@ public class FacilDaoImpl implements FacilDao {
 		List list = sqlSession.selectList(namespace + ".ReserPgListAll", cri);
 		return list;
 	}
-
+	
 	@Override
 	public List<SrMemberDTO> reserSrListAll(SearchCriteria cri) {
 		List list = sqlSession.selectList(namespace + ".ReserSrListAll", cri);
 		return list;
 	}
+	
+	@Override
+	public int reserPgListAllCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace + ".ReserPgListAllCount", cri);
+	}
+
+
+
+	@Override
+	public int reserSrListAllCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace + ".ReserSrListAllCount", cri);
+	}
+
 
 	@Override
 	public List<PgMemberDTO> reserPgList(SearchCriteria cri) {
@@ -232,6 +245,9 @@ public class FacilDaoImpl implements FacilDao {
 	public void userReserSr(SrMemberDTO srmdto) {
 		sqlSession.insert(namespace + ".reserSrComplate", srmdto);
 	}
+
+
+
 
 
 }

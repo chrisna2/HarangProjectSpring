@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.MessageDTO;
+import com.harang.web.domain.SearchCriteria;
 import com.harang.web.repository.MessageDao;
 import com.harang.web.repository.MyPageDao;
 
@@ -41,20 +42,33 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public List<MessageDTO> getGivenMessageList(String m_id) {
-		return messageDao.getGivenMessageList(m_id);
+	public List<MessageDTO> getGivenMessageList(SearchCriteria cri) {
+		return messageDao.getGivenMessageList(cri);
 	}
 
 	@Override
-	public List<MessageDTO> getSentMessageList(String m_id) {
-		return messageDao.getSentMessageList(m_id);
+	public List<MessageDTO> getSentMessageList(SearchCriteria cri) {
+		return messageDao.getSentMessageList(cri);
 	}
 
 	@Override
-	public List<MessageDTO> getToMeMessageList(String m_id) {
-		return messageDao.getToMeMessageList(m_id);
+	public List<MessageDTO> getToMeMessageList(SearchCriteria cri) {
+		return messageDao.getToMeMessageList(cri);
+	}
+	@Override
+	public int getGivenMessageListCount(SearchCriteria cri) {
+		return messageDao.getGivenMessageListCount(cri);
 	}
 
+	@Override
+	public int getSentMessageListCount(SearchCriteria cri) {
+		return messageDao.getSentMessageListCount(cri);
+	}
+
+	@Override
+	public int getToMeMessageListCount(SearchCriteria cri) {
+		return messageDao.getToMeMessageListCount(cri);
+	}
 	@Override
 	public MessageDTO getMessage(String t_num) {
 		return messageDao.getMessage(t_num);
@@ -94,5 +108,6 @@ public class MessageServiceImpl implements MessageService {
 	public List<MessageDTO> getGivenMessageListHeader(String m_id) {
 		return messageDao.getGivenMessageListHeader(m_id);
 	}
+
 
 }

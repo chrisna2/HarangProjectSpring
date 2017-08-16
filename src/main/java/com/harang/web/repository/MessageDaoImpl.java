@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.MessageDTO;
+import com.harang.web.domain.SearchCriteria;
 
 @Repository
 public class MessageDaoImpl implements MessageDao {
@@ -29,16 +30,28 @@ public class MessageDaoImpl implements MessageDao {
 		sqlSession.insert(namespace+".postMessage", message);
 	}
 	@Override
-	public List<MessageDTO> getGivenMessageList(String m_id) {
-		return sqlSession.selectList(namespace+".getGivenMessageList", m_id);
+	public List<MessageDTO> getGivenMessageList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".getGivenMessageList", cri);
 	}
 	@Override
-	public List<MessageDTO> getSentMessageList(String m_id) {
-		return sqlSession.selectList(namespace+".getSentMessageList", m_id);
+	public List<MessageDTO> getSentMessageList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".getSentMessageList", cri);
 	}
 	@Override
-	public List<MessageDTO> getToMeMessageList(String m_id) {
-		return sqlSession.selectList(namespace+".getToMeMessageList", m_id);
+	public List<MessageDTO> getToMeMessageList(SearchCriteria cri) {
+		return sqlSession.selectList(namespace+".getToMeMessageList", cri);
+	}
+	@Override
+	public int getGivenMessageListCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".getGivenMessageListCount", cri);
+	}
+	@Override
+	public int getSentMessageListCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".getSentMessageListCount", cri);
+	}
+	@Override
+	public int getToMeMessageListCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace+".getToMeMessageListCount",cri);
 	}
 	@Override
 	public MessageDTO getMessage(String t_num) {
@@ -72,7 +85,6 @@ public class MessageDaoImpl implements MessageDao {
 	public List<MessageDTO> getGivenMessageListHeader(String m_id) {
 		return sqlSession.selectList(namespace+".getGivenMessageListHeader", m_id);
 	}
-	
 	
 
 }

@@ -15,7 +15,7 @@
 <!----------------------------------- 메인페이지 헤더 [작업 제목] ------------------------------------------------------------->
         <section class="content-header">
           <h1>
-             	쪽지함
+             	받은 쪽지함
             <small>쪽지를 관리하세요.</small>
           </h1>
           <ol class="breadcrumb">
@@ -33,12 +33,37 @@
            <div class="col-md-9">
         	 <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">받은 쪽지함</h3>
+                  <ul class="pagination pagination-sm no-margin pull-right">
+					<c:if test="${pageMaker.prev}">
+                            <li><a href="/message/INBOX${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+                    </c:if>
+                    <c:forEach begin="${pageMaker.startPage}" 
+                    		   end="${pageMaker.endPage}" 
+                               var="idx">
+                            <li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+                          		<a href="/message/INBOX?page=${idx}">
+                          			${idx}
+                        	   	</a>
+                             </li>
+                   	</c:forEach>
+                    <c:if test="${pageMaker.next && pageMaker.endPage>0}">
+                      <li><a href="/message/INBOX${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+                    </c:if>
+                    </ul>
+                <form action="/message/INBOX" name="search" method="post">
+                      <div class="input-group">
+                          <select name="keyfield" class="form-control input-sm pull-left" style="width: 150px;">
+                            <option value="m_sender" ${keyfield eq 'm_sender' ? 'selected' : null }>보낸 사람</option>
+                            <option value="t_title" ${keyfield eq 't_title' ? 'selected' : null }>쪽지 제목</option>
+                          </select>
+                          <input type="text" name="keyword" class="form-control input-sm  pull-left" style="width: 150px;" placeholder="Search"/>
+                         <div class="input-group-btn  pull-left">
+                            <button class="btn btn-sm btn-primary"> 검색 <i class="fa fa-search"></i></button>
+                         </div>
+                      </div>
+                    </form>  
                 </div><!-- /.box-header -->
                 <div class="box-body no-padding">
-                  
-                  <%@ include file="message_paging.jsp" %>
-                  
                   <div class="table-responsive mailbox-messages">
                     <table class="table table-hover table-striped">
                       <tbody>
@@ -61,15 +86,10 @@
 								</c:when>
 								<c:otherwise>
 									<c:forEach items="${list}" var="list" >
-											   <!-- 
-											   begin="${paging.beginPerPage}" 
-											   end="${paging.beginPerPage + paging.numPerPage -1}" 
-											    -->
-											   
 										<tr>
 				                          <td><input type="checkbox" value="${list.t_num}"/></td>
 				                          <td>${list.list_num}</td>
-				                          <td class="mailbox-name" >${list.m_sender_name}</td>
+				                          <td class="mailbox-name" >${list.m_sender}</td>
 				                          <td class="mailbox-subject" style="width: 50%">
 				                          <c:choose>
 					                          <c:when test="${list.t_read_date eq null}">
@@ -91,10 +111,10 @@
                 </div><!-- /.box-body -->
                 
                 <div class="box-footer no-padding">
-            <%--    <%@ include file="message_paging.jsp" %> --%>
                 </div>
               </div><!-- /. box -->
               </div><!-- /.col -->
+              
               
               <!-- 오른쪽에 메시지 탭 바 구성 -->
               <div class="col-md-3">
@@ -114,40 +134,5 @@
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
       <!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/message/INBOX">
-	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
-</form>
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/message/INBOX">
-	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
-</form>
-<!-- 메시지 읽기 -->
-<form name="read" method="post" action="/message/READ">
-	<input type="hidden" name="t_num" value="" id="t_num"/>
-	<input type="hidden" name="nowPage" value="${paging.nowPage}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-	<input type="hidden" name="tab" value="${tab}"/>
-</form>
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
-<script>
-///////////////// 페이지 관련 javascript function////////////////////
-function prevPage(){
-	document.getElementById("prevPage").submit();
-}
-function nextPage(){
-	document.getElementById("nextPage").submit();
-}
-/////////////////////////////////////////////////////////////////
-
-function fnRead(t_num){
-	document.getElementById("t_num").value = t_num;
-	document.read.submit();
-}
-
-function fnSearch(){
-	
-}
-</script>

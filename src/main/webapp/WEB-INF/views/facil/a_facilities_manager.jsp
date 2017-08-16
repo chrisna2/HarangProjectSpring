@@ -96,15 +96,23 @@
 					<div class="box-footer">
 						<!-- 페이징 -->
 						<div class="row" align="center">
-							<ul class="pagination pagination-sm no-margin">
-								<li><a href="#">&laquo;</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&raquo;</a></li>
-							</ul>
+							<ul class="pagination pagination-sm no-margin pull-right">
+							<c:if test="${pageMaker1.prev}">
+		                            <li><a href="/facil/AFacilManager${pageMaker1.makeQuery(pageMaker1.startPage-1)}&n=1">&laquo;</a></li>
+		                    </c:if>
+		                    <c:forEach begin="${pageMaker1.startPage}" 
+		                    		   end="${pageMaker1.endPage}" 
+		                               var="idx">
+		                            <li value="${pageMaker1.cri.page == idx ? 'class=active' : ''}">
+		                          		<a href="/facil/AFacilManager?page=${idx}&n=1">
+		                          			${idx}
+		                        	   	</a>
+		                             </li>
+		                   	</c:forEach>
+		                    <c:if test="${pageMaker1.next && pageMaker1.endPage>0}">
+		                      <li><a href="/facil/AFacilManager${pageMaker1.makeQuery(pageMaker1.endPage+1)}&n=1">&raquo;</a></li>
+	                    	</c:if>
+                    	</ul>
 						</div>
 
 						<!-- 검색문 / 셀렉트  -->
@@ -112,6 +120,7 @@
 							<div class="row">
 								<div class="input-group">
 									<div class="col-md-3" align="center">
+									<input type="hidden" name="n" value="1">
 										<select name="keyfield"
 											class="form-control input-sm pull-left" style="width: 150px;">
 											<option value="pgm_num"
@@ -211,15 +220,24 @@
 					<div class="box-footer">
 						<!-- 페이징 -->
 						<div class="row" align="center">
-							<ul class="pagination pagination-sm no-margin">
-								<li><a href="#">&laquo;</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&raquo;</a></li>
-							</ul>
+						<ul class="pagination pagination-sm no-margin pull-right">
+							<c:if test="${pageMaker2.prev}">
+		                            <li><a href="/facil/AFacilManager${pageMaker2.makeQuery(pageMaker2.startPage-1)}&n=2">&laquo;</a></li>
+		                    </c:if>
+		                    <c:forEach begin="${pageMaker2.startPage}" 
+		                    		   end="${pageMaker2.endPage}" 
+		                               var="idx">
+		                            <li value="${pageMaker2.cri.page == idx ? 'class=active' : ''}">
+		                          		<a href="/facil/AFacilManager?page=${idx}&n=2">
+		                          			${idx}
+		                        	   	</a>
+		                             </li>
+		                   	</c:forEach>
+		                    <c:if test="${pageMaker2.next && pageMaker2.endPage>0}">
+		                      <li><a href="/facil/AFacilManager${pageMaker2.makeQuery(pageMaker2.endPage+1)}&n=2">&raquo;</a></li>
+	                    	</c:if>
+                    	</ul>
+							
 						</div>
 
 						<!-- 검색문 / 셀렉트  -->
@@ -228,6 +246,7 @@
 							<div class="row">
 								<div class="input-group">
 									<div class="col-md-3" align="center">
+									<input type="hidden" name="n" value="2">
 										<select name="keyfield"
 											class="form-control input-sm pull-left" style="width: 150px;">
 											<option value="srm_num"

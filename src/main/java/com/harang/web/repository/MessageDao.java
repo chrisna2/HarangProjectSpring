@@ -10,10 +10,13 @@ public interface MessageDao {
 	public MemberDTO getMember(String m_id);
 	public List<String> getMember_id(String m_name);
 	public void postMessage(MessageDTO message);
-	public List<MessageDTO> getGivenMessageList(String m_id);
 	public List<MessageDTO> getGivenMessageListHeader(String m_id);
-	public List<MessageDTO> getSentMessageList(String m_id);
-	public List<MessageDTO> getToMeMessageList(String m_id);
+	public List<MessageDTO> getGivenMessageList(SearchCriteria cri);
+	public List<MessageDTO> getSentMessageList(SearchCriteria cri);
+	public List<MessageDTO> getToMeMessageList(SearchCriteria cri);
+	public int getGivenMessageListCount(SearchCriteria cri);
+	public int getSentMessageListCount(SearchCriteria cri);
+	public int getToMeMessageListCount(SearchCriteria cri);
 	public MessageDTO getMessage(String t_num);
 	public void deleteGivenMessage_first(String t_num);
 	public void deleteSentMessage_first(String t_num);

@@ -118,8 +118,7 @@ function showKeyCode(event) {
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
-	<form action="/HarangProject/schedule" name="schpostcomplete" method="post" onsubmit="return fnschp()">
-		<input type = "hidden" name="cmd" value="A_SCH_POST_COMPLETE">
+	<form action="/schedule/SCH_POST" name="schpostcomplete" method="post" onsubmit="return fnschp()">
 		<section class="content">
 			<!-- 세로 길이 수정 -->
 			<div class="row">
@@ -311,7 +310,7 @@ function showKeyCode(event) {
 							</div>
 							<div class="col-md-2">
 								<a class="btn btn-block btn-danger"
-									href="/HarangProject/schedule?cmd=A_SCH_LIST">취소</a>
+									href="/schedule/SCH_LIST">취소</a>
 							</div>
 						</div>
 
@@ -336,22 +335,22 @@ function showKeyCode(event) {
 <!-- CK Editor -->
 <script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
 <!-- jQuery 2.1.3 -->
-<script src="plugins/jQuery/jQuery-2.1.3.min.js"></script>
+<script src="../resources/plugins/jQuery/jQuery-2.1.3.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='plugins/fastclick/fastclick.min.js'></script>
+<script src='../resources/plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
-<script src="dist/js/app.min.js" type="text/javascript"></script>
+<script src="../resources/dist/js/app.min.js" type="text/javascript"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js" type="text/javascript"></script>
+<script src="../resources/dist/js/demo.js" type="text/javascript"></script>
 <!-- CK Editor -->
 <script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script
-	src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"
+	src="../resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"
 	type="text/javascript"></script>
-<script src="plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="../resources/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
     <script type="text/javascript">
     $(function() {
         $( "#date1" ).datepicker({
@@ -389,9 +388,10 @@ function showKeyCode(event) {
 		
 		var fvalue = document.getElementById("fselect").value;
 		
+		
+		
+		
 		if(fvalue == "운동장"){
-			
-			
 			
 			$("#pg_type option").remove();
 			$("#pg_type").append("<option>시설을 선택하세요.</option>");
@@ -426,7 +426,7 @@ function showKeyCode(event) {
 		var wpg_type = document.getElementById('pg_type').value;
 		
 		if(fvalue == "운동장"){	
-		$.getJSON("/HarangProject/ajax?cmd=selectPg", {
+		$.getJSON("/schedule/selectPg", {
 			pg_type : encodeURIComponent(wpg_type)
 		}, function(data) {
 			$("#pg_name option").remove();
@@ -443,7 +443,7 @@ function showKeyCode(event) {
 		
 		else{
 			
-			$.getJSON("/HarangProject/ajax?cmd=selectSr", {
+			$.getJSON("/schedule/selectSr", {
 				sr_type : encodeURIComponent(wpg_type)
 			}, function(data) {
 				$("#pg_name option").remove();

@@ -12,7 +12,7 @@ public class ScheduleDTO {
 	
 
 	private String s_num, s_grade, s_ispoint, s_title, s_content, s_dstart, s_dend, s_dept,
-		s_location, s_rstart, s_rend, s_point, isjoin;
+		s_location, s_rstart, s_rend, s_point, isjoin, gr1, gr2, gr3, gr4, fselect, pg_type, pg_name;
 
 	public String getS_num() {
 		return s_num;
@@ -117,6 +117,64 @@ public class ScheduleDTO {
 	public void setIsjoin(String isjoin) {
 		this.isjoin = isjoin;
 	}
+
+	public String getGr1() {
+		return gr1;
+	}
+
+	public void setGr1(String gr1) {
+		this.gr1 = gr1;
+	}
+
+	public String getGr2() {
+		return gr2;
+	}
+
+	public void setGr2(String gr2) {
+		this.gr2 = gr2;
+	}
+
+	public String getGr3() {
+		return gr3;
+	}
+
+	public void setGr3(String gr3) {
+		this.gr3 = gr3;
+	}
+
+	public String getGr4() {
+		return gr4;
+	}
+
+	public void setGr4(String gr4) {
+		this.gr4 = gr4;
+	}
+
+	public String getFselect() {
+		return fselect;
+	}
+
+	public void setFselect(String fselect) {
+		this.fselect = fselect;
+	}
+
+	public String getPg_type() {
+		return pg_type;
+	}
+
+	public void setPg_type(String pg_type) {
+		this.pg_type = pg_type;
+	}
+
+	public String getPg_name() {
+		return pg_name;
+	}
+
+	public void setPg_name(String pg_name) {
+		this.pg_name = pg_name;
+	}
+
+	
 
 	
 

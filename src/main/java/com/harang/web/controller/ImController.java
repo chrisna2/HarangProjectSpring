@@ -86,8 +86,6 @@ public class ImController {
 	@RequestMapping(value="/update",method = RequestMethod.GET)
 	public ModelAndView imread2(String l_num){
 		
-
-		
 		mav = new ModelAndView("imPage/immodify");
 		mav.addObject("read3",imService.Imread3(l_num));
 	
