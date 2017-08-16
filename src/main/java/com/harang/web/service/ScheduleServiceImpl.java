@@ -106,6 +106,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return scheduleDao.pgName(pg_type);
 	}
 
+	@Override
+	public int uschListCount(SearchCriteria2 cri) {
+		return scheduleDao.uschListCount(cri);
+	}
+
 	
 
 	

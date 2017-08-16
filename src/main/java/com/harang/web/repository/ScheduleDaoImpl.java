@@ -178,6 +178,11 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		return sqlSession.selectList(namespace + ".pgName", pg_type);
 	}
 
+	@Override
+	public int uschListCount(SearchCriteria2 cri) {
+		return sqlSession.selectOne(namespace + ".uschListCount", cri);
+	}
+
 	
 	
 	

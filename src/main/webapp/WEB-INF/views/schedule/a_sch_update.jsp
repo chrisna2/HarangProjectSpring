@@ -213,7 +213,7 @@ function showKeyCode(event) {
 								<div class="col-md-2 form-group">
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" name="point" id="point" value ="Y" checked="checked" >포인트 지급
+											<input type="checkbox" name="s_ispoint" id="point" value ="Y"  >포인트 지급
 										</label>
 									</div>
 								</div>
@@ -432,9 +432,10 @@ function showKeyCode(event) {
 		
 		var fvalue = document.getElementById("fselect").value;
 		
+		
+		
+		
 		if(fvalue == "운동장"){
-			
-			
 			
 			$("#pg_type option").remove();
 			$("#pg_type").append("<option>시설을 선택하세요.</option>");
@@ -469,7 +470,7 @@ function showKeyCode(event) {
 		var wpg_type = document.getElementById('pg_type').value;
 		
 		if(fvalue == "운동장"){	
-		$.getJSON("/HarangProject/ajax?cmd=selectPg", {
+		$.getJSON("/schedule/selectPg", {
 			pg_type : encodeURIComponent(wpg_type)
 		}, function(data) {
 			$("#pg_name option").remove();
@@ -486,7 +487,7 @@ function showKeyCode(event) {
 		
 		else{
 			
-			$.getJSON("/HarangProject/ajax?cmd=selectSr", {
+			$.getJSON("/schedule/selectSr", {
 				sr_type : encodeURIComponent(wpg_type)
 			}, function(data) {
 				$("#pg_name option").remove();

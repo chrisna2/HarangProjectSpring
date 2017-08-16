@@ -487,7 +487,7 @@ function schRead(s_num) {
 					$("#s_rstart").text("");
 					
 				}
-				if (null != schconlist.s_point) {
+				if ('Y' == schconlist.s_ispoint) {
 					$("#s_point").text(schconlist.s_point);
 					$("#is_join").show();
 				}

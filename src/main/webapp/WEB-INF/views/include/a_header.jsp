@@ -258,7 +258,7 @@
               </a>
             </li>
             <li>
-              <a href="/schedule/A_SCH_LIST">
+              <a href="/schedule/SCH_LIST">
                 <i class="fa fa-calendar"></i>
                 <span>학사 일정 관리</span>
               </a>

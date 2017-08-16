@@ -34,6 +34,13 @@
   	
   	</select>
 
+	<select id = "uschListCount" parameterType="SearchCriteria2" resultType = "int">
+  	
+  		select count(s_num) from tbl_schedule where  
+  		<include refid="search"></include> 
+  		(s_grade like concat('%', #{m_grade}, '%') or s_grade = '1234')
+		and (s_dept = '전체' or s_dept = #{m_dept})
+  	</select>
 
 
 
