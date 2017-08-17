@@ -38,7 +38,7 @@ public class FacilController {
 	@Autowired
 	private PointService pointService;
 	
-	private PageMaker pageMaker;
+	private PageMaker pageMaker1, pageMaker2;
 
 	// 사용자 메인 / 전체 불러오기
 	// 사용자 예약 내역 확인 페이지(Main) > 내역을 불러온다.
@@ -82,7 +82,8 @@ public class FacilController {
 		System.out.println(cri.getKeyfield());
 		System.out.println(cri.getKeyword());
 		
-		pageMaker = new PageMaker();
+		// 나중에 추가해주도록 합시다.
+		pageMaker1 = new PageMaker();
 		
 		ModelAndView mav = new ModelAndView("/facil/facilities_main");
 		
@@ -117,26 +118,78 @@ public class FacilController {
 
 	// 운영자 예약 관리.
 	@RequestMapping(value = "/AFacilManager", method = RequestMethod.GET)
-	public ModelAndView aManagerLoadList(HttpServletRequest req, SearchCriteria cri) {
+	public ModelAndView aManagerLoadList(HttpServletRequest req, SearchCriteria cri, String n) {
 
 		ModelAndView mav = new ModelAndView("/facil/a_facilities_manager");
-
-		// 두가지 값을 가져온다.
-		mav.addObject("pglist", facilService.loadPgReserListAll(cri));
-		mav.addObject("srlist", facilService.loadSrReserListAll(cri));
+		
+		SearchCriteria _cri = new SearchCriteria();
+		
+		cri.setPerPageNum(5);
+		_cri.setPerPageNum(5);
+		
+		aManagerLoadListPgPaging(_cri, mav);
+		aManagerLoadListSrPaging(_cri, mav);
+		
+		if( n != null){
+			switch(n){
+				case "1":
+					aManagerLoadListPgPaging(cri, mav);
+					break;
+				case "2":	
+					aManagerLoadListSrPaging(cri, mav);
+					break;
+			}
+		}
+	
 		return mav;
 	}
 	
 	// 운영자 예약 관리 / 검색을 위한 POST 방식
 	@RequestMapping(value = "/AFacilManager", method = RequestMethod.POST)
-	public ModelAndView aManagerSearchLoadList(HttpServletRequest req, SearchCriteria cri) {
-
+	public ModelAndView aManagerSearchLoadList(HttpServletRequest req, SearchCriteria cri, String n) {
 		ModelAndView mav = new ModelAndView("/facil/a_facilities_manager");
-
-		// 두가지 값을 가져온다.
-		mav.addObject("pglist", facilService.loadPgReserListAll(cri));
-		mav.addObject("srlist", facilService.loadSrReserListAll(cri));
+		
+		SearchCriteria _cri = new SearchCriteria();
+		
+		cri.setPerPageNum(5);
+		_cri.setPerPageNum(5);
+		
+		aManagerLoadListPgPaging(_cri, mav);
+		aManagerLoadListSrPaging(_cri, mav);
+		
+		if( n != null){
+			switch(n){
+				case "1":
+					aManagerLoadListPgPaging(cri, mav);
+					break;
+				case "2":	
+					aManagerLoadListSrPaging(cri, mav);
+					break;
+			}
+		}
+	
 		return mav;
+	}
+	
+	public void aManagerLoadListPgPaging(SearchCriteria cri, ModelAndView mav){
+
+		
+		pageMaker1 = new PageMaker();
+		pageMaker1.setCri(cri);
+		pageMaker1.setTotalCount(facilService.reserPgListAllCount(cri));
+		mav.addObject("pageMaker1",pageMaker1);
+		mav.addObject("pglist", facilService.loadPgReserListAll(cri));
+
+	}
+	
+	public void aManagerLoadListSrPaging(SearchCriteria cri, ModelAndView mav){
+
+		pageMaker2 = new PageMaker();
+		pageMaker2.setCri(cri);
+		pageMaker2.setTotalCount(facilService.reserSrListAllCount(cri));
+		mav.addObject("pageMaker2",pageMaker2);
+		mav.addObject("srlist", facilService.loadSrReserListAll(cri));
+
 	}
 
 	// 관리자 예약 취소(삭제)
@@ -147,7 +200,7 @@ public class FacilController {
 		// .jsp 에서 취소사유 를 가지고 온다.
 		// 메세지와의 연동 기능이 없스니다. 추후 추가하세요.
 		// ************************************************************
-		String cancel = req.getParameter("cancelMsg");
+		String cancel  = req.getParameter("cancelMsg");
 
 		if (facilType.startsWith("s")) {
 			facilService.deleteReserSr(facilType);
