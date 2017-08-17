@@ -12,8 +12,11 @@ import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 
 public interface FacilDao {
-	public List<PgMemberDTO> reserPgListAll();
-	public List<SrMemberDTO> reserSrListAll();
+	public List<PgMemberDTO> reserPgListAll(SearchCriteria cri);
+	public List<SrMemberDTO> reserSrListAll(SearchCriteria cri);
+	
+	public int reserPgListAllCount(SearchCriteria cri);
+	public int reserSrListAllCount(SearchCriteria cri);
 
 	public List<PgMemberDTO> reserPgList(SearchCriteria cri);
 	public List<SrMemberDTO> reserSrList(SearchCriteria cri);

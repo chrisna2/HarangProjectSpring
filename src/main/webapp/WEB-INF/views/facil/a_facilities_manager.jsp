@@ -96,54 +96,58 @@
 					<div class="box-footer">
 						<!-- 페이징 -->
 						<div class="row" align="center">
-							<ul class="pagination pagination-sm no-margin">
-								<li><a href="#">&laquo;</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&raquo;</a></li>
-							</ul>
+							<ul class="pagination pagination-sm no-margin pull-right">
+							<c:if test="${pageMaker1.prev}">
+		                            <li><a href="/facil/AFacilManager${pageMaker1.makeQuery(pageMaker1.startPage-1)}&n=1">&laquo;</a></li>
+		                    </c:if>
+		                    <c:forEach begin="${pageMaker1.startPage}" 
+		                    		   end="${pageMaker1.endPage}" 
+		                               var="idx">
+		                            <li value="${pageMaker1.cri.page == idx ? 'class=active' : ''}">
+		                          		<a href="/facil/AFacilManager?page=${idx}&n=1">
+		                          			${idx}
+		                        	   	</a>
+		                             </li>
+		                   	</c:forEach>
+		                    <c:if test="${pageMaker1.next && pageMaker1.endPage>0}">
+		                      <li><a href="/facil/AFacilManager${pageMaker1.makeQuery(pageMaker1.endPage+1)}&n=1">&raquo;</a></li>
+	                    	</c:if>
+                    	</ul>
 						</div>
 
 						<!-- 검색문 / 셀렉트  -->
-						<form action="/HarangProject/facil?cmd=AFacilManager" name="search" method="post">
+						<form action="/facil/AFacilManager" name="pgsearch" method="post">
 							<div class="row">
-								
-								<div class="col-md-3" align="center">
-									<select 
-										class="form-control input-sm pull-left"
-										style="width: 150px"
-										name="keyword">
-										
-										
-										
-												 <option value="pgm_num" ${requestScope.keyfield eq 'pgm_num' ? 'selected' : null}> 예약번호</option>
-                        <option value="pgm_regdate" ${requestScope.keyfield eq 'pgm_regdate' ? 'selected' : null}> 예약한 날짜</option>
-                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null}> 학번[ID] </option>
-                        <option value="p.pg_type" ${requestScope.keyfield eq 'p.pg_type' ? 'selected' : null}>시설명 </option>
-                        <option value="p.pg_name" ${requestScope.keyfield eq 'p.pg_name' ? 'selected' : null}> 호수 </option>
-                        <option value="pgm_date" ${requestScope.keyfield eq 'pgm_date' ? 'selected' : null}> 예약날짜 </option>
-										
-										
-									
-										
-									</select>
-								</div>
-								
-								<div class="col-md-3" align="center">
-									<input type="text" 
-										   name="keyfield"
-										   class="form-control input-sm  pull-left" 
-										   style="width: 150px;"
-										   placeholder="Search" />
-									<div class="input-group-btn  pull-left">
-										<button
-											type="submit" 
-											class="btn btn-sm btn-primary">
-											검색 <i class="fa fa-search"></i>
-										</button>
+								<div class="input-group">
+									<div class="col-md-3" align="center">
+									<input type="hidden" name="n" value="1">
+										<select name="keyfield"
+											class="form-control input-sm pull-left" style="width: 150px;">
+											<option value="pgm_num"
+												${keyfield eq 'pgm_num' ? 'selected' : null }>예약번호</option>
+											<option value="pgm_regdate"
+												${keyfield eq 'pgm_regdate' ? 'selected' : null }>예약한 날짜</option>
+											<option value="m_id"
+												${keyfield eq 'm_id' ? 'selected' : null }>학번</option>
+											<option value="pg_type"
+												${keyfield eq 'pg_type' ? 'selected' : null }>시설명</option>
+											<option value="pg_name"
+												${keyfield eq 'pg_name' ? 'selected' : null }>호수</option>
+											<option value="pg_date"
+												${keyfield eq 'pgm_date' ? 'selected' : null }>예약날짜</option>
+										</select>
+									</div>
+
+									<div class="col-md-3" align="center">
+										<input type="text" name="keyword"
+											   class="form-control input-sm  pull-left"
+											   style="width: 150px;" 
+											   placeholder="Search" />
+										<div class="input-group-btn  pull-left">
+											<button class="btn btn-sm btn-primary">
+												검색 <i class="fa fa-search"></i>
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -216,54 +220,60 @@
 					<div class="box-footer">
 						<!-- 페이징 -->
 						<div class="row" align="center">
-							<ul class="pagination pagination-sm no-margin">
-								<li><a href="#">&laquo;</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&raquo;</a></li>
-							</ul>
+						<ul class="pagination pagination-sm no-margin pull-right">
+							<c:if test="${pageMaker2.prev}">
+		                            <li><a href="/facil/AFacilManager${pageMaker2.makeQuery(pageMaker2.startPage-1)}&n=2">&laquo;</a></li>
+		                    </c:if>
+		                    <c:forEach begin="${pageMaker2.startPage}" 
+		                    		   end="${pageMaker2.endPage}" 
+		                               var="idx">
+		                            <li value="${pageMaker2.cri.page == idx ? 'class=active' : ''}">
+		                          		<a href="/facil/AFacilManager?page=${idx}&n=2">
+		                          			${idx}
+		                        	   	</a>
+		                             </li>
+		                   	</c:forEach>
+		                    <c:if test="${pageMaker2.next && pageMaker2.endPage>0}">
+		                      <li><a href="/facil/AFacilManager${pageMaker2.makeQuery(pageMaker2.endPage+1)}&n=2">&raquo;</a></li>
+	                    	</c:if>
+                    	</ul>
+							
 						</div>
 
 						<!-- 검색문 / 셀렉트  -->
-						<form action="/HarangProject/facil?cmd=AFacilManager" name="search" method="post">
+						<!-- 검색문 / 셀렉트  -->
+						<form action="/facil/AFacilManager" name="srsearch" method="post">
 							<div class="row">
-								
-								<div class="col-md-3" align="center">
-									<select 
-										class="form-control input-sm pull-left"
-										style="width: 150px"
-										name="keyword">
-										
-										
-										
-										
-										 <option value="pgm_num" ${requestScope.keyfield eq 'pgm_num' ? 'selected' : null}> 예약번호</option>
-                        <option value="pgm_regdate" ${requestScope.keyfield eq 'pgm_regdate' ? 'selected' : null}> 예약한 날짜</option>
-                        <option value="m_id" ${requestScope.keyfield eq 'm_id' ? 'selected' : null}> 학번[ID] </option>
-                        <option value="p.pg_type" ${requestScope.keyfield eq 'p.pg_type' ? 'selected' : null}>시설명 </option>
-                        <option value="p.pg_name" ${requestScope.keyfield eq 'p.pg_name' ? 'selected' : null}> 호수 </option>
-                        <option value="pgm_date" ${requestScope.keyfield eq 'pgm_date' ? 'selected' : null}> 예약날짜 </option>
-										
-										
-								
-									</select>
-								</div>
-								
-								<div class="col-md-3" align="center">
-									<input type="text" 
-										   name="keyfield"
-										   class="form-control input-sm  pull-left" 
-										   style="width: 150px;"
-										   placeholder="Search" />
-									<div class="input-group-btn  pull-left">
-										<button
-											type="submit" 
-											class="btn btn-sm btn-primary">
-											검색 <i class="fa fa-search"></i>
-										</button>
+								<div class="input-group">
+									<div class="col-md-3" align="center">
+									<input type="hidden" name="n" value="2">
+										<select name="keyfield"
+											class="form-control input-sm pull-left" style="width: 150px;">
+											<option value="srm_num"
+												${keyfield eq 'srm_num' ? 'selected' : null }>예약번호</option>
+											<option value="pgm_regdate"
+												${keyfield eq 'srm_regdate' ? 'selected' : null }>예약한 날짜</option>
+											<option value="m_id"
+												${keyfield eq 'm_id' ? 'selected' : null }>학번</option>
+											<option value="pg_type"
+												${keyfield eq 'sr_type' ? 'selected' : null }>시설명</option>
+											<option value="pg_name"
+												${keyfield eq 'sr_name' ? 'selected' : null }>호수</option>
+											<option value="pg_date"
+												${keyfield eq 'srm_date' ? 'selected' : null }>예약날짜</option>
+										</select>
+									</div>
+
+									<div class="col-md-3" align="center">
+										<input type="text" name="keyword"
+											   class="form-control input-sm  pull-left"
+											   style="width: 150px;" 
+											   placeholder="Search" />
+										<div class="input-group-btn  pull-left">
+											<button class="btn btn-sm btn-primary">
+												검색 <i class="fa fa-search"></i>
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>

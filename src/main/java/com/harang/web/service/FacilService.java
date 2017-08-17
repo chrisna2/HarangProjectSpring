@@ -12,8 +12,11 @@ import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 
 public interface FacilService {
-	public List<PgMemberDTO> loadPgReserListAll();
-	public List<SrMemberDTO> loadSrReserListAll();
+	public List<PgMemberDTO> loadPgReserListAll(SearchCriteria cri);
+	public List<SrMemberDTO> loadSrReserListAll(SearchCriteria cri);
+	
+	public int reserPgListAllCount(SearchCriteria cri);
+	public int reserSrListAllCount(SearchCriteria cri);
 	
 	public List<PlaygroundDTO> loadPgList(SearchCriteria cri);
 	public List<StudyroomDTO> loadSrList(SearchCriteria cri);

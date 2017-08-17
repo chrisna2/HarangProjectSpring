@@ -24,16 +24,29 @@ public class FacilDaoImpl implements FacilDao {
 	private static final String namespace = "com.harang.mapper.facil-mapper";
 	
 	@Override
-	public List<PgMemberDTO> reserPgListAll() {
-		List list = sqlSession.selectList(namespace + ".ReserPgListAll");
+	public List<PgMemberDTO> reserPgListAll(SearchCriteria cri) {
+		List list = sqlSession.selectList(namespace + ".ReserPgListAll", cri);
 		return list;
+	}
+	
+	@Override
+	public List<SrMemberDTO> reserSrListAll(SearchCriteria cri) {
+		List list = sqlSession.selectList(namespace + ".ReserSrListAll", cri);
+		return list;
+	}
+	
+	@Override
+	public int reserPgListAllCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace + ".ReserPgListAllCount", cri);
 	}
 
+
+
 	@Override
-	public List<SrMemberDTO> reserSrListAll() {
-		List list = sqlSession.selectList(namespace + ".ReserSrListAll");
-		return list;
+	public int reserSrListAllCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace + ".ReserSrListAllCount", cri);
 	}
+
 
 	@Override
 	public List<PgMemberDTO> reserPgList(SearchCriteria cri) {
@@ -232,6 +245,9 @@ public class FacilDaoImpl implements FacilDao {
 	public void userReserSr(SrMemberDTO srmdto) {
 		sqlSession.insert(namespace + ".reserSrComplate", srmdto);
 	}
+
+
+
 
 
 }
