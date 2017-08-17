@@ -13,7 +13,7 @@
 <!----------------------------------- 메인페이지 헤더 [작업 제목] ------------------------------------------------------------->
 <section class="content-header">
 	<h1>
-		중고도서 거래 /기부 등록
+		중고도서 거래 /기부 수정
 		<small>중고도서를 거래 혹은 기부하여 포인트를 얻을 수 있습니다</small>
 	</h1>
 	<ol class="breadcrumb">
@@ -29,10 +29,10 @@
     <div class="row">
     	<!-- 너비 사이즈 수정  : col-->
 	    <div class="col-md-10">
-		<form role="form" action="/harangdin/regist_proc" method="post"  enctype="multipart/form-data">
+		<form role="form" action="/harangdin/update_proc" method="post"  enctype="multipart/form-data">
 			<div class="box box-warning">
 				<div class="box-header with-border">
-					<h3 class="box-title">중고도서 등록</h3>
+					<h3 class="box-title">중고도서 수정</h3>
 	            </div>
 	           	<!-- /.box-header -->
 				<div class="box-body">
@@ -43,24 +43,28 @@
 							<div class="col-sm-2 form-group">
 								<label>머릿말</label>
 								<select name="b_choice" class="form-control">
-									<option value="판매">판매</option>
-									<option value="기부">기부</option>
+									<option ${i.b_choice eq '판매' ? 'selected' : null } value="판매">판매</option>
+									<option ${i.b_choice eq '기부' ? 'selected' : null } value="기부">기부</option>
 								</select>
 							</div>
 						</div>
 	 
 						<div class="form-group">
 							<label>도서명</label>
-							<input type="text" name="b_name" class="form-control" placeholder="도서명">
+							<input type="text" name="b_name" class="form-control" value="${i.b_name }">
+						</div>
+						<div class="form-group">
+							<label>도서 번호</label>
+							<input type="text" name="b_num" class="form-control" value="${i.b_num}" readonly="readonly">
 						</div>
 						<div class="row">
 							<div class="col-sm-6 form-group">
 								<label>저자</label>
-								<input type="text" name="b_writer" class="form-control" placeholder="저자">
+								<input type="text" name="b_writer" value="${i.b_writer}" class="form-control" >
 							</div>
 							<div class="col-sm-6 form-group">
 								<label>출판사</label>
-								<input type="text" name="b_pub" class="form-control" placeholder="출판사">
+								<input type="text" name="b_pub"  value="${i.b_pub }"  class="form-control" >
 							</div>
 						</div>
 	                
@@ -68,11 +72,11 @@
 								
 							<div class="col-sm-6 form-group">
 								<label>재고수량</label>
-								<input type="text" name="b_stock" class="form-control" placeholder="ex)1,2,3,...">
+								<input type="text" name="b_stock" class="form-control" value="${i.b_stock }">
 							</div>
 							<div class="col-sm-6 form-group">
 								<label>판매자 희망 포인트</label>
-								<input type="text" name="b_want" class="form-control" placeholder="ex)3000">
+								<input type="text" name="b_want" class="form-control"  value="${i.b_want }">
 							</div>
 						</div>
 
@@ -80,21 +84,29 @@
 						<!-- textarea -->
 						<div class="form-group">
 							<label>판매 도서 정보</label>
-							<textarea name="b_content" class="form-control" rows="5" 
-								placeholder="도서에 관한 간단한 소개 혹은 도서의 상태에 관한 정보 등을 작성해 주세요."></textarea>
+							<textarea name="b_content" class="form-control" rows="5" >
+							${i.b_content }
+							</textarea>
 						</div>
 						<div class="form-group">
 							<label for="exampleInputFile">판매 도서 사진</label>
 							<input type="file" id="imgInp" name="file" required="required">
 								<p class="help-block">해당 도서의 표지 사진을 올려주세요 </p>
-								<img src="" id="local" class="img-rounded" height="120" width="90" alt="User Image"/>
+								 <c:choose>
+				                  	<c:when test="${i.b_photo == null || i.b_photo eq ''}">
+				                  		<img src="../resources/dist/img/noImage.jpg"  class="img-rounded" height="120" width="90" alt="User Image" id="local" />
+				                  	</c:when>
+				                  	<c:otherwise>
+				                  		<img src="/displayFile?fileName=${i.b_photo}" class="img-rounded" height="120" width="90" alt="User Image" id="local" />
+				                  	</c:otherwise>
+				                  </c:choose>
+				             <input type="hidden" name="b_photo" value="${i.b_photo}">
 						</div>
 				</div>
 				<!-- /.box-body --> 
-				<!-- /.box-body --> 
 				 <div class="box-footer" align="right">
 						<input type="button" class="btn btn-warning" value="뒤로"/>
-						<input type="submit" class="btn btn-primary" value="등록"/>
+						<input type="submit" class="btn btn-primary" value="수정"/>
 				</div>
 			</div>
 		</form>

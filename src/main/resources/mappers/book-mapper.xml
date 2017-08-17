@@ -7,54 +7,170 @@
 	
 	<select id="booklist" resultType="Book" parameterType="SearchCriteria">
 		SELECT b_num, b_name, b_writer, b_pub, b_want 
-		from tbl_book where b_choice='판매' 
-		
+		from tbl_book 
+		where b_choice='판매'  
 		<include refid="booklist_search"></include>
 		order by b_num desc
 		limit #{pageStart}, #{perPageNum};
 	</select>
 	
-		<sql id="booklist_search">
-  		<if test="keyfield != null">
-  			<if test="keyfield == 'b_name'.toString()">
-  				and b_name like concat('%', #{keyword}, '%') 
-  			</if>
-  			<if test="keyfield == 'b_writer'.toString()">
-  				and b_writer like concat('%', #{keyword}, '%') 
-  			</if>
-  			<if test="keyfield == 'b_pub'.toString()">
-  				and b_pub like concat('%', #{keyword}, '%')
-  			</if>
-  		</if>
-  	</sql>
-  	
-  	<sql id="booklist_search2">
-  		<if test="keyfield != null">
-  			<if test="keyfield == 'b_name'.toString()">
-  				where b_name like concat('%', #{keyword}, '%') 
-  			</if>
-  			<if test="keyfield == 'b_writer'.toString()">
-  				where b_writer like concat('%', #{keyword}, '%') 
-  			</if>
-  			<if test="keyfield == 'b_pub'.toString()">
-  				where b_pub like concat('%', #{keyword}, '%')
-  			</if>
-  		</if>
-  	</sql>
-	
-	
-	
 	<!-- 전체 리스트 -->
 	<select id="bookcount" resultType="int" parameterType="SearchCriteria">
 	    select count(*)	
 		from tbl_book
-		
-		 <include refid="booklist_search2"></include>
+		where b_choice='판매'  
+		<include refid="booklist_search"></include>
+	</select>
+ 	
+  	<sql id="booklist_search">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'b_name'.toString()">
+  				and b_name like concat('%', #{keyword}, '%')  
+  			</if>
+  			<if test="keyfield == 'b_writer'.toString()">
+  				and b_writer like concat('%', #{keyword}, '%')  
+  			</if>
+  			<if test="keyfield == 'b_pub'.toString()">
+  				and b_pub like concat('%', #{keyword}, '%')  
+  			</if>
+  		</if>
+  	</sql>
+	
+	<select id="bookDetail" resultType="Book" parameterType="String">
+		SELECT b.b_name, b.b_num, m.m_id, b.b_writer, b.b_pub, b.b_stock, b.b_want, b.b_regdate, b.b_choice, b.b_content, b.b_photo, b.b_iscomplete 
+		FROM tbl_book b, tbl_member m WHERE b.b_num = #{b_num} and m.m_id = b.m_id 
+	</select>
+	<select id="bookDetailBigPoint" resultType="int" parameterType="String">
+		select max(bh_want) as max_point from tbl_b_hunter where b_num=#{b_num} 
 	</select>
 	
+	<insert id="sellInsert" parameterType="Book">
+		INSERT INTO tbl_book (m_id, b_choice, b_want, b_stock, b_name,  b_writer, b_pub, b_content, b_iscomplete, b_photo, b_num) 
+		VALUES (#{m_id}, #{b_choice}, #{b_want}, #{b_stock}, #{b_name}, #{b_writer}, #{b_pub}, #{b_content}, '거래', #{b_photo}, '')
+	</insert>
+	<update id="sellUpdate" parameterType="Book">
+		UPDATE tbl_book SET m_id = #{m_id}, b_choice = #{b_choice}, b_want = #{b_want}, b_stock = #{b_stock}, b_name = #{b_name}, 
+		b_writer = #{b_writer}, b_pub = #{b_pub}, b_content = #{b_content}, b_photo = #{b_photo} 
+		where b_num = #{b_num}
+	</update>
 
+	<insert id="donateInsert" parameterType="Book">
+		INSERT INTO tbl_book (m_id, b_choice, b_want, b_stock, b_name,  b_writer, b_pub, b_content, b_iscomplete, b_photo, b_num) 
+		VALUES (#{m_id}, #{b_choice}, #{b_want}, #{b_stock}, #{b_name}, #{b_writer}, #{b_pub}, #{b_content}, '기부중', #{b_photo},'') 
+	</insert>
+	<update id="donateUpdate" parameterType="Book">
+		UPDATE tbl_book SET m_id = #{m_id}, b_choice = #{b_choice}, b_want = #{b_want}, b_stock = #{b_stock}, b_name = #{b_name}, 
+		b_writer = #{b_writer}, b_pub = #{b_pub}, b_content = #{b_content}, b_photo = #{b_photo} 
+		where b_num = #{b_num}
+	</update>
 
+	<insert id="bookHunting" parameterType="Book">
+		INSERT INTO tbl_b_hunter (b_num, m_id, bh_want, bh_choice, bh_iscomplete) 
+		VALUES ( #{b_num}, #{m_id}, #{bh_want}, 'N', 'N') 
+	</insert>
+	
+	<select id="sellList" parameterType="SearchCriteria" resultType="Book">
+		select b_num, b_name,m_id, b_choice, b_writer, b_pub, b_iscomplete
+		from tbl_book  
+		where m_id = #{m_id} and b_choice='판매'
+		order by b_num desc 
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="sellListCount" parameterType="SearchCriteria" resultType="int">
+		select count(*) 
+		from tbl_book  
+		where m_id = #{m_id} and b_choice='판매' 
+	</select>
 
+	
+	<select id="buyList" parameterType="SearchCriteria" resultType="Book">
+		select b.b_num, b.b_name, b.m_id, h.bh_regdate, h.bh_want, h.bh_choice, h.bh_iscomplete 
+		from tbl_book b, tbl_b_hunter h  
+		where h.b_num = b.b_num and h.m_id=#{m_id} 
+		order by b.b_num desc
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="buyListCount" parameterType="SearchCriteria" resultType="int">
+		select count(*) 
+		from tbl_book b, tbl_b_hunter h  
+		where h.b_num = b.b_num and h.m_id=#{m_id} 
+	</select>
 
+	
+	<select id="donationList" parameterType="SearchCriteria" resultType="Book">
+		select b_num, b_name, b_writer, b_pub, b_iscomplete, b_choice 
+		from tbl_book 
+		where m_id=#{m_id} and b_choice='기부' 
+		order by b_num desc
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="donationListCount" parameterType="SearchCriteria" resultType="int">
+		select count(*) 
+		from tbl_book 
+		where m_id=#{m_id} and b_choice='기부' 
+	</select>
+	
+	<delete id="deleteSellingBook" parameterType="String">
+		DELETE FROM tbl_book WHERE b_num=#{b_num} 
+	</delete>
+
+	<select id="maxIdFind" resultType="String" parameterType="Book">
+		SELECT m_id FROM tbl_b_hunter where b_num=#{b_num} and bh_want=#{bh_want}
+	</select>
+	
+	<select id="maxIdPointFind" resultType="long" parameterType="String">
+		SELECT m_point FROM tbl_member WHERE m_id=#{m_id}
+	</select>
+	
+	<update id="maxTradeRecord" parameterType="Book">
+		UPDATE tbl_b_hunter SET bh_choice='Y' WHERE m_id=#{m_id} and b_num=#{b_num} and bh_want=#{bh_want}
+	</update>
+	
+	<update id="maxTradeCheck" parameterType="Book">
+		UPDATE tbl_book SET b_iscomplete='거래중' WHERE b_num= #{b_num} 
+	</update>
+	
+	<update id="bookTradeRecord" parameterType="Book">
+		UPDATE tbl_b_hunter SET bh_iscomplete='Y' WHERE m_id=#{m_id} and bh_want = #{bh_want} and b_num= #{b_num} 
+	</update>
+	<update id="bookTradeCheck" parameterType="Book">
+		UPDATE tbl_book SET b_iscomplete='완료' WHERE b_num=#{b_num}
+	</update>
+	
+	<select id="adminDonateList" resultType="Book" parameterType="SearchCriteria">
+		SELECT b.b_num, b.b_name, b.b_writer, b.b_pub, m.m_id, m.m_name 
+		from tbl_book b, tbl_member m 
+		where m.m_id=b.m_id and b.b_choice='기부' 
+		<include refid="booklist_admin_search"></include>
+		order by b.b_regdate desc 
+		limit #{pageStart}, #{perPageNum} 
+	</select>
+	<select id="adminDonateListCount" resultType="int" parameterType="SearchCriteria">
+		SELECT count(*) 
+		from tbl_book b, tbl_member m 
+		where m.m_id=b.m_id and b.b_choice='기부' 
+		<include refid="booklist_admin_search"></include>
+	</select>
+	<sql id="booklist_admin_search">
+  		<if test="keyfield != null">
+  			<if test="keyfield == 'b_name'.toString()">
+  				and b.b_name like concat('%', #{keyword}, '%')  
+  			</if>
+  			<if test="keyfield == 'b_writer'.toString()">
+  				and b.b_writer like concat('%', #{keyword}, '%')  
+  			</if>
+  			<if test="keyfield == 'b_pub'.toString()">
+  				and b.b_pub like concat('%', #{keyword}, '%')  
+  			</if>
+  		</if>
+  	</sql>
+  	
+  	<insert id="donateRecord" parameterType="String">
+  		INSERT INTO tbl_b_hunter (b_num, m_id, bh_want, bh_choice, bh_iscomplete) VALUES (#{b_num}, 'admin05', '5000', 'Y', 'Y')
+  	</insert>
+  	
+  	<update id="donateCheck" parameterType="String">
+  		UPDATE tbl_book SET b_iscomplete='기부완료' WHERE b_num=#{b_num}
+  	</update>
 
 </mapper>

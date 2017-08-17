@@ -26,39 +26,31 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box">
-					<div class="box-header"></div>
+					<div class="box-header">
+						<div class="input-group pull-right">
+							<form action="/harangdin/regist" method="post">
+								<button type="submit" class="btn btn-block btn-default">등록</button>
+							</form>
+						</div>
+						<!-- 도서 검색창 -->
+						<div class="input-group pull-left">
+							<form action="/harangdin/main" name="search" method="post">
+								<select class="form-control" name="keyfield" style="width: 90px;" placeholder="Search">
+									<option value="b_name" ${keyfield eq 'b_name' ? 'selected' : null }>도서명</option>
+									<option value="b_writer" ${keyfield eq 'b_writer' ? 'selected' : null }>저자</option>
+									<option value="b_pub" ${keyfield eq 'b_pub' ? 'selected' : null }>출판사</option>
+								</select> 
+								<input type="text" name="keyword" value='${keyword}' class="form-control" style="width: 300px;"	placeholder="Search">
+								<button type="submit" class="btn btn-info.btn-flat">
+									<i class="fa fa-search"></i>
+								</button>
+							</form>
+						</div>
+					</div>
 					<!-- box-header -->
 					<div class="box-body">
 						<div class="row">
 							<div class="col-sm-12">
-
-								<!-- 도서 검색창 -->
-								<form action="/harangdin/main" name="search" method="post">
-									<div class="input-group">
-										<select class="form-control" name="keyfield"
-											style="width: 90px;" placeholder="Search">
-											<option value="b_name"
-												${keyfield eq 'b_name' ? 'selected' : null }>도서명</option>
-											<option value="b_writer"
-												${keyfield eq 'b_writer' ? 'selected' : null }>저자</option>
-											<option value="b_pub"
-												${keyfield eq 'b_pub' ? 'selected' : null }>출판사</option>
-										</select> <input type="text" name="keyword" value='${keyword}'
-											class="form-control" style="width: 300px;"
-											placeholder="Search">
-										<button type="submit" class="btn btn-info.btn-flat">
-											<i class="fa fa-search"></i>
-										</button>
-									</div>
-								</form>
-
-								<form action="/HarangProject/harangdin?cmd=regist" method="post">
-									<div class="col-xs-1 no-margin pull-right">
-										<button type="submit" class="btn btn-block btn-default">등록</button>
-									</div>
-								</form>
-
-
 								<!-- 도서 테이블 -->
 								<table class="table table-bordered table-hover dataTable">
 									<tr role="row">
@@ -73,8 +65,7 @@
 
 										<tr>
 											<td>${i.b_num }</td>
-											<td><a style="cursor: pointer;"
-												onclick="fnRead('${i.b_num}')">${i.b_name}</a></td>
+											<td><a style="cursor: pointer;"	onclick="fnRead('${i.b_num}')">${i.b_name}</a></td>
 											<td>${i.b_writer }</td>
 											<td>${i.b_pub }</td>
 											<td>${i.b_want }</td>
@@ -122,33 +113,19 @@
 	</section>
 
 	<!-- /. 작업 공간 끝! -->
+	<!-- 글 읽기 -->
+<form name="read" method="post" action="/harangdin/bdetail">
+	<input type="hidden" name="b_num" value="" id="b_num"/>
+	<input type="hidden" name="page" value="${pageMaker.cri.page}"/>
+</form>
 	<!------------------------------------------------------------------------------------------------------------------->
 </div>
 <!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-
-<!-- 페이징 관련 폼 ----------------------------------------------------------------------->
-
-
-
-<!-- 페이징 관련 폼 여기까지입니다. ----------------------------------------------------------------------------------- -->
 
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------>
 <%@ include file="../include/footer.jsp"%>
 
 <script>
-	///////////////// 페이지 관련 javascript function////////////////////
-	function prevPage() {
-		document.getElementById("prevPage").submit();
-	}
-	function nextPage() {
-		document.getElementById("nextPage").submit();
-	}
-	function goPage(nowPage) {
-		document.getElementById("page").value = nowPage;
-		document.getElementById("goPage").submit();
-	}
-	/////////////////////////////끝//////////////////////////////////
-
 	function fnRead(b_num) {
 		document.getElementById("b_num").value = b_num;
 		read.submit();

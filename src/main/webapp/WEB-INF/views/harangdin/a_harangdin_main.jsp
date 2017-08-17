@@ -17,12 +17,10 @@
 	<h1>
     	중고도서 거래 게시판
     </h1>
-    
     <ol class="breadcrumb">
     <!-- 페이지 기록 메인에서 부터 현재 페이지 까지의 경로 나열 -->
     	<li><a href="#"><i class="fa fa-dashboard"></i> 메인</a></li>
         <li class="active">하랑딘 24</li>
-        
     </ol>
 </section>
 <!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
@@ -30,31 +28,33 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="box">
-				<div class="box-header"></div>
+				<div class="box-header">
+					<div class="box-header">
+						<div class="input-group pull-right">
+							<form action="/harangdin/adminDonate" method="get" name="adminDonate">
+								<button type="submit" class="btn btn-block btn-default">기부 확인</button>
+							</form>
+						</div>
+						<!-- 도서 검색창 -->
+						<div class="input-group pull-left">
+							<form action="/harangdin/adminMain" name="search" method="post">
+								<select class="form-control" name="keyfield" style="width: 90px;" placeholder="Search">
+									<option value="b_name" ${keyfield eq 'b_name' ? 'selected' : null }>도서명</option>
+									<option value="b_writer" ${keyfield eq 'b_writer' ? 'selected' : null }>저자</option>
+									<option value="b_pub" ${keyfield eq 'b_pub' ? 'selected' : null }>출판사</option>
+								</select> 
+								<input type="text" name="keyword" value='${keyword}' class="form-control" style="width: 300px;"	placeholder="Search">
+								<button type="submit" class="btn btn-info.btn-flat">
+									<i class="fa fa-search"></i>
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
 				<!-- box-header -->
 				<div class="box-body">
 					<div class="row">
 						<div class="col-sm-12">			
-							<form action="/HarangProject/harangdin?cmd=adminMain" name="search" method="post">
-								<div class="input-group">
-									<select class="form-control" name="keyfield" style="width: 90px;" placeholder="Search">
-										<option value="b_name" ${keyfield eq 'b_name' ? 'selected' : null }>도서명</option>
-										<option value="b_writer" ${keyfield eq 'b_writer' ? 'selected' : null }>저자</option>
-										<option value="b_pub" ${keyfield eq 'b_pub' ? 'selected' : null }>출판사</option>
-									</select>
-									<input type="text" name="keyword" value="${keyword }" class="form-control" style="width: 300px;" placeholder="Search">
-									<button type="submit" class="btn btn-info.btn-flat">
-										<i class="fa fa-search"></i>
-									</button>
-								</div>
-							</form>
-								
-							<form id="adminDonate" name="adminDonate" method="post" action="/HarangProject/harangdin?cmd=adminDonate">
-								<div class="col-xs-2.5 no-margin pull-right">
-								<button class="btn btn-info.btn-flat" type="submit"><i class="fa fa-user"></i>기부확인</button>
-								</div>
-							</form>
-
 							<table class="table table-bordered table-hover dataTable">
 								<tr role="row">
 									<th style="width: 30px"></th>
@@ -64,13 +64,8 @@
 									<th>출판사</th>
 									<th>희망 포인트</th>
 								</tr>
-											
-								<c:forEach items="${mharangdinmain}" var="i" varStatus="k"
-									begin="${paging.beginPerPage}" 
-									end="${paging.beginPerPage + paging.numPerPage -1}">
-											
+								<c:forEach items="${mharangdinmain}" var="i" varStatus="k">
 									<tr>
-									
 										<td>
 											<button class="btn btn-block btn-default" onclick="fnDelete('${i.b_num }')">삭제</button>
 										</td>
@@ -82,11 +77,8 @@
 										<td>${i.b_pub }</td>
 										<td>${i.b_want }</td>
 									</tr>
-											
 								</c:forEach>
-											
 							</table>
-									
 						</div>
 					</div> <!-- row -->
 					<div class="row">
@@ -94,19 +86,25 @@
 							<div class="col-sm-7">
 							<!-- 페이징 버튼 -->
 								<div class="box-footer clearfix">
+									
 									<ul class="pagination pagination-sm no-margin pull-right">
-										<c:if test="${paging.nowBlock > 0}">
-											<li><a href="javascript:prevPage()">&laquo;</a></li>
+										<c:if test="${pageMaker.prev}">
+											<li><a
+												href="/harangdin/adminMain${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
 										</c:if>
-										<c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-											<c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-											<li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-										 	</c:if>
-										 </c:forEach>
-										<c:if test="${paging.totalBlock > paging.nowBlock +1}">
-											<li><a href="javascript:nextPage()">&raquo;</a></li>
+										<c:forEach begin="${pageMaker.startPage}"
+											end="${pageMaker.endPage}" var="idx">
+											<li
+												value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+												<a href="/harangdin/adminMain?page=${idx}"> ${idx} </a>
+											</li>
+										</c:forEach>
+										<c:if test="${pageMaker.next && pageMaker.endPage>0}">
+											<li><a
+												href="/harangdin/adminMain${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
 										</c:if>
 									</ul>
+
 								</div><!-- 페이징 버튼 -->
 							</div>
 						</div>
@@ -119,56 +117,20 @@
 <!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->
 	</div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-	
-<!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/harangdin?cmd=adminMain">
-	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
-</form>
 
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/HarangProject/harangdin?cmd=adminMain">
-	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
-</form>
-
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post" action="/HarangProject/harangdin?cmd=adminMain">
-	<input type="hidden" name="nowPage" value="" id="page"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-</form>
-
-<form name="del" method="post" action="/HarangProject/harangdin?cmd=adminMain">
+<form name="del" method="post" action="/harangdin/adminDelete">
 	<input type="hidden" name="b_num" value="" id="b_num1"/>
-	<input type="hidden" name="delete_check" value="delete_check"/>
-	<input type="hidden" name="nowPage" value="${paging.nowPage}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
 </form>
 
 <!-- 글 읽기 -->
-<form name="read" method="post" action="/HarangProject/harangdin?cmd=adminBdetail">
+<form name="read" method="post" action="/harangdin/adminBdetail">
 	<input type="hidden" name="b_num" value="" id="b_num2"/>
-	<input type="hidden" name="nowPage" value="${paging.nowPage}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
 </form>
       
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
 
 <script>
-	///////////////// 페이지 관련 javascript function////////////////////
-	function prevPage(){
-		document.getElementById("prevPage").submit();
-	}
-	function nextPage(){
-		document.getElementById("nextPage").submit();
-	}
-	function goPage(nowPage){
-		document.getElementById("page").value = nowPage;
-		document.getElementById("goPage").submit();
-	}
-	/////////////////////////////끝//////////////////////////////////
-	
 	function fnRead(b_num){
 		document.getElementById("b_num2").value=b_num;
 		read.submit();

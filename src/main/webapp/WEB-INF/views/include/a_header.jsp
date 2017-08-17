@@ -52,7 +52,7 @@
     <div class="wrapper">
       <header class="main-header">
         <!-- Logo -->
-        <a href="/HarangProject/login?cmd=refresh" class="logo"><img src="../resources/dist/img/Logo.png" class="img-circle" alt="User Image" width="40" height="40"/>&nbsp;하랑 대학교</a>
+        <a href="/login/a_main" class="logo"><img src="../resources/dist/img/Logo.png" class="img-circle" alt="User Image" width="40" height="40"/>&nbsp;하랑 대학교</a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
@@ -252,13 +252,24 @@
                 <li><a href="/parttime/DMAIN"><i class="fa fa-circle-o"></i> 대타 모집 관리</a></li>
               </ul>
             </li>
+             <li class="treeview">
+              <a href="#">
+                <i class="fa fa-book"></i> 
+                <span>하랑딘 24 관리</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/harangdin/adminMain"><i class="fa fa-circle-o"></i> 중고 도서 거래 관리</a></li>
+                <li><a href="/harangdin/adminDonate"><i class="fa fa-circle-o"></i> 중고 도서 기부 관리</a></li>
+              </ul>
+            </li>
             <li>
               <a href="/impage/amain">
                 <i class="fa fa-check-square-o"></i><span>강의 평가 관리</span>
               </a>
             </li>
             <li>
-              <a href="/schedule/A_SCH_LIST">
+              <a href="/schedule/SCH_LIST">
                 <i class="fa fa-calendar"></i>
                 <span>학사 일정 관리</span>
               </a>
@@ -266,11 +277,6 @@
             <li>
               <a href="/bamboo/BB_LIST">
                 <i class="fa fa-group"></i><span>하랑 대나무 숲 관리</span>
-              </a>
-            </li>
-            <li>
-              <a href="/harangdin/adminMain">
-                <i class="fa fa-book"></i> <span>하랑딘 24 관리</span>
               </a>
             </li>
           </ul>

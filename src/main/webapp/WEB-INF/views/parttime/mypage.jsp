@@ -344,12 +344,12 @@
 </form>
 <form name="pResume" method="post" action="/parttime/PRESUME">
 	<input type="hidden" name="p_num" value="" id="p_resume"/>
-	<input type="hidden" name="m_id" value="${m_id}"/>
+	<input type="hidden" name="m_id" value="${pageMaker1.cri.m_id}"/>
 	<input type="hidden" name="tab" value="MYPAGE"/>
 </form>
 <form name="dResume" method="post" action="/parttime/DRESUME">
 	<input type="hidden" name="d_num" value="" id="d_resume"/>
-	<input type="hidden" name="m_id" value="${m_id}"/>
+	<input type="hidden" name="m_id" value="${pageMaker1.cri.m_id}"/>
 	<input type="hidden" name="tab" value="MYPAGE"/>
 </form>
 <!--페이징 관련 폼 ---------------------------------------------------------------- -->

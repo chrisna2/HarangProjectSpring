@@ -90,7 +90,7 @@
 										<button type="button" class="btn btn-block btn-danger" disabled="disabled">완료</button>
 									</c:if>
 								</span>
-								</div>
+							</div>
                 			</div>
 							</form>
 					

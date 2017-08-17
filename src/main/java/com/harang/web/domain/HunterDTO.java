@@ -8,6 +8,8 @@ public class HunterDTO {
 	int bh_want;
 	String bh_choice;
 	String bh_iscomplete;
+	
+	
 	public String getB_num() {
 		return b_num;
 	}

@@ -48,7 +48,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-            	<form name="donate" action="/HarangProject/harangdin?cmd=bd_detail" method="post">
+            	<form name="donate" action="/harangdin/donateComplete" method="post">
                 <!-- text input -->
                 <!-- select -->
                 <div class="row">
@@ -60,8 +60,15 @@
  
                 <div class="row">
                 <div class="col-sm-6 form-group">
-                  <label>도서 대표사진</label>
-                  <img src="${i.b_photo}" class="img-rounded" height="450" width="350">
+                	<label>도서 사진</label><br>
+		                  <c:choose>
+		                  	<c:when test="${i.b_photo == null || i.b_photo eq ''}">
+		                  		<img src="../resources/dist/img/noImage.jpg" class="img-rounded" height="100%" width="100%">
+		                  	</c:when>
+		                  	<c:otherwise>
+		                  		<img src="/displayFile?fileName=${i.b_photo}" class="img-rounded" height="100%" width="100%">
+		                  	</c:otherwise>
+		                  </c:choose>
                 </div>
                 <div class="col-sm-6 form-group">
                  
@@ -105,7 +112,7 @@
 										
 								</form>
 							</div>
-					<form action="/HarangProject/harangdin?cmd=adminDonate" method="post">
+					<form action="/harangdin/adminDonate" method="post">
 						<div class="col-sm-2">	
 							<button type="submit" class="btn btn-block">이전</button>
 	                  	</div>

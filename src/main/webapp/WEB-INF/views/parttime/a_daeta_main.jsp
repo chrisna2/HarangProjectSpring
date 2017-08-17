@@ -83,7 +83,7 @@
 													<td><span class="btn btn-info btn-xs">채용중</span></td>
 												</c:when>
 												<c:when test="${(list.d_pick ne null) and (list.d_header eq '[마감]')}">
-													<td><span class="btn btn-default btn-xs">완료</span></td>
+													<td><span class="btn btn-success btn-xs">완료</span></td>
 												</c:when>
 												<c:when test="${(list.d_pick eq null) and (list.d_header eq '[마감]')}">
 													<td><span class="btn btn-default btn-xs">실패</span></td>
@@ -112,7 +112,7 @@
 													<td></td>
 												</c:when>
 												<c:when test="${list.dm_report eq 'Solved'}">
-													<td><span class="btn btn-default btn-xs" >해결</span></td>
+													<td><span class="btn btn-success btn-xs" >해결</span></td>
 												</c:when>
 												<c:when test="${list.dm_report ne 'N' and list.dm_report ne 'Solved' and list.dm_report ne null}">
 													<td><span class="btn btn-danger btn-xs" onclick="fnReport('${list.d_num}','${list.d_pick}','${list.dm_report}')">신고</span></td>

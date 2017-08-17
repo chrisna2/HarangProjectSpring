@@ -28,6 +28,7 @@ public interface ScheduleDao {
 	public List<CalanderDTO> schCal2();
 	
 	public int schListCount(SearchCriteria2 cri);
+	public int uschListCount(SearchCriteria2 cri);
 	
 	public List<SrMemberDTO> srList();
 	public List<PgMemberDTO> pgList();

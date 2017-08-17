@@ -131,7 +131,7 @@
 									<c:when test="${applied eq 'N' || empty applied}">
 									<div class="col-md-4"></div>
 									<div class="col-md-4">
-										<button class="btn btn-block btn-primary" onclick="fnApply()">지원하기</button>
+										<button class="btn btn-block btn-danger" onclick="fnDelete()">삭제하기</button>
 									</div>		
 									</c:when>
 									<c:otherwise>
@@ -140,7 +140,7 @@
 										<button class="btn btn-block btn-primary" onclick="fnMyResume()">이력서</button>
 									</div>
 									<div class="col-md-2">
-										<button class="btn btn-block btn-primary" onclick="fnCancel()">지원 취소</button>
+										<button class="btn btn-block btn-primary" onclick="fnCancel()">삭제하기</button>
 									</div>
 									</c:otherwise>
 								</c:choose>	

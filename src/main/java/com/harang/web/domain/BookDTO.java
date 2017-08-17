@@ -1,6 +1,16 @@
 package com.harang.web.domain;
 
 public class BookDTO {
+	
+	@Override
+	public String toString() {
+		return "BookDTO [b_num=" + b_num + ", m_id=" + m_id + ", b_choice=" + b_choice + ", b_want=" + b_want
+				+ ", b_regdate=" + b_regdate + ", b_stock=" + b_stock + ", b_name=" + b_name + ", b_writer=" + b_writer
+				+ ", b_pub=" + b_pub + ", b_content=" + b_content + ", b_iscomplete=" + b_iscomplete + ", m_name="
+				+ m_name + ", bh_regdate=" + bh_regdate + ", bh_want=" + bh_want + ", bh_choice=" + bh_choice
+				+ ", bh_iscomplete=" + bh_iscomplete + ", b_photo=" + b_photo + "]";
+	}
+	
 	String b_num;
 	String m_id;
 	String b_choice;

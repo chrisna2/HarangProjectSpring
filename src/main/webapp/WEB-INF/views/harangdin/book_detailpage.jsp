@@ -17,6 +17,14 @@
      		}
      		return true;
      	}
+     	function checkpoint(){
+     		var max_point = apply.max_point.value;
+     		if(max_point == 0){
+     			alert("아직 구매자가 없습니다.");
+     			return false;
+     		}
+     		return true;
+     	}
      </script>
 </head>
 	  <!-- 메인 페이지 구역 , 즉 작업 구역 -->
@@ -40,87 +48,105 @@
           <div class="row">
            <!-- 너비 사이즈 수정  : col-->
            <div class="col-md-10">
-        
-        <div class="box box-warning">
-            <div class="box-header with-border">
-              <h3 class="box-title">중고도서 상세페이지</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <form role="form">
-                <!-- text input -->
-                <!-- select -->
-                <div class="row">
-                	<div class="col-sm-12 form-group">
-                 	 <label>도서명</label>
-                	 <input type="text" class="form-control" value="${i.b_name }" readonly="readonly">
-             	   </div>
-                </div>
- 
-                <div class="row">
-                <div class="col-sm-6 form-group">
-                  <label>도서 대표사진</label>
-                  <img src="${i.b_photo}" class="img-rounded" height="450" width="350">
-                </div>
-                <div class="col-sm-6 form-group">
-                 
-                  <label>중고도서 거래번호</label>
-                  <input type="text" class="form-control" value="${i.b_num }" readonly="readonly">
-                  <label>학번</label>
-                  <input type="text" class="form-control" value="${i.m_id }" readonly="readonly">
-                  <label>저자</label>
-                  <input type="text" class="form-control" value="${i.b_writer }" readonly="readonly">
-                  <label>출판사</label>
-                  <input type="text" class="form-control" value="${i.b_pub }" readonly="readonly">
-                  <label>재고수량</label>
-                  <input type="text" class="form-control" value="${i.b_stock }" readonly="readonly">
-                  <label>판매자 희망 포인트</label>
-                  <input type="text" class="form-control" value="${i.b_want }" readonly="readonly">
-                  <label>등록날짜</label>
-	                      <div class="input-group">
-	                      <div class="input-group-addon">
-	                        <i class="fa fa-calendar"></i>
-	                      </div>
-	                      <input type="text" class="form-control pull-right" value="${i.b_regdate }" readonly="readonly"/>
-	                    </div>
-                  <label>현시각 최고 포인트</label>
-                 	 <input type="text" class="form-control" value="${max_point}" readonly="readonly">
-                </div> 
-
-                <!-- textarea -->
-                <div class="form-group">
-                  <label>도서 정보</label>
-                  <textarea class="form-control" rows="5" readonly="readonly">${i.b_content }</textarea>
-                </div>
-
-            <div class="row">
-						<div class="col-sm-4"></div>
-						<div class="col-sm-2">
-						<c:if test="${i.b_iscomplete eq '거래'}">						
-							<button type="button" id="btnPopup" class="btn btn-block btn-primary">구매희망</button>
+	        
+	        <div class="box box-black">
+	            <div class="box-header">
+	              <h3 class="box-title">중고도서 상세페이지</h3>
+	            </div>
+	            <!-- /.box-header -->
+	            <div class="box-body">
+	              <form action="/harangdin/trade" method="post" name="trade" onsubmit="return checkpoint()">
+	                <!-- text input -->
+	                <!-- select -->
+	                <div class="row">
+	                	<div class="col-sm-12 form-group">
+	                 	 <label>도서명</label>
+	                	 <input type="text" class="form-control" value="${i.b_name }" name="b_name" readonly="readonly">
+	             	   </div>
+	                </div>
+	                <div class="row">
+		                <div class="col-sm-6 form-group">
+		                  <label>도서 사진</label><br>
+		                  <c:choose>
+		                  	<c:when test="${i.b_photo == null || i.b_photo eq ''}">
+		                  		<img src="../resources/dist/img/noImage.jpg" class="img-rounded" height="100%" width="100%">
+		                  	</c:when>
+		                  	<c:otherwise>
+		                  		<img src="/displayFile?fileName=${i.b_photo}" class="img-rounded" height="100%" width="100%">
+		                  	</c:otherwise>
+		                  </c:choose>
+		                </div>
+		                <div class="col-sm-6 form-group">
+		                 
+		                  <label>중고도서 거래번호</label>
+		                  <input type="text" class="form-control" name="b_num" value="${i.b_num }" readonly="readonly">
+		                  <label>학번</label>
+		                  <input type="text" class="form-control" name="m_id" value="${i.m_id }" readonly="readonly">
+		                  <label>저자</label>
+		                  <input type="text" class="form-control" value="${i.b_writer }" readonly="readonly">
+		                  <label>출판사</label>
+		                  <input type="text" class="form-control" value="${i.b_pub }" readonly="readonly">
+		                  <label>재고수량</label>
+		                  <input type="text" class="form-control" value="${i.b_stock }" readonly="readonly">
+		                  <label>판매자 희망 포인트</label>
+		                  <input type="text" class="form-control" value="${i.b_want }" readonly="readonly">
+		                  <label>등록날짜</label>
+			                  <div class="input-group">
+			                      <div class="input-group-addon">
+			                        <i class="fa fa-calendar"></i>
+			                      </div>
+			                      <input type="text" class="form-control pull-right" value="${i.b_regdate }" readonly="readonly"/>
+			                 </div>
+		                  <label>현시각 최고 포인트</label>
+			       	 		 <div class="input-group">
+		                  		<input type="text" class="form-control" value="${max_point}" name="max_point" readonly="readonly">
+		                 		<c:if test="${member.m_id == i.m_id || member.m_id eq i.m_id}">
+		                 		<span class="input-group-btn">
+		                 			<c:if test="${i.b_iscomplete eq '거래'}">						
+										<button type="submit" class="btn btn-block btn-success">이 사람과 거래</button>	
+									</c:if>
+									<c:if test="${i.b_iscomplete eq '거래중' }">
+										<button type="button" class="btn btn-block btn-warning" disabled="disabled">거래중</button>
+									</c:if>
+									<c:if test="${i.b_iscomplete eq '완료' }">
+										<button type="button" class="btn btn-block btn-danger" disabled="disabled">완료</button>
+									</c:if>
+									<c:if test="${i.b_iscomplete eq '기부중' }">
+										<button type="button" class="btn btn-block btn-warning" disabled="disabled">기부중</button>
+									</c:if>
+									<c:if test="${i.b_iscomplete eq '기부완료' }">
+										<button type="button" class="btn btn-block btn-danger" disabled="disabled">기부완료</button>
+									</c:if>
+								</span>
+								</c:if>
+							</div>
+		                </div> 
+		                <div class="col-sm-12 form-group">
+		                  <label>도서 정보</label>
+		                  <textarea class="form-control" rows="5" readonly="readonly">${i.b_content}</textarea>
+		                </div>
+	                </div>
+	              </form>
+	            </div><!-- /.box-body -->
+	            <div class="box-footer" align="right">
+	            	<c:if test="${member.m_id != i.m_id || !member.m_id eq i.m_id}">
+	            		<c:if test="${i.b_iscomplete eq '거래'}">						
+							<input type="button" class="btn btn-primary" id="btnPopup" value="포인트 경매">
 						</c:if>
 						<c:if test="${i.b_iscomplete eq '거래중' }">
-							<button type="button" class="btn btn-block btn-warning" disabled="disabled">거래중</button>
+							<input type="button" class="btn btn-warning" value="거래중"  disabled="disabled">
 						</c:if>
 						<c:if test="${i.b_iscomplete eq '완료' }">
-							<button type="button" class="btn btn-block btn-danger" disabled="disabled">거래 완료</button>
+							<input type="button" class="btn btn-danger" value="거래 완료"  disabled="disabled">
 						</c:if>
-						</div>
-              </form>
-						<form action="/HarangProject/harangdin?cmd=main" method="post">
-						<div class="col-sm-2">	
-							<button type="submit" class="btn btn-block">이전</button>
-                  		</div>
-                  		</form>
-                  	</div>
-            </div>
-            <!-- /.box-body -->
-						
-            
-          </div>
-
-
-
+					</c:if>
+					<c:if test="${member.m_id == i.m_id || member.m_id eq i.m_id}">
+						<input type="button" class="btn btn-success" onclick="fnUpdate('${i.b_num}')" value="도서 정보 수정">
+						<input class="btn btn-danger" onclick="fnDelete('${i.b_num}')" value="삭제">
+					</c:if>	
+					<input class="btn btn-warning" value="이전">
+	            </div>
+	          </div>
               </div><!-- /.col -->
            </div><!-- /.row -->
         </section><!-- /. 작업 공간 끝! -->
@@ -128,7 +154,7 @@
          <!-- 모달 : 뒷 페이지 배경을 눌러도 꺼지지 않음 -->
                 <div class="modal fade" id="theModal" data-backdrop="static">
                     <div class="modal-dialog">
-                        <form name="apply" action="/HarangProject/harangdin?cmd=b_hunter" method="post" onsubmit="return formcheck()">
+                        <form name="apply" action="/harangdin/b_hunter" method="post" onsubmit="return formcheck()">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h3>구매희망</h3>
@@ -156,13 +182,22 @@
                               </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-default" type="submit">입찰</button>
-                                <button class="btn btn-primary" data-dismiss="modal">닫기</button>
+                                <button class="btn btn-default" data-dismiss="modal">닫기</button>
+                                <button class="btn btn-primary" type="submit">입찰</button>
                             </div>
                         </div>
                         </form>
                     </div>
                 </div><!-- 모달 끝 -->
+                
+<!-- 글 삭제 -->
+<form name="del" method="post" action="/harangdin/delete" >
+	<input type="hidden" name="b_num" value="" id="b_num"/>
+</form>
+<form name="update" method="post" action="/harangdin/update" >
+	<input type="hidden" name="b_num" value="" id="b_num"/>
+</form>
+                
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
       
@@ -179,6 +214,12 @@ $(function(){
 	    
 	});
 });
-
-
+function fnDelete(b_num){
+	del.b_num.value=b_num;
+	document.del.submit();
+}
+function fnUpdate(b_num){
+	update.b_num.value=b_num;
+	document.update.submit();
+}
 </script>

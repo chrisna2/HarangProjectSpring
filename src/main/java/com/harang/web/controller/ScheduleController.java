@@ -55,8 +55,6 @@ public class ScheduleController {
 		
 		if(mdto.getM_dept().equals("관리자")) {
 			inMav = "schedule/a_sch_main";
-			m_id = mdto.getM_id();
-			m_grade = mdto.getM_grade();
 			
 			ModelAndView mav = new ModelAndView(inMav);
 			mav.addObject("schlist", scheduleService.aschList(cri));
@@ -64,25 +62,26 @@ public class ScheduleController {
 			pageMaker = new PageMaker();
 			pageMaker.setCri(cri);
 			pageMaker.setTotalCount(scheduleService.schListCount(cri));
-			System.out.println("1111111111");
+			/*System.out.println("1111111111");
 			System.out.println(cri.getKeyfield());
-			System.out.println(cri.getKeyword());
-
+			System.out.println(cri.getKeyword()); */
 			mav.addObject("pageMaker", pageMaker);
 			
 			return mav;
 			
 		}
 		else {
+			
+			cri.setM_grade(mdto.getM_grade());
+			cri.setM_dept(mdto.getM_dept());
+			
 			inMav = "schedule/u_sch_main";
-			m_id = mdto.getM_id();
-			m_grade = mdto.getM_grade();
 			ModelAndView mav = new ModelAndView(inMav);
 			mav.addObject("schlist", scheduleService.schList(cri));
 			
 			pageMaker = new PageMaker();
 			pageMaker.setCri(cri);
-			pageMaker.setTotalCount(scheduleService.schListCount(cri));
+			pageMaker.setTotalCount(scheduleService.uschListCount(cri));
 
 			mav.addObject("pageMaker", pageMaker);
 			
@@ -91,7 +90,8 @@ public class ScheduleController {
 	}
 	@RequestMapping(value = "/SCH_LIST", method = RequestMethod.POST)
 	public ModelAndView scheduleListbyPost(HttpServletRequest req, SearchCriteria2 cri) {
-		
+
+
 		HttpSession session = req.getSession();
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
 		String m_id = null;
@@ -106,8 +106,6 @@ public class ScheduleController {
 		
 		if(mdto.getM_dept().equals("관리자")) {
 			inMav = "schedule/a_sch_main";
-			m_id = mdto.getM_id();
-			m_grade = mdto.getM_grade();
 			
 			ModelAndView mav = new ModelAndView(inMav);
 			mav.addObject("schlist", scheduleService.aschList(cri));
@@ -115,25 +113,26 @@ public class ScheduleController {
 			pageMaker = new PageMaker();
 			pageMaker.setCri(cri);
 			pageMaker.setTotalCount(scheduleService.schListCount(cri));
-			System.out.println("1111111111");
+			/*System.out.println("1111111111");
 			System.out.println(cri.getKeyfield());
-			System.out.println(cri.getKeyword());
-
+			System.out.println(cri.getKeyword()); */
 			mav.addObject("pageMaker", pageMaker);
 			
 			return mav;
 			
 		}
 		else {
+			
+			cri.setM_grade(mdto.getM_grade());
+			cri.setM_dept(mdto.getM_dept());
+			
 			inMav = "schedule/u_sch_main";
-			m_id = mdto.getM_id();
-			m_grade = mdto.getM_grade();
 			ModelAndView mav = new ModelAndView(inMav);
 			mav.addObject("schlist", scheduleService.schList(cri));
 			
 			pageMaker = new PageMaker();
 			pageMaker.setCri(cri);
-			pageMaker.setTotalCount(scheduleService.schListCount(cri));
+			pageMaker.setTotalCount(scheduleService.uschListCount(cri));
 
 			mav.addObject("pageMaker", pageMaker);
 			
@@ -177,30 +176,19 @@ public class ScheduleController {
 		
 		HttpSession session = req.getSession();
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
-		String m_id = null;
-		String inMav = null;
-		int m_grade ;
 		
-		if(mdto == null) {
-			mdto = (MemberDTO)session.getAttribute("admin");
-		}
+		cri.setM_grade(mdto.getM_grade());
+		cri.setM_dept(mdto.getM_dept());
 		
-		
-		
-		if(mdto.getM_dept().equals("관리자")) {
-			inMav = "schedule/a_sch_main";
-			m_id = mdto.getM_id();
-			m_grade = mdto.getM_grade();
-		}
-		else {
-			inMav = "schedule/u_sch_main";
-			m_id = mdto.getM_id();
-			m_grade = mdto.getM_grade();
-		}
-
-		ModelAndView mav = new ModelAndView(inMav);
+		ModelAndView mav = new ModelAndView("schedule/u_sch_main");
 		
 		mav.addObject("schlist", scheduleService.schList(cri));
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(scheduleService.uschListCount(cri));
+
+		mav.addObject("pageMaker", pageMaker);
 
 		
 		
@@ -218,30 +206,19 @@ public class ScheduleController {
 		
 		HttpSession session = req.getSession();
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
-		String m_id = null;
-		String inMav = null;
-		int m_grade ;
 		
-		if(mdto == null) {
-			mdto = (MemberDTO)session.getAttribute("admin");
-		}
+		cri.setM_grade(mdto.getM_grade());
+		cri.setM_dept(mdto.getM_dept());
 		
-		
-		
-		if(mdto.getM_dept().equals("관리자")) {
-			inMav = "schedule/a_sch_main";
-			m_id = mdto.getM_id();
-			m_grade = mdto.getM_grade();
-		}
-		else {
-			inMav = "schedule/u_sch_main";
-			m_id = mdto.getM_id();
-			m_grade = mdto.getM_grade();
-		}
-
-		ModelAndView mav = new ModelAndView(inMav);
+		ModelAndView mav = new ModelAndView("schedule/u_sch_main");
 		
 		mav.addObject("schlist", scheduleService.schList(cri));
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(scheduleService.uschListCount(cri));
+
+		mav.addObject("pageMaker", pageMaker);
 
 		
 		
@@ -371,6 +348,10 @@ public class ScheduleController {
 		
 		ModelAndView mav = new ModelAndView(inMav);
 		
+		mav.addObject("srlist", scheduleService.srList());
+		mav.addObject("pglist", scheduleService.pgList());
+		
+		
 		mav.addObject("schcon", scheduleService.schRead(s_num));
 		
 		return mav;
@@ -412,6 +393,7 @@ public class ScheduleController {
 			scheduleDTO.setS_ispoint("N");
 		}
 		
+		System.out.println(req.getParameter("s_ispoint"));
 		
 		
 		

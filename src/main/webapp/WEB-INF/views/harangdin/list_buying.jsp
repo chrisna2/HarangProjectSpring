@@ -58,9 +58,7 @@
                      			</c:when>
                      			 <c:otherwise>
                      			 <!-- 2번페이징 끝 -->
-								<c:forEach items="${harangdinmain}" var="i" varStatus="k"
-											begin="${paging.beginPerPage}" 
-											  end="${paging.beginPerPage + paging.numPerPage -1}">
+								<c:forEach items="${harangdinmain}" var="i" varStatus="k">
 											
 									<tr>
 										<td id="num${k.index}">${i.b_num }</td>
@@ -94,20 +92,18 @@
 						<!-- 페이징 버튼 -->
 						<div class="box-footer clearfix">
 							<ul class="pagination pagination-sm no-margin pull-right">
-							<c:if test="${paging.nowBlock > 0}">
-							<li><a href="javascript:prevPage()">&laquo;</a></li>
-							</c:if>
-						  <c:forEach var="i" begin="0" end="${paging.pagePerBlock-1}" step="1">
-						  	<!-- if문 추가 : 20170615 -->
-						  	<c:if test="${paging.nowBlock*paging.pagePerBlock+i < paging.totalPage}" >
-							<li><a href="javascript:goPage('${paging.nowBlock*paging.pagePerBlock+i}')">${paging.nowBlock*paging.pagePerBlock+(i+1)}</a></li>
-						  	</c:if>
-						  	<!-- 끝 -->
-						  </c:forEach>
-						  	<c:if test="${paging.totalBlock > paging.nowBlock +1}">
-							<li><a href="javascript:nextPage()">&raquo;</a></li>
-							</c:if>
-						</ul>
+								<c:if test="${pageMaker.prev}">
+									<li><a href="/harangdin/buyList${pageMaker.makeQuery(pageMaker.startPage-1)}">&laquo;</a></li>
+								</c:if>
+								<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+									<li value="${pageMaker.cri.page == idx ? 'class=active' : ''}">
+										<a href="/harangdin/buyList?page=${idx}"> ${idx} </a>
+									</li>
+								</c:forEach>
+									<c:if test="${pageMaker.next && pageMaker.endPage>0}">
+										<li><a href="/harangdin/buyList${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
+								</c:if>
+							</ul>
 						</div><!-- 페이징 버튼 -->
 					</div><!-- /.box -->  
 				</div><!-- /.col -->
@@ -119,34 +115,15 @@
 </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
 
 <!-- 페이징 관련 폼 ----------------------------------------------------------------------->
-
-<!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/harangdin?cmd=buying">
-	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
-</form>
-
-<!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/HarangProject/harangdin?cmd=buying">
-	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
-</form>
-
-<!-- 페이징 : 해당 페이지로 이동하는 폼 -->
-<form id="goPage" method="post" action="/HarangProject/harangdin?cmd=buying">
-	<input type="hidden" name="nowPage" value="" id="page"/>
-	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
-</form>
-
 <!-- 글 읽기 -->
-<form name="read" method="post" action="/HarangProject/harangdin?cmd=bdetail">
+<form name="read" method="post" action="/harangdin/bdetail">
 	<input type="hidden" name="b_num" value="" id="b_num"/>
 	<input type="hidden" name="m_id" value="" id="m_id"/>
 	<input type="hidden" name="nowPage" value="${paging.nowPage}"/>
 	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
 </form>
 
-<form name="okay" method="post" action="/HarangProject/harangdin?cmd=okay">
+<form name="okay" method="post" action="/harangdin/okay">
 	<input type="hidden" name="m_id" value="">
 	<input type="hidden" name="b_num" value="">
 	<input type="hidden" name="b_name" value="">

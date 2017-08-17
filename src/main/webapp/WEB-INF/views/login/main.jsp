@@ -97,8 +97,7 @@
 		                          </tr>
 		                      </c:when>
 		                      <c:otherwise>
-		                      <c:forEach items="${requestScope.pList}" 
-		                       					begin="0" end="2" var="p" varStatus="i">
+		                      <c:forEach items="${requestScope.pList}" begin="0" end="3" var="p" varStatus="i">
 		                        <c:if test="${member.m_id eq p.m_giver}">
 		                           <tr class="text-red">
 		                            <td>${p.r_regdate}</td>

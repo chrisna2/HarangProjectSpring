@@ -52,7 +52,7 @@
     <div class="wrapper">
       <header class="main-header">
         <!-- Logo -->
-        <a href="/HarangProject/login?cmd=refresh" class="logo"><img src="../resources/dist/img/Logo.png" class="img-circle" alt="User Image" width="40" height="40"/>&nbsp;하랑 대학교</a>
+        <a href="/login/main" class="logo"><img src="../resources/dist/img/Logo.png" class="img-circle" alt="User Image" width="40" height="40"/>&nbsp;하랑 대학교</a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
@@ -266,9 +266,9 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="/harangdin/main"><i class="fa fa-circle-o"></i> 하랑딘 메인</a></li>
-                <li><a href="/harangdin/selling"><i class="fa fa-circle-o"></i> 도서 판매 내역</a></li>
-                <li><a href="/harangdin/buying"><i class="fa fa-circle-o"></i> 도서 구매 내역</a></li>
-                <li><a href="/harangdin/donation"><i class="fa fa-circle-o"></i> 도서 기부 내역</a></li>
+                <li><a href="/harangdin/sellList"><i class="fa fa-circle-o"></i> 도서 판매 내역</a></li>
+                <li><a href="/harangdin/buyList"><i class="fa fa-circle-o"></i> 도서 구매 내역</a></li>
+                <li><a href="/harangdin/donationList"><i class="fa fa-circle-o"></i> 도서 기부 내역</a></li>
               </ul>
             </li>
             <li>

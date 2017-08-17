@@ -7,13 +7,6 @@
 <!-- 페이지 헤드 라인 : 제목 -->
 <head>
      <title>기본 값 페이지</title>
-     <c:if test="${delete eq 'delete'}">
-		<script type="text/javascript">
-			alert("삭제가 완료 되었습니다.");
-			location.href="/HarangProject/harangdin?cmd=adminMain";
-		</script>
-	</c:if>
-	
 </head>
 	  <!-- 메인 페이지 구역 , 즉 작업 구역 -->
       <div class="content-wrapper">
@@ -55,8 +48,15 @@
  
                 <div class="row">
                 <div class="col-sm-6 form-group">
-                  <label>도서 대표사진</label>
-                  <img src="${i.b_photo}" class="img-rounded" height="450" width="350">
+                  <label>도서 사진</label><br>
+		                  <c:choose>
+		                  	<c:when test="${i.b_photo == null || i.b_photo eq ''}">
+		                  		<img src="../resources/dist/img/noImage.jpg" class="img-rounded" height="100%" width="100%">
+		                  	</c:when>
+		                  	<c:otherwise>
+		                  		<img src="/displayFile?fileName=${i.b_photo}" class="img-rounded" height="100%" width="100%">
+		                  	</c:otherwise>
+		                  </c:choose>
                 </div>
                 <div class="col-sm-6 form-group">
                  
@@ -95,7 +95,7 @@
 							<button class="btn btn-block btn-danger" onclick="fnDelete('${i.b_num}')">삭제</button>
 						</div>
 				
-						<form action="/HarangProject/harangdin?cmd=adminMain" method="post">
+						<form action="/harangdin/adminMain" method="post">
 						<div class="col-sm-2">	
 							<button type="submit" class="btn btn-block">이전</button>
                   		</div>
@@ -114,7 +114,7 @@
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
 
 <!-- 글 삭제 -->
-<form name="del" method="post" action="/HarangProject/harangdin?cmd=adminBdetail" >
+<form name="del" method="post" action="/harangdin/adminDelete" >
 	<input type="hidden" name="b_num" value="" id="b_num"/>
 	<input type="hidden" name="delete_check" value="delete"/>	
 	<input type="hidden" name="nowPage" value="${paging.nowPage}"/>

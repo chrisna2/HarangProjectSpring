@@ -111,7 +111,7 @@
 									<c:when test="${applied eq 'N' || empty applied}">
 									<div class="col-md-4"></div>
 									<div class="col-md-4">
-										<button class="btn btn-block btn-primary" onclick="fnApply()">지원하기</button>
+										<button class="btn btn-block btn-danger" onclick="fnDelete()">삭제하기</button>
 									</div>		
 									</c:when>
 									<c:when test="${info.d_header eq '[마감]'&& pick eq 'OK'}">
@@ -335,7 +335,6 @@
       </form>
       <form name="del" method="post" action="/parttime/deleteDaeta">
         <input type="hidden" name="tab" value="${tab}"/>
-      	<input type="hidden" name="delete" value="OK"/>
       	<input type="hidden" name="d_num" value="${info.d_num}"/>
       </form>
       <form name="update" method="post" action="/parttime/DUPDATE">

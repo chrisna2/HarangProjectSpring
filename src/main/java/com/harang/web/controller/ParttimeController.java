@@ -174,6 +174,18 @@ public class ParttimeController {
 		if(tab.equals("MYPAGE")){
 			url = "redirect:/parttime/MYPAGE";
 		}
+		
+		// 게시글을 삭제하기 위해 지원자 목록을 먼저 삭제한다. (무결성 조건)
+		List list = parttimeService.getParttimeApplyList(p_num);
+		for(int i=0; i<list.size();i++){
+			P_ApplyDTO apply = (P_ApplyDTO) list.get(i);
+			HashMap<String, Object> params = new HashMap<>();
+			params.put("m_id", apply.getM_id());
+			params.put("p_num", p_num);
+			
+			parttimeService.deleteParttimeApply(params); // 지원 정보를 DB에서 삭제
+		}
+		
 		parttimeService.deleteParttime(p_num);
 		ModelAndView mav = new ModelAndView(url);
 		mav.addObject("tab", tab);
@@ -773,6 +785,18 @@ public class ParttimeController {
 		if(tab.equals("MYPAGE")){
 			url = "redirect:/parttime/MYPAGE";
 		}
+		
+		// 게시글을 삭제하기 위해 지원자 목록을 먼저 삭제한다. (무결성 조건)
+		List list = parttimeService.getDaetaApplyList(d_num);
+		for(int i=0; i<list.size();i++){
+			D_ApplyDTO apply = (D_ApplyDTO) list.get(i);
+			HashMap<String, Object> params = new HashMap<>();
+			params.put("m_id", apply.getM_id());
+			params.put("d_num", d_num);
+			
+			parttimeService.deleteDaetaApply(params); // 지원 정보를 DB에서 삭제
+		}
+		
 		ModelAndView mav = new ModelAndView(url);
 		parttimeService.deleteDaeta(d_num);
 		return mav;
@@ -930,7 +954,8 @@ public class ParttimeController {
 		params.put("d_num", d_num);
 		
 		List<D_ApplyDTO> list = parttimeService.getDaetaApply(params);
-		D_ApplyDTO resume = list.get(0);
+		D_ApplyDTO resume =  null;
+		if(!list.isEmpty()) list.get(0);
 		
 		MemberDTO applicant = parttimeService.getMember(m_id);
 		applicant.setM_age(getAge(applicant.getM_birth()));
