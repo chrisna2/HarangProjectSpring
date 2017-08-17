@@ -55,7 +55,7 @@
 						<c:choose>
 						<c:when test="${m_id eq resume.m_id}">
 							<div class="col-md-2">
-								<button class="btn btn-block btn-primary">선택</button>
+								<button class="btn btn-block btn-primary">채용 완료</button>
 							</div>
 						</c:when>
 						<c:otherwise>

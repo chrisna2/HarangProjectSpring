@@ -227,15 +227,15 @@
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<form name="readP" method="post" action="/HarangProject/parttime?cmd=PREAD">
+<form name="readP" method="post" action="/parttime/PREAD">
 	<input type="hidden" name="p_num" value="" id="p_num"/>
 	<input type="hidden" name="tab" value="PMAIN"/>
 </form> 
-<form name="readD" method="post" action="/HarangProject/parttime?cmd=DREAD">
+<form name="readD" method="post" action="/parttime/DREAD">
 	<input type="hidden" name="d_num" value="" id="d_num"/>
 	<input type="hidden" name="tab" value="PMAIN"/>
 </form>
-<form name="readB" method="post" action="/HarangProject/bamboo?cmd=U_BB_CON">
+<form name="readB" method="post" action="/bamboo/U_BB_CON">
 	<input type="hidden" name="bb_num" value="" id="bb_num"/>
 </form>     
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
