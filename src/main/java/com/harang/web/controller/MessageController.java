@@ -312,7 +312,14 @@ public class MessageController {
 	 */
 	@RequestMapping(value="/POST", method=RequestMethod.GET)
 	public ModelAndView post(HttpSession session) {
-		ModelAndView mav = new ModelAndView("message/message_post");
+		
+		MemberDTO login = loginBean.getLoginIngfo(session);
+		String url = "message/message_post";
+		if(loginBean.adminCheck(login.getM_id())){
+			url = "message/a_message_post";
+		}
+		
+		ModelAndView mav = new ModelAndView(url);
 		messageNotRead(mav, session);
 		return mav;
 	}

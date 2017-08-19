@@ -111,7 +111,7 @@
               
               <!-- 오른쪽에 메시지 탭 바 구성 -->
               <div class="col-md-3">
-              	<a href="/HarangProject/message?cmd=POST" class="btn btn-primary btn-block margin-bottom">쪽지쓰기</a>
+              	<a href="/message/POST" class="btn btn-primary btn-block margin-bottom">쪽지쓰기</a>
 	          	  <div class="box box-solid">
 	                <div class="box-body no-padding">
 	                  <ul class="nav nav-pills nav-stacked">

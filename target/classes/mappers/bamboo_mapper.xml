@@ -66,11 +66,11 @@
   	</select>
   	
   	<select id = "bbLCnt" parameterType="String" resultType = "Like">
-  		SELECT * FROM harang.tbl_like where bb_num = #{bb_num}
+  		SELECT * FROM tbl_like where bb_num = #{bb_num}
   	</select>
   	
   	<select id = "bbDLCnt" parameterType="String" resultType = "Dlike">
-  		SELECT * FROM harang.tbl_dlike where bb_num = #{bb_num}
+  		SELECT * FROM tbl_dlike where bb_num = #{bb_num}
   	</select>
   	
   	<update id = "bbUpdateCnt" parameterType="String">
@@ -82,7 +82,7 @@
   	
   	<select id = "bbRList" parameterType="String" resultType="Bbreply">
   	
-  		SELECT * FROM harang.tbl_bbreply where bb_num = #{bb_num}
+  		SELECT * FROM tbl_bbreply where bb_num = #{bb_num}
   	
   	</select>
   	
@@ -111,7 +111,7 @@
   	
   	<delete id="bbDelete" parameterType="String" >
   	
-  		delete from harang.tbl_bamboo where bb_num = #{bb_num}
+  		delete from tbl_bamboo where bb_num = #{bb_num}
   	
   	</delete>
   	
@@ -134,13 +134,13 @@
   	
   	<insert id = "bbLike" parameterType="Like">
   		
-  		insert into harang.tbl_like (bb_num, m_id) values (#{bb_num},#{m_id})
+  		insert into tbl_like (bb_num, m_id) values (#{bb_num},#{m_id})
   	
   	</insert>
   	
   	<insert id = "bbDLike" parameterType="Like">
   		
-  		insert into harang.tbl_dlike (bb_num, m_id) values (#{bb_num},#{m_id})
+  		insert into tbl_dlike (bb_num, m_id) values (#{bb_num},#{m_id})
   	
   	</insert>
   	

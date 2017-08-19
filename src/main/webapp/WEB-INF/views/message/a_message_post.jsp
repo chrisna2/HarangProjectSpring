@@ -79,13 +79,13 @@
               
               <!-- 오른쪽에 메시지 탭 바 구성 -->
              <div class="col-md-3">
-            <a href="/HarangProject/message?cmd=POST" class="btn btn-primary btn-block margin-bottom">쪽지쓰기</a>
+            <a href="/message/POST" class="btn btn-primary btn-block margin-bottom">쪽지쓰기</a>
 	          <div class="box box-solid">
                 <div class="box-body no-padding">
                   <ul class="nav nav-pills nav-stacked">
-                    <li><a href="/HarangProject/message?cmd=INBOX"><i class="fa fa-inbox"></i> 받은 쪽지함 <span class="label label-primary pull-right">${notRead}</span></a></li>
-                    <li><a href="/HarangProject/message?cmd=SENT"><i class="fa fa-envelope-o"></i> 보낸 쪽지함</a></li>
-                    <li><a href="/HarangProject/message?cmd=TOME"><i class="fa fa-file-text-o"></i> 내게 쓴 쪽지함 <span class="label label-primary pull-right">${notRead_toMe}</span></a></li>
+                    <li><a href="/message/INBOX"><i class="fa fa-inbox"></i> 받은 쪽지함 <span class="label label-primary pull-right">${notRead}</span></a></li>
+                    <li><a href="/message/SENT"><i class="fa fa-envelope-o"></i> 보낸 쪽지함</a></li>
+                    <li><a href="/message/TOME"><i class="fa fa-file-text-o"></i> 내게 쓴 쪽지함 <span class="label label-primary pull-right">${notRead_toMe}</span></a></li>
                   </ul>
                 </div><!-- /.box-body -->
               </div><!-- /. box -->

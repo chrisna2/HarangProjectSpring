@@ -82,92 +82,10 @@
             </div><!-- /.col -->
           </div>
         </form>
-        <a href="#">비밀번호 찾기</a><br>
+        <a href="#" id="btnPopup">포트폴리오 사이트 안내</a><br>
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
     
-    <!-- 완성시 최종 삭제 -->
-    <div class="login-box" hidden="hidden">
-      <div class="login-box-body">
-           <h3>인덱스</h3>
-           <h4>내 정보</h4>
-               <ul>
-                <li>user side</li>
-                <li><a href="/myPage/myInfo">내 정보 조회</a></li>
-                <li><a href="/myPage/specUp">스펙업!</a></li>
-                <li><a href="/myPage/timeTable">수강 시간표!</a></li>
-                <li><a href="/myPage/pointList">포인트 거래 내역</a></li>
-                <li><a href="/myPage/pointZero">포인트 제로</a></li>
-                <li><a href="/HarangProject/message?cmd=INBOX">쪽지함(관리자 개발자 공통) </a></li>
-                <li>admin side</li>
-                <li><a href="/myPage/AmemList">회원명단</a></li>
-                <li><a href="/myPage/Achallenge">스펙 업 관리</a></li>
-                <li><a href="/myPage/AspecList">자격증 관리</a></li>
-                <li><a href="/myPage/Alesson">강의목록 관리</a></li>
-                <li><a href="/myPage/ApointCheck">포인트 관리</a></li>
-               </ul>
-           <h4>하랑 레스토랑</h4>
-               <ul>
-                <li>user side</li>
-                <li><a href="/food/menu">학식 메뉴 조회</a></li>
-                <li><a href="/food/ticket">식권 구매 내역</a></li>
-                <li>admin side</li>
-                <li><a href="/food/Amenu">학식 메뉴 수정</a></li>
-                <li><a href="/food/Aticket">식권 판매 내역</a></li>
-               </ul>
-           <h4>알바 하랑</h4> 
-               <ul>
-                 <li>user side</li>
-                 <li><a href="/parttime/PMAIN">알바 모집</a></li>
-                 <li><a href="/parttime/DMAIN">대타 모집</a></li>
-                 <li><a href="/parttime/MYPAGE">내가 쓴 글</a></li>
-                 <li>admin side</li>
-                 <li><a href="/parttime/PMAIN">알바 모집 관리</a></li>
-                 <li><a href="/parttime/DMAIN">대타 모집 관리</a></li>
-               </ul>
-            <h4>대나무 숲</h4>
-            <ul>
-                 <li>user side</li>
-                 <li><a href="/bamboo/BB_LIST">메인 페이지</a></li>
-                 <li>admin side</li>
-                 <li><a href="/bamboo/A_BB_LIST">게시판 관리자 메인</a></li>
-              </ul>
-            <h4>학사일정</h4>
-            <ul>
-                 <li>user side</li>
-                 <li><a href="/schedule/U_SCH_LIST">학사일정 메인 페이지</a></li>
-                 <li>admin side</li>
-                 <li><a href="/schedule/A_SCH_LIST">학사일정 관리자 메인</a></li>
-              </ul>
-                 <h4>강의평가</h4>
-                <ul>
-                 <li>user side</li>
-                 <li><a href="/impage/main">강의평가 메인 페이지</a></li>
-                 <li>admin side</li>
-                 <li><a href="/impage/amain">강의평가 관리자 메인</a></li>
-              </ul>
-                 <h4>하랑딘24</h4>
-            <ul>
-                 <li>user side</li>
-                 <li><a href="/harangdin/main">하랑딘 메인 페이지</a></li>
-                 <li>admin side</li>
-                 <li><a href="/harangdin/adminMain">하랑딘 관리자 메인</a></li>
-              </ul>
-            <h4>시설관리</h4>
-            <ul>
-                 <li>user side</li>
-                 <li><a href="/facil/FacilMain">사용자 메인</a></li>
-                 <li><a href="/facil/FacilPGreserv">사용자 운동장 예약</a></li>
-                 <li><a href="/facil/FacilSRreserv">사용자 스터디룸 예약</a></li>
-                 <li>admin side</li>
-                 <li><a href="/facil/AFacilAddDel">관리자 시설 추가/삭제 </a></li>
-                 <li><a href="/facil/AFacilPG">관리자 운동장 일정 추가 </a></li>
-                 <li><a href="/facil/AFacilSR">관리자 스터디룸 일정 추가 </a></li>
-                 <li><a href="/facil/AFacilManager">관리자 사용자 일정 취소 </a></li>
-              </ul>
-             </div><!-- /.login-box-body -->
-    </div><!-- /.login-box -->
-        
      <footer>
         <div class="pull-right hidden-xs">
           <b>Version</b> 2.0
@@ -177,11 +95,62 @@
         <strong>Template Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
      </footer>
     </div><!-- .\ wrapper --> 
+    
+                    <!-- 모달 : 뒷 페이지 배경을 눌러도 꺼지지 않음 -->
+                <div class="modal fade" id="theModal" data-backdrop="static">
+                    <div class="modal-dialog">
+                        <form name="zip" action="">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>하랑 대학교 커뮤니티 안내</h3>
+                            </div>
+                            <div class="modal-body">
+                          		<h4><strong>저희 하랑 대학교 커뮤니티에 방문해 주셔서 감사합니다.</strong></h4>
+                          		<p>이 사이트는 가상의 '하랑대학교'를 선정하고 포인트 중심으로 학교와 사이트 사이에 가상의 경제 시스템을 구축한 학생 커뮤니티 사이트입니다.</p>
+                          		<ul>
+                          			<li><strong>Web Copyright &copy; 2017 The Center Team.</strong> All rights reserved.</li>
+                          			<li><strong>Template Copyright  &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved. </li>
+                          			<li>팀장 : 나현기, 부팀장 : 양혜민, 팀원 : 김성지, 김민준, 서지윤, 박주선 </li>
+                          			<li>이전 버전 (JSP-Servlet) : <a href="http://netsong7.synology.me:8080/HarangProject/index.jsp">http://netsong7.synology.me:8080/HarangProject/index.jsp</a></li>
+                          			<li>개발 환경  : Spring, Mybatis, bootstrap3, HTML5, Jquery, Javascript</li>
+                         			<li>스프링 리펙토링 기간 : 2017-08-01 ~ 2017-08-16</li>
+                          		</ul>
+                          		<br>
+                          		<h4><strong>접속 방법</strong></h4>
+                          		<p>1. 학생(회원)으로 접속시</p>
+                          		<ul>
+                          			<li>회원아이디, <i>'2017<strong>01</strong>001'</i> 부터 <i>'2017<strong>01</strong>020'</i> 까지 신규 등록 회원 입니다. 해당회원으로 접속시 '신규 회원 등록 창'으로 이동합니다.</li>
+                          			<li>회원아이디, <i>'2017<strong>05</strong>001'</i> 부터 <i>'2017<strong>05</strong>020'</i> 까지 등록된 회원 입니다. 해당회원으로 접속시 '회원 메인 창'으로 이동합니다.</li>
+                          			<li>해당 회원 아이디의 비밀번호는 모두 <strong>'1111'</strong>로 동일 합니다.</li>
+                          		</ul>
+                          		<p>2. 관리자로 접속시</p>
+                          		<ul>
+                          			<li>관리자아이디는 <strong>'admin01'</strong> 부터 <strong>'admin06'</strong> 까지 존재 합니다.</li>
+                          			<li>관리자아이디로 접속시 '관리자 메인 창'으로 이동합니다.</li>
+                          			<li>해당 관리자의 비밀번호는 모두 <strong>'1111'</strong>로 동일 합니다.</li>
+                          		</ul>
+                          		
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" data-dismiss="modal">닫기</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div><!-- 모달 끝 -->
     <!-- jQuery 2.1.3 --> 
     <script src="resources/plugins/jQuery/jQuery-2.1.3.min.js"></script>
     <!-- Bootstrap 3.3.2 JS -->
     <script src="resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- iCheck -->
     <script src="resources/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+	    //모달 접근 바로 하기
+	    $("#btnPopup").click(
+	        function(){
+	            //alert("버튼 눌림");
+	            $("#theModal").modal('toggle');
+	        });
+    </script>
   </body>
 </html>

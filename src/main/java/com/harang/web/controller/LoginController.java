@@ -29,6 +29,7 @@ import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.ZipDTO;
 import com.harang.web.service.BambooService;
+import com.harang.web.service.FacilService;
 import com.harang.web.service.LoginService;
 import com.harang.web.service.MessageService;
 import com.harang.web.service.MyPageService;
@@ -56,6 +57,9 @@ public class LoginController {
 	
 	@Autowired
 	private BambooService bambooService;
+	
+	@Autowired
+	private FacilService facilService;
 	
 	private String uploadPath;
 	
@@ -223,11 +227,6 @@ public class LoginController {
 		mav.addObject("blist",  bambooService.bbList(cri));
 		return mav;
 	}
-	@RequestMapping(value="/a_main" ,method = RequestMethod.GET)
-	public ModelAndView loginAmainGet(){
-		ModelAndView mav = new ModelAndView("login/a_main");
-		return mav;
-	}
 	@RequestMapping(value="/main" ,method = RequestMethod.POST)
 	public ModelAndView loginMainPost(HttpServletRequest request){
 		LoginBean login = new LoginBean();
@@ -261,9 +260,44 @@ public class LoginController {
 		mav.addObject("blist",  bambooService.bbList(cri));
 		return mav;
 	}
-	@RequestMapping(value="/a_main" ,method = RequestMethod.POST)
-	public ModelAndView loginAmainPost(){
+	
+	@RequestMapping(value="/a_main" ,method = RequestMethod.GET)
+	public ModelAndView loginAmainGet(HttpServletRequest request){
+		
+		LoginBean login = new LoginBean();
+		MemberDTO member = login.getLoginInfo(request);
+		SearchCriteria cri = new SearchCriteria();
+			
+		cri.setM_id(member.getM_id());
+		cri.setPerPageNum(25);
+		
 		ModelAndView mav = new ModelAndView("login/a_main");
+		mav.addObject("pList",  myPageService.pointListSearch(cri));
+		mav.addObject("scPglist", facilService.scheduleToPg());
+		mav.addObject("scSrlist", facilService.scheduleToSr());
+		mav.addObject("p_list", parttimeService.getParttimeList(cri));
+		mav.addObject("d_list", parttimeService.getDaetaList(cri));
+		mav.addObject("blist",  bambooService.bbList(cri));
+		return mav;
+	}
+	
+	@RequestMapping(value="/a_main" ,method = RequestMethod.POST)
+	public ModelAndView loginAmainPost(HttpServletRequest request){
+		
+		LoginBean login = new LoginBean();
+		MemberDTO member = login.getLoginInfo(request);
+		SearchCriteria cri = new SearchCriteria();
+			
+		cri.setM_id(member.getM_id());
+		cri.setPerPageNum(25);
+			
+		ModelAndView mav = new ModelAndView("login/a_main");
+		mav.addObject("pList",  myPageService.pointListSearch(cri));
+		mav.addObject("scPglist", facilService.scheduleToPg());
+		mav.addObject("scSrlist", facilService.scheduleToSr());
+		mav.addObject("p_list", parttimeService.getParttimeList(cri));
+		mav.addObject("d_list", parttimeService.getDaetaList(cri));
+		mav.addObject("blist",  bambooService.bbList(cri));
 		return mav;
 	}
 }
