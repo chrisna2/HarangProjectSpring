@@ -88,7 +88,7 @@
 											   varStatus="status">
 										<tr>
 				                          <td><input type="checkbox" value="${list.t_num}"/></td>
-				                          <td>${list.list_num}</td>
+				                          <td>${status.index}</td>
 				                          <td class="mailbox-subject" style="width: 50%">
 				                          <c:choose>
 					                          <c:when test="${list.t_read_date eq null}">

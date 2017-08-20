@@ -89,7 +89,7 @@
 											   varStatus="status">
 										<tr>
 				                          <td><input type="checkbox" value="${list.t_num}"/></td>
-				                          <td>${list.list_num}</td>
+				                          <td>${status.index}</td>
 				                          <td class="mailbox-name" >${list.m_reader_name}</td>
 				                          <td class="mailbox-subject" style="width: 50%">
 				                          	<a href="javascript:fnRead('${list.t_num}');" style="color:black">${list.t_title}</a>

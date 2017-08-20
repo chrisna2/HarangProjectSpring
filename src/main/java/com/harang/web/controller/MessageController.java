@@ -64,7 +64,7 @@ public class MessageController {
 		
 		cri.setM_id(login.getM_id());
 		
-		List<MessageDTO> givenList = setList(messageService.getGivenMessageList(cri));
+		List<MessageDTO> givenList = messageService.getGivenMessageList(cri);
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -88,7 +88,7 @@ public class MessageController {
 		
 		cri.setM_id(login.getM_id());
 		
-		List<MessageDTO> givenList = setList(messageService.getGivenMessageList(cri));
+		List<MessageDTO> givenList = messageService.getGivenMessageList(cri);
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -111,6 +111,7 @@ public class MessageController {
 	@RequestMapping(value="/SENT", method = RequestMethod.GET)
 	public ModelAndView sentListGet(HttpSession session,SearchCriteria cri) {
 		MemberDTO login = loginBean.getLoginIngfo(session);
+		
 		String url = "message/message_sent";
 		if(loginBean.adminCheck(login.getM_id())){
 			url = "message/a_message_sent";
@@ -118,7 +119,7 @@ public class MessageController {
 		
 		cri.setM_id(login.getM_id());
 		
-		List<MessageDTO> sentList = setList(messageService.getSentMessageList(cri)); 
+		List<MessageDTO> sentList = messageService.getSentMessageList(cri); 
 
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -141,7 +142,7 @@ public class MessageController {
 		
 		cri.setM_id(login.getM_id());
 		
-		List<MessageDTO> sentList = setList(messageService.getSentMessageList(cri)); 
+		List<MessageDTO> sentList = messageService.getSentMessageList(cri); 
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -170,7 +171,7 @@ public class MessageController {
 		
 		cri.setM_id(login.getM_id());
 		
-		List<MessageDTO> toMeList = setList(messageService.getToMeMessageList(cri)); 
+		List<MessageDTO> toMeList = messageService.getToMeMessageList(cri); 
 
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -193,7 +194,7 @@ public class MessageController {
 		
 		cri.setM_id(login.getM_id());
 		
-		List<MessageDTO> toMeList = setList(messageService.getToMeMessageList(cri)); 
+		List<MessageDTO> toMeList = messageService.getToMeMessageList(cri); 
 		
 		pageMaker = new PageMaker();
 		pageMaker.setCri(cri);

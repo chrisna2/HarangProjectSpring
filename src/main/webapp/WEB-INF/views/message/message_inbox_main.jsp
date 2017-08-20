@@ -85,11 +85,11 @@
 									</tr>
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${list}" var="list" >
+									<c:forEach items="${list}" var="list" varStatus="i" >
 										<tr>
 				                          <td><input type="checkbox" value="${list.t_num}"/></td>
-				                          <td>${list.list_num}</td>
-				                          <td class="mailbox-name" >${list.m_sender}</td>
+				                          <td>${i.index}</td>
+				                          <td class="mailbox-name" >${list.m_sender_name}</td>
 				                          <td class="mailbox-subject" style="width: 50%">
 				                          <c:choose>
 					                          <c:when test="${list.t_read_date eq null}">

@@ -84,7 +84,7 @@
 								</tr>
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${list}" var="list" >
+									<c:forEach items="${list}" var="list" varStatus="i">
 									<!-- 
 											   begin="${paging.beginPerPage}" 
 											   end="${paging.beginPerPage + paging.numPerPage -1}" 
@@ -92,7 +92,7 @@
 										 -->
 										<tr>
 				                          <td><input type="checkbox" value="${list.t_num}"/></td>
-				                          <td>${list.list_num}</td>
+				                          <td>${i.index}</td>
 				                          <td class="mailbox-subject" style="width: 50%">
 				                          <c:choose>
 					                          <c:when test="${list.t_read_date eq null}">
