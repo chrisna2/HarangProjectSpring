@@ -111,6 +111,7 @@
                 </div><!-- /.box-body -->
                 
                 <div class="box-footer no-padding">
+                	<%@ include file="message_paging.jsp" %>
                 </div>
               </div><!-- /. box -->
               </div><!-- /.col -->

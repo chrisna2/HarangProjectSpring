@@ -286,6 +286,7 @@ public class MessageController {
 		return mav;
 	}
 	
+	
 	/**
 	 * 내가 쓴 메시지를 삭제하는 메서드.
 	 * @param arr 삭제할 메시지번호
@@ -303,6 +304,36 @@ public class MessageController {
 				}
 			}
 		}
+		return mav;
+	}
+	
+	@RequestMapping(value="/inboxDelete", method = RequestMethod.POST)
+	public ModelAndView deleteInboxReadMessage(String t_num){
+		ModelAndView mav = new ModelAndView("message/message_inbox_main");
+		MessageDTO msg = messageService.getMessage(t_num); //메시지 정보
+		if(msg.getT_read_del() == "N" && msg.getT_send_del() == "N"){ // 둘다 삭제하지 않은 경우
+			messageService.deleteSentMessage_first(t_num); // 받은메시지 삭제
+		}else{ // 둘 중 한명이 삭제한 경우
+			messageService.deleteMessage(t_num); // 메시지 삭제 
+		}
+		return mav;
+	}
+	@RequestMapping(value="/sentDelete", method = RequestMethod.POST)
+	public ModelAndView deleteSentReadMessage(String t_num){
+		ModelAndView mav = new ModelAndView("message/message_sent");
+		MessageDTO msg = messageService.getMessage(t_num); //메시지 정보
+		if(msg.getT_read_del() == "N" && msg.getT_send_del() == "N"){ // 둘다 삭제하지 않은 경우
+			messageService.deleteSentMessage_first(t_num); // 받은메시지 삭제
+		}else{ // 둘 중 한명이 삭제한 경우
+			messageService.deleteMessage(t_num); // 메시지 삭제 
+		}
+		return mav;
+	}
+	@RequestMapping(value="/toMeDelete", method = RequestMethod.POST)
+	public ModelAndView deleteToMeReadMessage(String t_num){
+		ModelAndView mav = new ModelAndView("message/message_toMe");
+		MessageDTO msg = messageService.getMessage(t_num); //메시지 정보
+		messageService.deleteMessage(t_num); // 메시지 삭제 
 		return mav;
 	}
 	

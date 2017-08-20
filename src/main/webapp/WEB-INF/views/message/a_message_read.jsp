@@ -51,7 +51,7 @@
                   </c:if>
                     <button class="btn btn-default" onclick="fnList('${tab}')"><i class="fa fa-share"></i> 목록</button>
                   </div>
-                  <button class="btn btn-default" onclick="fnDel('${tab}')"><i class="fa fa-trash-o"></i> 삭제</button>
+                 <button class="btn btn-default" onclick="fnDel('${tab}')"><i class="fa fa-trash-o"></i> 삭제</button>
                 </div><!-- /.box-footer -->
               </div><!-- /. box -->
            </div><!-- /.col -->
@@ -123,11 +123,11 @@ function fnList(tab){
 
 function fnDel(tab){
 	if(tab == 'INBOX'){
-		document.del.action = "/message/INBOX";
+		document.del.action = "/message/inboxDelete";
 	}else if(tab == 'SENT'){
-		document.del.action = "/message/SENT";
+		document.del.action = "/message/sentDelete";
 	}else if(tab == 'TOME'){
-		document.del.action = "/message/TOME";
+		document.del.action = "/message/toMeDelete";
 	}
 	if(confirm("정말 삭제하시겠습니까?") == true){
 		document.del.submit();

@@ -51,8 +51,8 @@
                   </c:if>
                     <button class="btn btn-default" onclick="fnList('${tab}')"><i class="fa fa-share"></i> 목록</button>
                   </div>
-                  <button class="btn btn-default" onclick="fnDel('${tab}')"><i class="fa fa-trash-o"></i> 삭제</button>
-                </div><!-- /.box-footer -->
+					<button class="btn btn-default" onclick="fnDel('${tab}')"><i class="fa fa-trash-o"></i> 삭제</button>
+               </div><!-- /.box-footer -->
               </div><!-- /. box -->
            </div><!-- /.col -->
               
