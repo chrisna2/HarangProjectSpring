@@ -46,7 +46,9 @@
                 </div><!-- /.box-body -->
                 <div class="box-footer">
                   <div class="pull-right">
+                  <c:if test="${tab eq 'INBOX'}">
                     <button class="btn btn-default" onclick="fnReply()"><i class="fa fa-reply" ></i> 답장</button>
+                  </c:if>
                     <button class="btn btn-default" onclick="fnList('${tab}')"><i class="fa fa-share"></i> 목록</button>
                   </div>
                   <button class="btn btn-default" onclick="fnDel('${tab}')"><i class="fa fa-trash-o"></i> 삭제</button>

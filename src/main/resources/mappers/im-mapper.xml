@@ -60,8 +60,8 @@
 	<!-- 강의평가 작성 -->
 	<insert id="iminsert">
 			INSERT INTO tbl_member_lesson 
-			(m_id, l_num, lm_group, lm_year, lm_term, lm_star, lm_hw, lm_attend, lm_comment, lm_num) 
-			VALUES (#{m_id}, #{l_num}, #{lm_group}, #{lm_year}, #{lm_term}, #{lm_star}, #{lm_hw}, #{lm_attend}, #{lm_comment},'')
+			(m_id, l_num, lm_group, lm_year, lm_term, lm_star, lm_hw, lm_attend, lm_comment) 
+			VALUES (#{m_id}, #{l_num}, #{lm_group}, #{lm_year}, #{lm_term}, #{lm_star}, #{lm_hw}, #{lm_attend}, #{lm_comment})
 			
 			
 	

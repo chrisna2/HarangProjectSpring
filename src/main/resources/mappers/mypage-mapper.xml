@@ -227,7 +227,7 @@
   	</sql>
   	<!-- [관리자] 자격증 입력 추가 / jqgrid -->
   	<insert id="specInsert" parameterType="CertiMember">
-  		insert into tbl_certificate(c_name,c_agency,c_point,c_num) values(#{c_name},#{c_agency},#{c_point},'')
+  		insert into tbl_certificate(c_name,c_agency,c_point) values(#{c_name},#{c_agency},#{c_point})
   	</insert>
   	<!-- [관리자] 자격증 총괄 수정 / jqgrid -->
   	<update id="specUpdateAll" parameterType="CertiMember">
@@ -431,8 +431,8 @@
   	</delete>
   	<!-- [관리자] 수업목록 추가  / jqgrid  -->
   	<insert id="aLessonInsert" parameterType="Lesson">
-  		insert into tbl_lesson(l_name,l_ismust,l_dept,l_grade,l_term,l_day,l_time,l_teacher,l_room,l_credit,l_num) 
-  		values (#{l_name},#{l_ismust},#{l_dept},#{l_grade},#{l_term},#{l_day},#{l_time},#{l_teacher},#{l_room},#{l_credit},'')
+  		insert into tbl_lesson(l_name,l_ismust,l_dept,l_grade,l_term,l_day,l_time,l_teacher,l_room,l_credit) 
+  		values (#{l_name},#{l_ismust},#{l_dept},#{l_grade},#{l_term},#{l_day},#{l_time},#{l_teacher},#{l_room},#{l_credit})
   	</insert>
   	<!-- [관리자] 수업목록 추가, 수강실목록, 교수 목록, 학과목록 추가 -->
   	<select id="l_roomList" resultType="Lesson">

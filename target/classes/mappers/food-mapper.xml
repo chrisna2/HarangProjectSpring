@@ -5,7 +5,7 @@
   <mapper namespace="com.harang.mapper.food-mapper">
   
   	<insert id="insertFood" parameterType="Food">
-  		INSERT INTO tbl_food (f_point, f_title, f_content, f_selldate, f_num) VALUES (#{f_point}, #{f_title}, #{f_content}, #{f_selldate}, '')
+  		INSERT INTO tbl_food (f_point, f_title, f_content, f_selldate) VALUES (#{f_point}, #{f_title}, #{f_content}, #{f_selldate})
   	</insert>
   
   	<delete id="deleteFood" parameterType="Food">

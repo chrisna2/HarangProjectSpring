@@ -138,9 +138,9 @@
 	<insert id = "schPost" parameterType="Schedule" >
 	
 	insert into tbl_schedule 
-	(s_title, s_dept, s_dstart, s_dend, s_rstart, s_rend, s_point, s_content, s_ispoint, s_grade, s_location, s_num )
+	(s_title, s_dept, s_dstart, s_dend, s_rstart, s_rend, s_point, s_content, s_ispoint, s_grade, s_location)
 	 values 
-	 (#{s_title}, #{s_dept}, #{s_dstart}, #{s_dend}, #{s_rstart}, #{s_rend}, #{s_point}, #{s_content}, <include refid="option"></include> , #{s_grade}, #{s_location}, '')
+	 (#{s_title}, #{s_dept}, #{s_dstart}, #{s_dend}, #{s_rstart}, #{s_rend}, #{s_point}, #{s_content}, <include refid="option"></include> , #{s_grade}, #{s_location})
 	
 	</insert>
 	

@@ -45,8 +45,8 @@
 	</select>
 	
 	<insert id="sellInsert" parameterType="Book">
-		INSERT INTO tbl_book (m_id, b_choice, b_want, b_stock, b_name,  b_writer, b_pub, b_content, b_iscomplete, b_photo, b_num) 
-		VALUES (#{m_id}, #{b_choice}, #{b_want}, #{b_stock}, #{b_name}, #{b_writer}, #{b_pub}, #{b_content}, '거래', #{b_photo}, '')
+		INSERT INTO tbl_book (m_id, b_choice, b_want, b_stock, b_name,  b_writer, b_pub, b_content, b_iscomplete, b_photo) 
+		VALUES (#{m_id}, #{b_choice}, #{b_want}, #{b_stock}, #{b_name}, #{b_writer}, #{b_pub}, #{b_content}, '거래', #{b_photo})
 	</insert>
 	<update id="sellUpdate" parameterType="Book">
 		UPDATE tbl_book SET m_id = #{m_id}, b_choice = #{b_choice}, b_want = #{b_want}, b_stock = #{b_stock}, b_name = #{b_name}, 
@@ -55,8 +55,8 @@
 	</update>
 
 	<insert id="donateInsert" parameterType="Book">
-		INSERT INTO tbl_book (m_id, b_choice, b_want, b_stock, b_name,  b_writer, b_pub, b_content, b_iscomplete, b_photo, b_num) 
-		VALUES (#{m_id}, #{b_choice}, #{b_want}, #{b_stock}, #{b_name}, #{b_writer}, #{b_pub}, #{b_content}, '기부중', #{b_photo},'') 
+		INSERT INTO tbl_book (m_id, b_choice, b_want, b_stock, b_name,  b_writer, b_pub, b_content, b_iscomplete, b_photo) 
+		VALUES (#{m_id}, #{b_choice}, #{b_want}, #{b_stock}, #{b_name}, #{b_writer}, #{b_pub}, #{b_content}, '기부중', #{b_photo}) 
 	</insert>
 	<update id="donateUpdate" parameterType="Book">
 		UPDATE tbl_book SET m_id = #{m_id}, b_choice = #{b_choice}, b_want = #{b_want}, b_stock = #{b_stock}, b_name = #{b_name}, 

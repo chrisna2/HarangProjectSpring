@@ -168,13 +168,13 @@
 	</select>
 	
 	<insert id="reserPgComplate" parameterType="Playground">
-		INSERT INTO tbl_pg_member (pgm_date, pgm_timecode, m_id, pg_num, pgm_issue, pgm_num)
-		VALUES (#{pgm_date}, #{pgm_timecode}, #{m_id}, #{pg_num}, '학생예약', '')
+		INSERT INTO tbl_pg_member (pgm_date, pgm_timecode, m_id, pg_num, pgm_issue)
+		VALUES (#{pgm_date}, #{pgm_timecode}, #{m_id}, #{pg_num}, '학생예약')
 	</insert>
 	
 	<insert id="reserSrComplate" parameterType="Studyroom">
-		INSERT INTO tbl_sr_member (srm_date, srm_timecode, m_id, sr_num, srm_issue, srm_num)
-		VALUES (#{srm_date}, #{srm_timecode}, #{m_id}, #{sr_num}, '학생예약', '')
+		INSERT INTO tbl_sr_member (srm_date, srm_timecode, m_id, sr_num, srm_issue)
+		VALUES (#{srm_date}, #{srm_timecode}, #{m_id}, #{sr_num}, '학생예약')
 	</insert>
 		
 	<!-- 파라미터값은 동일하기때문에 생략. -->
