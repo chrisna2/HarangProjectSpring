@@ -127,17 +127,17 @@
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
       <!-- 페이징 : 이전 블록으로 이동하는 폼 -->
-<form id="prevPage" method="post" action="/HarangProject/message?cmd=SENT">
+<form id="prevPage" method="post" action="/message/SENT">
 	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock-1)}"/>
 	<input type="hidden" name="nowBlock" value="${paging.nowBlock-1}"/>
 </form>
 <!-- 페이징 : 다음 블록으로 이동하는 폼 -->
-<form id="nextPage" method="post" action="/HarangProject/message?cmd=SENT">
+<form id="nextPage" method="post" action="/message/SENT">
 	<input type="hidden" name="nowPage" value="${paging.pagePerBlock * (paging.nowBlock+1)}"/>
 	<input type="hidden" name="nowBlock" value="${paging.nowBlock+1}"/>
 </form>
 <!-- 메시지 읽기 -->
-<form name="read" method="post" action="/HarangProject/message?cmd=READ">
+<form name="read" method="post" action="/message/READ">
 	<input type="hidden" name="t_num" value="" id="t_num"/>
 	<input type="hidden" name="nowPage" value="${paging.nowPage}"/>
 	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>

@@ -21,7 +21,9 @@
 	
 	<!-- 받은 메시지를 모두 검색 -->
 	<select id="getGivenMessageList" resultType="Message">
-		SELECT * FROM tbl_text WHERE m_reader=#{m_id} AND NOT m_sender=#{m_id} AND t_read_del = 'N' 
+		SELECT * 
+		FROM tbl_text 
+		WHERE m_reader=#{m_id} AND NOT m_sender=#{m_id} AND t_read_del = 'N' 
 		<include refid="searchMessage"></include> 
 		ORDER BY t_send_date DESC 
 		limit #{pageStart}, #{perPageNum} 
@@ -109,7 +111,11 @@
 	
     <!-- 받은 메시지를 상위 5개 만 뽑아서 검색 -->
 	<select id="getGivenMessageListHeader" resultType="Message">
-		SELECT * FROM tbl_text WHERE m_reader=#{m_id} AND NOT m_sender=#{m_id} AND t_read_del = 'N' 
+		SELECT t_num, t_title, t_send_date, m_sender,
+		(select m_photo from tbl_member where m_id = m_sender) as s_photo, 
+		(select m_name from tbl_member where m_id = m_sender) as m_sender_name
+		FROM tbl_text 
+		WHERE m_reader=#{m_id} AND NOT m_sender=#{m_id} AND t_read_del = 'N' 
 		ORDER BY t_send_date DESC 
 		limit 5
 	</select>

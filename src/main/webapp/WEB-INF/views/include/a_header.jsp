@@ -102,7 +102,6 @@
 		                          </div>
 		                          <h4>
 		                            ${ap.r_content}
-		                            <small><i class="fa fa-clock-o"></i>${p.r_regdate}</small>
 		                          </h4>
 		                           <p style="color: green">${ap.r_point} 포인트</p>
 		                        </a>
@@ -131,11 +130,15 @@
                         <li><!-- 메세지 시작 -->
                         <a href="/message/READ?t_num=${msg.t_num}&tab=INBOX">
                           <div class="pull-left">
-                            <img src="${msg.s_photo}" class="img-circle" alt="User Image"/>
+                            <c:if test="${null == msg.s_photo || '' eq  msg.s_photo}">
+                          		<img src="../resources/dist/img/no-user-image.gif" class="img-circle" alt="User Image"/>
+                          	</c:if>
+                          	<c:if test="${msg.s_photo != null}">
+                            	<img src="/displayFile?fileName=${msg.s_photo}" class="img-circle" alt="User Image"/>
+                            </c:if>
                           </div>
                           <h4>
                              ${msg.m_sender_name}[${msg.m_sender}]                               
-                            <small><i class="fa fa-clock-o"></i>${msg.t_send_date}</small>
                           </h4>
                           <p>${msg.t_title}</p>
                         </a>

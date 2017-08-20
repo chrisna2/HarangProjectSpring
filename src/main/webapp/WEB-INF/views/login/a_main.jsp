@@ -32,7 +32,7 @@
 					<div class="box box-solid">
 						<div class="box-header with-border">
 			              <font size='3px'><b>최근 포인트 거래 내역</b></font>
-			              <a href="/myPage/Applist?check_id=${admin.m_id}" class="btn btn-primary pull-right">관리자 거래 상세 확인</a>
+			              <a href="/myPage/Applist?check_id=${admin.m_id}" class="btn btn-primary pull-right">상세 확인</a>
 			              <a href="/myPage/ApointCheck" class="btn btn-info pull-right">포인트 관리</a>
 			            </div>
 	            		<div class="box-body">

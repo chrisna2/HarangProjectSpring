@@ -102,7 +102,7 @@
 		<input type="hidden" name="nowPage" value="${nowPage}"/>
       	<input type="hidden" name="nowBlock" value="${nowBlock}"/>
 	  </form>
-	  <form name="reply" method="post" action="/HarangProject/message?cmd=POST">
+	  <form name="reply" method="post" action="/message/reply">
 		<input type="hidden" name="t_num" value="${msg.t_num}"/>
 	  </form>
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
@@ -133,7 +133,6 @@ function fnDel(tab){
 		return;
 	}
 }
-
 function fnReply(){
 	document.reply.submit();
 }

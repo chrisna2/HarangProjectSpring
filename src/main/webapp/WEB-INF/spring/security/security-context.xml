@@ -45,7 +45,7 @@
 		<!-- 중복 로그인 처리! -->
 		<session-management>
 			<concurrency-control 
-						max-sessions="1"
+						max-sessions="3"
 						expired-url="/login/loginPost"
 						error-if-maximum-exceeded="true"/>
 			<!--  max-sessions="1" 중복 로그인 관리 : 중복 로그인을 허용 하지 않겠다.-->

@@ -131,8 +131,22 @@
               </div><!-- /. box -->
            </div><!-- /.row -->
         </section><!-- /. 작업 공간 끝! -->
+        <!-- 메시지 읽기 -->
+<form name="read" method="post" action="/message/READ">
+	<input type="hidden" name="t_num" value="" id="t_num"/>
+	<input type="hidden" name="nowPage" value="${paging.nowPage}"/>
+	<input type="hidden" name="nowBlock" value="${paging.nowBlock}"/>
+	<input type="hidden" name="tab" value="${tab}"/>
+</form>
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
       <!-- 페이징 : 이전 블록으로 이동하는 폼 -->
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
+<script>
+function fnRead(t_num){
+	document.getElementById("t_num").value = t_num;
+	document.read.submit();
+}
+</script>
+

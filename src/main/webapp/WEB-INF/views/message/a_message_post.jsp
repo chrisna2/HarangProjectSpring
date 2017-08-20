@@ -34,7 +34,8 @@
                   <h3 class="box-title">새 쪽지를 작성하세요.</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                <form name="send" method="post" action="/HarangProject/message?cmd=SENT">
+                 <form name="send" method="post" action="/message/POST">
+                 <input type="hidden" name="m_sender" value="${admin.m_id}"/>
                   <div class="row">
                   	  <div class=" col-md-2 form-group">
                   	  	<input id="toMe" type="checkbox" onclick ="fnToMe('${member.m_name}')"/>
@@ -100,58 +101,27 @@
 <script>
 var httpRequest = null;
 
-function sendRequest(method, url, param, callback){
-	httpRequest = new XMLHttpRequest();
-	
-	var httpMethod = method ? method : "GET";
-	//method가 null이면 method값으로 아니면 "Get"으로
-	if(httpMethod != "Get" && httpMethod != "POST"){
-		httpMethod="GET";
-	}//오타방지
-	
-	var httpParam = (param == null || param == "")?null : param;
-	//param이 없으면 null처리 있으면 그대로
-	if(httpMethod == "GET" && httpParam != null){
-		url = url + "?" + httpParam;
+function fnSend(){
+	if(confirm("정말 보내시겠습니까?\n보낸 메시지는 수정이 불가능합니다.")==true){
+		document.send.submit();
+	}else{
+		return;
 	}
-	
-	httpRequest.open(httpMethod, url, true);
-	httpRequest.onreadystatechange = callback;
-	httpRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
-	httpRequest.send(httpMethod=="POST"?httpParam:null);
-	
 }
 
-	function fnSend(){
-		if(confirm("정말 보내시겠습니까?\n보낸 메시지는 수정이 불가능합니다.")==true){
-			document.send.submit();
-		}else{
-			return;
-		}
-	}
-	
-	function fnSearch(){
-		var m_name = document.getElementById("reader").value;
-		var param = "m_name=" + m_name;
-		
-		sendRequest("POST", "/HarangProject/m_search", param, callback );
-	}
-	
-	function callback(){
-		if(httpRequest.readyState == 4){
-			if(httpRequest.status == 200){
-				var idArray = httpRequest.responseText.split("\n");
-				$("#display option").remove();
-				for(var i=0;i<idArray.length-1;i++){
-					var option = $("<option>"+idArray[i]+"</option>");
-	                $('#display').append(option);
-				}
-			}
-			else{
-				alert(httpRequest.status);
-			}
-		}
-	}
+function fnSearch() {
+    
+	var m_name = document.getElementById("reader").value;
+    
+    $.getJSON("/message/ajax", {m_name:encodeURIComponent(m_name)} ,function(data){
+           $("#display option").remove();
+           $(data).each(function(index, list){
+				var option = $("<option>"+list+"</option>");
+                $('#display').append(option);
+           });
+    });
+}
+
 	function fnToMe(m_name){
 		var cbx = document.getElementById("toMe");
 		if(cbx.checked == true){
@@ -164,7 +134,7 @@ function sendRequest(method, url, param, callback){
 	
 	function fnCancel(){
 		if(confirm("정말 취소하시겠습니까?\n작성하던 메시지는 저장되지 않습니다.")==true){
-			location.href = "/HarangProject/message?cmd=INBOX";
+			location.href = "/message/INBOX";
 		}else{
 			return;
 		}

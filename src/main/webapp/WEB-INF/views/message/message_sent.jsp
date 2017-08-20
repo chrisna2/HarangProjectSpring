@@ -63,7 +63,6 @@
                     </form>  
                 </div><!-- /.box-header -->
                 <div class="box-body no-padding">
-                  <%@ include file="message_paging.jsp" %>
                   
                   <div class="table-responsive mailbox-messages">
                     <table class="table table-hover table-striped">
@@ -110,7 +109,6 @@
                 </div><!-- /.box-body -->
                 
                 <div class="box-footer no-padding">
-                  <!-- <%@ include file="message_paging.jsp" %>  -->
                 </div>
               </div><!-- /. box -->
               </div><!-- /.col -->

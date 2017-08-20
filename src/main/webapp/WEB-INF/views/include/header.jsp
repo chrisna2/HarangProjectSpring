@@ -101,7 +101,6 @@
                                   </div>
                                   <h4>
                                     ${ap.r_content}
-                                    <small><i class="fa fa-clock-o"></i>${p.r_regdate}</small>
                                   </h4>
                                    <p style="color: green">${ap.r_point} 포인트</p>
                                 </a>
@@ -138,8 +137,7 @@
                             </c:if>
                           </div>
                           <h4>
-                             ${msg.m_sender_name}[${msg.m_sender}]                               
-                            <small><i class="fa fa-clock-o"></i>${msg.t_send_date}</small>
+                             ${msg.m_sender_name}[${msg.m_sender}]                             
                           </h4>
                           <p>${msg.t_title}</p>
                         </a>
