@@ -84,7 +84,7 @@ public class ParttimeController {
 		// 추가정보 저장=> 1.글번호 2.해당 글에 지원한 지원자
 		for (int i = 0; i < list.size(); i++) {
 			ParttimeDTO dto = list.get(i);
-			dto.setList_num(Integer.parseInt(dto.getP_num().substring(1,10))); // 글번호
+			dto.setList_num(Integer.parseInt(dto.getP_num())); // 글번호
 			dto.setCnt_apply(parttimeService.getParttimeCnt_apply(dto.getP_num())); // 지원자수
 			if (dto.getM_id().equals("admin02")) {
 				dto.setM_name("관리자");
@@ -578,7 +578,7 @@ public class ParttimeController {
 		// 추가정보 저장=> 1.글번호 2.해당 글에 지원한 지원자
 		for (int i = 0; i < list.size(); i++) {
 			DaetaDTO dto = list.get(i);
-			dto.setList_num(Integer.parseInt(dto.getD_num().substring(1,10))); // 글번호
+			dto.setList_num(Integer.parseInt(dto.getD_num())); // 글번호
 			dto.setCnt_apply(parttimeService.getDaetaCnt_apply(dto.getD_num())); // 지원자수
 			List<String> picked = parttimeService.getPicked(dto.getD_num());
 			if(!picked.isEmpty()) dto.setD_pick(picked.get(0)); // 채용된 사람 회원번호
@@ -1295,7 +1295,7 @@ public class ParttimeController {
 		// 추가정보 저장=> 1.글번호 2.해당 글에 지원한 지원자
 		for (int i = 0; i < plist.size(); i++) {
 			ParttimeDTO dto = (ParttimeDTO) plist.get(i);
-			dto.setList_num(Integer.parseInt(dto.getP_num().substring(1,10))); // 글번호
+			dto.setList_num(Integer.parseInt(dto.getP_num())); // 글번호
 			dto.setCnt_apply(parttimeService.getParttimeCnt_apply(dto.getP_num())); // 지원자수
 			if (dto.getM_id().equals("admin02")) {
 				dto.setM_name("관리자");
@@ -1319,7 +1319,7 @@ public class ParttimeController {
 		// 추가정보 저장=> 1.글번호 2.해당 글에 지원한 지원자
 		for (int i = 0; i < dlist.size(); i++) {
 			DaetaDTO dto = (DaetaDTO) dlist.get(i);
-			dto.setList_num(Integer.parseInt(dto.getD_num().substring(1,10))); // 글번호
+			dto.setList_num(Integer.parseInt(dto.getD_num())); // 글번호
 			dto.setCnt_apply(parttimeService.getDaetaCnt_apply(dto.getD_num())); // 지원자수
 			if (dto.getM_id().equals("admin02")) {
 				dto.setM_name("관리자");
@@ -1344,7 +1344,7 @@ public class ParttimeController {
 		for(int i=0; i<applyList.size();i++){
 			P_ApplyDTO apply = (P_ApplyDTO) applyList.get(i); 
 			ParttimeDTO dto = parttimeService.getParttime(apply.getP_num()); //내가 지원한 글의 정보
-			dto.setList_num(Integer.parseInt(dto.getP_num().substring(1,10))); // 글번호 설정
+			dto.setList_num(Integer.parseInt(dto.getP_num())); // 글번호 설정
 			dto.setCnt_apply(parttimeService.getParttimeCnt_apply(dto.getP_num())); // 지원자수
 			dto.setM_name(parttimeService.getMember(dto.getM_id()).getM_name());// 작성자의 회원번호로 검색하여 지원자 이름을 받아온다.
 			
@@ -1375,7 +1375,7 @@ public class ParttimeController {
 		for(int i=0; i<applyList.size();i++){
 			D_ApplyDTO apply = (D_ApplyDTO) applyList.get(i); 
 			DaetaDTO dto = parttimeService.getDaeta(apply.getD_num()); //내가 지원한 글의 정보
-			dto.setList_num(Integer.parseInt(dto.getD_num().substring(1,10))); // 글번호 설정
+			dto.setList_num(Integer.parseInt(dto.getD_num())); // 글번호 설정
 			dto.setCnt_apply(parttimeService.getDaetaCnt_apply(dto.getD_num())); // 지원자수
 			dto.setM_name(parttimeService.getMember(dto.getM_id()).getM_name());// 작성자의 회원번호로 검색하여 지원자 이름을 받아온다.
 			
