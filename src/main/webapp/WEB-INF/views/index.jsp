@@ -27,14 +27,11 @@
             background-image:url("resources/dist/img/index_back.jpg");
             background-position: center;
             background-size: 100%;
-            
         }
-        
         header {
             height:60px;
             background:#ffffff;
         }
-        
         footer {
             position:absolute;
             bottom:0;

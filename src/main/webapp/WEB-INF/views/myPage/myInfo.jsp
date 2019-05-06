@@ -102,7 +102,12 @@
 	                   <input type="file" id="imgInp" name="file">
 	                </span>
                     <span class="input-group-addon  bg-gray">
-	                    <img src="/displayFile?fileName=${member.m_photo}" id="local" class="img-rounded" height="120" width="90" alt="User Image"/>
+	                    <c:if test="${'' eq  member.m_photo}">
+                        	<img src="../resources/dist/img/no-user-image.gif" id="local" class="img-rounded" height="120" width="90" alt="User Image"/>
+                        </c:if>
+                        <c:if test="${'' ne  member.m_photo}">
+                        	<img src="/displayFile?fileName=${member.m_photo}" id="local" class="img-rounded" height="120" width="90" alt="User Image"/>
+                        </c:if>
 	                    <input type="hidden" name="m_photo" value="${member.m_photo}">
 	                </span>
                   </div>
@@ -373,5 +378,3 @@
           });
      }
     </script>
-
-

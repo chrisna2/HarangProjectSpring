@@ -37,14 +37,18 @@ public class UtillController {
 		//웹 서버에 저장된 파일 경로 불러오기
 		String uploadPath = request.getSession().getServletContext().getRealPath("/");
 		
-		//System.out.println("displayFile"+fileName);
+		System.out.println("displayFile"+fileName);
+		System.out.println("uploadPath"+uploadPath);
+		
 		InputStream in=null;
+		
 		ResponseEntity<byte[]> entity=null;
 		
 		try{
 			String formatName=fileName.substring(fileName.lastIndexOf(".")+1);
 			MediaType mType= MediaUtil.getMediaType(formatName);
 			HttpHeaders headers=new HttpHeaders();
+			
 			in = new FileInputStream(uploadPath + fileName);
 			
 			if(mType != null){

@@ -130,10 +130,10 @@
                         <li><!-- 메세지 시작 -->
                         <a href="/message/READ?t_num=${msg.t_num}&tab=INBOX">
                           <div class="pull-left">
-                            <c:if test="${null == msg.s_photo || '' eq  msg.s_photo}">
+                            <c:if test="${'' eq  msg.s_photo}">
                           		<img src="../resources/dist/img/no-user-image.gif" class="img-circle" alt="User Image"/>
                           	</c:if>
-                          	<c:if test="${msg.s_photo != null}">
+                          	<c:if test="${'' ne  msg.s_photo}">
                             	<img src="/displayFile?fileName=${msg.s_photo}" class="img-circle" alt="User Image"/>
                             </c:if>
                           </div>

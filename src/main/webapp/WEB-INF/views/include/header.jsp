@@ -129,10 +129,10 @@
                         <li><!-- 메세지 시작 -->
                         <a href="/message/READ?t_num=${msg.t_num}&tab=INBOX">
                           <div class="pull-left">
-                          	<c:if test="${null == msg.s_photo || '' eq  msg.s_photo}">
+                          	<c:if test="${'' eq  msg.s_photo}">
                           		<img src="../resources/dist/img/no-user-image.gif" class="img-circle" alt="User Image"/>
                           	</c:if>
-                          	<c:if test="${msg.s_photo != null}">
+                          	<c:if test="${'' ne  msg.s_photo}">
                             	<img src="/displayFile?fileName=${msg.s_photo}" class="img-circle" alt="User Image"/>
                             </c:if>
                           </div>
@@ -149,17 +149,26 @@
                   <li class="footer"><a href="/message/INBOX">모든 메세지 보기</a></li>
                 </ul>
               </li>
-             
               <!--개 인 정 보 요약 형태 -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="/displayFile?fileName=${member.m_photo}" class="user-image" alt="User Image"/>
+                  <c:if test="${'' eq member.m_photo}">
+                  	<img src="../resources/dist/img/no-user-image.gif" class="user-image" alt="User Image"/>
+                  </c:if>
+                  <c:if test="${'' ne member.m_photo}">
+                  	<img src="/displayFile?fileName=${member.m_photo}" class="user-image" alt="User Image"/>
+                  </c:if>
                   <span class="hidden-xs">${member.m_name } -  ${member.m_dept }</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- 회원 사진 -->
                   <li class="user-header">
-                    <img src="/displayFile?fileName=${member.m_photo}" class="img-circle" alt="User Image" />
+					<c:if test="${'' eq member.m_photo}">
+                    	<img src="../resources/dist/img/no-user-image.gif" class="img-circle" alt="User Image"/>
+                    </c:if>
+                    <c:if test="${'' ne member.m_photo}">
+                    	<img src="/displayFile?fileName=${member.m_photo}" class="img-circle" alt="User Image" />
+                    </c:if>
                     <p>
                         ${member.m_name } - ${member.m_dept }
                       <small>Member since ${member.m_regdate }</small>

@@ -116,12 +116,10 @@ public class UploadBean {
 		
 		ImageIO.write(destImg, formatName.toUpperCase(), newFile);
 		
-		
 		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar,'/');
 		
 		
 	}
-	
 	//[이미지x] 이미지가 아닌 파일을 문자로 치환
 	private static String makeIcon(String uploadPath, String path, String fileName){
 		
@@ -129,10 +127,6 @@ public class UploadBean {
 		
 		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
-	
-	
-	
-	
 	
 	
 }
