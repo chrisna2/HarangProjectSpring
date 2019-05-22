@@ -9,12 +9,6 @@
      <title>하랑대학교|학생 메인</title>
      <style>
       #timetable{height:100px}
-      #img {
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
-    } 
      </style>
 </head>
 	  <!-- 메인 페이지 구역 , 즉 작업 구역 -->
@@ -30,22 +24,19 @@
         </section>
 <!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
         <section class="content">
-          <!-- 윗부분 : carousel 배너 -->
-          <div class="row">
-           <div class="col-md-9">
-	           	<div class="slider1">
-					<div class="slide"><img id="img" src="../resources/dist/img/harang1.jpg"></div>
-					<div class="slide"><img id="img" src="../resources/dist/img/harang2.jpg"></div>
-					<div class="slide"><img id="img" src="../resources/dist/img/univ.jpg"></div>
-				 </div>
-           </div><!-- /.col -->
-          </div><!-- /.row -->
           
           <!-- 아랫부분 : summary와 내 시간표 --> 
           <div class="row">
         	<div class="col-md-9">
         	
         		<div class="col-md-6">
+        		
+        		 <!-- 윗부분 : carousel 배너 -->
+        		 <div class="slider1">
+					<div class="slide"><img src="../resources/dist/img/harang1.jpg"></div>
+					<div class="slide"><img src="../resources/dist/img/harang2.jpg"></div>
+				 </div>
+				 
         		<!-- 최신알바정보 -->	
         		<div class="nav-tabs-custom">
 		            <ul class="nav nav-tabs pull-right">

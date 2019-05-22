@@ -466,15 +466,155 @@ public class MyPageController {
 		
 		return mav;
 	}
+
 	
+/***************************************************************************************************************************************************/
+	
+	/**
+	 * 시간표 처음 접근 할때 하는 메소드 시간표 버전2
+	 * @param request
+	 * @param cri
+	 * @return
+	 * @since 2019-05-22
+	 */
+	@RequestMapping(value="/timeTable2",method = RequestMethod.GET)
+	public ModelAndView timeTable2Get(HttpServletRequest request, SearchCriteria cri){
+		
+		LoginBean login = new LoginBean();
+		MemberDTO member = login.getLoginInfo(request);
+		
+		int tt_grade = 0;
+		int tt_term = 0;
+		
+		System.out.println("★"+cri.getTt_grade() +"/" + cri.getTt_term());
+
+		if(0 == cri.getTt_grade() || 0 == cri.getTt_term()) {
+			
+			tt_grade = member.getM_grade();
+			
+			Calendar cal = Calendar.getInstance();
+			
+			int nowMonth = cal.get(Calendar.MONTH) + 1; 
+			
+				if(nowMonth>=3&&nowMonth<9){
+					tt_term = 1;
+				}
+				else if((nowMonth>=1&&nowMonth<3)||(nowMonth>=9&&nowMonth<=12)){
+					tt_term = 2;
+				}
+		}
+		else {
+			tt_grade = cri.getTt_grade();
+			tt_term = cri.getTt_term();
+		}
+		
+		cri.setM_id(member.getM_id());
+		cri.setTt_grade(tt_grade);
+		cri.setTt_term(tt_term);
+		
+		/////////////////////////////////////////////////////////////////////////
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.lessonCount(cri));
+		
+		mav = new ModelAndView("myPage/timeTable2");
+		
+			mav.addObject("tt_grade", tt_grade);
+			mav.addObject("tt_term", tt_term);
+			mav.addObject("ttlist", myPageService.timeTalbeLesson(cri));
+			mav.addObject("ttname", tt_grade+"학년 "+tt_term+"학기");
+			mav.addObject("llist", myPageService.lessonList(cri));
+			mav.addObject("pageMaker", pageMaker);
+		
+		return mav;
+	}	
+	
+	/**
+	 * 시간표 검색 및 페이징
+	 * @param request
+	 * @param cri
+	 * @return
+	 */
+	@RequestMapping(value="/timeTable2",method = RequestMethod.POST)
+	public ModelAndView timeTable2Post(HttpServletRequest request, SearchCriteria cri){
+		
+		LoginBean login = new LoginBean();
+		MemberDTO member = login.getLoginInfo(request);
+		
+		int tt_grade = cri.getTt_grade();
+		int tt_term = cri.getTt_term();
+		cri.setM_id(member.getM_id());
+		
+		//String check = request.getParameter("check");
+		
+		/////////////////////////////////////////////////////////////////////////
+		
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.lessonCount(cri));
+		
+		mav = new ModelAndView("myPage/timeTable2");
+		
+			mav.addObject("tt_grade", tt_grade);
+			mav.addObject("tt_term", tt_term);
+			mav.addObject("ttlist", myPageService.timeTalbeLesson(cri));
+			mav.addObject("ttname", tt_grade+"학년 "+tt_term+"학기");
+			mav.addObject("llist", myPageService.lessonList(cri));
+			mav.addObject("pageMaker", pageMaker);
+			
+		
+		return mav;
+	}	
+	
+	
+	
+	/**
+	 * 시간표 데이터 초기화 AJAX
+	 * @author 나현기
+	 * @since 2019-05-22
+	 */
+	@RequestMapping(value="/refreshLesson")
+	public @ResponseBody Map<String, Object> refreshLesson(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+		
+		SearchCriteria cri = new SearchCriteria();
+		
+		cri.setM_id(request.getParameter("m_id"));
+		cri.setTt_grade(Integer.parseInt(request.getParameter("tt_grade")));
+		cri.setTt_term(Integer.parseInt(request.getParameter("tt_term")));
+		cri.setKeyfield(request.getParameter("keyfield"));
+		cri.setKeyword(request.getParameter("keyword"));
+		cri.setPage(Integer.parseInt(request.getParameter("page")));
+
+		pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(myPageService.lessonCount(cri));
+		
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		modelMap.put("lessonList", myPageService.lessonList(cri));
+		modelMap.put("timetableList", myPageService.timeTalbeLesson(cri));
+		modelMap.put("startPage", pageMaker.getStartPage());
+		modelMap.put("endPage", pageMaker.getEndPage());
+		modelMap.put("prev", pageMaker.isPrev());
+		modelMap.put("next", pageMaker.isNext());
+		modelMap.put("prevUrl", pageMaker.makeQuery(pageMaker.getStartPage()-1));
+		modelMap.put("nextUrl", pageMaker.makeQuery(pageMaker.getEndPage()+1));
+		modelMap.put("criPage", pageMaker.getCri().getPage());
+		
+		return modelMap;
+		
+	}
+	
+/***************************************************************************************************************************************************/
 	
 	@RequestMapping(value="/aLessonList",method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> aLessonListJson(@RequestParam(value = "page", required=false) int page,
-													    	@RequestParam(value = "rows", required=false) int rows,
-													    	@RequestParam(value = "sidx", required=false) String sidx,
-													    	@RequestParam(value = "sord", required=false) String sord,
-													    	@RequestParam(value = "searchField", required=false) String searchField,
-													        @RequestParam(value = "searchString", required=false) String searchString) throws JsonProcessingException{
+													    	 @RequestParam(value = "rows", required=false) int rows,
+													    	 @RequestParam(value = "sidx", required=false) String sidx,
+													    	 @RequestParam(value = "sord", required=false) String sord,
+													    	 @RequestParam(value = "searchField", required=false) String searchField,
+													         @RequestParam(value = "searchString", required=false) String searchString) throws JsonProcessingException{
 															//무조건 이 방식대로 가야 함...써글. jqgrid 내장 함수 명임
 		
 		//SearchCriteria 사용 가능!!!

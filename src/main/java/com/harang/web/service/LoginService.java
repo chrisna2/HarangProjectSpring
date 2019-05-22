@@ -1,7 +1,5 @@
 package com.harang.web.service;
 
-import org.springframework.stereotype.Service;
-
 import com.harang.web.domain.MemberDTO;
 
 public interface LoginService {

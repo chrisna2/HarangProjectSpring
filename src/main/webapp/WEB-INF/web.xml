@@ -31,11 +31,8 @@ version="2.5">
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
-    
     	/WEB-INF/spring/root-context.xml
-    	
     	/WEB-INF/spring/security/security-context.xml
-    	
     </param-value>
   </context-param>
   
@@ -43,11 +40,10 @@ version="2.5">
   	<listener>
     	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   	</listener>
+  	
   <!-- 세션의 상황을 바로 바로 알수 있게 지정 -->
 	<listener>
-		<listener-class>
-			org.springframework.security.web.session.HttpSessionEventPublisher
-		</listener-class>
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
 	</listener>
   
   
@@ -64,4 +60,5 @@ version="2.5">
     <servlet-name>appServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
 </web-app>

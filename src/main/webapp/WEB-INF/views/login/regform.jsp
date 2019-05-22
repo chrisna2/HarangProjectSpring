@@ -146,56 +146,36 @@
         </textarea>
         </td>
     </tr>
-    <tr>
-        <td class="bg-gray"></td>
-    </tr>
     <tr align="center">
-        <td><br>전체 약관에 동의 합니다.&nbsp;<input type="checkbox" name="terms_check" required="required"></td>
+        <td>전체 약관에 동의 합니다.&nbsp;<input type="checkbox" name="terms_check" required="required"></td>
     </tr>
     <tr>
         <td class="bg-gray"></td>
     </tr>
-</table>
+	</table>
                   <div class="input-group">
                     <span class="input-group-addon bg-gray"><i class="fa fa-picture-o"></i> 개인 이미지</span>
                     <span class="input-group-addon">
                        <input type="file" id="imgInp" name="file" required="required">
                     </span>
                     <span class="input-group-addon bg-gray">
-                        <img src="#" id="local" class="img-rounded" height="120" width="90" alt="User Image"/>
+                        <img src="../resources/dist/img/no-user-image.gif" id="local" class="img-rounded" height="120" width="90" alt="User Image"/>
                     </span>
                   </div>
+                  
                   <br>
-                  <div class="input-group">
-                    <span class="input-group-addon bg-gray"><i class="fa fa-smile-o"></i> 이름</span>
-                    <input type="text" name="m_name" class="form-control" value="${newbee.m_name}" readonly="readonly">
-                  </div>
-                  <br>
-                  <div class="input-group">
-                    <span class="input-group-addon bg-gray"><i class="fa fa-sort-numeric-desc"></i> 학번</span>
-                    <input type="text" name="m_id" class="form-control" value="${newbee.m_id}" readonly="readonly">
-                  </div>
-                  <br>
+                  
                   <div class="input-group">
                     <span class="input-group-addon bg-gray"><i class="fa  fa-unlock-alt"></i> 비밀번호 등록</span>
                     <input type="password" name="m_pw" class="form-control" required="required">
                   </div>
-                  <br>
                   <div class="input-group">
                     <span class="input-group-addon bg-gray"><i class="fa  fa-unlock-alt"></i> 비밀번호 확인</span>
                     <input type="password" name="m_pw2" class="form-control" required="required">
                   </div>
+                  
                   <br>
-                  <div class="input-group">
-                    <span class="input-group-addon bg-gray"><i class="fa fa-sitemap"></i> 학과</span>
-                    <input type="text" name="m_dept" class="form-control" value="${newbee.m_dept}" readonly="readonly">
-                  </div>
-                  <br>
-                  <div class="input-group">
-                    <span class="input-group-addon bg-gray"><i class="fa fa-star"></i> 생년월일</span>
-                    <input type="text" name="m_birth" class="form-control" value="${newbee.m_birth}" readonly="readonly">
-                  </div>
-                  <br>
+                  
                   <div class="input-group">
                     <span class="input-group-addon bg-gray"><i class="fa fa-envelope"></i> 이메일</span>
                     <input type="text" name="m_mail1" class="form-control" required="required">
@@ -218,7 +198,6 @@
                     </select>
                     <input type="hidden" name="m_mail">
                   </div>
-                  <br>
                   <div class="input-group">
                     <span class="input-group-addon bg-gray"><i class="fa fa-phone-square"></i> 연락처</span>
                     <select class="form-control" name="m_tel1" required="required">
@@ -235,26 +214,45 @@
                     <input type="text" name="m_tel3" class="form-control" required="required" onkeydown="return showKeyCode(event)">
                     <input type="hidden" name="m_tel">
                   </div>
+                  
                   <br>
+                  
                   <div class="input-group">
                     <span class="input-group-addon bg-gray"><i class="fa fa-location-arrow"></i> 우편번호</span>
-                    <input type="text" name="m_addr1" class="form-control" required="required" readonly="readonly">
+                    <input type="text" name="m_addr1" class="form-control" required="required">
                     <span class="input-group-btn">
                       <button class="btn btn-warning btn-flat" type="button" id="btnPopup">우편 번호 검색</button>
                     </span>
                   </div>
-                  <br>
                   <div class="input-group">
                     <span class="input-group-addon bg-gray"><i class="fa fa-location-arrow"></i> 우편번호 주소</span>
-                    <input type="text" name="m_addr2" class="form-control" required="required" readonly="readonly">
+                    <input type="text" name="m_addr2" class="form-control" required="required">
                   </div>
-                  <br>
                   <div class="input-group">
                     <span class="input-group-addon bg-gray"><i class="fa fa-location-arrow"></i> 상세 주소</span>
                     <input type="text" name="m_addr3" class="form-control" required="required">
                   </div>
                   <input type="hidden" name="m_addr">
-                  <br>
+                  
+                  <hr>
+                  
+                   <div class="input-group">
+                    <span class="input-group-addon bg-gray"><i class="fa fa-smile-o"></i> 이름</span>
+                    <input type="text" name="m_name" class="form-control" value="${newbee.m_name}" readonly="readonly">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon bg-gray"><i class="fa fa-sort-numeric-desc"></i> 학번</span>
+                    <input type="text" name="m_id" class="form-control" value="${newbee.m_id}" readonly="readonly">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon bg-gray"><i class="fa fa-sitemap"></i> 학과</span>
+                    <input type="text" name="m_dept" class="form-control" value="${newbee.m_dept}" readonly="readonly">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon bg-gray"><i class="fa fa-star"></i> 생년월일</span>
+                    <input type="text" name="m_birth" class="form-control" value="${newbee.m_birth}" readonly="readonly">
+                  </div>
+                  
                 </div><!-- /.box-body -->
                  <div class="box-footer" align="right">
                     <input type="button" class="btn" value="뒤로가기">

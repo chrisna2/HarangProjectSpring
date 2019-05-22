@@ -5,23 +5,61 @@
   <mapper namespace="com.harang.mapper.login-mapper">
   
   	<select id="login" resultType="Member" parameterType="Member">
-  		select m_id, m_name, m_dept, m_mail, m_tel, m_addr, m_point, m_photo, m_fee, m_grade, m_birth, m_regdate 
-  		from tbl_member where m_id = #{m_id}
+  		select 
+  			m_id, 
+  			m_name, 
+  			m_dept, 
+  			m_mail,
+  			m_tel, 
+  			m_addr, 
+  			m_point,
+  			m_photo, 
+  			m_fee, 
+  			m_grade, 
+  			m_birth, 
+  			m_regdate 
+  		from 
+  			tbl_member 
+  		where m_id = #{m_id}
   	</select>
   	
   	<select id="refresh" resultType="Member" parameterType="String">
-  		select m_id, m_name, m_dept, m_mail, m_tel, m_addr, m_point, m_photo, m_fee, m_grade, m_birth, m_regdate 
-  		from tbl_member where m_id = #{m_id} 
+  		select 
+  			m_id, 
+  			m_name, 
+  			m_dept, 
+  			m_mail, 
+  			m_tel, 
+  			m_addr, 
+  			m_point, 
+  			m_photo, 
+  			m_fee, 
+  			m_grade, 
+  			m_birth, 
+  			m_regdate 
+  		from 
+  			tbl_member 
+  		where m_id = #{m_id} 
   	</select>
   	
   	<update id="register" parameterType="Member">
-  		UPDATE tbl_member SET m_pw = #{m_pw} , m_mail = #{m_mail}, 
-  		m_addr = #{m_addr}, m_tel = #{m_tel}, m_photo = #{m_photo} 
+  		UPDATE 
+  			tbl_member 
+  		SET 
+  			m_pw = #{m_pw}, 
+  			m_mail = #{m_mail}, 
+  			m_addr = #{m_addr}, 
+  			m_tel = #{m_tel}, 
+  			m_photo = #{m_photo} 
   		WHERE m_id = #{m_id} 
   	</update>
   	
   	<update id="toMember" parameterType="String">
-  		update tbl_authorities set authority = 'ROLE_MEMBER' where m_id = #{m_id}
+  		update 
+  			tbl_authorities 
+  		set 
+  			authority = 'ROLE_MEMBER' 
+  		where m_id = #{m_id}
   	</update>
   	
   	

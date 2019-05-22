@@ -1,24 +1,19 @@
 package com.harang.web.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.swing.plaf.synth.SynthSpinnerUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,9 +30,7 @@ import com.harang.web.service.MessageService;
 import com.harang.web.service.MyPageService;
 import com.harang.web.service.ParttimeService;
 import com.harang.web.utill.LoginBean;
-import com.harang.web.utill.RandomFileRenamePolicy;
 import com.harang.web.utill.UploadBean;
-import com.oreilly.servlet.MultipartRequest;
 
 @Controller
 @RequestMapping("/login")
@@ -173,6 +166,8 @@ public class LoginController {
 		//파일업로드는 이제 이렇게 간단하게 가능하다.
 		//웹서버의 고정 경로 찾기 : 실제 도메인 관련
 		uploadPath = request.getSession().getServletContext().getRealPath("/");
+		//현재 웹서버 저장 경로 : C:\NahyunKee\FrameWorkspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\HarangProjectSpring\
+
 		//실제 파일 저장 메소드 호춯!
 		String uploadedFileName = UploadBean.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
 		
@@ -181,7 +176,6 @@ public class LoginController {
 		loginService.register(member);
 			
 		System.out.println(uploadedFileName);
-		//현재 웹서버 저장 경로 : C:\NahyunKee\FrameWorkspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\HarangProjectSpring\
 		
 		ModelAndView mav = new ModelAndView("/login/loginPost");
 		

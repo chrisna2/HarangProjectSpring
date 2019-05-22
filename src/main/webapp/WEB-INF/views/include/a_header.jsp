@@ -32,8 +32,33 @@
     <link href="../resources/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="../resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
-     <!-- DATA TABLES -->
+    <!-- DATA TABLES -->
     <link href="../resources/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+    <!-- 아이콘 설정 -->
+    <link rel="apple-touch-icon" sizes="57x57" href="../resources/dist/ico/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="../resources/dist/ico/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="../resources/dist/ico/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="../resources/dist/ico/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="../resources/dist/ico/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="../resources/dist/ico/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="../resources/dist/ico/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="../resources/dist/ico/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="../resources/dist/ico/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="../resources/dist/ico/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../resources/dist/ico/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="../resources/dist/ico/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../resources/dist/ico/favicon-16x16.png">
+	<link rel="manifest" href="resources/dist/ico/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="../resources/dist/ico/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script>
+	  (adsbygoogle = window.adsbygoogle || []).push({
+	    google_ad_client: "ca-pub-3013019925957573",
+	    enable_page_level_ads: true
+	  });
+	</script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

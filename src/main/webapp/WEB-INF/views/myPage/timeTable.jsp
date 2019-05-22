@@ -10,7 +10,7 @@
      <style type="text/css">
         td{
             text-align:center;
-            height:80px;
+            height:77px;
         }
         th{
             text-align:center;
@@ -116,7 +116,7 @@
                   </thead>
                   <tbody>
                     <tr id="t1">
-                      <td class="bg-gray"><br><b>1교시</b><br>[9시 ~ 10시]</td>
+                      <td class="bg-gray"><b>1교시</b>
                       <td id="d1"></td>
                       <td id="d2"></td>
                       <td id="d3"></td>
@@ -124,7 +124,7 @@
                       <td id="d5"></td>
                     </tr>
                     <tr id="t2">
-                     <td class="bg-gray"><br><b>2교시</b><br>[10시 ~ 11시]</td>
+                     <td class="bg-gray"><b>2교시</b>
                       <td id="d1"></td>
                       <td id="d2"></td>
                       <td id="d3"></td>
@@ -132,7 +132,7 @@
                       <td id="d5"></td>
                     </tr>
                     <tr id="t3">
-                       <td class="bg-gray"><br><b>3교시</b><br>[11시 ~ 12시]</td>
+                       <td class="bg-gray"><b>3교시</b>
                       <td id="d1"></td>
                       <td id="d2"></td>
                       <td id="d3"></td>
@@ -140,7 +140,7 @@
                       <td id="d5"></td>
                     </tr>
                     <tr id="t4">
-                       <td class="bg-gray"><br><b>4교시</b><br>[12시 ~ 13시]</td>
+                       <td class="bg-gray"><b>4교시</b>
                       <td id="d1"></td>
                       <td id="d2"></td>
                       <td id="d3"></td>
@@ -148,7 +148,7 @@
                       <td id="d5"></td>
                     </tr>
                     <tr id="t5">
-                       <td class="bg-gray"><br><b>5교시</b><br>[13시 ~ 14시]</td>
+                       <td class="bg-gray"><b>5교시</b>
                       <td id="d1"></td>
                       <td id="d2"></td>
                       <td id="d3"></td>
@@ -156,7 +156,7 @@
                       <td id="d5"></td>
                     </tr>
                     <tr id="t6">
-                      <td class="bg-gray"><br><b>6교시</b><br>[14시 ~ 15시]</td>
+                      <td class="bg-gray"><b>6교시</b>
                       <td id="d1"></td>
                       <td id="d2"></td>
                       <td id="d3"></td>
@@ -164,7 +164,7 @@
                       <td id="d5"></td>
                     </tr>
                     <tr id="t7">
-                      <td class="bg-gray"><br><b>7교시</b><br>[15시 ~ 16시]</td>
+                      <td class="bg-gray"><b>7교시</b>
                       <td id="d1"></td>
                       <td id="d2"></td>
                       <td id="d3"></td>
@@ -172,7 +172,7 @@
                       <td id="d5"></td>
                     </tr>
                     <tr id="t8">
-                       <td class="bg-gray"><br><b>8교시</b><br>[16시 ~ 17시]</td>
+                       <td class="bg-gray"><b>8교시</b>
                       <td id="d1"></td>
                       <td id="d2"></td>
                       <td id="d3"></td>
@@ -180,7 +180,7 @@
                       <td id="d5"></td>
                     </tr>
                     <tr id="t9">
-                       <td class="bg-gray"><br><b>9교시</b><br>[17시 ~ 18시]</td>
+                       <td class="bg-gray"><b>9교시</b>
                       <td id="d1"></td>
                       <td id="d2"></td>
                       <td id="d3"></td>
@@ -243,7 +243,16 @@
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
               
-	<!-- 시험용. -->
+			<!--
+				Ajax는 기본적으로 비동기식호출이기 때문에 서버에 요청을 하고 그 결과값을 받더라도 화면의 전환이 일어나지 않는다. 
+				따라서 결과값을 받은 후, 데이터의 갱신 등을 따로 해줘야한다. 이것은 submit을 할때와 다른 점으로, 
+				화면 갱신이 일어나지 않기 때문에 JSTL등을 이용하여 목록 등을 만들수가 없다. 
+				
+				출처: https://addio3305.tistory.com/91 [흔한 개발자의 개발 노트]
+				
+				따라서 현재 화면을 비동기 AJAX로 전환 하려면 JSTL및 EL을 제거해야 한다...
+				
+			-->
             <!-- 리스트 사용시  -->
              <div class="box">
                 <div class="box-header">
@@ -348,14 +357,14 @@
         </section><!-- /. 작업 공간 끝! -->
 <!------------------------------------------------------------------------------------------------------------------->        
       </div><!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
-<form name="reset" method="post" action="/myPage/timeTable">
-    <input type="hidden" name='check' value="findtt">
-    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
-    <input type="hidden" name="tt_term" value="${tt_term}"/>
-    <input type="hidden" name="keyword" value="${keyword}"/>
-    <input type="hidden" name="keyfield" value="${keyfield}"/>
-</form> 
-<!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
+		<form name="reset" method="post" action="/myPage/timeTable">
+		    <input type="hidden" name='check' value="findtt">
+		    <input type="hidden" name="tt_grade" value="${tt_grade}"/>
+		    <input type="hidden" name="tt_term" value="${tt_term}"/>
+		    <input type="hidden" name="keyword" value="${keyword}"/>
+		    <input type="hidden" name="keyfield" value="${keyfield}"/>
+		</form> 
+<!-- 푸터(footer) 삽입 [지우지 마세여] --------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
 <script>
 /*

@@ -8,6 +8,14 @@
 <!-- 페이지 헤드 라인 : 제목 -->
 <head>
 <title>스펙 업!</title>
+
+<style type="text/css">
+.table-striped>tbody>tr:nth-of-type(odd):hover {
+	background-color: white;
+	cursor:pointer;
+}
+</style>
+
 </head>
 <!-- 메인 페이지 구역 , 즉 작업 구역 -->
 <div class="content-wrapper">
@@ -29,223 +37,17 @@
 		<div class="row">
 			<!-- 너비 사이즈 수정  : col-->
 			<div class="col-md-9">
-
-					<!-- 도전 등록 -->
-					<div class="box box-black" id="challenge-box" hidden="hidden">
-						<div class="box-header">
-							<h3 class="box-title">스펙 등록</h3>
-							<div class="box-tools pull-right">
-								<button class="btn btn-box-tool" data-widget="collapse">
-									<i class="fa fa-minus"></i>
-								</button>
-								<button class="btn btn-box-tool" data-widget="remove">
-									<i class="fa fa-times"></i>
-								</button>
-							</div>
-						</div>
-						<!-- form 시작 -->
-						<form role="form2" name="challenge" action="/myPage/specUpProc" onsubmit="return checkform()" method="post" enctype="multipart/form-data">
-							<input type="hidden" name="m_id" value="${member.m_id}">
- 							<div class="box-body">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-bolt"></i>
-										도전 이름</span> <input type="text" name="c_name" class="form-control"
-										value="" readonly="readonly">
-								</div>
-								<br>
-								<div class="input-group">
-									<span class="input-group-addon">
-									   <i class="fa fa-sort-numeric-desc"></i> 도전 번호
-									</span> 
-									   <input type="text" name="c_num" class="form-control" value="" readonly="readonly">
-								</div>
-								<br>
-								<div class="input-group">
-									<span class="input-group-addon">
-									   <i class="fa fa-money"></i>
-										도전 보상
-								    </span> 
-								    <input type="text" name="c_point" class="form-control" value="" readonly="readonly">
-								    <span class="input-group-addon">포인트</span>
-								</div>
-								<br>
-								<div class="input-group">
-									<span class="input-group-addon"><i
-										class="fa fa-exclamation-circle"></i> 자격증 기관</span> 
-										<input type="text" name="c_agency" class="form-control" value="" readonly="readonly">
-								</div>
-								<br>
-								<div class="input-group">
-									<span class="input-group-addon">
-									   <i class="fa fa-file-text"></i> 자격증명서
-								    </span> 
-								    <span class="input-group-addon"> 
-								        <input type="file" id="imgInp" name="file" required="required">
-									</span> 
-									<span class="input-group-addon bg-gray"> 
-									   	<img src="#" id="local" class="img-responsive" alt="User Image" />
-									   <input type="hidden" id="cm_image" name="cm_image" value="">
-									</span>
-								</div>
-								<br>
-							</div>
-							<!-- /.box-body -->
-							<div class="box-footer" align="right">
-							    <input type="hidden" name="check">
-								<input type="button" id="challenge-close" class="btn" value="닫기"> 
-								<input type="submit" class="btn btn-primary" value="스펙 등록">
-							</div>
-						</form>
-					</div>
-				<!-- /.box -->
-
-
-				<!-- 도전 확인  -->
-				<div class="box box-black" id="check-box" hidden="hidden">
-					<div class="box-header">
-						<h3 class="box-title">도전 성공 목록</h3>
-						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
-							<button class="btn btn-box-tool" data-widget="remove">
-								<i class="fa fa-times"></i>
-							</button>
-						</div>
-					</div>
-					<!-- form 시작 -->
-					<form role="form" name="checkIt">
-						<div class="box-body">
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                    <i class="fa fa-bolt"></i> 도전 이름</span>
-                                    <input type="text" name="c_name" class="form-control" value="" readonly="readonly">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                       <i class="fa fa-sort-numeric-desc"></i> 도전 번호
-                                    </span> 
-                                       <input type="text" name="c_num" class="form-control" value="" readonly="readonly">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                       <i class="fa fa-money"></i>
-                                                                                 도전 보상
-                                    </span> 
-                                    <input type="text" name="c_point" class="form-control" value="" readonly="readonly">
-                                    <span class="input-group-addon">포인트</span>
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i
-                                        class="fa fa-exclamation-circle"></i> 자격증 기관</span> 
-                                        <input type="text" name="c_agency" class="form-control" value="" readonly="readonly">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-exclamation-circle"></i> 성공일</span> 
-                                        <input type="text" name="cm_completedate" class="form-control" value="" readonly="readonly">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                       <i class="fa fa-file-text"></i> 자격증명서
-                                    </span> 
-                                    <span class="input-group-addon bg-gray"> 
-                                       	[그림을 클릭을 하면 원본 이미지를 확인할 수 있습니다.]
-                                       	<img id="checkimg" src="" class="img-responsive" alt="User Image" /><br>
-                                    </span>
-                                </div>
-                                <br>
-                            </div>
-						<!-- /.box-body -->
-
-						<div class="box-footer" align="right">
-							<input type="button" class="btn" id="check-close" value="닫기">
-						</div>
-					</form>
-				</div>
-				<!-- /.box -->
-				
-			<!-- 도전 확인  -->
-                <div class="box box-black" id="wait-box" hidden="hidden">
-                    <div class="box-header">
-                        <h3 class="box-title">도전 심사 중</h3>
-                        <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                            <button class="btn btn-box-tool" data-widget="remove">
-                                <i class="fa fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- form 시작 -->
-                    <form role="form" name="waitIt">
-                        <div class="box-body">
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                    <i class="fa fa-bolt"></i> 도전 이름</span>
-                                    <input type="text" name="c_name" class="form-control" value="" readonly="readonly">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                       <i class="fa fa-sort-numeric-desc"></i> 도전 번호
-                                    </span> 
-                                       <input type="text" name="c_num" class="form-control" value="" readonly="readonly">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                       <i class="fa fa-money"></i>
-                                                                                 도전 보상
-                                    </span> 
-                                    <input type="text" name="c_point" class="form-control" value="" readonly="readonly">
-                                    <span class="input-group-addon">포인트</span>
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i
-                                        class="fa fa-exclamation-circle"></i> 자격증 기관</span> 
-                                        <input type="text" name="c_agency" class="form-control" value="" readonly="readonly">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-exclamation-circle"></i> 자격증 제출일</span> 
-                                        <input type="text" name="cm_regdate" class="form-control" value="" readonly="readonly">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                       <i class="fa fa-file-text"></i> 자격증명서
-                                    </span> 
-                                    <span class="input-group-addon bg-gray"> 
-                                       [그림을 클릭을 하면 원본 이미지를 확인할 수 있습니다.]
-                                       <img id="waitimg" src="" class="img-responsive" alt="User Image" />
-                                    </span>
-                                </div>
-                                <br>
-                            </div>
-                        <!-- /.box-body -->
-
-                        <div class="box-footer" align="right">
-                            <input type="button" id="wait-close" class="btn" value="닫기">
-                        </div>
-                    </form>
-                </div>
                 <!-- /.box -->
-                
-                                <!-- 리스트 사용시  -->
+                <!-- 리스트 사용시  -->
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">하랑 도전 리스트!</h3>
                         <div class="box-tools">
                             <div class="input-group">
-
                                 <form action="/myPage/specUp" name="search" method="post">
+                                	<button class="btn btn-sm btn-default pull-right">
+                                    	<i class="fa fa-search"></i>
+                                    </button>
                                     <input type="text" name="keyword"
                                         class="form-control input-sm pull-right" style="width: 150px;"
                                         placeholder="Search" /> 
@@ -255,11 +57,6 @@
                                         <option value="c_agency" ${keyfield eq 'c_agency' ? 'selected' : null }>자격증 기관</option>
                                         <option value="c_point" ${keyfield eq 'c_point' ? 'selected' : null }>획득 포인트</option>
                                     </select>
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-default">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -277,39 +74,57 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 <c:choose>
                                     <c:when test="${fn:length(aspeclist) eq 0}">
                                     </c:when>
                                     <c:otherwise>
+                                    	<!-- java : aspeclist => jsp : aspec -->
                                         <c:forEach var="aspec" items="${requestScope.aspeclist}">
-                                            <tr>
-                                                <td>${aspec.c_num}</td>
-                                                <td id="name${aspec.c_num}">${aspec.c_name }</td>
-                                                <td id="agency${aspec.c_num}">${aspec.c_agency}</td>
-                                                <td id="point${aspec.c_num}">${aspec.c_point}</td><!-- 숫자가 들어 가야 하는 자리에 P가 있었음... -->
                                                   <c:if test="${aspec.cm_iscomplete eq 'none'}">
-                                                     <td>
-                                                        <input type="hidden" id="image${aspec.c_num}" value="${aspec.cm_image}">
-                                                        <a href="javascript:wait('${aspec.c_num}')"><span class="label label-warning">심사 중</span><br><font class="text-yellow" id="regdate${aspec.c_num}">${aspec.cm_regdate}</font></a>
-                                                     </td>
+                      								<tr class="switchColor" onclick = "wait('${aspec.c_num}')">
+		                                                <td>${aspec.c_num}</td>
+		                                                <td id="name${aspec.c_num}">${aspec.c_name }</td>
+		                                                <td id="agency${aspec.c_num}">${aspec.c_agency}</td>
+		                                                <td id="point${aspec.c_num}">${aspec.c_point}</td><!-- 숫자가 들어 가야 하는 자리에 P가 있었음... -->                                                  	 
+	                                                    <td>
+	                                                    	<input type="hidden" id="image${aspec.c_num}" value="${aspec.cm_image}">
+	                                                        <span class="label label-warning">심사 중</span><br><font class="text-yellow" id="regdate${aspec.c_num}">${aspec.cm_regdate}</font>
+	                                                    </td>
+	                                                </tr>
                                                   </c:if>
                                                   <c:if test="${aspec.cm_iscomplete eq 'complete'}">
-                                                     <td>
-                                                        <input type="hidden" id="image${aspec.c_num}" value="${aspec.cm_image}">
-                                                        <a href="javascript:check('${aspec.c_num}')"><span class="label label-success">도전 완료</span><br><font class="text-green" id="comdate${aspec.c_num}">${aspec.cm_completedate}</font></a>
-                                                     </td>
+                      								<tr class="switchColor" onclick = "check('${aspec.c_num}')">
+		                                                <td>${aspec.c_num}</td>
+		                                                <td id="name${aspec.c_num}">${aspec.c_name }</td>
+		                                                <td id="agency${aspec.c_num}">${aspec.c_agency}</td>
+		                                                <td id="point${aspec.c_num}">${aspec.c_point}</td><!-- 숫자가 들어 가야 하는 자리에 P가 있었음... -->                                                     
+	                                                    <td>
+	                                                       <input type="hidden" id="image${aspec.c_num}" value="${aspec.cm_image}">
+	                                                       <span class="label label-success">도전 완료</span><br><font class="text-green" id="comdate${aspec.c_num}">${aspec.cm_completedate}</font>
+	                                                    </td>
+	                                                <tr>
                                                   </c:if>
                                                   <c:if test="${aspec.cm_iscomplete eq 'return'}">
-                                                     <td>
-                                                        <input type="hidden" id="image${aspec.c_num}" value="${aspec.cm_image}">
-                                                        <a href="javascript:rechallange('${aspec.c_num}')"><span class="label label-waring">지급 거부</span><br><font class="text-warning" id="comdate${aspec.c_num}">${aspec.cm_completedate}</font></a>
-                                                     </td>
+                      								<tr class="switchColor" onclick = "rechallange('${aspec.c_num}')">
+		                                                <td>${aspec.c_num}</td>
+		                                                <td id="name${aspec.c_num}">${aspec.c_name }</td>
+		                                                <td id="agency${aspec.c_num}">${aspec.c_agency}</td>
+		                                                <td id="point${aspec.c_num}">${aspec.c_point}</td><!-- 숫자가 들어 가야 하는 자리에 P가 있었음... -->                                                     
+	                                                    <td>
+	                                                       <input type="hidden" id="image${aspec.c_num}" value="${aspec.cm_image}">
+	                                                       <span class="label label-waring">지급 거부</span><br><font class="text-warning" id="comdate${aspec.c_num}">${aspec.cm_completedate}</font>
+	                                                    </td>
+	                                                <tr>	                                                
                                                   </c:if>
                                                   <c:if test="${aspec.cm_iscomplete eq null}">
-                                                      <td class="text-danger"><a href="javascript:challange('${aspec.c_num}')"><span class="label label-danger">도전 중</span></a></td>
+                      								<tr class="switchColor" onclick = "challange('${aspec.c_num}')">                                                  
+		                                                <td>${aspec.c_num}</td>
+		                                                <td id="name${aspec.c_num}">${aspec.c_name }</td>
+		                                                <td id="agency${aspec.c_num}">${aspec.c_agency}</td>
+		                                                <td id="point${aspec.c_num}">${aspec.c_point}</td><!-- 숫자가 들어 가야 하는 자리에 P가 있었음... -->                                                     
+                                                      	<td class="text-danger"><span class="label label-danger">도전 중</span></td>
+                                                    <tr>
                                                   </c:if>
-                                            </tr>
                                         </c:forEach>
                                     </c:otherwise>
                                 </c:choose>
@@ -347,24 +162,84 @@
 	<!-- /. 작업 공간 끝! -->
 	
 	
-                <!-- 모달 : 뒷 페이지 배경을 눌러도 꺼지지 않음 -->
-                <div class="modal fade" id="theModal" data-backdrop="static">
-                    <div class="modal-dialog" style="width:80%">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3>원본 이미지 확인</h3>
-                            </div>
-                            <div class="modal-body" align="center">
-                            	<img id="bigImage" width="100%">
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary" data-dismiss="modal">닫기</button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- 모달 끝 -->
+	<!-- 입력 및 수정 자세한정보 확인 -->
+	<div class="modal fade" id="mdl_spec_info" data-backdrop="static">
+	    <div class="modal-dialog" style="width:80%">
+	        <div class="modal-content">
+	            <div class="modal-header" align="center">
+	                <h5 class="box-title">스펙 정보</h5>
+	            </div>
+	            <form role="form2" name="challenge" action="/myPage/specUpProc" onsubmit="return checkform()" method="post" enctype="multipart/form-data">
+	            <div class="modal-body">
+					<input type="hidden" name="m_id" value="${member.m_id}">
+	 				<div class="box-body">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-bolt"></i>
+								도전 이름</span> <input type="text" name="c_name" class="form-control"
+								value="" readonly="readonly">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">
+							   <i class="fa fa-sort-numeric-desc"></i> 도전 번호
+							</span> 
+							   <input type="text" name="c_num" class="form-control" value="" readonly="readonly">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">
+							   <i class="fa fa-money"></i>
+								도전 보상
+						    </span> 
+						    <input type="text" name="c_point" class="form-control" value="" readonly="readonly">
+						    <span class="input-group-addon">포인트</span>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"><i
+								class="fa fa-exclamation-circle"></i> 자격증 기관</span> 
+								<input type="text" name="c_agency" class="form-control" value="" readonly="readonly">
+						</div>
+						<hr>
+						<div class="input-group">
+							<span class="input-group-addon">
+							   <i class="fa fa-file-text"></i> 자격증명서
+						    </span> 
+						    <span class="input-group-addon"> 
+						        <input type="file" id="imgInp" name="file" required="required">
+							</span> 
+							<span class="input-group-addon bg-gray"> 
+							   <img src="../resources/dist/img/noImage.jpg" id="local" class="img-responsive" alt="User Image" />
+							   <input type="hidden" id="cm_image" name="cm_image" value="">
+							</span>
+						</div>
+						<br>
+					</div>
+	            </div>
+	            <div class="modal-footer">
+	            	<input type="hidden" name="check">
+					<input type="submit" class="btn btn-primary" id="btn_submit" value="">
+	                <button class="btn btn-primary" data-dismiss="modal">닫기</button>
+	            </div>
+	            </form>	   
+	        </div>
+	    </div>
+	</div>
 	
-	
+	<!-- 큰이미지 확인용 모달창 -->
+	<div class="modal fade" id="mdl_img_big" data-backdrop="static">
+	    <div class="modal-dialog" style="width:80%">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h3>원본 이미지 확인</h3>
+	            </div>
+	            <div class="modal-body" align="center">
+	            	<img id="bigImage" width="100%">
+	            </div>
+	            <div class="modal-footer">
+	                <button class="btn btn-primary" data-dismiss="modal">닫기</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- 모달 끝 -->
 	<!------------------------------------------------------------------------------------------------------------------->
 </div>
 <!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
@@ -411,25 +286,33 @@
     	var front = fileName.substr(0,12);
     	var end = fileName.substr(14);
     	return front + end;
-    	
     }
 
     function challange(num) {
-    	$("#challenge-box").slideUp();
-		$("#check-box").slideUp();
-		$("#wait-box").slideUp();
-		$("#challenge-box").slideDown();
+    	
+    	$("#mdl_spec_info").modal('toggle');
+    	$("#btn_submit").show();
+    	$("#btn_submit").val("스펙등록")
+    	
 		challenge.c_num.value = num;
 		challenge.check.value = "insert";
 	    challenge.c_name.value = $("#name"+num).text();
 	    challenge.c_point.value = $("#point"+num).text();
 	    challenge.c_agency.value = $("#agency"+num).text();
+	    
 	}
+    
     function rechallange(num) {
+    	/* 아래 삽질은 초기화 함수로 대체 함
         $("#challenge-box").slideUp();
         $("#check-box").slideUp();
         $("#wait-box").slideUp();
         $("#challenge-box").slideDown();
+        */
+    	$("#mdl_spec_info").modal('toggle');
+        $("#btn_submit").show();
+    	$("#btn_submit").val("스펙등록")
+        
         challenge.c_num.value = num;
         challenge.check.value = "update";
         challenge.c_name.value = $("#name"+num).text();
@@ -441,15 +324,19 @@
 	    $("#local").attr("src", "/displayFile?fileName="+$image);
 	  	//[image] 큰 이미지 불러 오기
 	    $("#bigImage").attr("src",  "/displayFile?fileName="+getImageLink($image));
+	  	
     }
-	$("#challenge-close").click(function(){
-		$("#challenge-box").slideUp();		
-	});
+	
     function check(num) {
+    	/*
 		$("#check-box").slideUp();
 		$("#challenge-box").slideUp();
 		$("#wait-box").slideUp();
 		$("#check-box").slideDown();
+		*/
+    	$("#mdl_spec_info").modal('toggle');
+    	$("#btn_submit").hide();
+		
 		checkIt.c_num.value = num;
 		checkIt.c_name.value = $("#name"+num).text();
 	    checkIt.c_point.value = $("#point"+num).text();
@@ -459,14 +346,18 @@
 	    $("#checkimg").attr("src", "/displayFile?fileName="+$image); 
 	    $("#bigImage").attr("src",  "/displayFile?fileName="+getImageLink($image));
 	}
-	$("#check-close").click(function(){
-		$("#check-box").slideUp();
-	});
+	
+	
     function wait(num) {
+    	/*
 		$("#wait-box").slideUp();
 		$("#challenge-box").slideUp();
 		$("#check-box").slideUp();
 		$("#wait-box").slideDown();
+		*/
+    	$("#mdl_spec_info").modal('toggle');
+    	$("#btn_submit").hide();
+		
 		waitIt.c_num.value = num;
 		waitIt.c_name.value = $("#name"+num).text();
 	    waitIt.c_point.value = $("#point"+num).text();
@@ -476,22 +367,19 @@
 	    $("#waitimg").attr("src", "/displayFile?fileName="+$image);
 	    $("#bigImage").attr("src",  "/displayFile?fileName="+getImageLink($image));
 	}
-	$("#wait-close").click(function(){
-        $("#wait-box").slideUp();
-    });
-	
+    
 	//[image] 이미지 창을 띄울 모달창 불러오기
     $("#local").click(
 	  function(){
-	  	 $("#theModal").modal('toggle');
+	  	 $("#mdl_img_big").modal('toggle');
 	});
     $("#checkimg").click(
       function(){
-         $("#theModal").modal('toggle');
+         $("#mdl_img_big").modal('toggle');
     });
     $("#waitimg").click(
       function(){
-        $("#theModal").modal('toggle');
+        $("#mdl_img_big").modal('toggle');
     });
 	
 </script>

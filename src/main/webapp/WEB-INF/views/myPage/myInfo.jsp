@@ -111,32 +111,9 @@
 	                    <input type="hidden" name="m_photo" value="${member.m_photo}">
 	                </span>
                   </div>
+                  
                   <br>
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-smile-o"></i> 이름</span>
-                    <input type="text" name="m_name" class="form-control" value="${member.m_name}" readonly="readonly">
-                  </div>
-                  <br>
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-money"></i> 보유 포인트</span>
-                    <input type="text" name="m_point" class="form-control" value="${member.m_point}" readonly="readonly">
-                  </div>
-                  <br>
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-sort-numeric-desc"></i> 학번</span>
-                    <input type="text" name="m_id" class="form-control" value="${member.m_id}" readonly="readonly">
-                  </div>
-                  <br>
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-sitemap"></i> 학과</span>
-                    <input type="text" name="m_dept" class="form-control" value="${member.m_dept}" readonly="readonly">
-                  </div>
-                  <br>
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-star"></i> 생년월일</span>
-                    <input type="text" name="m_birth" class="form-control" value="${member.m_birth}" readonly="readonly">
-                  </div>
-                  <br>
+                  
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-envelope"></i> 이메일</span>
                     <input type="text" name="m_mail1" class="form-control" required="required">
@@ -158,12 +135,6 @@
 	                    <option value='yahoo.com' >yahoo.com</option>
                     </select>
                   </div>
-                  <br>
-                    <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-location-arrow"></i> 종합 이메일</span>
-                    <input type="text" name="m_mail" class="form-control" value="${member.m_mail}" readonly="readonly">
-                  </div>
-                  <br>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-phone-square"></i> 연락처</span>
                     <select class="form-control" name="m_tel1" required="required">
@@ -178,11 +149,6 @@
                     <input type="text" name="m_tel2"  class="form-control" required="required" onkeydown="return showKeyCode(event)">
                     <span class="input-group-addon bg-gray"> - </span>
                     <input type="text" name="m_tel3"  class="form-control" required="required" onkeydown="return showKeyCode(event)">
-                  </div>
-                  <br>
-                    <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-location-arrow"></i> 종합 연락처</span>
-                    <input type="text" name="m_tel" class="form-control" value="${member.m_tel}" readonly="readonly">
                   </div>
                   <br>
                   <div class="input-group">
@@ -200,7 +166,37 @@
                     <span class="input-group-addon"><i class="fa fa-location-arrow"></i> 상세 주소</span>
                     <input type="text" name="m_addr3" class="form-control" required="required">
                   </div>
-                  <br>
+                  
+                  <hr>
+                  
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-smile-o"></i> 이름</span>
+                    <input type="text" name="m_name" class="form-control" value="${member.m_name}" readonly="readonly">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-money"></i> 보유 포인트</span>
+                    <input type="text" name="m_point" class="form-control" value="${member.m_point}" readonly="readonly">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-sort-numeric-desc"></i> 학번</span>
+                    <input type="text" name="m_id" class="form-control" value="${member.m_id}" readonly="readonly">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-sitemap"></i> 학과</span>
+                    <input type="text" name="m_dept" class="form-control" value="${member.m_dept}" readonly="readonly">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-star"></i> 생년월일</span>
+                    <input type="text" name="m_birth" class="form-control" value="${member.m_birth}" readonly="readonly">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-location-arrow"></i> 종합 이메일</span>
+                    <input type="text" name="m_mail" class="form-control" value="${member.m_mail}" readonly="readonly">
+                  </div>
+				  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-location-arrow"></i> 종합 연락처</span>
+                    <input type="text" name="m_tel" class="form-control" value="${member.m_tel}" readonly="readonly">
+                  </div>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-location-arrow"></i>종합 주소</span>
                     <input type="text" name="m_addr" class="form-control" value="${member.m_addr}" readonly="readonly">
