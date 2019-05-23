@@ -48,10 +48,11 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="../resources/dist/ico/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="../resources/dist/ico/favicon-96x96.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="../resources/dist/ico/favicon-16x16.png">
-	<link rel="manifest" href="resources/dist/ico/manifest.json">
+	<link rel="manifest" href="../resources/dist/ico/manifest.json">
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="msapplication-TileImage" content="../resources/dist/ico/ms-icon-144x144.png">
 	<meta name="theme-color" content="#ffffff">
+	<!-- 
 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script>
 	  (adsbygoogle = window.adsbygoogle || []).push({
@@ -59,12 +60,7 @@
 	    enable_page_level_ads: true
 	  });
 	</script>
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
+	-->	
 	<c:if test="${member==null}">
         <script type="text/javascript">
 	        alert("잘못된 접근 방식 입니다. 로그인을 해 주십시요");

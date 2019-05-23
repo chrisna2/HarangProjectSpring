@@ -31,12 +31,6 @@
         	
         		<div class="col-md-6">
         		
-        		 <!-- 윗부분 : carousel 배너 -->
-        		 <div class="slider1">
-					<div class="slide"><img src="../resources/dist/img/harang1.jpg"></div>
-					<div class="slide"><img src="../resources/dist/img/harang2.jpg"></div>
-				 </div>
-				 
         		<!-- 최신알바정보 -->	
         		<div class="nav-tabs-custom">
 		            <ul class="nav nav-tabs pull-right">
@@ -235,15 +229,6 @@
 <!-- bxSlider CSS file -->
 <link href="../resources/bootstrap/js/jquery.bxslider.css" rel="stylesheet" />
 <script>
-$(document).ready(function(){
-  $('.slider1').bxSlider({
-    slideWidth: 800,
-    minSlides: 1,
-    maxSlides: 3,
-    slideMargin: 0
-  });
-});
-
 function fnReadP(p_num){
 	document.getElementById("p_num").value = p_num;
 	document.readP.submit();

@@ -6,7 +6,7 @@
 <!-- 해더  삽입  [지우지마세여]------------------------------------------------------------------------------------------------->
 <!-- 페이지 헤드 라인 : 제목 -->
 <head>
-<title>내 예약 내역(사용자 )</title>
+<title>내 예약 내역</title>
 <style>
 .pagination {
 	display: inline-block;
@@ -23,6 +23,15 @@
 
 		} else if (result == "true") {
 			alert("예약이 취소되었습니다.");
+		}
+		$("#timeline label").remove();
+		for(var i = 0 ; i < 13 ; i++){
+			$("#timeline").append(
+				 "<label class='btn btn-warning' id='l"+i+"' disabled='disabled' style='width:7.6%'>"
+				+"<input type='checkbox'  id='b"+i+"' value='"+(i+8)+"'>"
+				+(i+8)
+				+"</label>"
+			);
 		}
 	}
 
@@ -43,14 +52,8 @@
 		} else {
 			return true;
 		}
-
 	}
 </script>
-
-
-
-
-
 
 </head>
 <!-- 메인 페이지 구역 , 즉 작업 구역 -->
@@ -65,26 +68,32 @@
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
-
-
 	<section class="content">
-
 		<!-- 운동장 테이블 위치 -->
 		<!-- 세로 길이 수정 -->
 		<div class="row">
 			<!-- 너비 사이즈 수정  : col-->
 			<div class="col-md-12">
 				<!-- 리스트 사용시  -->
-				<div class="box">
+				<div class="box box-warning">
 					<div class="box-header">
 						<h3 class="box-title">운동장 예약내역</h3>
 						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
-							<button class="btn btn-box-tool" data-widget="remove">
-								<i class="fa fa-times"></i>
-							</button>
+ 							<div class="input-group">
+                                <form action="/facil/FacilMain" name="pgsearch" method="post">
+                                	<button class="btn btn-sm btn-default pull-right">
+                                    	<i class="fa fa-search"></i>
+                                    </button>
+                                    <input type="text" name="keyword"
+                                        class="form-control input-sm pull-right" style="width: 150px;"
+                                        placeholder="Search" /> 
+                                    <select class="form-control input-sm pull-right" name='keyfield' style="width: 150px;">
+                                       	<option value="pg_type" ${keyfield eq 'pg_type' ? 'selected' : null }>시설명</option>
+										<option value="pg_name" ${keyfield eq 'pg_name' ? 'selected' : null }>호수</option>
+										<option value="pgm_date" ${keyfield eq 'pgm_date' ? 'selected' : null }>예약 날짜</option>
+                                    </select>
+                                </form>
+                            </div>			
 						</div>
 					</div>
 					<!-- /.box-header -->
@@ -98,7 +107,7 @@
 									<th>호수</th>
 									<th>예약날짜</th>
 									<th>예약 포인트</th>
-									<th>선택</th>
+									<th>예약취소</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -110,21 +119,16 @@
 										<td>${p.pg_name}</td>
 										<td>${p.pgm_date}</td>
 										<td>${p.payoutpoint}</td>
-										<td><input type="button" class="btn btn-primary"
-											value="선택"
+										<td><input type="button" class="btn btn-warning"
+											value="취소"
 											onclick="pgSelectDelete('${p.pgm_num}','${p.pg_type}','${p.pg_name}','${p.pgm_date}','${p.payoutpoint}')" />
 										</td>
-
 									</tr>
 								</c:forEach>
-
-
 							</tbody>
 						</table>
 					</div>
 					<!-- /.box-body -->
-
-
 					<div class="box-footer">
 						<!-- 페이징 -->
 						<div class="row" align="center">
@@ -138,39 +142,6 @@
 								<li><a href="#">&raquo;</a></li>
 							</ul>
 						</div>
-
-						<!-- 셀렉트  -->
-
-						<form action="/facil/FacilMain" name="pgsearch" method="post">
-							<div class="row">
-								<div class="input-group">
-									<div class="col-md-3" align="center">
-										<select name="keyfield"
-											class="form-control input-sm pull-left" style="width: 150px;">
-											<option value="pg_type"
-												${keyfield eq 'pg_type' ? 'selected' : null }>시설명</option>
-											<option value="pg_name"
-												${keyfield eq 'pg_name' ? 'selected' : null }>호수</option>
-											<option value="pgm_date"
-												${keyfield eq 'pgm_date' ? 'selected' : null }>예약 날짜</option>
-										</select>
-									</div>
-
-									<div class="col-md-3" align="center">
-										<input type="text" name="keyword"
-											   class="form-control input-sm  pull-left"
-											   style="width: 150px;" 
-											   placeholder="Search" />
-										<div class="input-group-btn  pull-left">
-											<button class="btn btn-sm btn-primary">
-												검색 <i class="fa fa-search"></i>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</form>
-
 					</div>
 				</div>
 				<!-- /.box -->
@@ -185,16 +156,25 @@
 			<!-- 너비 사이즈 수정  : col-->
 			<div class="col-md-12">
 				<!-- 리스트 사용시  -->
-				<div class="box">
+				<div class="box box-warning">
 					<div class="box-header">
 						<h3 class="box-title">스터디룸 예약내역</h3>
 						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
-							<button class="btn btn-box-tool" data-widget="remove">
-								<i class="fa fa-times"></i>
-							</button>
+ 							<div class="input-group">
+                                <form action="/facil/FacilMain" name="srsearch" method="post">
+                                	<button class="btn btn-sm btn-default pull-right">
+                                    	<i class="fa fa-search"></i>
+                                    </button>
+                                    <input type="text" name="keyword"
+                                        class="form-control input-sm pull-right" style="width: 150px;"
+                                        placeholder="Search" /> 
+                                    <select class="form-control input-sm pull-right" name='keyfield' style="width: 150px;">
+										<option value="sr_type" ${keyfield eq 'sr_type' ? 'selected' : null }>시설명</option>
+										<option value="sr_name"	${keyfield eq 'sr_name' ? 'selected' : null }>호수</option>
+										<option value="srm_date" ${keyfield eq 'srm_date' ? 'selected' : null }>예약 날짜</option>
+                                    </select>
+                                </form>
+                            </div>
 						</div>
 					</div>
 					<!-- /.box-header -->
@@ -220,20 +200,16 @@
 										<td>${s.sr_name}</td>
 										<td>${s.srm_date}</td>
 										<td>${s.payoutpoint}</td>
-										<td><input type="button" class="btn btn-primary"
-											value="선택"
+										<td><input type="button" class="btn btn-warning"
+											value="취소"
 											onclick="srSelectDelete('${s.srm_num}','${s.sr_type}','${s.sr_name}','${s.srm_date}','${s.payoutpoint}')" />
 										</td>
 									</tr>
 								</c:forEach>
-
-
 							</tbody>
 						</table>
 					</div>
 					<!-- /.box-body -->
-
-
 					<div class="box-footer">
 						<!-- 페이징 -->
 						<div class="row" align="center">
@@ -247,139 +223,72 @@
 								<li><a href="#">&raquo;</a></li>
 							</ul>
 						</div>
-
-						<!-- 셀렉트  -->
-
-						<form action="/facil/FacilMain" name="srsearch" method="post">
-							<div class="row">
-								<div class="input-group">
-									<div class="col-md-3" align="center">
-										<select name="keyfield"
-											class="form-control input-sm pull-left" style="width: 150px;">
-											<option value="sr_type"
-												${keyfield eq 'sr_type' ? 'selected' : null }>시설명</option>
-											<option value="sr_name"
-												${keyfield eq 'sr_name' ? 'selected' : null }>호수</option>
-											<option value="srm_date"
-												${keyfield eq 'srm_date' ? 'selected' : null }>예약 날짜</option>
-										</select>
-									</div>
-
-									<div class="col-md-3" align="center">
-										<input type="text" name="keyword"
-											   class="form-control input-sm  pull-left"
-											   style="width: 150px;" 
-											   placeholder="Search" />
-										<div class="input-group-btn  pull-left">
-											<button class="btn btn-sm btn-primary">
-												검색 <i class="fa fa-search"></i>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</form>
-
 					</div>
 				</div>
 				<!-- /.box -->
 			</div>
 			<!-- /.col -->
 		</div>
-
 		<!-- -------취소 시설 선택후 표기되는 정보------- -->
-		<!-- 세로 길이 수정 -->
-		<div class="row">
-			<!-- 너비 사이즈 수정  : col-->
-			<div class="col-md-12">
-				<!-- box -->
-				<div class="box box-warning" id="cancel" hidden="hidden">
-					<!--  box-header -->
-					<div class="box-header">
-						<h3 class="box-title">취소 사항</h3>
-						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
-							<button class="btn btn-box-tool" data-widget="remove">
-								<i class="fa fa-times"></i>
-							</button>
-						</div>
-					</div>
-					<!-- /.box-header -->
-
-					<!-- box-body -->
-					<form role="form" method="post" name="checkform"
-						action="/facil/FacilMainDel" onsubmit="return dateFormCheck()">
-						<div class="box-body">
-
+		
+		<!-- 입력 및 수정 자세한정보 확인 -->
+		<div class="modal fade in" id="cancel" data-backdrop="static">
+		    <div class="modal-dialog" style="width:55%">
+		        <div class="modal-content">
+		            <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                  		<span aria-hidden="true">×</span>
+	                  	</button>			            	
+		                <h5 class="modal-title">예약정보</h5>
+		            </div>
+		            <form role="form" method="post" name="checkform" action="/facil/FacilMainDel" onsubmit="return dateFormCheck()" enctype="multipart/form-data">
+						<div class="modal-body">
 							<div class="row">
-
 								<!-- text input -->
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									<label>예약번호</label> <input type="text" class="form-control"
 										id="resernum" name="resernum" readonly="readonly">
 								</div>
-
 							</div>
 							<div class="row">
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									<label>시설종류</label> <input type="text" id="mfaciltype"
-										name="mfaciltype" class="form-control" readonly="readonly"
-										style="width: 200px">
+										name="mfaciltype" class="form-control" readonly="readonly">
 								</div>
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									<label>시설명</label> <input type="text" id="faciltype"
-										name="faciltype" class="form-control" readonly="readonly"
-										style="width: 200px">
+										name="faciltype" class="form-control" readonly="readonly">
 								</div>
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									<label>호수</label> <input type="text" id="facilname"
-										name="facilname" class="form-control" readonly="readonly"
-										style="width: 100px">
+										name="facilname" class="form-control" readonly="readonly">
 								</div>
 							</div>
-
 							<div class="row">
-								<div class="form-group col-md-4">
-									<label>예약시간</label> <input type="text" id="resertime"
-										name="resertime" class="form-control" readonly="readonly">
+								<div class="form-group col-md-12">
+									<label>예약시간</label> 
+									<input type="text" id="resertime" name="resertime" class="form-control" readonly="readonly">
 								</div>
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12" data-toggle="buttons" id="timeline">
+								</div>	
+								<div class="form-group col-md-12">
 									<label>환불포인트</label> <input type="text" id="backpoint"
 										name="backpoint" class="form-control" readonly="readonly">
 								</div>
 							</div>
-
 							<!-- /.box-body -->
-							<!-- box-footer -->
-							<div class="box-footer">
-								<div class="row" align="center">
-									<div class="col-md-3 btn-group"></div>
-									<div class="col-md-3 btn-group">
-										<input type="submit" class="btn btn-block btn-primary"
-											value="예약취소">
-									</div>
-									<div class="col-md-3 btn-group">
-										<input type="button" class="btn btn-block  btn-primary"
-											value="다시 선택" onclick="shutdown()">
-									</div>
-								</div>
-							</div>
-
-							<!-- /.box-footer -->
-						</div>
-					</form>
-					<!-- /.box -->
-				</div>
-			</div>
+						</div>		    
+			            <div class="modal-footer">
+							<input type="submit" class="btn btn-primary pull-left" value="예약취소">
+							<input type="button" class="btn btn-default" value="다시 선택" onclick="shutdown()">
+			            </div>
+		            </form>	   
+		        </div>
+		    </div>
 		</div>
-
-
-
+		
 	</section>
 	<!-- /. 작업 공간 끝! -->
-
 	<!------------------------------------------------------------------------------------------------------------------->
 </div>
 <!-- /. 전체를 감싸주는 틀입니다. 지우지 마세여. -->
@@ -389,8 +298,7 @@
 <script type="text/javascript">
 	function srSelectDelete(srm_num, sr_type, sr_name, srm_date, payoutpoint) {
 
-		$("#cancel").slideUp();
-		$("#cancel").slideDown();
+		$("#cancel").modal('toggle');
 
 		$("#mfaciltype").attr("value", "스터디룸");
 		$("#resernum").attr("value", srm_num);
@@ -398,12 +306,12 @@
 		$("#facilname").attr("value", sr_name);
 		$("#resertime").attr("value", srm_date);
 		$("#backpoint").attr("value", payoutpoint);
+		
 	}
 
 	function pgSelectDelete(pgm_num, pg_type, pg_name, pgm_date, payoutpoint) {
 
-		$("#cancel").slideUp();
-		$("#cancel").slideDown();
+		$("#cancel").modal('toggle');
 
 		$("#mfaciltype").attr("value", "운동장");
 		$("#resernum").attr("value", pgm_num);
@@ -412,8 +320,14 @@
 		$("#resertime").attr("value", pgm_date);
 		$("#backpoint").attr("value", payoutpoint);
 	}
+	
+	
+	function timelineChk(timecode){
+		
+	}
+	
+	
 	function shutdown() {
-		$("#cancel").slideUp();
+		$("#cancel").modal('toggle');
 	}
 </script>
-

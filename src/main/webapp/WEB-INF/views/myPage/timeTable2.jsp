@@ -162,7 +162,7 @@
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
 
- <!-- 리스트 사용시  -->
+			 <!-- 리스트 사용시  -->
              <div class="box">
                 <div class="box-header">
                   <h3 class="box-title">${ttname} 시간표 출력 목록</h3>
@@ -477,7 +477,6 @@ function refershLesson(){
 			});
 }
 
-
 function resetTime(){
 	 // 시간표에 해당 내용을 올리는 For문
    for(i=1;i<=9;i++){
@@ -488,7 +487,6 @@ function resetTime(){
    	}
    }
 }
-
 
 //등록
 function enroll(lesson_num) {

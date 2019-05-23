@@ -177,9 +177,7 @@
 						<!-- 날짜 선택줄 -->
 						<div class="row">
 							<div class="col-md-12" align="center">
-
 								<div class="btn-group" data-toggle="buttons">
-
 									<label class="btn btn-primary" id="l0"> <input
 										type="checkbox" id="b0" value="8">
 										8시
@@ -220,9 +218,6 @@
 										type="checkbox"  id="b12" value="20">
 										20시
 									</label>
-
-
-
 								</div>
 							</div>
 						</div>

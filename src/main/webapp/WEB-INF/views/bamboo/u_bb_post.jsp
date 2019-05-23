@@ -11,47 +11,28 @@
 <script>
 
 function fnbbp(){
-	
 	//alert(CKEDITOR.instances.editor1.getData().length);
-	
 	if(document.bbpostcomplete.bb_nickname.value ==""||
 			CKEDITOR.instances.bb_content.getData() ==""||
 			document.bbpostcomplete.bb_title.value ==""){
 		
 		alert("빠짐없이 입력 해주세요");
 		return;
-		
 	}
 	else if(document.bbpostcomplete.bb_nickname.value.length>50){
-		
 		
 		alert("닉네임을 너무 길게 입력하셨습니다. 50글자 이하로 입력 해 주세요.(공백 포함)");
 		return;
 	}
 	else if(document.bbpostcomplete.bb_title.value.length>200){
 		
-		
 		alert("제목을 너무 길게 입력하셨습니다. 200글자 이하로 입력 해 주세요.(공백 포함)");
 		return;
 	}
-	
-	
-	
-	
 	else {
 		document.bbpostcomplete.submit();
-					
 	}
-	
 }
-
-
-
-
-
-
-
-
 </script>
 
 </head>
@@ -95,27 +76,12 @@ function fnbbp(){
 									placeholder="닉네임을 입력 해 주세요" name="bb_nickname" />
 							</div>
 
-
-
-
-
-
-
-
 						</div>
 						<!-- /.box-header -->
-
-
-
-
-
 						<div class='box-body pad'>
-
 							<textarea id="bb_content" name="bb_content" rows="10" cols="80"  placeholder="Enter the text...">
-                                         
-                    </textarea>
+                    		</textarea>
 						</div>
-
 						<div class="row">
 							<div class="col-md-4"></div>
 							<div class="col-md-2">
@@ -127,9 +93,6 @@ function fnbbp(){
 									href="/bamboo/BB_LIST">취소</a>
 							</div>
 						</div>
-
-
-
 					</div>
 					<!-- /.box -->
 				</div>
@@ -199,7 +162,6 @@ function fnbbp(){
 	            editor.updateElement();
 
 	       }
-		
 		// Replace the <textarea id="editor1"> with a CKEditor
 		// instance, using default configuration.
 		//CKEDITOR.replace('editor1');

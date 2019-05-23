@@ -54,7 +54,6 @@
 	                  <div class=" col-md-5 form-group">
 	                    <select class="form-control" name="m_reader" id="display">
 	                    	<option> 이름중복확인</option>
-	                    	
 	                    </select>
 	                  </div>
                   </div>
@@ -62,9 +61,7 @@
                     <input class="form-control" name="t_title" placeholder="제목:"/>
                   </div>
                   <div class="form-group">
-                    <textarea id="compose-textarea" name="t_content" class="form-control" style="height: 300px">
-                      
-                    </textarea>
+                  	<textarea id="compose-textarea" name="t_content" class="form-control" style="height: 300px"></textarea>
                   </div>
                 </form>
                 </div><!-- /.box-body -->
@@ -98,7 +95,42 @@
       
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------> 
 <%@ include file="../include/footer.jsp" %>
-<script>
+<!-- CK Editor -->
+<script src="../resources/plugins/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+// ckeditor setting
+var ckeditor_config = {
+     resize_enabled : true, // 에디터 크기를 조절함
+     enterMode : CKEDITOR.ENTER_BR , // 엔터키를 <br> 로 적용함.
+     shiftEnterMode : CKEDITOR.ENTER_P ,  // 쉬프트 +  엔터를 <p> 로 적용함.
+     toolbarCanCollapse : true , 
+     removePlugins : "elementspath", // DOM 출력하지 않음
+     filebrowserUploadUrl: '/message/file_upload', // 파일 업로드를 처리 할 경로 설정.
+     // 에디터에 사용할 기능들 정의
+     toolbar : [
+       [ 'Source', '-' , 'NewPage', 'Preview' ],
+       [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
+       [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+       [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ],
+       '/',
+       [ 'Styles', 'Format', 'Font', 'FontSize' ],
+       [ 'TextColor', 'BGColor' ],
+       [ 'Image', 'Flash', 'Table','SpecialChar' , 'Link', 'Unlink','Youtube']
+
+     ]
+   };
+var editor = null;
+// 전송을 위한 체크 함수
+function form_save(form) {
+     editor.updateElement();
+
+}
+		// Replace the <textarea id="editor1"> with a CKEditor
+		// instance, using default configuration.
+		//CKEDITOR.replace('editor1');
+		//bootstrap WYSIHTML5 - text editor
+		//$(".textarea").wysihtml5();
+		
 function fnSend(){
 	if(confirm("정말 보내시겠습니까?\n보낸 메시지는 수정이 불가능합니다.")==true){
 		document.send.submit();
@@ -106,7 +138,6 @@ function fnSend(){
 		return;
 	}
 }
-
 function fnSearch() {
     
 	var m_name = document.getElementById("reader").value;
@@ -137,8 +168,8 @@ function fnSearch() {
 			return;
 		}
 	}
-	
 	window.onload = function(){
-		document.getElemembById("reader").focus();
+		$("#reader").focus();
+	    editor = CKEDITOR.replace( "t_content" , ckeditor_config );
 	}
 </script>
