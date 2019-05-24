@@ -38,6 +38,9 @@
 	<beans:bean id="loginInterceptor" class="com.harang.web.Interceptor.LoginInterceptor">
 	</beans:bean>
 	
+	<beans:bean id="AuthInterceptor" class="com.harang.web.Interceptor.AuthInterceptor">
+	</beans:bean>
+	
 	<beans:bean id="refreshInterceptor" class="com.harang.web.Interceptor.RefreshInterceptor">
 	</beans:bean>
 	
@@ -53,7 +56,22 @@
 			<mapping path="/message/*"/>
 			<mapping path="/parttime/*"/>
 			<mapping path="/schecdule/*"/>
+			<mapping path="/base/*"/>
 			<beans:ref bean="refreshInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/myPage/*"/>
+			<mapping path="/bamboo/*"/>
+			<mapping path="/facil/*"/>
+			<mapping path="/food/*"/>
+			<mapping path="/harangdin/*"/>
+			<mapping path="/imPage/*"/>
+			<mapping path="/include/*"/>
+			<mapping path="/message/*"/>
+			<mapping path="/parttime/*"/>
+			<mapping path="/schecdule/*"/>
+			<mapping path="/base/*"/>
+			<beans:ref bean="AuthInterceptor"/>
 		</interceptor>
 	</interceptors>
 	

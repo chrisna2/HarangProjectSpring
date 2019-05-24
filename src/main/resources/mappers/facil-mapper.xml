@@ -82,13 +82,24 @@
   				</if>
   			</if>
   	</sql>
+  	
+  	
+    <select id="ReserPgListCount" parameterType="SearchCriteria" resultType="int">
+   		SELECT count(*)
+  		FROM tbl_pg_member m, tbl_playground p 
+  		WHERE m.pg_num = p.pg_num
+  		AND m.m_id= #{m_id} 
+  		<include refid="reserPgSearch"></include>
+  	</select>
 
   	<select id="ReserPgList" parameterType="SearchCriteria" resultType="PgMember">
   		SELECT m.pgm_num, m.pg_num, m.m_id, m.pgm_regdate, m.pgm_timecode, p.pg_type, p.pg_name, m.pgm_date, p.pg_point
-  		FROM tbl_pg_member m, tbl_playground p WHERE m.pg_num = p.pg_num
+  		FROM tbl_pg_member m, tbl_playground p 
+  		WHERE m.pg_num = p.pg_num
   		AND m.m_id= #{m_id} 
   		<include refid="reserPgSearch"></include>
   		ORDER BY m.pgm_date ASC
+  		limit #{pageStart}, #{perPageNum} 
   	</select>
   	
   	<sql id="reserPgSearch">
@@ -105,12 +116,24 @@
   			</if>
   	</sql>
   	
+  	
+    <select id="ReserSrListCount" parameterType="SearchCriteria" resultType="int">
+   		SELECT count(*)
+  		FROM tbl_sr_member m, tbl_studyroom s 
+  		WHERE m.sr_num = s.sr_num
+  		AND m.m_id= #{m_id} 
+  		<include refid="reserSrSearch"></include>
+  	</select>  	
+  	
+  	
   	<select id="ReserSrList" resultType="SrMember">
   		SELECT m.srm_num, m.sr_num, m.m_id, m.srm_regdate, m.srm_timecode, s.sr_type, s.sr_name, m.srm_date, s.sr_point
-  		FROM tbl_sr_member m, tbl_studyroom s WHERE m.sr_num = s.sr_num
+  		FROM tbl_sr_member m, tbl_studyroom s 
+  		WHERE m.sr_num = s.sr_num
   		AND m.m_id= #{m_id} 
   		<include refid="reserSrSearch"></include>
   		ORDER BY m.srm_date ASC
+  		limit #{pageStart}, #{perPageNum} 
   	</select>
   	
   	<sql id="reserSrSearch">

@@ -46,6 +46,20 @@ public class FacilServiceImpl implements FacilService {
 		return facilDao.reserSrListAllCount(cri);
 	}
 	
+
+	@Override
+	public int reserPgListCount(SearchCriteria cri) {
+		return facilDao.reserPgListCount(cri);
+	}
+
+	@Override
+	public int reserSrListCount(SearchCriteria cri) {
+		return facilDao.reserSrListCount(cri);
+	}
+	
+	
+	
+	
 	// 운동장 예약 목록 불러오기 / m_id로 검색.
 	@Override
 	public List<PgMemberDTO> loadPgReserList(SearchCriteria cri) {
@@ -89,39 +103,15 @@ public class FacilServiceImpl implements FacilService {
 		
 		return list;
 	}
-	
+
 	@Override
-	public void selectReserPg() {
-		// TODO Auto-generated method stub
-		
+	public int deleteReserPg(String pgm_num) {
+		return facilDao.deletePgReser(pgm_num);
 	}
 
 	@Override
-	public void selectReserSr() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void findReserPg() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void findReserSr() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteReserPg(String pgm_num) {
-		facilDao.deletePgReser(pgm_num);
-	}
-
-	@Override
-	public void deleteReserSr(String srm_num) {
-		facilDao.deleteSrReser(srm_num);
+	public int deleteReserSr(String srm_num) {
+		return facilDao.deleteSrReser(srm_num);
 	}
 
 	@Override
@@ -179,13 +169,13 @@ public class FacilServiceImpl implements FacilService {
 	}
 
 	@Override
-	public void schPgAdd(PgMemberDTO pgmdto) {
-		facilDao.schdulePgAdd(pgmdto);
+	public int schPgAdd(PgMemberDTO pgmdto) {
+		return facilDao.schdulePgAdd(pgmdto);
 	}
 
 	@Override
-	public void schSrAdd(SrMemberDTO srmdto) {
-		facilDao.schduleSrAdd(srmdto);
+	public int schSrAdd(SrMemberDTO srmdto) {
+		return facilDao.schduleSrAdd(srmdto);
 	}
 
 	@Override
@@ -199,33 +189,33 @@ public class FacilServiceImpl implements FacilService {
 	}
 
 	@Override
-	public void facilPgAdd(PlaygroundDTO pgdto) {
-		facilDao.facilPgAdd(pgdto);
+	public int facilPgAdd(PlaygroundDTO pgdto) {
+		return facilDao.facilPgAdd(pgdto);
 	}
 
 	@Override
-	public void facilSrAdd(StudyroomDTO srdto) {
-		facilDao.facilSrAdd(srdto);
+	public int facilSrAdd(StudyroomDTO srdto) {
+		return facilDao.facilSrAdd(srdto);
 	}
 
 	@Override
-	public void facilPgmodi(PlaygroundDTO pgdto) {
-		facilDao.facilPgModi(pgdto);
+	public int facilPgmodi(PlaygroundDTO pgdto) {
+		return facilDao.facilPgModi(pgdto);
 	}
 
 	@Override
-	public void facilSrmodi(StudyroomDTO srdto) {
-		facilDao.facilSrModi(srdto);
+	public int facilSrmodi(StudyroomDTO srdto) {
+		return facilDao.facilSrModi(srdto);
 	}
 
 	@Override
-	public void facilPgDel(String pg_num) {
-		facilDao.facilPgDel(pg_num);
+	public int facilPgDel(String pg_num) {
+		return facilDao.facilPgDel(pg_num);
 	}
 
 	@Override
-	public void facilSrDel(String sr_num) {
-		facilDao.facilSrDel(sr_num);
+	public int facilSrDel(String sr_num) {
+		return facilDao.facilSrDel(sr_num);
 	}
 
 	@Override
@@ -244,6 +234,7 @@ public class FacilServiceImpl implements FacilService {
 		long basic = 10000000000000L;
 		
 		for(int i = 0; i<list.size(); i++){
+			
 			getTimecode.add(list.get(i).getPgm_timecode());
 			
 			
@@ -293,12 +284,12 @@ public class FacilServiceImpl implements FacilService {
 	}
 
 	@Override
-	public void userReserPg(PgMemberDTO pgmdto) {
-		facilDao.userReserPg(pgmdto);
+	public int userReserPg(PgMemberDTO pgmdto) {
+		return facilDao.userReserPg(pgmdto);
 	}
 
 	@Override
-	public void userReserSr(SrMemberDTO srmdto) {
-		facilDao.userReserSr(srmdto);
+	public int userReserSr(SrMemberDTO srmdto) {
+		return facilDao.userReserSr(srmdto);
 	}
 }

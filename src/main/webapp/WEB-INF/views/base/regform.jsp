@@ -387,7 +387,7 @@
          function fngugun() {
         	 $("#gugun").removeAttr("disabled");
         	  var valsido = zip.sido.value;
-        	   $.getJSON("/login/gugun",
+        	   $.getJSON("/base/gugun",
         			   {sido:encodeURIComponent(valsido)},
                 	    function(data){
         	    	   $("#gugun option").remove();
@@ -411,7 +411,7 @@
           var valgugun = zip.gugun.value;
           var valdong = zip.dong.value;
           
-          $.getJSON("/login/dong",
+          $.getJSON("/base/dong",
                   {sido:encodeURIComponent(valsido),gugun:encodeURIComponent(valgugun),dong:encodeURIComponent(valdong)},
                   function(data){
                  $("#total tr").remove();

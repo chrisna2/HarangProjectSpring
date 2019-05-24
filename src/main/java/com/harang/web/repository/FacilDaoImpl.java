@@ -25,14 +25,12 @@ public class FacilDaoImpl implements FacilDao {
 	
 	@Override
 	public List<PgMemberDTO> reserPgListAll(SearchCriteria cri) {
-		List list = sqlSession.selectList(namespace + ".ReserPgListAll", cri);
-		return list;
+		return sqlSession.selectList(namespace + ".ReserPgListAll", cri);
 	}
 	
 	@Override
 	public List<SrMemberDTO> reserSrListAll(SearchCriteria cri) {
-		List list = sqlSession.selectList(namespace + ".ReserSrListAll", cri);
-		return list;
+		return sqlSession.selectList(namespace + ".ReserSrListAll", cri);
 	}
 	
 	@Override
@@ -40,25 +38,32 @@ public class FacilDaoImpl implements FacilDao {
 		return sqlSession.selectOne(namespace + ".ReserPgListAllCount", cri);
 	}
 
-
-
 	@Override
 	public int reserSrListAllCount(SearchCriteria cri) {
 		return sqlSession.selectOne(namespace + ".ReserSrListAllCount", cri);
 	}
 
+	@Override
+	public int reserPgListCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace + ".ReserPgListCount", cri);
+	}
 
 	@Override
+	public int reserSrListCount(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace + ".ReserSrListCount", cri);
+	}
+
+	
+	
+	@Override
 	public List<PgMemberDTO> reserPgList(SearchCriteria cri) {
-		List list = sqlSession.selectList(namespace + ".ReserPgList", cri);
-		return list;
+		return sqlSession.selectList(namespace + ".ReserPgList", cri);
 	}
 
 	@Override
 	public List<SrMemberDTO> reserSrList(SearchCriteria cri) {
 		
-		List list = sqlSession.selectList(namespace + ".ReserSrList", cri);
-		return list;
+		return sqlSession.selectList(namespace + ".ReserSrList", cri);
 	}
 
 	@Override
@@ -74,57 +79,50 @@ public class FacilDaoImpl implements FacilDao {
 	}
 
 	@Override
-	public void deletePgReser(String pgm_num) {
-	sqlSession.delete(namespace + ".ReserPgCancel", pgm_num);
+	public int deletePgReser(String pgm_num) {
+		return sqlSession.delete(namespace + ".ReserPgCancel", pgm_num);
 	}
 
 	@Override
-	public void deleteSrReser(String srm_num) {
-	sqlSession.delete(namespace + ".ReserSrCancel",srm_num);	
+	public int deleteSrReser(String srm_num) {
+		return sqlSession.delete(namespace + ".ReserSrCancel",srm_num);	
 	}
 
 	@Override
 	public List<PgMemberDTO> schedulePgListLoad() {
-		List list = sqlSession.selectList(namespace + ".schedulePgLoad");
-		return list;
+		return sqlSession.selectList(namespace + ".schedulePgLoad");
 	}
 
 	@Override
 	public List<SrMemberDTO> scheduleSrListLoad() {
-		List list = sqlSession.selectList(namespace + ".scheduleSrLoad");
-		return list;
+		return sqlSession.selectList(namespace + ".scheduleSrLoad");
 	}
 
 	@Override
 	public List<ScheduleDTO> scheduleToPgList() {
-		List list = sqlSession.selectList(namespace + ".scheduleToPg");
-		return list;
+		return sqlSession.selectList(namespace + ".scheduleToPg");
 	}
 
 	@Override
 	public List<ScheduleDTO> scheduleToSrList() {
-		List list = sqlSession.selectList(namespace + ".scheduleToSr");
-		return list;
+		return sqlSession.selectList(namespace + ".scheduleToSr");
 	}
 
 	@Override
 	public List<PlaygroundDTO> schduleTypePgLoadAjax() {
-		List<PlaygroundDTO> list = sqlSession.selectList(namespace + ".schPgTypeAjax");
-		return list;
+		return sqlSession.selectList(namespace + ".schPgTypeAjax");
 	}
 
 	@Override
 	public List<StudyroomDTO> schduleTypeSrLoadAjax() {
-		List<StudyroomDTO> list = sqlSession.selectList(namespace + ".schSrTypeAjax");
-		return list;
+		return sqlSession.selectList(namespace + ".schSrTypeAjax");
 	}
 
 	@Override
 	public List<PlaygroundDTO> schduleNamePgLoadAjax(String pg_type) {
 
-		List<PlaygroundDTO> list = sqlSession.selectList(namespace + ".schPgNameAjax", pg_type);
+		return sqlSession.selectList(namespace + ".schPgNameAjax", pg_type);
 
-		return list;
 	}
 	
 	/*
@@ -155,99 +153,89 @@ public class FacilDaoImpl implements FacilDao {
 
 	@Override
 	public List<StudyroomDTO> schduleNameSrLoadAjax(String sr_type) {
-		List<StudyroomDTO> list = sqlSession.selectList(namespace + ".schSrNameAjax", sr_type);
-		return list;
+		return sqlSession.selectList(namespace + ".schSrNameAjax", sr_type);
 	}
 
 	@Override
 	public List<PlaygroundDTO> schdulePgNumAjax(PlaygroundDTO pgdto) {
-		List list = sqlSession.selectList(namespace + ".schPgNumAjax", pgdto);
-		return list;
+		return sqlSession.selectList(namespace + ".schPgNumAjax", pgdto);
 	}
 
 	@Override
 	public List<StudyroomDTO> schduleSrNumAjax(StudyroomDTO srdto) {
-		List list = sqlSession.selectList(namespace + ".schSrNumAjax", srdto);
-		return list;
+		return sqlSession.selectList(namespace + ".schSrNumAjax", srdto);
 	}
 
 	@Override
-	public void schdulePgAdd(PgMemberDTO pgmdto) {
-		sqlSession.insert(namespace+".aFacilPgAdd", pgmdto);
+	public int schdulePgAdd(PgMemberDTO pgmdto) {
+		return sqlSession.insert(namespace+".aFacilPgAdd", pgmdto);
 	}
 
 	@Override
-	public void schduleSrAdd(SrMemberDTO srmdto) {
-		sqlSession.insert(namespace+".aFacilSrAdd", srmdto);
+	public int schduleSrAdd(SrMemberDTO srmdto) {
+		return sqlSession.insert(namespace+".aFacilSrAdd", srmdto);
 	}
 
 	@Override
 	public List<PlaygroundDTO> loadPgList(SearchCriteria cri) {
-		List list = sqlSession.selectList(namespace + ".loadPgList", cri);
-		return list;
+		return sqlSession.selectList(namespace + ".loadPgList", cri);
 	}
 
 	@Override
 	public List<StudyroomDTO> loadSrList(SearchCriteria cri) {
-		List list = sqlSession.selectList(namespace + ".loadSrList", cri);
-		return list;
+		return sqlSession.selectList(namespace + ".loadSrList", cri);
 	}
 
 	@Override
-	public void facilPgDel(String pg_num) {
-		sqlSession.delete(namespace + ".facilPgDel", pg_num);
+	public int facilPgDel(String pg_num) {
+		return sqlSession.delete(namespace + ".facilPgDel", pg_num);
 	}
 
 	@Override
-	public void facilSrDel(String sr_num) {
-		sqlSession.delete(namespace +".facilSrDel" , sr_num);
+	public int facilSrDel(String sr_num) {
+		return sqlSession.delete(namespace +".facilSrDel" , sr_num);
 	}
 
 	@Override
-	public void facilPgModi(PlaygroundDTO pgdto) {
-		sqlSession.update(namespace + ".modifyPg", pgdto);
+	public int facilPgModi(PlaygroundDTO pgdto) {
+		return sqlSession.update(namespace + ".modifyPg", pgdto);
 	}
 
 	@Override
-	public void facilSrModi(StudyroomDTO srdto) {
-		sqlSession.update(namespace + ".modifySr", srdto);
+	public int facilSrModi(StudyroomDTO srdto) {
+		return sqlSession.update(namespace + ".modifySr", srdto);
 	}
 
 	@Override
-	public void facilPgAdd(PlaygroundDTO pgdto) {
-		sqlSession.insert(namespace + ".addFacilPg", pgdto);
+	public int facilPgAdd(PlaygroundDTO pgdto) {
+		return sqlSession.insert(namespace + ".addFacilPg", pgdto);
 	}
 
 	@Override
-	public void facilSrAdd(StudyroomDTO srdto) {
-		sqlSession.insert(namespace + ".addFacilSr", srdto);
+	public int facilSrAdd(StudyroomDTO srdto) {
+		return sqlSession.insert(namespace + ".addFacilSr", srdto);
 	}
 
 	@Override
 	public List<PgMemberDTO> loadPgTimecodeAjax(PgMemberDTO pgmdto) {
 					
-		List<PgMemberDTO> list = sqlSession.selectList(namespace + ".loadPgTimecode", pgmdto);
-		return list;
+		return sqlSession.selectList(namespace + ".loadPgTimecode", pgmdto);
 	}
 
 	@Override
 	public List<SrMemberDTO> loadSrTimecodeAjax(SrMemberDTO srmdto) {
-		List<SrMemberDTO> list = sqlSession.selectList(namespace + ".loadSrTimecode", srmdto);
-		return list;
+		return sqlSession.selectList(namespace + ".loadSrTimecode", srmdto);
 	}
 
 	@Override
-	public void userReserPg(PgMemberDTO pgmdto) {
-		sqlSession.insert(namespace + ".reserPgComplate", pgmdto);
+	public int userReserPg(PgMemberDTO pgmdto) {
+		return sqlSession.insert(namespace + ".reserPgComplate", pgmdto);
 	}
 
 	@Override
-	public void userReserSr(SrMemberDTO srmdto) {
-		sqlSession.insert(namespace + ".reserSrComplate", srmdto);
+	public int userReserSr(SrMemberDTO srmdto) {
+		return sqlSession.insert(namespace + ".reserSrComplate", srmdto);
 	}
-
-
-
 
 
 }

@@ -5,13 +5,12 @@ import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -38,8 +37,9 @@ public class FacilController {
 	@Autowired
 	private PointService pointService;
 	
-	private PageMaker pageMaker1;
-	private PageMaker pageMaker2;
+	private PageMaker pageMakerPg;
+	private PageMaker pageMakerSr;
+	
 
 	// 사용자 메인 / 전체 불러오기
 	// 사용자 예약 내역 확인 페이지(Main) > 내역을 불러온다.
@@ -55,10 +55,20 @@ public class FacilController {
 		
 		cri.setM_id(m_id);
 
+    	pageMakerPg = new PageMaker();
+    	pageMakerPg.setCri(cri);
+    	pageMakerPg.setTotalCount(facilService.reserPgListCount(cri));
+    	
+    	pageMakerSr = new PageMaker();
+    	pageMakerSr.setCri(cri);
+    	pageMakerSr.setTotalCount(facilService.reserSrListCount(cri));
+    	    	
 		ModelAndView mav = new ModelAndView("/facil/facilities_main");
 
 		mav.addObject("pgmlist", facilService.loadPgReserList(cri));
+		mav.addObject("pageMakerPg",pageMakerPg);
 		mav.addObject("srmlist", facilService.loadSrReserList(cri));
+		mav.addObject("pageMakerSr",pageMakerSr);
 
 		return mav;
 	}
@@ -74,8 +84,6 @@ public class FacilController {
 		MemberDTO member = login.getLoginInfo(req);
 		
 		String m_id = member.getM_id();
-		// id를 받아오는 다른 방법.
-		//MemberDTO mdto  = (MemberDTO)session.getAttribute("member"); 
 		
 		// cri에 id값 입력.
 		cri.setM_id(m_id);
@@ -83,12 +91,13 @@ public class FacilController {
 		System.out.println(cri.getKeyfield());
 		System.out.println(cri.getKeyword());
 		
-		pageMaker1 = new PageMaker();
+		pageMakerPg = new PageMaker();
 		
 		ModelAndView mav = new ModelAndView("/facil/facilities_main");
 		
 		mav.addObject("pgmlist", facilService.loadPgReserList(cri));
 		mav.addObject("srmlist", facilService.loadSrReserList(cri));
+		
 
 		return mav;
 	}
@@ -96,17 +105,16 @@ public class FacilController {
 	// 사용자 예약 내역 확인 페이지(Main) > 선택된 예약 목록을 삭제한다.
 	@RequestMapping(value = "/FacilMainDel", method = RequestMethod.POST)
 	public String deleteReser(HttpServletRequest req, RedirectAttributes rttr) {
-		String facilType = req.getParameter("resernum");
+		String facilSwitch = req.getParameter("facilSwitch");
+		String resernum = req.getParameter("resernum"); 
 
-		System.out.println(facilType);
-
-		// 스터디룸의 경우 예약번호 첫글자 's'로 판단해서 분기를 탐.
-		if (facilType.startsWith("s")) {
-			facilService.deleteReserSr(facilType);
+		// 스터디룸의 경우
+		if (facilSwitch.startsWith("s")) {
+			facilService.deleteReserSr(resernum);
 		}
-		// 운동장의 경우 예약번호 첫글자 'p'로 판단해서 분기를 탐.
-		else if (facilType.startsWith("p")) {
-			facilService.deleteReserPg(facilType);
+		// 운동장의 경우
+		else if (facilSwitch.startsWith("p")) {
+			facilService.deleteReserPg(resernum);
 		}
 
 		// redirect시 데이터 전달을 위해 RedirectAttributes를 사용.
@@ -177,20 +185,20 @@ public class FacilController {
 	public void aManagerLoadListPgPaging(SearchCriteria cri, ModelAndView mav){
 
 		
-		pageMaker1 = new PageMaker();
-		pageMaker1.setCri(cri);
-		pageMaker1.setTotalCount(facilService.reserPgListAllCount(cri));
-		mav.addObject("pageMaker1",pageMaker1);
+		pageMakerPg = new PageMaker();
+		pageMakerPg.setCri(cri);
+		pageMakerPg.setTotalCount(facilService.reserPgListAllCount(cri));
+		mav.addObject("pageMaker1",pageMakerPg);
 		mav.addObject("pglist", facilService.loadPgReserListAll(cri));
 
 	}
 	
 	public void aManagerLoadListSrPaging(SearchCriteria cri, ModelAndView mav){
 
-		pageMaker2 = new PageMaker();
-		pageMaker2.setCri(cri);
-		pageMaker2.setTotalCount(facilService.reserSrListAllCount(cri));
-		mav.addObject("pageMaker2",pageMaker2);
+		pageMakerSr = new PageMaker();
+		pageMakerSr.setCri(cri);
+		pageMakerSr.setTotalCount(facilService.reserSrListAllCount(cri));
+		mav.addObject("pageMaker2",pageMakerSr);
 		mav.addObject("srlist", facilService.loadSrReserListAll(cri));
 
 	}

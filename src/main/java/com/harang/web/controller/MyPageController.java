@@ -55,8 +55,6 @@ public class MyPageController {
 	
 	private PageMaker pageMaker;
 	
-	private final Log logger = LogFactory.getLog(getClass());
-	
 	@RequestMapping(value="/myInfo",method = RequestMethod.GET)
 	public ModelAndView myinfoGet(){
 		mav = new ModelAndView("myPage/myInfo");

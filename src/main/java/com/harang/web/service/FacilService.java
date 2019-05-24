@@ -18,6 +18,9 @@ public interface FacilService {
 	public int reserPgListAllCount(SearchCriteria cri);
 	public int reserSrListAllCount(SearchCriteria cri);
 	
+	public int reserPgListCount(SearchCriteria cri);
+	public int reserSrListCount(SearchCriteria cri);
+	
 	public List<PlaygroundDTO> loadPgList(SearchCriteria cri);
 	public List<StudyroomDTO> loadSrList(SearchCriteria cri);
 	
@@ -43,27 +46,21 @@ public interface FacilService {
 	public String loadPgTimecodeAjax(PgMemberDTO pgmdto);
 	public String loadSrTimecodeAjax(SrMemberDTO srmdto);
 	
-	public void facilPgAdd(PlaygroundDTO pgdto);
-	public void facilSrAdd(StudyroomDTO srdto);
+	public int facilPgAdd(PlaygroundDTO pgdto);
+	public int facilSrAdd(StudyroomDTO srdto);
 	
-	public void facilPgmodi(PlaygroundDTO pgdto);
-	public void facilSrmodi(StudyroomDTO srdto);
+	public int facilPgmodi(PlaygroundDTO pgdto);
+	public int facilSrmodi(StudyroomDTO srdto);
 	
-	public void facilPgDel(String pg_num);
-	public void facilSrDel(String pg_num);
+	public int facilPgDel(String pg_num);
+	public int facilSrDel(String pg_num);
 	
-	public void schPgAdd(PgMemberDTO pgmdto);
-	public void schSrAdd(SrMemberDTO srmdto);
+	public int schPgAdd(PgMemberDTO pgmdto);
+	public int schSrAdd(SrMemberDTO srmdto);
 	
-	public void userReserPg(PgMemberDTO pgmdto);
-	public void userReserSr(SrMemberDTO srmdto);
+	public int userReserPg(PgMemberDTO pgmdto);
+	public int userReserSr(SrMemberDTO srmdto);
 	
-	public void selectReserPg();
-	public void selectReserSr();
-	
-	public void findReserPg();
-	public void findReserSr();
-	
-	public void deleteReserPg(String pgm_num);
-	public void deleteReserSr(String srm_num);
+	public int deleteReserPg(String pgm_num);
+	public int deleteReserSr(String srm_num);
 }

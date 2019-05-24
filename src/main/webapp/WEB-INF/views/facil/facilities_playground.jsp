@@ -375,7 +375,6 @@
 			$("#menuinfobox").slideUp();
 		});
 	});
-
 	//시설 선택을 셀렉트 생성. pg_type을 바탕으로 pg_name의 list를 출력한다.
 	function selectfacil() {
 
@@ -395,7 +394,6 @@
 					});
 		});
 	}
-
 	// selectfacil()을 바탕으로 pg_content와 포인트, 시설번호를 불러온다.
 	function select02() {
 		var varpg_type = document.getElementById('pg_type').value;
@@ -464,7 +462,6 @@
 					if (arraytimecode[i] == 1) {
 						$("#l" + i).attr("class", "btn btn-danger")
 								.attr("disabled", "disabled");
-
 					}
 				}
 			/*	//이건 리스트로 받을때.

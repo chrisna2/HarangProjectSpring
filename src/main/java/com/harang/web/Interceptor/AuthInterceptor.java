@@ -22,11 +22,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 		if(null == session.getAttribute("member") && null == session.getAttribute("admin")){
 			logger.info("current user is not a member");
 			//saveDest(request);
-			response.sendRedirect("/");
-			
+			response.sendRedirect("/login/badAccess");
 			return false;
 		}
-		
 		return true;
 	}
 	
