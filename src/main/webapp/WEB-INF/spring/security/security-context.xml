@@ -56,7 +56,7 @@
 			 
 		</session-management>
 		<!-- 테스트용으로 기능을 잠깐 끌수 있다. 로그인에 관련한 모든 폼에는 이 항목이 들어 가야한다. -->
-		<csrf disabled="false" />
+		<csrf disabled="true" />
 	</http>
 	
 	<!-- 로그인 과정 절차 실행 -->

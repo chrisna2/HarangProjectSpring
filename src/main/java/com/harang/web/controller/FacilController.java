@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.harang.web.HomeController;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
@@ -21,6 +24,7 @@ import com.harang.web.domain.SearchCriteria;
 import com.harang.web.domain.SrMemberDTO;
 import com.harang.web.domain.StudyroomDTO;
 import com.harang.web.service.FacilService;
+import com.harang.web.service.MyPageService;
 import com.harang.web.service.PointService;
 import com.harang.web.utill.LoginBean;
 import com.harang.web.utill.PageMaker;
@@ -36,6 +40,11 @@ public class FacilController {
 	
 	@Autowired
 	private PointService pointService;
+	
+	@Autowired
+	private MyPageService myPageService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(FacilController.class);
 	
 	private PageMaker pageMakerPg;
 	private PageMaker pageMakerSr;
@@ -107,19 +116,48 @@ public class FacilController {
 	public String deleteReser(HttpServletRequest req, RedirectAttributes rttr) {
 		String facilSwitch = req.getParameter("facilSwitch");
 		String resernum = req.getParameter("resernum"); 
-
+		Long backpoint = Long.parseLong(req.getParameter("backpoint"));
+		Long adminPoint = pointService.pointInfo(FACIL_ADMIN);
+		MemberDTO member = (MemberDTO)req.getSession().getAttribute("member");
+		
+		String check = "";
+		
+		
 		// 스터디룸의 경우
 		if (facilSwitch.startsWith("s")) {
-			facilService.deleteReserSr(resernum);
+			check = pointService.recordPointTrade("[스터디룸 예약 취소] "+backpoint+"포인트가 환불되었습니다.", 
+												  adminPoint, 
+												  backpoint, 
+												  FACIL_ADMIN,
+												  member.getM_id());
+			if("complete".equals(check)) {
+				facilService.deleteReserSr(resernum);
+				// redirect시 데이터 전달을 위해 RedirectAttributes를 사용.
+				rttr.addFlashAttribute("result", "true");
+			}
+			else {
+				// redirect시 데이터 전달을 위해 RedirectAttributes를 사용.
+				rttr.addFlashAttribute("result", "overpoint");
+			}
 		}
 		// 운동장의 경우
 		else if (facilSwitch.startsWith("p")) {
-			facilService.deleteReserPg(resernum);
+			check = pointService.recordPointTrade("[운동시설 예약 취소] "+backpoint+"포인트가 환불되었습니다.", 
+												  adminPoint, 
+												  backpoint, 
+												  FACIL_ADMIN,
+												  member.getM_id());
+			
+			if("complete".equals(check)) {
+				facilService.deleteReserPg(resernum);
+				// redirect시 데이터 전달을 위해 RedirectAttributes를 사용.
+				rttr.addFlashAttribute("result", "true");
+			}
+			else {
+				// redirect시 데이터 전달을 위해 RedirectAttributes를 사용.
+				rttr.addFlashAttribute("result", "overpoint");
+			}
 		}
-
-		// redirect시 데이터 전달을 위해 RedirectAttributes를 사용.
-		rttr.addFlashAttribute("result", "true");
-
 		// 삭제후 mainLoadList 재호출. 즉 리다이렉트.
 		return "redirect:/facil/FacilMain";
 	}

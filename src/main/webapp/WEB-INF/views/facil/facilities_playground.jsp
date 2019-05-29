@@ -48,7 +48,6 @@
 							</button>
 						</div>
 					</div>
-
 					<div class="box-body no-padding">
 						<!-- THE CALENDAR -->
 						<div id="calendar"></div>
@@ -61,258 +60,192 @@
 		</div>
 		<!-- /.row -->
 
-		<!-- 시설 선택 -->
-		<div class="row">
-			<div class="col-md-12">
-				<!-- Box -->
-				<div class="box box-primary" id="reser01" hidden="hidden">
-					<!-- Box header -->
-					<div class="box-header">
-						<h3 class="box-title">예약 시설 선택</h3>
-						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
-						</div>
-					</div>
-
-					<!-- Box body -->
-					<form name="select09">
-						<div class="box-body">
-
-							<!-- 사용자 편의를 위한.. 운동장 표시 -->
-							<div class="row">
-								<div class="col-md-4">
-									<label>예약할 날짜</label> <input id="Reser" type="text"
-										class="form-control" readonly="readonly">
-								</div>
-
-								<!-- 시설명(첫번째 카테고리) 선택 -->
-								<div class="form-group col-md-4">
-									<label>시설명</label> <select class="form-control" name="pg_type"
-										id="pg_type" onchange="selectfacil()">
-
-										<option>시설을 선택하세요.</option>
-
-										<c:forEach items="${ajaxtypelist}" var="s">
-											<option value="${s.pg_type}">${s.pg_type}</option>
-										</c:forEach>
-									</select>
-								</div>
-
-								<!-- 호수(두번째 카테고리) 선택 -->
-								<div class="form-group col-md-4">
-									<label>호수</label> <select class="form-control" id="pg_name"
-										name="pg_name" onchange="select02()">
-										<option>호수를 선택하세요.</option>
-									</select>
-								</div>
+		<div class="modal fade" id="mdl_facil_info" data-backdrop="static">
+		    <div class="modal-dialog" style="width:80%">
+		        <div class="modal-content">
+		            <div class="modal-header" align="center">
+		                <h5 class="box-title">시설 선택</h5>
+		            </div>
+		            <div class="modal-body">
+		            	<form name="select09" id="select09">
+		            	<!-- 사용자 편의를 위한.. 운동장 표시 -->
+						<div class="row">
+							<div class="col-md-4">
+								<label>예약할 날짜</label> 
+								<input id="Reser" type="text" class="form-control" readonly="readonly">
 							</div>
-
-							<!-- 시설 정보 두번째줄 -->
-							<div class="row">
-								<div class="col-md-4">
-									<div class="form-group" id="pg_content" name="pg_content">
-										<label>시설정보</label>
-										<textarea class="form-control" rows="3" placeholder="운동장"
-											disabled style="width: 250px">
-                  						</textarea>
-									</div>
-								</div>
-								<div class="col-md-4">
-									<label>대여 포인트</label> <input id="pg_point" type="text"
-										class="form-control" readonly="readonly" style="width: 150px">
-								</div>
-
-								<div class="col-md-4">
-									<label>시설번호</label> <input id="pg_num" type="text"
-										class="form-control" readonly="readonly" style="width: 150px">
-										
-								</div>
-
+							<!-- 시설명(첫번째 카테고리) 선택 -->
+							<div class="form-group col-md-4">
+								<label>시설명</label> 
+								<select class="form-control" name="pg_type" id="pg_type" onchange="selectfacil()">
+									<option>시설을 선택하세요.</option>
+									<c:forEach items="${ajaxtypelist}" var="s">
+										<option value="${s.pg_type}">${s.pg_type}</option>
+									</c:forEach>
+								</select>
+							</div>
+							<!-- 호수(두번째 카테고리) 선택 -->
+							<div class="form-group col-md-4">
+								<label>호수</label> 
+								<select class="form-control" id="pg_name" name="pg_name" onchange="select02()">
+									<option>호수를 선택하세요.</option>
+								</select>
 							</div>
 						</div>
-					</form>
-
-					<!-- Box footer -->
-					<div class="box-footer">
-						<div class="row" align="center">
-							<div class="col-md-3 btn-group"></div>
-							<div class="col-md-3 btn-group">
-								<input type="button" class="btn btn-block btn-primary"
-									onclick="goSelectTime()" value="예약 시간 선택">
+						<!-- 시설 정보 두번째줄 -->
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>시설정보</label>
+									<textarea class="form-control" rows="3" placeholder="운동장" id="pg_content" name="pg_content" disabled style="width: 250px">
+	                  				</textarea>
+								</div>
 							</div>
-							<div class="col-md-3 btn-group">
-								<input type="button" class="btn btn-block btn-primary"
-									value="날짜 다시 선택">
+							<div class="col-md-4">
+								<label>대여 포인트</label> 
+								<input id="pg_point" name="pg_point" type="text" class="form-control" readonly="readonly" style="width: 150px">
+							</div>
+	
+							<div class="col-md-4">
+								<label>시설번호</label> 
+								<input id="pg_num" name="pg_num" type="text" class="form-control" readonly="readonly" style="width: 150px">
 							</div>
 						</div>
-					</div>
-
-				</div>
-			</div>
+						</form>
+		            </div>
+		            <div class="modal-footer">
+		                <button class="btn btn-danger" onclick="goSelectTime()">다음</button>
+		                <button class="btn btn-primary" onclick="reset()">닫기</button>
+		            </div>
+		        </div>
+		    </div>
 		</div>
 
-		<!-- faclities.select -->
-		<div class="row">
-			<div class="col-md-12">
-				<!-- faclities.select.box-->
-				<div class="box box-primary" id="reser02" hidden="hidden">
-					<!-- faclities.select.box header -->
-					<div class="box-header">
-						<h3 class="box-title">예약 시간 선택</h3>
-						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
-						</div>
-
-					</div>
-					<!-- faclities.select.box body -->
-					<div class="box-body">
-						<!-- 시설 정보 [위에 선택 정보 받아옴]  -->
-						<!-- 시설 정보 첫줄 -->
-						<br>
-
-						<!-- 날짜 선택줄 -->
+		<div class="modal fade" id="mdl_time_info" data-backdrop="static">
+		    <div class="modal-dialog" style="width:80%">
+		        <div class="modal-content">
+		            <div class="modal-header" align="center">
+		                <h5 class="box-title">사용 시간 선택</h5>
+		            </div>
+		            <div class="modal-body">
+		            	<!-- 날짜 선택줄 -->
 						<div class="row">
 							<div class="col-md-12" align="center">
 								<div class="btn-group" data-toggle="buttons">
-									<label class="btn btn-primary" id="l0"> <input
-										type="checkbox" id="b0" value="8">
+									<label class="btn btn-primary" id="l0"> 
+										<input type="checkbox" id="b0" value="8">
 										8시
-									</label> <label class="btn btn-primary" id="l1"> <input
-										type="checkbox"  id="b1" value="9">
+									</label> 
+									<label class="btn btn-primary" id="l1"> 
+										<input type="checkbox"  id="b1" value="9">
 										9시
-									</label> <label class="btn btn-primary" id="l2"> <input
-										type="checkbox"  id="b2" value="10">
+									</label> 
+									<label class="btn btn-primary" id="l2"> 
+										<input type="checkbox"  id="b2" value="10">
 										10시
-									</label> <label class="btn btn-primary" id="l3"> <input
-										type="checkbox"  id="b3" value="11">
+									</label> 
+									<label class="btn btn-primary" id="l3"> 
+										<input type="checkbox"  id="b3" value="11">
 										11시
-									</label> <label class="btn btn-primary" id="l4"> <input
-										type="checkbox"  id="b4" value="12">
+									</label> 
+									<label class="btn btn-primary" id="l4"> 
+										<input type="checkbox"  id="b4" value="12">
 										12시
-									</label> <label class="btn btn-primary" id="l5"> <input
-										type="checkbox"  id="b5" value="13">
+									</label> 
+									<label class="btn btn-primary" id="l5"> 
+										<input type="checkbox"  id="b5" value="13">
 										13시
-									</label> <label class="btn btn-primary" id="l6"> <input
-										type="checkbox"  id="b6" value="14">
+									</label> 
+									<label class="btn btn-primary" id="l6"> 
+										<input type="checkbox"  id="b6" value="14">
 										14시
-									</label> <label class="btn btn-primary" id="l7"> <input
-										type="checkbox"  id="b7" value="15">
+									</label> 
+									<label class="btn btn-primary" id="l7"> 
+										<input type="checkbox"  id="b7" value="15">
 										15시
-									</label> <label class="btn btn-primary" id="l8"> <input
-										type="checkbox"  id="b8" value="16">
+									</label> 
+									<label class="btn btn-primary" id="l8"> 
+										<input type="checkbox"  id="b8" value="16">
 										16시
-									</label> <label class="btn btn-primary" id="l9"> <input
-										type="checkbox"  id="b9" value="17">
+									</label> 
+									<label class="btn btn-primary" id="l9"> 
+										<input type="checkbox"  id="b9" value="17">
 										17시
-									</label> <label class="btn btn-primary" id="l10"> <input
-										type="checkbox"  id="b10" value="18">
+									</label> 
+									<label class="btn btn-primary" id="l10"> 
+										<input type="checkbox"  id="b10" value="18">
 										18시
-									</label> <label class="btn btn-primary" id="l11"> <input
-										type="checkbox"  id="b11" value="19">
+									</label> 
+									<label class="btn btn-primary" id="l11"> 
+										<input type="checkbox"  id="b11" value="19">
 										19시
-									</label> <label class="btn btn-primary" id="l12"> <input
-										type="checkbox"  id="b12" value="20">
+									</label> 
+									<label class="btn btn-primary" id="l12"> 
+										<input type="checkbox"  id="b12" value="20">
 										20시
-									</label>
+									</label> 
 								</div>
 							</div>
 						</div>
-					</div>
-					<!-- faclities.select.box footer  -->
-					<div class="box-footer">
-						<div class="row" align="center">
-							<div class="col-md-3 btn-group"></div>
-							<div class="col-md-3 btn-group">
-								<input type="button" class="btn btn-block btn-primary"
-									value="확인" onclick="countTime()">
-							</div>
-							<div class="col-md-3 btn-group">
-								<input type="button" class="btn btn-block btn-primary"
-									value="다시 선택">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+		            </div>
+		            <div class="modal-footer">
+		                <button class="btn btn-danger"  onclick="countTime()">다음</button>
+		                <button class="btn btn-primary" data-dismiss="modal">닫기</button>
+		            </div>
+		        </div>
+		    </div>
 		</div>
-
+		
+		<div class="modal fade" id="mdl_check_info" data-backdrop="static">
+		<form id="finalGo" method="post" action="/facil/FacilPgReser">
+		    <div class="modal-dialog" style="width:80%">
+		        <div class="modal-content">
+		            <div class="modal-header" align="center">
+		                <h5 class="box-title">최종 예약 결제</h5>
+		            </div>
+		            <div class="modal-body">
+		            	<!-- 날짜 선택줄 -->
+						<div class="row">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+							<div class="box-body ">
+								<div class="row ">
+									<!-- 사용 시간 -->
+									<div class="col-md-3">
+										<label>사용시간</label> 
+										<input type="text" class="form-control" readonly="readonly" style="width: 150px" id="count">
+									</div>
+									<input type="hidden" id="spgm_date" name="spgm_date"/>
+									<input type="hidden" id="spg_num" name="spg_num"/>
+									<input type="hidden" id="spgm_timecode" name="spgm_timecode"/>
+									<input type="hidden" id="minuspoint" name="minuspoint">
+									<!-- 보유 포인트 -->
+									<div class="col-md-3">
+										<label>보유 포인트</label> 
+										<input type="text" class="form-control" readonly="readonly" style="width: 150px" id="mypoint">
+									</div>
+									<!-- 차감 포인트 -->
+									<div class="col-md-3">
+										<label>차감 포인트</label> 
+										<input type="text" class="form-control" readonly="readonly" style="width: 150px" id="checkpoint">
+									</div>
+									<!-- 결제 후 포인트-->
+									<div class="col-md-3">
+										<label>결제후 잔여 포인트</label> 
+										<input type="text" class="form-control" readonly="readonly" style="width: 150px" id="beforepoint">
+									</div>
+								</div>
+							</div>	
+						</div>
+		            </div>
+		            <div class="modal-footer">
+		                <button class="btn btn-danger" onclick="artest()" type="submit">결제</button>
+		                <button class="btn btn-primary" data-dismiss="modal">닫기</button>
+		            </div>
+		    	</div>
+		    </div>
+		    </form>
+		</div>
 		<!-- 최종 결제 부분 -->
-		<div class="row">
-			<div class="col-md-12">
-				<!-- 최종결제 box -->
-				<div class="box box-primary" id="reser03" hidden="hidden">
-					<!-- 최종결제 box-header -->
-					<div class="box-header">
-						<h3 class="box-title">결제</h3>
-						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
-						</div>
-					</div>
-
-					<!-- 최종결제 box-body -->
-					<!-- <form method="post" action="/HarangProject/facil?cmd=FacilPGreserv"> -->
-					
-					<form method="post" action="/facil/FacilPgReser">
-						<div class="box-body ">
-							<div class="row ">
-								<!-- 사용 시간 -->
-								<div class="col-md-3">
-									<label>사용시간</label> <input type="text" class="form-control"
-										readonly="readonly" style="width: 150px" id="count">
-								</div>
-								
-								<input type="hidden" id="spgm_date" name="spgm_date" />
-								<input type="hidden" id="spg_num" name="spg_num" />
-								<input type="hidden" id="spgm_timecode" name="spgm_timecode" />
-								<input type="hidden" id="minuspoint" name="minuspoint">
-								
-								<!-- 보유 포인트 -->
-								<div class="col-md-3">
-									<label>보유 포인트</label> <input type="text" class="form-control"
-										readonly="readonly" style="width: 150px" id="mypoint">
-								</div>
-								<!-- 차감 포인트 -->
-								<div class="col-md-3">
-									<label>차감 포인트</label> <input type="text" class="form-control"
-										readonly="readonly" style="width: 150px" id="checkpoint">
-								</div>
-	
-								<!-- 결제 후 포인트-->
-								<div class="col-md-3">
-									<label>결제후 잔여 포인트</label> <input type="text"
-										class="form-control" readonly="readonly" 
-										style="width: 150px" id="beforepoint"
-										>
-								</div>
-							</div>
-						</div>
-					
-
-					<!-- 최종결제 box-footer -->
-					<div class="box-footer">
-						<div class="row" align="center">
-							<div class="col-md-3 btn-group"></div>
-							<div class="col-md-3 btn-group">
-								<input type="submit" class="btn btn-block btn-primary"
-									value="결제" onclick="artest()">
-							</div>
-							<div class="col-md-3 btn-group">
-								<input type="button" class="btn btn-block  btn-primary"
-									value="다시 선택">
-							</div>
-						</div>
-					</div>
-					</form>
-					
-				</div>
-			</div>
-		</div>
 	</section>
 	<!-- /.content -->
 	<!------------------------------------------------------------------------------------------------------------------->
@@ -349,37 +282,33 @@
 					titleFormat : {
 						month : 'YYYY년 MMMM'
 					},
-					monthNames : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월",
-							"8월", "9월", "10월", "11월", "12월" ],
-					monthNamesShort : [ "1월", "2월", "3월", "4월", "5월", "6월",
-							"7월", "8월", "9월", "10월", "11월", "12월" ],
-					dayNames : [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일",
-							"토요일" ],
+					monthNames : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+					monthNamesShort : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+					dayNames : [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ],
 					dayNamesShort : [ "일", "월", "화", "수", "목", "금", "토" ],
 					allDayDefault : false,
 					editable : false,
 					dayClick : function(date, jsEvent, view) {
 						// 이날짜를 바탕으로 쿼리문을 날려서 예약결제로 넘어가도록 한다.
-						document.getElementById('Reser').setAttribute('value',
-								date.format());
+						document.getElementById('Reser').setAttribute('value',date.format());
 						vardate = date.format();
-						$("#reser01").slideUp();
-						$("#reser02").slideUp();
-						$("#reser03").slideUp();
-						$("#reser01").slideDown();
-
+						$("#mdl_facil_info").modal('toggle');
 					}
 				});
-
 		$("#closeup").click(function() {
 			$("#menuinfobox").slideUp();
 		});
 	});
+	
+	function reset(){
+		$("#select09")[0].reset();
+		$("#finalGo")[0].reset();
+		$("#mdl_facil_info").modal('toggle');
+	}
+	
 	//시설 선택을 셀렉트 생성. pg_type을 바탕으로 pg_name의 list를 출력한다.
 	function selectfacil() {
-
 		var wpg_type = document.getElementById('pg_type').value;
-		
 		$.getJSON("/facil/FacilPgNameAjax", {
 			pg_type : encodeURIComponent(wpg_type)
 		}, function(data) {
@@ -399,8 +328,7 @@
 		var varpg_type = document.getElementById('pg_type').value;
 		var varpg_name = select09.pg_name.value;
 
-		$
-				.getJSON("/facil/FacilPgNumAjax",
+			$.getJSON("/facil/FacilPgNumAjax",
 						{
 							pg_type : encodeURIComponent(varpg_type),
 							pg_name : encodeURIComponent(varpg_name),
@@ -408,19 +336,13 @@
 						},
 						function(data) {
 							$("#pg_content textarea").remove();
-							$(data)
-									.each(
-											function(index, pglist) {
-												$("#pg_content")
-														.append(
-																"<textarea readonly='readonly' class='form-control' rows='3' style='width: 250px'>"
+							$(data).each(function(index, pglist){
+												$("#pg_content").append("<textarea readonly='readonly' class='form-control' rows='3' style='width: 250px'>"
 																		+ pglist.pg_content
 																		+ "</textarea>");
-												$("#pg_point").attr("value",
-														pglist.pg_point);
-												$("#pg_num").attr("value",
-														pglist.pg_num);
-											});
+												$("#pg_point").attr("value",pglist.pg_point);
+												$("#pg_num").attr("value",pglist.pg_num);
+										});
 						});
 	}
 	
@@ -447,16 +369,16 @@
 			},
 			
 			function(data) {
+				
 				var timecode = data.pgm_timecode;
-				$("#reser02").slideUp();
-				$("#reser02").slideDown();
-
+				
+				$("#mdl_time_info").modal('toggle');	
+				
 				//타임코드 버튼 초기화.
 				for (i = 0; i < 13; i++) {
 					$("#l" + i).attr("class", "btn btn-primary")
 							   .removeAttr("disabled");
 				}
-
 				var arraytimecode = timecode.split("");
 				for (i = 0; i < 13; i++) {
 					if (arraytimecode[i] == 1) {
@@ -464,31 +386,6 @@
 								.attr("disabled", "disabled");
 					}
 				}
-			/*	//이건 리스트로 받을때.
-				$(data).each(
-					function(index, pglist) {
-						var timecode = pglist.pgm_timecode;
-						$("#reser02").slideUp();
-						$("#reser02").slideDown();
-
-						//타임코드 버튼 초기화.
-						for (i = 0; i < 13; i++) {
-							$("#l" + i).attr("class", "btn btn-primary");
-
-						}
-
-						var arraytimecode = timecode.split("");
-						for (i = 0; i < 13; i++) {
-							if (arraytimecode[i] == 1) {
-								$("#l" + i).attr("class", "btn btn-danger")
-										.attr("disabled", "disabled");
-
-							}
-						}
-
-					});
-				*/
-
 		});
 
 	}
@@ -500,13 +397,13 @@
 	// 시간 예약 선택시 active값을 바탕으로 timecode를 만든다.
 	function countTime() {
 		
-		$("#reser03").slideDown();
+		$("#mdl_check_info").modal('toggle');	
+		
 		var timecode = "A";
 		var count = 0;
 		var pg_point = $("#pg_point").val();
 		
 		for (var i = 0; i < 13; i++) {
-			
 			 if ($("#l" + i).attr("class") == "btn btn-primary active") {
 				timecode += "1";
 				count++;
@@ -514,7 +411,6 @@
 			else{
 				timecode += "0";
 			}
-			
 		}
 		
 		var checkpoint = count * pg_point;
@@ -531,8 +427,8 @@
 		$("#spgm_timecode").attr("value",timecode);
 		$("#minuspoint").attr("value",checkpoint);
 		
-		// 사용시간 보내기, 포인트와 합산해서 보내기. 태그로.
 		// 포인트 출력 내용.
+		// 사용시간 보내기, 포인트와 합산해서 보내기. 태그로.
 		$("#count").attr("value",count);
 		$("#mypoint").attr("value",mypoint);
 		$("#checkpoint").attr("value",checkpoint);

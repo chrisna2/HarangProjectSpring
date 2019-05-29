@@ -402,7 +402,6 @@ function refershLesson(){
 				        	.html(name+"<br>"+room+"<br>"+teacher);
 				        }
 				});				
-				
 				$("#lessonList tr").remove();
 				$(data.lessonList).each(function(index, l){
 					if(l.m_id == m_id){
@@ -471,20 +470,17 @@ function refershLesson(){
 				if(true==data.next && data.endPage>0){
 					pagingTag += "<li><a href='/myPage/timeTable2"+data.nextUrl+"&tt_grade="+tt_grade+"&tt_term="+tt_term+"'>&raquo;</a></li>"
 				}
-				
 				$("#lessonPage").append(pagingTag);
-				
 			});
 }
-
 function resetTime(){
 	 // 시간표에 해당 내용을 올리는 For문
    for(i=1;i<=9;i++){
-   	for(j=1;j<=5;j++){
+	   for(j=1;j<=5;j++){
 	        $("#t"+i+" > #d"+j)
 	        .css("background","#FFFFFF")
 	        .html("");
-   	}
+	   }
    }
 }
 

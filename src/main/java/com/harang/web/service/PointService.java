@@ -1,7 +1,5 @@
 package com.harang.web.service;
 
-import com.harang.web.domain.RecordDTO;
-
 public interface PointService {
 	
 	/**

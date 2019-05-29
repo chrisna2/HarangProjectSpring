@@ -95,18 +95,16 @@ td {
 
 							<!-- 최신글 보기를 위한 form 시작 -->
 
-							<form action="/bamboo/BB_LIST" name="bbnewlist"
-								method="post">
+							<form action="/bamboo/BB_LIST" name="bbnewlist" method="post">
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 								<input type="hidden" name="keyword" value="bbnewlist">
-
 							</form>
 							<!-- 최신글 보기를 위한 form 끝 -->
 
 							<!-- 인기글 보기를 위한 form 시작 -->
-							<form action="/bamboo/BB_LIST" name="bbhotlist"
-								method="post">
+							<form action="/bamboo/BB_LIST" name="bbhotlist" method="post">
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">	
 								<input type="hidden" name="keyword" value="bbhotlist">
-
 							</form>
 							<!-- 인기글 보기를 위한 form 끝 -->
 
@@ -219,7 +217,7 @@ td {
 
 
 						<form action="/bamboo/BB_LIST" name="search" method="post">
-
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 							
 							<div class="input-group">
 

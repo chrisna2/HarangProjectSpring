@@ -71,6 +71,7 @@ function fnbbp(){
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
 	<form action="/bamboo/BB_POST" name="bbpostcomplete" method="post">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 	<input type = "hidden" name = "m_id" value = "${sessionScope.admin.m_id }">
 		<section class="content">
 			<!-- 세로 길이 수정 -->

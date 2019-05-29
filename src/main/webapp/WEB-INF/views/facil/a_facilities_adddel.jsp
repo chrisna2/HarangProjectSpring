@@ -119,12 +119,9 @@
 									<div class="col-md-3" align="center">
 										<select name="keyfield"
 											class="form-control input-sm pull-left" style="width: 150px;">
-											<option value="pg_num"
-												${keyfield eq 'pg_num' ? 'selected' : null }>예약번호</option>
-											<option value="pg_type"
-												${keyfield eq 'pg_type' ? 'selected' : null }>시설명</option>
-											<option value="pg_name"
-												${keyfield eq 'pg_name' ? 'selected' : null }>호수</option>
+											<option value="pg_num" ${keyfield eq 'pg_num' ? 'selected' : null }>예약번호</option>
+											<option value="pg_type" ${keyfield eq 'pg_type' ? 'selected' : null }>시설명</option>
+											<option value="pg_name" ${keyfield eq 'pg_name' ? 'selected' : null }>호수</option>
 										</select>
 									</div>
 

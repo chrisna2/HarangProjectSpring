@@ -25,7 +25,6 @@ import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.SearchCriteria;
 import com.harang.web.service.BambooService;
 import com.harang.web.utill.PageMaker;
-import com.harang.web.utill.UploadBean;
 
 @Controller
 @RequestMapping("/bamboo")

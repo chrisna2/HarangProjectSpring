@@ -207,9 +207,6 @@
 									</label> <label class="btn btn-primary" id="l12"> <input
 										type="checkbox" id="b12" value="20"> 20시
 									</label>
-
-
-
 								</div>
 							</div>
 						</div>

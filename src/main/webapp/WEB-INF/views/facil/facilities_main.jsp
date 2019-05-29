@@ -21,8 +21,13 @@
 		
 		if (result == null) {
 
-		} else if (result == "true") {
+		} 
+		else if (result == "true") {
 			alert("예약이 취소되었습니다.");
+			
+		}
+		else if (result == "overpoint") {
+			alert("관리자 포인트가 부족합니다.관리자에겨 연락주십시오.");
 			
 		}
 		
@@ -36,7 +41,6 @@
 			);
 		}
 	}
-
 	function dateFormCheck() {
 		/*날짜 비교 */
 		var _reserdate = checkform.resertime.value.split("-");
@@ -91,6 +95,7 @@
 								<div class="box-tools pull-right">
 		 							<div class="input-group">
 		                                <form action="/facil/FacilMain" name="pgsearch" method="post">
+		                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		                                	<button class="btn btn-sm btn-default pull-right">
 		                                    	<i class="fa fa-search"></i>
 		                                    </button>
@@ -172,6 +177,7 @@
 								<div class="box-tools pull-right">
 		 							<div class="input-group">
 		                                <form action="/facil/FacilMain" name="srsearch" method="post">
+		                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		                                	<button class="btn btn-sm btn-default pull-right">
 		                                    	<i class="fa fa-search"></i>
 		                                    </button>
@@ -266,6 +272,7 @@
 		                <h5 class="modal-title">예약정보</h5>
 		            </div>
 		            <form role="form" method="post" name="checkform" action="/facil/FacilMainDel" onsubmit="return dateFormCheck()" enctype="multipart/form-data">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 						<input type="hidden" name="facilSwitch" id="facilSwitch">
 						<div class="modal-body">
 							<div class="row">

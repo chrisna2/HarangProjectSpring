@@ -218,8 +218,8 @@ td {
 						<!--  삭제를 위한 폼 시작 -->
 						<!-- 삭제 하려면.. 글번호를 가져가야함.  -->
 						<form method="post" action="/bamboo/BB_DEL" name="bbcondel">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
-
 						</form>
 						<!--  삭제를 위한 폼 끝 -->
 
@@ -243,28 +243,27 @@ td {
 									href="javascript:fnBbdlikecancle()">비추천취소</a>
 							</c:if>
 						</div>
-
 						<!-- 추천을 위한 폼 시작 -->
 						<form method="post" action="/bamboo/BB_LIKE" name="bblike">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" />
 							<input type="hidden" name="m_id" value="${member.m_id}" />
 							<input type="hidden" name="page" value="${pageMaker.cri.page}" />
-
 						</form>
 						<!--  추천을 위한 폼 끝 -->
 
 						<!-- 비추천을 위한 폼 시작 -->
 						<form method="post" action="/bamboo/BB_DLIKE" name="bbdlike">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
 							<input type="hidden" name="m_id" value="${member.m_id}" />
 							<input type="hidden" name="page" value="${pageMaker.cri.page}" />
-
 						</form>
 						<!--  비추천을 위한 폼 끝 -->
 
 						<!-- 추천취소를 위한 폼 시작 -->
-						<form method="post" action="/bamboo/BB_LIKE_CANCLE"
-							name="bblikecancle">
+						<form method="post" action="/bamboo/BB_LIKE_CANCLE" 
+						name="bblikecancle">
 							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
 							<input type="hidden" name="m_id" value="${member.m_id}" />
 							<input type="hidden" name="page" value="${pageMaker.cri.page}" />
@@ -272,20 +271,13 @@ td {
 						<!--  추천취소를 위한 폼 끝 -->
 
 						<!-- 비추천취소를 위한 폼 시작 -->
-						<form method="post" action="/bamboo/BB_DLIKE_CANCLE"
-							name="bbdlikecancle">
+						<form method="post" action="/bamboo/BB_DLIKE_CANCLE" name="bbdlikecancle">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 							<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
 							<input type="hidden" name="m_id" value="${member.m_id}" />
 							<input type="hidden" name="page" value="${pageMaker.cri.page}" />
-
 						</form>
 						<!--  비추천취소를 위한 폼 끝 -->
-
-
-
-
-
-
 					</div>
 					<!-- /.box-body -->
 				</div>
@@ -341,16 +333,12 @@ td {
 					<!--  여기까지가 기존 댓글 들어가는 부분 -->
 
 					<!--  댓글 삭제를 위한 폼 -->
-
-					<form method="post" action="/bamboo/BR_DELETE"
-						name="fnbrdelete">
+					<form method="post" action="/bamboo/BR_DELETE" name="fnbrdelete">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 						<input type="hidden" name="br_num" /> 
 						<input type="hidden" name="bb_num" value="${bbcon.bb_num}" />
 						<input type="hidden" name="page" value="${pageMaker.cri.page}" />
-						 
-
 					</form>
-
 					<!--  댓글 삭제를 위한 폼 끝-->
 
 
@@ -359,6 +347,7 @@ td {
 
 					<!-- 여기부터 새 댓글 작성창 -->
 					<form action="/bamboo/BR_POST" name="bbreply" method="post">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 						<input type="hidden" name="bb_num" value="${bbcon.bb_num }" />
 						<input type="hidden" name="m_id" value="${member.m_id }" />
 						<input type="hidden" name="page" value="${pageMaker.cri.page}" />
@@ -437,36 +426,25 @@ td {
 									class="btn btn-primary btn-sm" href="javascript:fnBbpost()">글쓰기</a>
 							</p>
 
-
-
 							<!-- 최신글 보기를 위한 form 시작 -->
 
-							<form action="/bamboo/BB_LIST" name="bbnewlist"
-								method="post">
+							<form action="/bamboo/BB_LIST" name="bbnewlist" method="post">
 								<input type="hidden" name="keyword" value="bbnewlist">
-
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 							</form>
 							<!-- 최신글 보기를 위한 form 끝 -->
 
 							<!-- 인기글 보기를 위한 form 시작 -->
-							<form action="/bamboo/BB_LIST" name="bbhotlist"
-								method="post">
+							<form action="/bamboo/BB_LIST" name="bbhotlist" method="post">
 								<input type="hidden" name="keyword" value="bbhotlist">
-
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 							</form>
 							<!-- 인기글 보기를 위한 form 끝 -->
 
 							<!-- 글쓰기를 위한 form 시작 -->
 							<form action="/bamboo/BB_POST" name="bbpost" method="get">
-								
-
 							</form>
 							<!-- 글쓰기를 위한 form 끝 -->
-
-
-
-
-
 						</div>
 					</div>
 					<!-- /.box-header -->
@@ -557,8 +535,7 @@ td {
 
 
 						<form action="/bamboo/BB_LIST" name="search" method="post">
-
-							
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 							<div class="input-group">
 
 								<select name="keyfield" class="form-control input-sm"

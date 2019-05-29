@@ -68,8 +68,8 @@
 		</ol>
 	</section>
 	<!------------------------------------ 메인페이지 바디 [작업 내용] ------------------------------------------------------------>
-	<form action="/bamboo/BB_UPDATE" name="bbpostcomplete"
-		method="post">
+	<form action="/bamboo/BB_UPDATE" name="bbpostcomplete" method="post">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		 <input	type="hidden" name="bb_num" value="${bbcon.bb_num }">
 		<section class="content">
 			<!-- 세로 길이 수정 -->
@@ -145,8 +145,8 @@
 	
 	
 	<!--  대나무숲 글 수정하기 페이지에서 취소를 눌렀을 때 원래 페이지로 돌아가기 위한 폼 시작 -->
-	<form method="post" action="/bamboo/BB_CON"
-		name="gobacktocontent">
+	<form method="post" action="/bamboo/BB_CON" name="gobacktocontent">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<input type="hidden" name="bb_num" value="${bbcon.bb_num}" /> 
 
 	</form>

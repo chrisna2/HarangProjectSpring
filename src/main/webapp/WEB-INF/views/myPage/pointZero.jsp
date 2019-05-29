@@ -60,7 +60,7 @@
                 
                 <!-- form 시작 -->
                 <form role="form" action="/myPage/pointZero" method="post">
-                
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 <div class="box-body">
                   <div class="input-group">
                     <span class="input-group-addon bg-black-gradient"><i class="fa fa-money"></i> 보유 포인트</span>
