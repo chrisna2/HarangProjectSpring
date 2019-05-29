@@ -34,7 +34,6 @@
 		<beans:property name="maxUploadSize" value="10485760"></beans:property>
 	</beans:bean>
 	
-	<!-- 실험 1 -->
 	<beans:bean id="loginInterceptor" class="com.harang.web.Interceptor.LoginInterceptor">
 	</beans:bean>
 	
@@ -45,6 +44,12 @@
 	</beans:bean>
 	
 	<interceptors>
+	
+		<interceptor>
+			<mapping path="/login/loginPost"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>	
+	
 		<interceptor>
 			<mapping path="/myPage/*"/>
 			<mapping path="/bamboo/*"/>
@@ -59,7 +64,10 @@
 			<mapping path="/base/*"/>
 			<beans:ref bean="refreshInterceptor"/>
 		</interceptor>
+		
 		<interceptor>
+			<mapping path="/"/>
+			<mapping path="/login/regform"/>
 			<mapping path="/myPage/*"/>
 			<mapping path="/bamboo/*"/>
 			<mapping path="/facil/*"/>

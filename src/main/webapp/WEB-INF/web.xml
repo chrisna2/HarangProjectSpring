@@ -61,4 +61,9 @@ version="2.5">
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   
+  <session-config>
+  	<!-- 30분 지나면 세션 정보 삭제  -->
+  	<session-timeout>30</session-timeout>
+  </session-config>
+  
 </web-app>

@@ -82,7 +82,7 @@
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">커뮤니티에 접속하시려면 로그인을 하세요</p>
-        <form method="post" action="/login/login">
+        <form id="loginGo" method="post" action="/login/login">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" name="m_id" placeholder="학번" required="required"/>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -153,7 +153,6 @@
                                 <button class="btn btn-primary" data-dismiss="modal">닫기</button>
                             </div>
                         </div>
-                        </form>
                     </div>
                 </div><!-- 모달 끝 -->
     <!-- jQuery 2.1.3 --> 

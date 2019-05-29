@@ -7,6 +7,7 @@
   	<select id="login" resultType="Member" parameterType="Member">
   		select 
   			m_id, 
+  			m_pw,
   			m_name, 
   			m_dept, 
   			m_mail,
@@ -20,7 +21,9 @@
   			m_regdate 
   		from 
   			tbl_member 
-  		where m_id = #{m_id}
+  		where 1 = 1
+  		and	m_id = #{m_id} 
+  		and	m_pw = #{m_pw} 
   	</select>
   	
   	<select id="refresh" resultType="Member" parameterType="String">
@@ -39,7 +42,8 @@
   			m_regdate 
   		from 
   			tbl_member 
-  		where m_id = #{m_id} 
+  		where 1 = 1
+  		and	m_id = #{m_id} 
   	</select>
   	
   	<update id="register" parameterType="Member">

@@ -26,7 +26,14 @@ public class MemberDTO {
 	private int m_age;
 	private String m_maxnum;
 	private String enabled;
+	private boolean useCookie;
 	
+	public boolean isUseCookie() {
+		return useCookie;
+	}
+	public void setUseCookie(boolean useCookie) {
+		this.useCookie = useCookie;
+	}
 	public String getEnabled() {
 		return enabled;
 	}

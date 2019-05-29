@@ -91,9 +91,13 @@
             <!-- 포인트 확인 : 현제 보유 포인트와 상세 정보 확인 -->
             <!-- 포인트 확인 : 현제 보유 포인트와 상세 정보 확인 -->
               <li>
-                <a href="/login/logout">
+              	<!-- 스프링 시큐리티를 통해 로그아웃 하기 위해서는 반드시 post방식으로 전달해야 한다. -->
+                <a href="#" onclick="document.getElementById('logoutFrm').submit();">
                     <i class="fa fa-sign-out"></i>
                 </a>
+                <form id="logoutFrm" action="/login/logout" method="post">
+                	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+                </form>
               </li>
               <li class="dropdown messages-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">

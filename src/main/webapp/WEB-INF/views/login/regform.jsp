@@ -255,7 +255,7 @@
                   
                 </div><!-- /.box-body -->
                  <div class="box-footer" align="right">
-                    <input type="button" class="btn" value="뒤로가기">
+                    <input type="button" class="btn" value="로그아웃" onclick="logout()">
                     <input type="reset" class="btn" value="리셋">
                     <input type="submit" class="btn btn-primary" value="회원 정보 등록">
                 </div>
@@ -325,17 +325,18 @@
                         </form>
                     </div>
                 </div><!-- 모달 끝 -->
-                
-     <footer>
-        <div class="pull-right hidden-xs">
-          <b>Version</b> 2.0
-        </div>
-        <strong>Web Copyright &copy; 2017 The Center Team.</strong> All rights reserved.<br>
-        <Strong>팀장 : 나현기, 부팀장 : 양혜민, 팀원 : 김성지, 김민준, 서지윤, 박주선 </Strong><br>
-        <strong>Template Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
-     </footer>
+	     <footer>
+	        <div class="pull-right hidden-xs">
+	          <b>Version</b> 2.0
+	        </div>
+	        <strong>Web Copyright &copy; 2017 The Center Team.</strong> All rights reserved.<br>
+	        <Strong>팀장 : 나현기, 부팀장 : 양혜민, 팀원 : 김성지, 김민준, 서지윤, 박주선 </Strong><br>
+	        <strong>Template Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+	     </footer>
     </div><!-- .\ wrapper --> 
-    
+    <form action="/login/logout" id="logout" method="post">
+    	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+    </form>
     <!-- jQuery 2.1.3 -->
     <script src="../resources/plugins/jQuery/jQuery-2.1.3.min.js"></script>
     <!-- Bootstrap 3.3.2 JS -->
@@ -355,6 +356,11 @@
             return false;
         }
     }
+    //로그아웃
+    function logout(){
+    	$("#logout").submit();
+    }
+    
       $(function () {
         $('input').iCheck({
           checkboxClass: 'icheckbox_square-blue',
@@ -387,7 +393,7 @@
          function fngugun() {
         	 $("#gugun").removeAttr("disabled");
         	  var valsido = zip.sido.value;
-        	   $.getJSON("/base/gugun",
+        	   $.getJSON("/login/gugun",
         			   {sido:encodeURIComponent(valsido)},
                 	    function(data){
         	    	   $("#gugun option").remove();
@@ -411,7 +417,7 @@
           var valgugun = zip.gugun.value;
           var valdong = zip.dong.value;
           
-          $.getJSON("/base/dong",
+          $.getJSON("/login/dong",
                   {sido:encodeURIComponent(valsido),gugun:encodeURIComponent(valgugun),dong:encodeURIComponent(valdong)},
                   function(data){
                  $("#total tr").remove();

@@ -7,13 +7,10 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- 기본 설정을 : beans 에서 security로 전환 즉 접두사  security 안써도 됨 대신  beans는 써야 됨 -->
 
-
 	<http auto-config="true">
 	
 		<headers>
-	
-		 <frame-options disabled="true"/>
-	
+			<frame-options disabled="true"/>
 	    </headers>
 		<!-- 
 		<intercept-url pattern="/login/login" access="permitAll"/>
@@ -21,41 +18,46 @@
 		<intercept-url pattern="/addMember" access="permitAll"/>
 		<intercept-url pattern="/**" access="isAuthenticated()"/>
 		-->
-		
 		<!-- /** : ROLE_USER는 /admin을 제외한 모든 곳이 접근 가능하다. 따라서 이런 패턴을 가지고 있는 권한을 제일 밑으로 내려야 한다. -->
-		
 		<!-- 사용자 요청 패턴, 즉 모든 패턴에 접근 하기 위해서 "ROLE_USER"라는 권한을 가지고 있어야 한다.-->
 		<!-- access="hasRole('ROLE_USER')" 권한의 이름은 내 마음대로 설정 할수 있지만 관례적으로 접두사 "ROLE"정도는 붙여 줘야 한다.-->
 		<!-- 순서에 따라 일을 처리하기 때문에 상위 권한을 가지고 있는 것부터 순차적으로 권한의 절차를 선언해 주는 것이 좋다. -->
-		
 		<form-login login-page="/"
 					login-processing-url="/login/login"
 					username-parameter="m_id"
 					password-parameter="m_pw"
 					default-target-url="/login/loginPost"
 					always-use-default-target="false"
-					authentication-failure-url="/login/loginPost"/>
+					authentication-failure-url="/login/loginFail"/>
 		<!-- login-processing-url="/login/login" 로그인창 폼태그에서 받아줄수 있는 액션 태그 url -->
 		<!-- 로그인 창을 지정해 주는 페이지 login-page 위치는 컨트롤러 parameterMapping url 경로와 동일 -->
 		<!-- username-parameter="id" jsp페이지의 아이디 인풋 태그 이름 -->
 		<!-- password-parameter="pw" jsp페이지의 패스워드 인풋 태그 이름 -->
 		<!-- default-target-url="/" 로그인 이후 페이지 이동 경로 -->
 		<!-- authentication-failure-url="/login" 로그인 실패시 페이지 이동 경로 -->
+	 	
+	 	<!-- 로그아웃 처리  -->
+		<logout logout-url="/login/logout"
+				logout-success-url="/"
+				invalidate-session="true"
+				delete-cookies="JSESSIONID"/>	
 		
 		<!-- 중복 로그인 처리! -->
-		<session-management>
+		<session-management invalid-session-url="/">
 			<concurrency-control 
-						max-sessions="3"
+						max-sessions="1"
 						expired-url="/login/loginPost"
-						error-if-maximum-exceeded="true"/>
+						error-if-maximum-exceeded="false"/>
 			<!--  max-sessions="1" 중복 로그인 관리 : 중복 로그인을 허용 하지 않겠다.-->
 			<!--  expired-url="/login" 중복 로그인 대상자를 보내버림 -->
-			<!--  error-if-maximum-exceeded="true" : 가장 최근에 로그인 한 중복 로그인을 오류로 처리! -->
+			<!--  error-if-maximum-exceeded="true" :
+					첫번째 로그인한 세션을 유지하고 두번째 중복 로그인 세션을 막는 설정			
+			 -->
+			 
 		</session-management>
 		<!-- 테스트용으로 기능을 잠깐 끌수 있다. 로그인에 관련한 모든 폼에는 이 항목이 들어 가야한다. -->
-		<csrf disabled="true" />
+		<csrf disabled="false" />
 	</http>
-	
 	
 	<!-- 로그인 과정 절차 실행 -->
 	<authentication-manager>
@@ -73,3 +75,4 @@
 	<beans:bean id="bcrypt" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
 	 -->
 </beans:beans>
+
