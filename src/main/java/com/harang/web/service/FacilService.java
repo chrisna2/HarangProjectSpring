@@ -30,6 +30,9 @@ public interface FacilService {
 	public List<PgMemberDTO> schedulePgList();
 	public List<SrMemberDTO> scheduleSrList();
 	
+	public List<PgMemberDTO> pgRsrNumCntEachDate();
+	public List<SrMemberDTO> srRsrNumCntEachDate();
+	
 	public List<ScheduleDTO> scheduleToPg();
 	public List<ScheduleDTO> scheduleToSr();
 	

@@ -236,6 +236,14 @@ public class FacilDaoImpl implements FacilDao {
 	public int userReserSr(SrMemberDTO srmdto) {
 		return sqlSession.insert(namespace + ".reserSrComplate", srmdto);
 	}
+	@Override
+	public List<PgMemberDTO> pgRsrNumCntEachDate() {
+		return sqlSession.selectList(namespace + ".pgRsrNumCntEachDate");
+	}
+	@Override
+	public List<SrMemberDTO> srRsrNumCntEachDate() {
+		return null;
+	}
 
 
 }

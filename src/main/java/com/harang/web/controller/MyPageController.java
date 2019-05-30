@@ -91,7 +91,6 @@ public class MyPageController {
 	public @ResponseBody List<ZipDTO> gugunAjax(HttpServletRequest request) throws UnsupportedEncodingException{
 		
 		String sido = URLDecoder.decode(request.getParameter("sido"), "UTF-8" );
-		System.out.println(sido);
 		
 		ZipDTO zip = new ZipDTO();
 		
@@ -196,8 +195,6 @@ public class MyPageController {
     
     @RequestMapping(value = "/membernum")
     public @ResponseBody String newMemberNum(String num4){
-    	
-    	System.out.println(num4);
     	
     	String num3 = myPageService.newMemberNum(num4);
     	String num5 = num3.substring(6, 9);

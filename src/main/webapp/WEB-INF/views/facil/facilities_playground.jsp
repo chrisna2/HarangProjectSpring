@@ -37,7 +37,7 @@
 	<section class="content">
 		<div class="row">
 			<!-- 달력의 크기 조정 -->
-			<div class="col-md-12">
+			<div class="col-md-9">
 				<!-- calendar box -->
 				<div class="box box-primary">
 					<div class="box-header">
@@ -97,18 +97,18 @@
 							<div class="col-md-4">
 								<div class="form-group">
 									<label>시설정보</label>
-									<textarea class="form-control" rows="3" placeholder="운동장" id="pg_content" name="pg_content" disabled style="width: 250px">
+									<textarea class="form-control" rows="3" placeholder="운동장" id="pg_content" name="pg_content" disabled >
 	                  				</textarea>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<label>대여 포인트</label> 
-								<input id="pg_point" name="pg_point" type="text" class="form-control" readonly="readonly" style="width: 150px">
+								<input id="pg_point" name="pg_point" type="text" class="form-control" readonly="readonly">
 							</div>
 	
 							<div class="col-md-4">
 								<label>시설번호</label> 
-								<input id="pg_num" name="pg_num" type="text" class="form-control" readonly="readonly" style="width: 150px">
+								<input id="pg_num" name="pg_num" type="text" class="form-control" readonly="readonly">
 							</div>
 						</div>
 						</form>
@@ -254,54 +254,66 @@
 
 <!-- 푸터(footer) 삽입 [지우지 마세여] ------------------------------------------------------------------------------------------------------>
 <%@ include file="../include/footer.jsp"%>
-
+<script src="../resources/plugins/moment/moment.js"></script>
 <script type="text/javascript">
 	// 일단 전역 변수로 만들었는데...이거참...
 	var vardate;
-
 	$(function() {
 		/* initialize the calendar
 		 -----------------------------------------------------------------*/
 		//현재 년 월 일 불러 오기
-		var date = new Date();
-		var d = date.getDate(), m = date.getMonth(), y = date.getFullYear();
-		$('#calendar').fullCalendar(
-				{
-					locale : 'kr',
-					header : {
-						left : 'prev,next',
-						center : 'title',
-						right : 'today'
-					},
-					buttonText : {
-						today : '오늘날짜',
-						month : '월별',
-						week : '주별',
-						day : '일별'
-					},
-					titleFormat : {
-						month : 'YYYY년 MMMM'
-					},
-					monthNames : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-					monthNamesShort : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-					dayNames : [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ],
-					dayNamesShort : [ "일", "월", "화", "수", "목", "금", "토" ],
-					allDayDefault : false,
-					editable : false,
-					dayClick : function(date, jsEvent, view) {
-						// 이날짜를 바탕으로 쿼리문을 날려서 예약결제로 넘어가도록 한다.
-						document.getElementById('Reser').setAttribute('value',date.format());
-						vardate = date.format();
-						$("#mdl_facil_info").modal('toggle');
-					}
-				});
-		$("#closeup").click(function() {
-			$("#menuinfobox").slideUp();
+		$('#calendar').fullCalendar({
+			locale : 'kr',
+			header : {
+				left : 'prev,next',
+				center : 'title',
+				right : 'today'
+			},
+			buttonText : {
+				today : '오늘날짜',
+				month : '월별',
+				week : '주별',
+				day : '일별'
+			},
+			titleFormat : {
+				month : 'YYYY년 MMMM'
+			},
+			monthNames : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+			monthNamesShort : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+			dayNames : [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ],
+			dayNamesShort : [ "일", "월", "화", "수", "목", "금", "토" ],
+			dayRender : function(date,cell){
+				var check = date.format();
+				var today = moment(new Date()).format("YYYY-MM-DD");
+				if(check<today){
+					cell.css("background-color", "#d8d8d8")
+				}
+			},
+			allDayDefault : false,
+			editable : false,
+			events : "/facil/pgRsrNumCnt",
+			eventTextColor : '#000000',	//입력 글자 색
+			dayClick : function(date, jsEvent, view) {
+				var check = date.format();					
+				var today = moment(new Date()).format("YYYY-MM-DD");
+				if(check<today){
+					alert("과거일자는 선택하실 수 없습니다.");
+				}
+				else{
+					// 이날짜를 바탕으로 쿼리문을 날려서 예약결제로 넘어가도록 한다.
+					document.getElementById('Reser').setAttribute('value',date.format());
+					vardate = date.format();
+					$("#mdl_facil_info").modal('toggle');
+				}
+			}
 		});
 	});
 	
 	function reset(){
 		$("#select09")[0].reset();
+		$("#pg_content").text("");
+		$("#pg_point").val("");
+		$("#pg_num").val("");
 		$("#finalGo")[0].reset();
 		$("#mdl_facil_info").modal('toggle');
 	}
@@ -335,13 +347,11 @@
 							check : 1
 						},
 						function(data) {
-							$("#pg_content textarea").remove();
 							$(data).each(function(index, pglist){
-												$("#pg_content").append("<textarea readonly='readonly' class='form-control' rows='3' style='width: 250px'>"
-																		+ pglist.pg_content
-																		+ "</textarea>");
-												$("#pg_point").attr("value",pglist.pg_point);
-												$("#pg_num").attr("value",pglist.pg_num);
+												$("#pg_content").text(pglist.pg_content);
+												//alert(pglist.pg_point+"/"+pglist.pg_num);
+												$("#pg_point").val(pglist.pg_point);
+												$("#pg_num").val(pglist.pg_num);
 										});
 						});
 	}

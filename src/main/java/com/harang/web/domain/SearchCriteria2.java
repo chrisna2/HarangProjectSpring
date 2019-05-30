@@ -14,9 +14,6 @@ public class SearchCriteria2 extends Criteria {
 	private String s_dept;
 	private String s_title;
 	
-	
-	
-	
 	public String getS_ispoint() {
 		return s_ispoint;
 	}
@@ -83,7 +80,4 @@ public class SearchCriteria2 extends Criteria {
 	public void setM_dept(String m_dept) {
 		this.m_dept = m_dept;
 	}
-	
-	
-	
 }

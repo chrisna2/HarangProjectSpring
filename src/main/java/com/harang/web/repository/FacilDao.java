@@ -65,4 +65,7 @@ public interface FacilDao {
 	
 	public int deletePgReser(String pgm_num);
 	public int deleteSrReser(String srm_num);
+	
+	public List<PgMemberDTO> pgRsrNumCntEachDate();
+	public List<SrMemberDTO> srRsrNumCntEachDate();
 }

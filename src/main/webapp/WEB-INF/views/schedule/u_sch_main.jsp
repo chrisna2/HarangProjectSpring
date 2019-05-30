@@ -34,17 +34,13 @@ div#s_content {
 	word-break: break-all;
 }
 </style>
-
-
-
-
 </head>
-
 <div class="content-wrapper">
 	<!----------------------------------- 메인페이지 헤더 [작업 제목] ------------------------------------------------------------->
 	<section class="content-header">
 		<h1>
-			학사일정 	 <small>학생 페이지</small>
+			학사일정 	
+			<small>학생 페이지</small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i> 메인</a></li>
@@ -57,9 +53,6 @@ div#s_content {
 		<div class="row">
 			<!-- 달력의 크기 조정 -->
 			<div class="col-md-9">
-
-
-
 				<div class="box box-primary">
 					<div class="box-body no-padding">
 						<!-- THE CALENDAR -->
@@ -68,9 +61,6 @@ div#s_content {
 					<!-- /.box-body -->
 				</div>
 				<!-- /. box -->
-
-
-
 			</div>
 			<!-- /.col -->
 		</div>
@@ -78,19 +68,15 @@ div#s_content {
 	</section>
 	<!-- /.content -->
 	<!-- 여기까지 달력 -->
-
 	<!--  여기부터 본문 -->
-
 	<section class="content">
 		<!-- 세로 길이 수정 -->
 		<div class="row">
 			<!-- 너비 사이즈 수정  : col-->
 			<div class="col-md-9">
-
 				<div class="box" id="schcon" hidden="hidden">
 					<div class="box-header with-border" style="background-color: #dceff4">
 						<font size="6" id="s_title"></font>
-
 					</div>
 					<div class="box-body">
 
@@ -116,26 +102,17 @@ div#s_content {
 						<div id="s_islocation">
 							행사 장소 : <span id="s_location"></span>
 						</div>
-						
-						
-						
-
 					</div>
 					<!-- /.box-body -->
-					
 					<div class="box-footer" id = "is_join" style="background-color: #dceff4 ">
-
 						<p align = "center">
 						<a type="button"  href = "javascript:scjoin(${schconlist.s_num})" class="btn btn-primary" id = "joinjoin"> 참가신청</a>
 						<a type="button" href = "javascript:scjoincancle(${schconlist.s_num})" class="btn btn-primary" id = "joincancle"> 참가취소</a>
 						</p>
-					
-
 					</div>
 					<!-- /.box-footer-->
 				</div>
 				<!-- /.box -->
-
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="box">
@@ -151,7 +128,6 @@ div#s_content {
 										<th>제목</th>
 										<th width="100">해당 학년</th>
 										<th width="110">포인트지급</th>
-
 									</tr>
 									<c:choose>
 										<c:when test="${fn:length(schlist) eq 0}">
@@ -168,23 +144,13 @@ div#s_content {
 														</c:choose>
 													</td>
 													<td>${schlist.s_ispoint}</td>
-
 												</tr>
 											</c:forEach>
 										</c:otherwise>
 									</c:choose>
-
-
-
-
-
 								</table>
 							</div>
 							<!-- /.box-body -->
-
-							
-						
-						
 						
 						<!-- 페이징 버튼 -->
 					<div class="box-footer clearfix" style="background-color: #dceff4">
@@ -206,15 +172,8 @@ div#s_content {
 									href="/schedule/SCH_LIST${pageMaker.makeQuery(pageMaker.endPage+1)}">&raquo;</a></li>
 							</c:if>
 						</ul>
-
-
 						<form action="/schedule/SCH_LIST" name="search" method="post">
-
-							
-							
-							
 							<div class="input-group">
-
 								<select class="form-control input-sm "
 											style="width: 150px;" name="keyfield">
 											<option value="s_ispoint">포인트 지급</option>
@@ -232,21 +191,7 @@ div#s_content {
 							</div>
 						</form>
 					</div>
-					
-					
-					
 					<!-- 페이징 버튼 -->
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
 						
 						</div>
 						<!-- /.box -->
@@ -302,32 +247,22 @@ div#s_content {
 			type="hidden" name="nowBlock" value="${paging.nowBlock}" />
 	</form> --%>
 	<!-- 페이징 관련 폼 여기까지입니다. ----------------------------------------------------------------------------------- -->
-	
-	
-	
-	
-	
-	
 	<!-- /. 작업 공간 끝! -->
 	<!--  본문 끝 -->
 	<!-- 푸터(footer) 삽입 [지우지 마세여] -------------------------------------------------------------------------------------->
 </div>
 <!-- /.content-wrapper -->
 <%@ include file="../include/footer.jsp"%>
-
 <!-- ★★★Ajax를 배우면 이해 할 수 있는 곳 : 여기에 데이터를 삽입합니다. -->
 <script type="text/javascript">
-	 $(function() {
+$(function() {
 
 		/* initialize the calendar
 		 -----------------------------------------------------------------*/
 		//현재 년 월 일 불러 오기
 		var date = new Date();
 		var d = date.getDate(), m = date.getMonth(), y = date.getFullYear();
-
-		 $('#calendar')
-				.fullCalendar(
-						{
+		 $('#calendar').fullCalendar({
 							header : {
 								left : 'prev,next',
 								center : 'title',
@@ -342,12 +277,9 @@ div#s_content {
 							titleFormat : {
 								month : 'YYYY년 MMMM'
 							},
-							monthNames : [ "1월", "2월", "3월", "4월", "5월", "6월",
-									"7월", "8월", "9월", "10월", "11월", "12월" ],
-							monthNamesShort : [ "1월", "2월", "3월", "4월", "5월",
-									"6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-							dayNames : [ "일요일", "월요일", "화요일", "수요일", "목요일",
-									"금요일", "<font color='blue'>토요일</font>" ],
+							monthNames : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+							monthNamesShort : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
+							dayNames : [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "<font color='blue'>토요일</font>" ],
 							dayNamesShort : [ "일", "월", "화", "수", "목", "금", "토" ],
 							editable : false,
 							events : "/schedule/schCal",
@@ -356,13 +288,11 @@ div#s_content {
 							eventMouseover : function(calEvent, jsEvent, view) {
 								$(this).css('cursor', 'pointer');
 							},
-							
 							eventClick : function(calEvent, jsEvent, view) {
 								$("#schcon").slideUp();
 								$("#schcon").slideDown();
 								//날짜를 클릭 했을 때 해당 날짜에 포함된 데이터를 불러 옵니다. 위와 마찮가지..
 								$.getJSON("/schedule/schRead",{s_num : calEvent.id},function(data) {
-													
 													$(data).each(function(index, schconlist) {
 														$("#s_content").html(schconlist.s_content);
 														var ss_num = schconlist.s_num;
@@ -383,7 +313,6 @@ div#s_content {
 															$("#s_rstart").text("");
 															
 														}
-														
 														if (null != schconlist.s_point) {
 															$("#s_point").text(schconlist.s_point);
 															$("#is_join").show();
@@ -405,20 +334,15 @@ div#s_content {
 														else{
 															$("#is_join").hide();
 														}
-														
-														
 														if (0 == schconlist.isjoin) {
-															
 															$("#joinjoin").show();
 															$("#joincancle").hide();
 															
 														}
 														else{
-															
 															$("#joinjoin").hide();
 															$("#joincancle").show();
 														}
-														
 														if (null != schconlist.s_location) {
 															$("#s_location").text(schconlist.s_location);
 														}
@@ -437,8 +361,6 @@ div#s_content {
 															}
 														$("#s_grade").text(grade3);
 														}
-														
-														
 												});
 											});
 							}
@@ -446,22 +368,9 @@ div#s_content {
 		
 		
 		
-	}); 
-	
-	 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+}); 
 </script>
 <script>
-
 function schRead(s_num) {
 		//alert($.now()); 
 		$("#schcon").slideUp();
@@ -480,12 +389,10 @@ function schRead(s_num) {
 				if (null != schconlist.s_rend && null != schconlist.s_rstart) {
 					$("#s_rend").text(schconlist.s_rend);
 					$("#s_rstart").text(schconlist.s_rstart);
-					
 				}
 				else {
 					$("#s_rend").text("");
 					$("#s_rstart").text("");
-					
 				}
 				if ('Y' == schconlist.s_ispoint) {
 					$("#s_point").text(schconlist.s_point);
@@ -507,18 +414,12 @@ function schRead(s_num) {
 				else{
 					$("#is_join").hide();
 				}
-				
 				//alert(ss_rend.getTime());
-				
-				
 				if (0 == schconlist.isjoin) {
-					
 					$("#joinjoin").show();
 					$("#joincancle").hide();
-					
 				}
 				else{
-					
 					$("#joinjoin").hide();
 					$("#joincancle").show();
 				}

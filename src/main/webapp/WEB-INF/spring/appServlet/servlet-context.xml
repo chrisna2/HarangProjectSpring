@@ -60,7 +60,7 @@
 			<mapping path="/include/*"/>
 			<mapping path="/message/*"/>
 			<mapping path="/parttime/*"/>
-			<mapping path="/schecdule/*"/>
+			<mapping path="/schedule/*"/>
 			<mapping path="/base/*"/>
 			<beans:ref bean="refreshInterceptor"/>
 		</interceptor>
@@ -77,7 +77,7 @@
 			<mapping path="/include/*"/>
 			<mapping path="/message/*"/>
 			<mapping path="/parttime/*"/>
-			<mapping path="/schecdule/*"/>
+			<mapping path="/schedule/*"/>
 			<mapping path="/base/*"/>
 			<beans:ref bean="AuthInterceptor"/>
 		</interceptor>

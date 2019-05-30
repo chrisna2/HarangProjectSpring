@@ -24,8 +24,8 @@ public interface ScheduleDao {
 	public void schUpdate(ScheduleDTO scheduleDTO);
 	
 	public ScheduleDTO schRead(String s_num);
-	public List<CalanderDTO> schCal(SearchCriteria2 cri, HttpServletRequest req);
-	public List<CalanderDTO> schCal2();
+	public List<ScheduleDTO> schCal(SearchCriteria2 cri);
+	public List<ScheduleDTO> schCal2();
 	
 	public int schListCount(SearchCriteria2 cri);
 	public int uschListCount(SearchCriteria2 cri);

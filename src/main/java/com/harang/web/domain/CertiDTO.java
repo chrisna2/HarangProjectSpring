@@ -18,7 +18,6 @@ public class CertiDTO {
 		String cm_regdate;
 		String cm_image;
 		
-		
 		public String getCm_image() {
 			return cm_image;
 		}

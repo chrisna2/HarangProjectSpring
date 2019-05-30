@@ -37,7 +37,7 @@
 	<section class="content">
 		<div class="row">
 			<!-- 달력의 크기 조정 -->
-			<div class="col-md-12">
+			<div class="col-md-9">
 				<!-- calendar box -->
 				<div class="box box-primary">
 					<div class="box-header">
@@ -228,7 +228,6 @@
 				</div>
 			</div>
 		</div>
-
 		<!-- 최종 결제 부분 -->
 		<div class="row">
 			<div class="col-md-12">

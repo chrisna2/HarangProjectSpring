@@ -292,4 +292,13 @@ public class FacilServiceImpl implements FacilService {
 	public int userReserSr(SrMemberDTO srmdto) {
 		return facilDao.userReserSr(srmdto);
 	}
+	
+	@Override
+	public List<PgMemberDTO> pgRsrNumCntEachDate() {
+		return facilDao.pgRsrNumCntEachDate();
+	}
+	@Override
+	public List<SrMemberDTO> srRsrNumCntEachDate() {
+		return null;
+	}
 }

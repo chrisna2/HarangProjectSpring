@@ -48,9 +48,6 @@
   		WHERE m.sr_num = s.sr_num
   		<include refid="searchReserSrListAll"></include>
   	</select>
-  	
-
-  	
   	<select id="ReserSrListAll" parameterType="SearchCriteria" resultType="SrMember">
   		SELECT m.srm_num, m.sr_num, m.m_id, m.srm_regdate, m.srm_timecode, s.sr_type, s.sr_name, m.srm_date, s.sr_point
   		FROM tbl_sr_member m, tbl_studyroom s 
@@ -59,7 +56,6 @@
   		ORDER BY m.srm_date ASC
   		limit #{pageStart}, #{perPageNum} 
   	</select>	
-  	  	
   	  	<sql id="searchReserSrListAll">
   			<if test="keyfield != null">
   				<if test="keyfield == 'srm_num'.toString()">
@@ -82,8 +78,6 @@
   				</if>
   			</if>
   	</sql>
-  	
-  	
     <select id="ReserPgListCount" parameterType="SearchCriteria" resultType="int">
    		SELECT count(*)
   		FROM tbl_pg_member m, tbl_playground p 
@@ -91,7 +85,6 @@
   		AND m.m_id= #{m_id} 
   		<include refid="reserPgSearch"></include>
   	</select>
-
   	<select id="ReserPgList" parameterType="SearchCriteria" resultType="PgMember">
   		SELECT m.pgm_num, m.pg_num, m.m_id, m.pgm_regdate, m.pgm_timecode, p.pg_type, p.pg_name, m.pgm_date, p.pg_point
   		FROM tbl_pg_member m, tbl_playground p 
@@ -101,7 +94,6 @@
   		ORDER BY m.pgm_date ASC
   		limit #{pageStart}, #{perPageNum} 
   	</select>
-  	
   	<sql id="reserPgSearch">
   			<if test="keyfield != null">
   		  		<if test="keyfield == 'pg_type'.toString()">
@@ -115,8 +107,6 @@
   				</if>
   			</if>
   	</sql>
-  	
-  	
     <select id="ReserSrListCount" parameterType="SearchCriteria" resultType="int">
    		SELECT count(*)
   		FROM tbl_sr_member m, tbl_studyroom s 
@@ -124,8 +114,6 @@
   		AND m.m_id= #{m_id} 
   		<include refid="reserSrSearch"></include>
   	</select>  	
-  	
-  	
   	<select id="ReserSrList" resultType="SrMember">
   		SELECT m.srm_num, m.sr_num, m.m_id, m.srm_regdate, m.srm_timecode, s.sr_type, s.sr_name, m.srm_date, s.sr_point
   		FROM tbl_sr_member m, tbl_studyroom s 
@@ -135,7 +123,6 @@
   		ORDER BY m.srm_date ASC
   		limit #{pageStart}, #{perPageNum} 
   	</select>
-  	
   	<sql id="reserSrSearch">
   			<if test="keyfield != null">
   		  		<if test="keyfield == 'sr_type'.toString()">
@@ -313,7 +300,6 @@
 		order by f.f_selldate desc 
 		limit #{pageStart}, #{perPageNum} 
 	</select>
-	
 	<sql id="search">
 		<if test="keyfield != null">
 			<if test="keyfield == 'f_selldate'.toString()">
@@ -330,10 +316,28 @@
 			</if>		
 		</if>
 	</sql>	
-	
 	<select id="aticketCountPaging" resultType="int">
 		select count(distinct f.f_num) 
 		from tbl_food_member fm, tbl_food f 
 		where fm.f_num=f.f_num and fm.fm_isuse != 'return'; 
 	</select>
+	
+	<select id="pgRsrNumCntEachDate" resultType="PgMember">
+		select 
+			COUNT(*) as cnt
+		  , pgm_date 
+		from 
+			tbl_pg_member 
+		GROUP by pgm_date
+	</select>
+	
+	<select id="srRsrNumCntEachDate" resultType="SrMember">
+		select 
+			COUNT(*) as cnt
+		  , srm_date 
+		from 
+			tbl_sr_member 
+		GROUP by srm_date
+	</select>
+	
  </mapper>

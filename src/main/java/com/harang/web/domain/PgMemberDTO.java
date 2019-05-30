@@ -14,7 +14,15 @@ public class PgMemberDTO {
 	String pgm_issue;
 	int pg_point;
 	int payoutpoint;
+	int cnt;
 
+	public int getCnt() {
+		return cnt;
+	}
+	
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
 	
 	public String getPgm_issue() {
 		return pgm_issue;

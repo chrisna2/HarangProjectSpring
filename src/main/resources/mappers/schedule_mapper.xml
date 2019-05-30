@@ -5,7 +5,6 @@
 <mapper namespace="com.harang.mapper.schedule-mapper">
 
 	<select id="schList" parameterType="SearchCriteria2" resultType="Schedule">
-
 		select s_num, s_grade, s_ispoint, s_title, s_content, s_dstart,
 		s_dend, s_dept, s_location,
 		s_rstart, s_rend from tbl_schedule where
@@ -13,164 +12,131 @@
 		(s_grade like concat('%', #{m_grade}, '%') or s_grade = '1234')
 		and (s_dept = '전체' or s_dept = #{m_dept}) order by s_dstart
 		limit #{pageStart}, #{perPageNum} 
-
-
 	</select>
 
 	<select id = "aschList" parameterType="SearchCriteria2" resultType="Schedule">
-	
 		select s_num, s_grade, s_ispoint, s_title, s_content, s_dstart,
 		 s_dend, s_dept, s_location, s_rstart, s_rend from tbl_schedule  
 		 <include refid="search2"></include>
 		  limit #{pageStart}, #{perPageNum} 
-	
-	
 	</select>
 	
 	<select id = "schListCount" parameterType="SearchCriteria2" resultType = "int">
-  	
   		select count(s_num) from tbl_schedule  
   		<include refid="search2"></include> 
-  	
   	</select>
 
 	<select id = "uschListCount" parameterType="SearchCriteria2" resultType = "int">
-  	
   		select count(s_num) from tbl_schedule where  
   		<include refid="search"></include> 
   		(s_grade like concat('%', #{m_grade}, '%') or s_grade = '1234')
 		and (s_dept = '전체' or s_dept = #{m_dept})
   	</select>
 
-
-
 	<sql id="search">
 		<if test="keyword == null">
-			
 		</if>
 		<if test="keyword != null">
-		
-			
-  		
   			<if test="keyfield == 's_ispoint'.toString()">
   				s_ispoint like concat('%', #{keyword}, '%') and 
   			</if>
-  			
   			<if test="keyfield == 's_dept'.toString()">
 				s_dept like concat('%', #{keyword}, '%') and 
   			</if>
-		
   			<if test="keyfield == 's_title'.toString()">
 				s_title like concat('%', #{keyword}, '%') and 
   			</if>
-			
 		</if>
-
 	</sql>
 	
-	
 	<sql id = "search2">
-	
-		
 		<if test="keyword == null">
-			
 		</if>
 		<if test="keyword != null">
 			<if test="keyfield == 's_ispoint'.toString()">
   				where s_ispoint like concat('%', #{keyword}, '%') 
   			</if>
-  			
   			<if test="keyfield == 's_dept'.toString()">
 				where s_dept like concat('%', #{keyword}, '%')
   			</if>
-		
   			<if test="keyfield == 's_title'.toString()">
 				where s_title like concat('%', #{keyword}, '%')
   			</if>
-			
 		</if>
-	
 	</sql>
 	
-	
 	<select id = "schRead" parameterType="String" resultType="Schedule">
-	select *, (select count(m_id) from tbl_schedule_member where s_num = #{s_num}) 
-	as 'isjoin' from tbl_schedule where s_num = #{s_num}
+		select *, (select count(m_id) from tbl_schedule_member where s_num = #{s_num}) 
+		as 'isjoin' from tbl_schedule where s_num = #{s_num}
 	</select>
 	
-	
 	<insert id = "schJoin" parameterType="SearchCriteria2">
-	
-	insert into tbl_schedule_member (s_num, m_id) values (#{s_num}, #{m_id})
-	
+		insert into tbl_schedule_member (s_num, m_id) values (#{s_num}, #{m_id})
 	</insert>
 	
 	<delete id = "schJoinCancle" parameterType="SearchCriteria2">
-	
-	DELETE FROM tbl_schedule_member WHERE s_num=#{s_num} and m_id=#{m_id}
-	
+		DELETE FROM tbl_schedule_member WHERE s_num=#{s_num} and m_id=#{m_id}
 	</delete>
 	
 	<select id = "srList"  resultType = "SrMember">
-	
-	SELECT sr_type FROM  tbl_studyroom Group by sr_type
-	
+		SELECT sr_type FROM  tbl_studyroom Group by sr_type
 	</select>
 	
 	<select id = "pgList" resultType = "PgMember">
-	
-	SELECT pg_type FROM  tbl_playground Group by pg_type
-	
+		SELECT pg_type FROM  tbl_playground Group by pg_type
 	</select>
 	
 	<select id = "srName" parameterType="String" resultType = "SrMember">
-	
-	SELECT sr_name FROM  tbl_studyroom where sr_type = #{sr_name}
-	
+		SELECT sr_name FROM  tbl_studyroom where sr_type = #{sr_name}
 	</select>
 	
 	<select id = "pgName" parameterType="String" resultType = "PgMember">
-	
-	SELECT pg_name FROM  tbl_playground where pg_type = #{pg_name}
-	
+		SELECT pg_name FROM  tbl_playground where pg_type = #{pg_name}
 	</select>
 	
 	<insert id = "schPost" parameterType="Schedule" >
-	
-	insert into tbl_schedule 
-	(s_title, s_dept, s_dstart, s_dend, s_rstart, s_rend, s_point, s_content, s_ispoint, s_grade, s_location)
-	 values 
-	 (#{s_title}, #{s_dept}, #{s_dstart}, #{s_dend}, #{s_rstart}, #{s_rend}, #{s_point}, #{s_content}, <include refid="option"></include> , #{s_grade}, #{s_location})
-	
+		insert into tbl_schedule 
+		(s_title, s_dept, s_dstart, s_dend, s_rstart, s_rend, s_point, s_content, s_ispoint, s_grade, s_location)
+		values 
+		(#{s_title}, #{s_dept}, #{s_dstart}, #{s_dend}, #{s_rstart}, #{s_rend}, #{s_point}, #{s_content}, 
+		<include refid="option"></include> , #{s_grade}, #{s_location})
 	</insert>
 	
 	<sql id = "option">
-	
-		
 		<if test="s_ispoint == null">
 			'N'
 		</if>
-		
 		<if test="s_ispoint != null">
 			'Y'
 		</if>
 	</sql>
 	
 	<delete id="schDelete" parameterType="String">
-	
 		delete from tbl_schedule where s_num = #{s_num}
-	
 	</delete>
 	
 	<update id = "schUpdate" parameterType="Schedule" >
-	
 		update tbl_schedule set s_title = #{s_title}, s_dept = #{s_dept},
 		 s_dstart= #{s_dstart}, s_dend = #{s_dend}, s_rstart = #{s_rstart},
 		  s_rend = #{s_rend}, s_point = #{s_point}, s_content = #{s_content},
 		   s_ispoint = #{s_ispoint}, s_grade = #{s_grade}, s_location = #{s_location}
 		    where s_num = #{s_num}
-	
 	</update>
-
-
+	
+	<select id="schCal" parameterType="SearchCriteria2" resultType="Schedule">
+	    select s_num, s_title, s_dstart, s_dend
+	    from tbl_schedule 
+		where (s_grade like concat('%', #{m_grade}, '%') or s_grade = '1234') 
+		and (s_dept = '전체' or s_dept = #{m_dept}) 
+		and s_ispoint = 'N'
+	</select>
+	
+	<select id="schCal2" resultType="Schedule">
+		select s_num, s_title, s_dstart, s_dend
+		from tbl_schedule 
+		where ( select count(m_id) 
+				from tbl_schedule_member 
+				where s_num = tbl_schedule.s_num ) >0
+	</select>
+	
 </mapper>

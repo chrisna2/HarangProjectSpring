@@ -2,13 +2,13 @@ package com.harang.web.domain;
 
 public class CalanderDTO {
 	
-	public String id;
-    public String title;
-    public String start;
-    public String end;
-    public String color;
-    public boolean allDay;
-    public String isuse;
+	private String id;
+	private String title;
+	private String start;
+	private String end;
+	private String color;
+	private boolean allDay;
+	private String isuse;
     
 	public String getIsuse() {
 		return isuse;
@@ -53,5 +53,20 @@ public class CalanderDTO {
 		this.color = color;
 	}
 	
-
+	public void clear() {
+		this.id = null;
+		this.title = null;
+		this.start = null;
+		this.end = null;
+		this.color = null;
+		this.allDay = false;
+		this.isuse = null;
+	}
+	
+	@Override
+	public String toString() {
+		return "CalanderDTO [id=" + id + ", title=" + title + ", start=" + start + ", end=" + end + ", color=" + color
+				+ ", allDay=" + allDay + ", isuse=" + isuse + "]";
+	}
+	
 }

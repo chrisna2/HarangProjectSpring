@@ -2,6 +2,7 @@ package com.harang.web.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.harang.web.HomeController;
+import com.harang.web.domain.CalanderDTO;
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.PgMemberDTO;
 import com.harang.web.domain.PlaygroundDTO;
@@ -40,9 +42,6 @@ public class FacilController {
 	
 	@Autowired
 	private PointService pointService;
-	
-	@Autowired
-	private MyPageService myPageService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(FacilController.class);
 	
@@ -755,4 +754,27 @@ public class FacilController {
 
 		return mav;
 	}
+	// 운동장 예약 내역 조회
+	@ResponseBody
+	@RequestMapping(value = "/pgRsrNumCnt")
+	public ArrayList<CalanderDTO> pgRsrNumCnt(){
+		
+		ArrayList<CalanderDTO> result =  new ArrayList<CalanderDTO>();
+		List<PgMemberDTO> list =  facilService.pgRsrNumCntEachDate();
+		
+		CalanderDTO tmpCal = new CalanderDTO();
+		
+		for(PgMemberDTO i : list) {
+			tmpCal = new CalanderDTO();
+			tmpCal.setStart(i.getPgm_date());
+			tmpCal.setEnd(i.getPgm_date());
+			tmpCal.setTitle(i.getCnt()+"명이 현재 예약중입니다.");
+			tmpCal.setColor("#a8ef97");
+			tmpCal.setAllDay(true);
+			result.add(tmpCal);
+		}
+		
+		return result;
+	}
+
 }
