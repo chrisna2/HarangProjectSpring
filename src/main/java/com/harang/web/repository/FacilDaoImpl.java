@@ -1,5 +1,6 @@
 package com.harang.web.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -242,6 +243,16 @@ public class FacilDaoImpl implements FacilDao {
 	}
 	@Override
 	public List<SrMemberDTO> srRsrNumCntEachDate() {
+		return null;
+	}
+
+	@Override
+	public List<PgMemberDTO> pgRsrInfoByDate(String pgm_date) {
+		return sqlSession.selectList(namespace + ".pgRsrInfoByDate", pgm_date);
+	}
+
+	@Override
+	public List<SrMemberDTO> srRsrInfoByDate(String srm_date) {
 		return null;
 	}
 

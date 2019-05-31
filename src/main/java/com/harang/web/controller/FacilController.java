@@ -656,7 +656,7 @@ public class FacilController {
 		String m_id = member.getM_id();
 
 		// 포인트 차감을 위한 reques 나중에 수정해줄것!
-		req.getParameter("minuspoint");
+		long minusPoint = Long.parseLong(req.getParameter("minuspoint"));
 
 		// JSP 설계 실수로 이렇게 받아서 진행한다.. ㅠ
 		pgmdto.setM_id(m_id);
@@ -664,11 +664,24 @@ public class FacilController {
 		pgmdto.setPgm_timecode(req.getParameter("spgm_timecode"));
 		pgmdto.setPgm_date(req.getParameter("spgm_date"));
 
-		facilService.userReserPg(pgmdto);
-
-		// 결제가 성공적으로 이뤄졌다 포인트 연계후 if으로 나눌것.
-		req.setAttribute("tradecheck", "complete");
-
+		String check = "";
+		
+		check = pointService.recordPointTrade("[운동시설 예약] "+minusPoint+"포인트가 차감되었습니다.", 
+				  member.getM_point(), 
+				  minusPoint, 
+				  m_id,
+				  FACIL_ADMIN);
+		
+		if("complete".equals(check)) {
+			facilService.userReserPg(pgmdto);
+			// 결제가 성공적으로 이뤄졌다 포인트 연계후 if으로 나눌것.
+			req.setAttribute("tradecheck", "complete");
+		}
+		else {
+			// 결제가 실패했다.
+			req.setAttribute("tradecheck", "overpoint");
+		}
+		
 		ModelAndView mav = new ModelAndView("/facil/facilresult");
 
 		return mav;
@@ -677,7 +690,6 @@ public class FacilController {
 	// ****************************************************************
 	// 사용자 스터디룸 예약 / 메인.
 	// 사용자 운동장 예약 / 메인.
-
 	@RequestMapping(value = "/FacilSRreserv")
 	public ModelAndView useSrMain() {
 		ModelAndView mav = new ModelAndView("/facil/facilities_studyroom");
@@ -735,7 +747,7 @@ public class FacilController {
 		String m_id = member.getM_id();
 
 		// 포인트 차감을 위한 reques 나중에 수정해줄것!
-		long minusPoint =Long.parseLong(req.getParameter("minuspoint"));
+		long minusPoint = Long.parseLong(req.getParameter("minuspoint"));
 		
 		// JSP 설계 실수로 이렇게 받아서 진행한다.. ㅠ
 		srmdto.setM_id(m_id);
@@ -743,12 +755,23 @@ public class FacilController {
 		srmdto.setSrm_timecode(req.getParameter("ssrm_timecode"));
 		srmdto.setSrm_date(req.getParameter("ssrm_date"));
 
-		facilService.userReserSr(srmdto);
+		String check = "";
 		
-		String r_content = m_id + "님이 " +  minusPoint +"를 사용하셨습니다.";
+		check = pointService.recordPointTrade("[스터디룸 예약] "+minusPoint+"포인트가 차감되었습니다.", 
+				  member.getM_point(), 
+				  minusPoint, 
+				  m_id,
+				  FACIL_ADMIN);
 		
-		// 결제가 성공적으로 이뤄졌다 포인트 연계후 if으로 나눌것.
-		req.setAttribute("tradecheck", "complete");
+		if("complete".equals(check)) {
+			facilService.userReserSr(srmdto);
+			// 결제가 성공적으로 이뤄졌다 포인트 연계후 if으로 나눌것.
+			req.setAttribute("tradecheck", "complete");
+		}
+		else {
+			// 결제가 실패했다.
+			req.setAttribute("tradecheck", "overpoint");
+		}
 
 		ModelAndView mav = new ModelAndView("/facil/facilresult");
 
@@ -768,13 +791,24 @@ public class FacilController {
 			tmpCal = new CalanderDTO();
 			tmpCal.setStart(i.getPgm_date());
 			tmpCal.setEnd(i.getPgm_date());
-			tmpCal.setTitle(i.getCnt()+"명이 현재 예약중입니다.");
+			tmpCal.setTitle(i.getCnt()+"건 예약중");
 			tmpCal.setColor("#a8ef97");
 			tmpCal.setAllDay(true);
 			result.add(tmpCal);
 		}
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/pgRsrInfoByDate")
+	public List<PgMemberDTO> pgRsrInfoByDate(String pgm_date){
+		
+		List<PgMemberDTO> result =  new ArrayList<PgMemberDTO>();
+		
+		result = facilService.pgRsrInfoByDate(pgm_date);
 		
 		return result;
+		
 	}
 
 }

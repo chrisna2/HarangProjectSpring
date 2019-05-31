@@ -301,4 +301,14 @@ public class FacilServiceImpl implements FacilService {
 	public List<SrMemberDTO> srRsrNumCntEachDate() {
 		return null;
 	}
+
+	@Override
+	public List<PgMemberDTO> pgRsrInfoByDate(String pgm_date) {
+		return facilDao.pgRsrInfoByDate(pgm_date);
+	}
+
+	@Override
+	public List<SrMemberDTO> srRsrInfoByDate(String srm_date) {
+		return null;
+	}
 }

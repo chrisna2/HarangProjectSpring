@@ -1,5 +1,6 @@
 package com.harang.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +46,9 @@ public interface FacilService {
 	
 	public List<PlaygroundDTO> schPgNumAjax(PlaygroundDTO pgdto);
 	public List<StudyroomDTO> schSrNumAjax(StudyroomDTO srdto);
+	
+	public List<PgMemberDTO> pgRsrInfoByDate(String pgm_date);
+	public List<SrMemberDTO> srRsrInfoByDate(String srm_date);
 	
 	public String loadPgTimecodeAjax(PgMemberDTO pgmdto);
 	public String loadSrTimecodeAjax(SrMemberDTO srmdto);

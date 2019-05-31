@@ -293,6 +293,42 @@
 			editable : false,
 			events : "/facil/pgRsrNumCnt",
 			eventTextColor : '#000000',	//입력 글자 색
+			eventMouseover : function (data, event, view) {
+				
+				var rsvList = '';
+				var tooltip = '';
+				
+				$.getJSON("/facil/pgRsrInfoByDate",
+						  {pgm_date : encodeURIComponent(data.start.format())},
+						  function(data) {
+							  $(data).each(
+								function(index, rsList) {
+									console.log(rsList.pgm_date);
+									rsvList += '-' + rsList.pg_type + '(' + rsList.pg_name + ') : ' + rsList.cnt + '건</br>' 
+							    });
+								console.log(rsvList);
+								
+								tooltip = '<div class="tooltiptopicevent" '
+									+ 'style="width:auto;height:auto;background:#feb811;position:absolute;z-index:10001;padding:10px 10px 10px 10px;line-height: 200%;">'
+									+ rsvList
+									+ '</div>';
+									
+								$("body").append(tooltip);
+						  });
+				    $(this).mouseover(function (e) {
+				        $(this).css('z-index', 10000);
+				        $('.tooltiptopicevent').fadeIn('500');
+				        $('.tooltiptopicevent').fadeTo('10', 1.9);
+				    }).mousemove(function (e) {
+				        $('.tooltiptopicevent').css('top', e.pageY + 10);
+				        $('.tooltiptopicevent').css('left', e.pageX + 20);
+				    });
+				
+			},
+	        eventMouseout: function (data, event, view) {
+	            $(this).css('z-index', 8);
+	            $('.tooltiptopicevent').remove();
+	        },
 			dayClick : function(date, jsEvent, view) {
 				var check = date.format();					
 				var today = moment(new Date()).format("YYYY-MM-DD");

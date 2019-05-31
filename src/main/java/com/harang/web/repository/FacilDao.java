@@ -1,5 +1,6 @@
 package com.harang.web.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +48,9 @@ public interface FacilDao {
 	
 	public List<PgMemberDTO> loadPgTimecodeAjax(PgMemberDTO pgmdto);
 	public List<SrMemberDTO> loadSrTimecodeAjax(SrMemberDTO srmdto);
+	
+	public List<PgMemberDTO> pgRsrInfoByDate(String pgm_date);
+	public List<SrMemberDTO> srRsrInfoByDate(String srm_date);
 	
 	public int facilPgDel(String pg_num);
 	public int facilSrDel(String sr_num);

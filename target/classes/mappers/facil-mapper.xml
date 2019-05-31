@@ -331,7 +331,27 @@
 		GROUP by pgm_date
 	</select>
 	
-	<select id="srRsrNumCntEachDate" resultType="SrMember">
+	<select id="pgRsrInfoByDate"  resultType="PgMember" parameterType="string">
+		select
+			a.pgm_date,
+			a.pg_num,
+			b.pg_name,
+			b.pg_type,
+			COUNT(*) as cnt
+		from
+			tbl_pg_member a,
+			tbl_playground b
+		where 1=1
+		and a.pg_num = b.pg_num
+		and a.pgm_date = #{pgm_date}
+		group by 
+			a.pgm_date,
+			a.pg_num
+		order by
+			a.pg_num
+	</select>
+	
+	<select id="srRsrNumCntEachDate" resultType="SrMember" >
 		select 
 			COUNT(*) as cnt
 		  , srm_date 
@@ -339,5 +359,6 @@
 			tbl_sr_member 
 		GROUP by srm_date
 	</select>
+	
 	
  </mapper>

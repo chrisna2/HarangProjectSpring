@@ -53,7 +53,22 @@
 		<interceptor>
 			<mapping path="/myPage/*"/>
 			<mapping path="/bamboo/*"/>
-			<mapping path="/facil/*"/>
+			<mapping path="/facil/FacilMain"/>
+			<mapping path="/facil/FacilMainDel"/>
+			<mapping path="/facil/AFacilManager"/>
+			<mapping path="/facil/AFacilManagerDel"/>
+			<mapping path="/facil/AFacilAddDel"/>
+			<mapping path="/facil/AFacilAddDel_mod"/>
+			<mapping path="/facil/AFacilAddDel_del"/>
+			<mapping path="/facil/AFacilAddDel_add"/>
+			<mapping path="/facil/AFacilPgDel"/>
+			<mapping path="/facil/AFacilPgAdd"/>
+			<mapping path="/facil/AFacilSrDel"/>
+			<mapping path="/facil/AFacilSrAdd"/>
+			<mapping path="/facil/FacilMainDel"/>
+			<mapping path="/facil/FacilPGreserv"/>
+			<mapping path="/facil/FacilPgReser"/>
+			<mapping path="/facil/FacilSrReser"/>
 			<mapping path="/food/*"/>
 			<mapping path="/harangdin/*"/>
 			<mapping path="/imPage/*"/>
