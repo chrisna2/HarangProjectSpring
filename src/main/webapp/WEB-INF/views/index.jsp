@@ -45,7 +45,7 @@
             /*
             background-image:url("resources/dist/img/index_back.jpg");
             */
-            background-color:#604b40;
+            background-color:#3c8dbc;
             background-position: center;
             background-size: 100%;
         }

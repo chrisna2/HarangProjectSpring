@@ -30,7 +30,6 @@ public class RefreshInterceptor extends HandlerInterceptorAdapter{
 	@Autowired
 	private LoginService loginService;
 	
-
 	//로그인후 페이지가 이동할때마다 새로 새션을 리프레쉬 해주는 인터셉터
 	
 	@Override
@@ -39,9 +38,9 @@ public class RefreshInterceptor extends HandlerInterceptorAdapter{
 		
 		HttpSession session = request.getSession();
 		
-		LoginBean login = new LoginBean();
-		MemberDTO loginData = login.getLoginInfo(request);
-		String m_id = loginData.getM_id();
+		String m_id = (String)session.getAttribute("m_id");
+		
+		logger.info("로그인 아이디 : "+m_id);
 		
 		session.setAttribute("member", loginService.refresh(m_id));
 		session.setAttribute("PLH", myPageService.pointListHeader(m_id));

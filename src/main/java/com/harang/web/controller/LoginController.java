@@ -42,8 +42,6 @@ public class LoginController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	private String uploadPath;		
-	
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public void Login(){
@@ -92,14 +90,6 @@ public class LoginController {
 		return "login/badAccess";
 	}
 	
-	@RequestMapping(value="/regform" ,method = RequestMethod.GET)
-	public ModelAndView regformGet(){
-		ModelAndView mav = new ModelAndView("/login/regform");
-		mav.addObject("sido", myPageService.sidoList());
-		return mav;
-	}
-	
-	
 	@RequestMapping(value="/gugun")
 	public @ResponseBody List<ZipDTO> gugunAjax(HttpServletRequest request) throws UnsupportedEncodingException{
 
@@ -132,33 +122,6 @@ public class LoginController {
 		
 		return list;
 	}
-	
-	@RequestMapping(value="/regform" ,method = RequestMethod.POST)
-	public ModelAndView regformPost(MemberDTO member, HttpSession session, HttpServletRequest request, MultipartFile file) throws IOException{
-		
-		//파일업로드는 이제 이렇게 간단하게 가능하다.
-		//웹서버의 고정 경로 찾기 : 실제 도메인 관련
-		uploadPath = request.getSession().getServletContext().getRealPath("/");
-		//현재 웹서버 저장 경로 : C:\NahyunKee\FrameWorkspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\HarangProjectSpring\
-
-		//실제 파일 저장 메소드 호춯!
-		String uploadedFileName = UploadBean.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-		
-		member.setM_photo(uploadedFileName);
-		
-		loginService.register(member);
-			
-		System.out.println(uploadedFileName);
-		
-		ModelAndView mav = new ModelAndView("/login/loginPost");
-		
-		session.invalidate();
-		
-		mav.addObject("loginType", "confirm");
-		
-		return mav;
-	}
-	
 	
 }
 /*

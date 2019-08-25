@@ -23,14 +23,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 		
 		String uri = request.getRequestURI();
 		
-		logger.debug(uri);
+		logger.debug(uri + "|" + session.getAttribute("m_id"));
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String check = auth.getAuthorities().toString();
 		
 		if("/".equals(uri)) {
 			if(null == session.getAttribute("m_id")) {
-				return true;
 			}
 			else {
 				if("[ROLE_MEMBER]".equals(check)){
@@ -40,13 +39,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 					response.sendRedirect("/base/a_main");
 				}
 				else if("[ROLE_NEWBEE]".equals(check)){
-					response.sendRedirect("/login/regform");
+					response.sendRedirect("/base/regform");
 				}
 				else if("[ROLE_ANONYMOUS]".equals(check)){
 					logger.warn("this user is [ROLE_ANONYMOUS]");
-					return true;
 				}
-				return false;
 			}
 		}
 		else {
@@ -54,10 +51,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 				logger.info("current user is not a member or an user");
 				saveDest(request);
 				response.sendRedirect("/login/badAccess");
-				return false;
 			}
 			else {
-				if("/login/regform".equals(uri)) {
+				if("/base/regform".equals(uri)) {
 					if("[ROLE_MEMBER]".equals(check)){
 						response.sendRedirect("/base/main");
 					}
@@ -67,24 +63,20 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 					else if("[ROLE_ANONYMOUS]".equals(check)){
 						response.sendRedirect("/");
 					}
-					return false;
 				}
 				else {
 					if("[ROLE_NEWBEE]".equals(check)){
 						logger.info("current user is newbee user, plaese regist first");
-						response.sendRedirect("/login/regform");
-						return false;
+						response.sendRedirect("/base/regform");
 					}
 					else if("[ROLE_ANONYMOUS]".equals(check)){
 						logger.warn("this user is [ROLE_ANONYMOUS], call the administrator");
 						response.sendRedirect("/login/badAccess");
-						return false;
 					}
 				}
 			}
-			return true;
 		}
-		
+		return true;
 	}
 	
 	private void saveDest(HttpServletRequest req){

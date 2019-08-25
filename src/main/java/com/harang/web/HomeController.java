@@ -1,8 +1,10 @@
 package com.harang.web;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.harang.web.domain.MemberDTO;
 import com.harang.web.domain.SearchCriteria;
 import com.harang.web.service.BambooService;
 import com.harang.web.service.FacilService;
+import com.harang.web.service.LoginService;
 import com.harang.web.service.MyPageService;
 import com.harang.web.service.ParttimeService;
 import com.harang.web.utill.LoginBean;
+import com.harang.web.utill.UploadBean;
 
 /**
  * Handles requests for the application home page.
@@ -36,6 +41,12 @@ public class HomeController {
 	
 	@Autowired
 	private FacilService facilService;
+	
+	@Autowired
+	private LoginService loginService;
+	
+	
+	private String uploadPath;	
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -155,4 +166,40 @@ public class HomeController {
 		return mav;
 	}
 	
+	
+
+	@RequestMapping(value="/base/regform" ,method = RequestMethod.GET)
+	public ModelAndView regformGet(){
+		ModelAndView mav = new ModelAndView("/base/regform");
+		mav.addObject("sido", myPageService.sidoList());
+		return mav;
+	}
+	
+	
+	
+	@RequestMapping(value="/base/regform" ,method = RequestMethod.POST)
+	public ModelAndView regformPost(MemberDTO member, HttpSession session, HttpServletRequest request, MultipartFile file) throws IOException{
+		
+		//파일업로드는 이제 이렇게 간단하게 가능하다.
+		//웹서버의 고정 경로 찾기 : 실제 도메인 관련
+		uploadPath = request.getSession().getServletContext().getRealPath("/");
+		//현재 웹서버 저장 경로 : C:\NahyunKee\FrameWorkspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\HarangProjectSpring\
+
+		//실제 파일 저장 메소드 호춯!
+		String uploadedFileName = UploadBean.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+		
+		member.setM_photo(uploadedFileName);
+		
+		loginService.register(member);
+			
+		System.out.println(uploadedFileName);
+		
+		ModelAndView mav = new ModelAndView("/login/loginPost");
+		
+		session.invalidate();
+		
+		mav.addObject("loginType", "confirm");
+		
+		return mav;
+	}
 }
